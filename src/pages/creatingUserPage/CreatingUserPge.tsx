@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Input, TextField } from "@mui/material";
+import { glagol } from "../../entities/glagol/glagol";
 import '../styles/index.scss'
 
 function CreatingUserPage() {
-  const refVideo = useRef<HTMLVideoElement>(null)
-  const [ text, setText ] = useState<"createName" | "createRoom">('createRoom')
-  const [ value, setValue ] = useState<string>('this value')
+  const refVideo = useRef<any>(null)
+  const stateValue = () => {
+    const url = window.location.pathname.split('/')[1]
+    if (url !== "") {
+      glagol.roomName = url
+      return "createName"
+    }
+    return "createRoom"
+  }
+  const [ text, setText ] = useState<"createName" | "createRoom">(stateValue())
 
   function getTextButton() {
     return text === "createName" ? "Create NAme" : "Create ROom"
@@ -15,15 +23,11 @@ function CreatingUserPage() {
 
   function action() {
     if (text === "createRoom") {
+      glagol.roomName = refInput.current.value
       setText("createName")
-
+    } else {
+      glagol.userDisplayName = refInput.current.value
     }
-  }
-
-  function changeInput(event: React.SyntheticEvent) {
-    if (refInput.current !== null) setValue(refInput.current.value)
-// console.log(event.target)
-    setValue("")
   }
 
   useEffect(() => {
@@ -39,6 +43,7 @@ function CreatingUserPage() {
     <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
       <Box width="300px">
         <TextField
+          inputRef={refInput}
           sx={{
             backgroundColor: "background.paper"
           }}
