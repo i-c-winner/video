@@ -3,7 +3,7 @@ import { setRegister } from "../../shared/lib/setRegister";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
-console.log(Strophe)
+
 type Callback=(...args:any[])=>void
 class Xmpp {
   private connection: any;
