@@ -4,17 +4,20 @@ import { setRegister } from "../../shared/lib/setRegister";
 const { Strophe }: any = strophe
 setRegister(strophe)
 console.log(Strophe)
-
+type Callback=(...args:any[])=>void
 class Xmpp {
   private connection: any;
   private static instance: any;
+  private listeners: {
+    [key: string]: Callback[]
+  };
 
   constructor(url: string) {
     if (!Xmpp.instance) {
       Xmpp.instance = this
 
     }
-    debugger
+    this.listeners={}
     this.connection = new Strophe.Connection(url)
     return Xmpp.instance
   }
@@ -24,8 +27,8 @@ class Xmpp {
       //@ts-ignore
       if (status === Strophe.Status.REGISTER) {
         // fill out the fields
-        this.connection.register.fields.username = "sddfsdfsdfdf1";
-        this.connection.register.fields.password = "dfsdsdfdsffs1";
+        this.connection.register.fields.username = userNode;
+        this.connection.register.fields.password = password;
         // calling submit will continue the registration process
         this.connection.register.submit();
         //@ts-ignore
@@ -44,13 +47,21 @@ class Xmpp {
         console.log("The Server does not support In-Band Registration")
       } else if (status === Strophe.Status.CONNECTED) {
         console.log('connected')
-
         // do something after successful authentication
       } else {
         // Do other stuff
       }
     }
     this.connection.register.connect("prosolen.net", callback)
+  }
+  on(name: string, callback: Callback){
+    if (!this.listeners[name]) {
+      this.listeners[name]=[]
+    }
+    this.listeners[name].push(callback)
+  }
+  emit(name: string, ...args: any[]) {
+    this.listeners[name].forEach((listener)=>listener(args))
   }
 }
 
