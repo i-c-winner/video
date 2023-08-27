@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { glagol } from "../../entities/glagol/glagol";
+import {RoomPage} from "../index";
 import '../styles/index.scss'
 
 function CreatingUserPage() {
+  const url = window.location.pathname.split('/')[1]
   const refVideo = useRef<any>(null)
   const stateValue = () => {
-    const url = window.location.pathname.split('/')[1]
     if (url !== "") {
       glagol.roomName = url
       return "createName"
     }
     return "createRoom"
   }
-  const [ text, setText ] = useState<"createName" | "createRoom">(stateValue())
+  const [ text, setText ] = useState<"createName" | "createRoom"|"Room">(stateValue())
 
   function getTextButton() {
     return text === "createName" ? "Create NAme" : "Create ROom"
@@ -27,6 +28,8 @@ function CreatingUserPage() {
       setText("createName")
     } else {
       glagol.userDisplayName = refInput.current.value
+      setText("Room")
+
     }
   }
 
@@ -39,8 +42,8 @@ function CreatingUserPage() {
       })
     })
   }, [])
-  return (
-    <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
+
+   {return  text!=="Room"?  <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
       <Box width="300px">
         <TextField
           inputRef={refInput}
@@ -53,8 +56,7 @@ function CreatingUserPage() {
       <Box width="300px">
         <video className="video" autoPlay={true} ref={refVideo}/>
       </Box>
-    </Box>
-  )
+    </Box>: <RoomPage /> }
 }
 
 export { CreatingUserPage }
