@@ -40,7 +40,7 @@ function CreatingUserPage() {
       <Box width="300px">
         <TextField
           sx={{
-            backgroundColor: "primary.main"
+            backgroundColor: "background.paper"
           }}
         />
         <Button onClick={action}>{getTextButton()}</Button>
