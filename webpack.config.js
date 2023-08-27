@@ -8,13 +8,14 @@ const stylesHandler = 'style-loader';
 
 
 const config = {
-    entry: './src/app/main.js',
+    entry: './src/app/main.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
         open: true,
         host: 'localhost',
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -24,6 +25,7 @@ const config = {
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
+    devtool: "source-map",
     module: {
         rules: [
             {
