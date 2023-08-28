@@ -1,8 +1,10 @@
+import * as stream from "stream";
+
 type Callback = (...args: any[]) => void
 
 class PeerConnection {
   private static instance: any;
-  private pc: RTCPeerConnection;
+  pc: RTCPeerConnection;
   private listeners: {
     [key: string]: Callback[]
   };
@@ -19,9 +21,15 @@ class PeerConnection {
         }
       ]
     })
+    this.pc.ontrack = (event) => {
+      console.log(event, "Event")
+    }
     return PeerConnection.instance
   }
-
+addTrack(track: MediaStreamTrack, stream: MediaStream){
+    console.log(this.pc, track)
+ this.pc.addTrack(track,stream)
+}
   on(name: string, callback: Callback) {
     if (!this.listeners[name]) {
       this.listeners[name] = []
@@ -34,4 +42,4 @@ class PeerConnection {
   }
 }
 
-export {PeerConnection}
+export { PeerConnection }

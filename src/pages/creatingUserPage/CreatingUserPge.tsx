@@ -25,7 +25,11 @@ function CreatingUserPage() {
 
   function action() {
     if (text === "createRoom") {
-      glagol.roomName = refInput.current.value
+      if (refInput.current.value==="") {
+        glagol.roomName=getRandomText(5)
+      } else {
+        glagol.roomName = refInput.current.value
+      }
       setText("createName")
     } else {
       glagol.userDisplayName = refInput.current.value

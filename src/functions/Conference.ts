@@ -21,6 +21,16 @@ class Conference {
   xmppRegistering() {
     this.xmpp.register(glagol.userNode)
   }
+
+  addTrack(track: MediaStreamTrack, stream: MediaStream) {
+    this.peerConnection.addTrack(track, stream)
+  }
+send(message: any) {
+    this.xmpp.connection.send(message)
+}
+XmmpOn(name: string, callback: (...args: any[])=>void) {
+    this.xmpp.on(name, callback)
+}
 }
 
 export { Conference }
