@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { glagol } from "../../entities/glagol/glagol";
 import {RoomPage} from "../index";
+import { getRandomText } from "../../shared/lib/getRandomText";
 import '../styles/index.scss'
 
 function CreatingUserPage() {
@@ -28,6 +29,7 @@ function CreatingUserPage() {
       setText("createName")
     } else {
       glagol.userDisplayName = refInput.current.value
+      glagol.userNode=getRandomText(8)
       setText("Room")
 
     }

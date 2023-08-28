@@ -1,10 +1,12 @@
 import * as strophe from "strophe.js"
 import { setRegister } from "../../shared/lib/setRegister";
+import { getRandomText } from "../../shared/lib/getRandomText";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
 
-type Callback=(...args:any[])=>void
+type Callback = (...args: any[]) => void
+
 class Xmpp {
   private connection: any;
   private static instance: any;
@@ -12,23 +14,28 @@ class Xmpp {
     [key: string]: Callback[]
   };
 
-  constructor(url: string) {
+  constructor() {
     if (!Xmpp.instance) {
       Xmpp.instance = this
-
     }
-    this.listeners={}
-    this.connection = new Strophe.Connection(url)
+    this.listeners = {}
+
     return Xmpp.instance
   }
 
-  register(userNode: string, password: string) {
+  init(url: string) {
+    this.connection = new Strophe.Connection(url)
+    return this.connection
+  }
+
+  register(userNode: string) {
+
     const callback = (status: number) => {
       //@ts-ignore
       if (status === Strophe.Status.REGISTER) {
         // fill out the fields
         this.connection.register.fields.username = userNode;
-        this.connection.register.fields.password = password;
+        this.connection.register.fields.password = getRandomText(8);
         // calling submit will continue the registration process
         this.connection.register.submit();
         //@ts-ignore
@@ -52,16 +59,19 @@ class Xmpp {
         // Do other stuff
       }
     }
-    this.connection.register.connect("prosolen.net", callback)
+this.connection.register.connect("prosolen.net", callback)
+
   }
-  on(name: string, callback: Callback){
+
+  on(name: string, callback: Callback) {
     if (!this.listeners[name]) {
-      this.listeners[name]=[]
+      this.listeners[name] = []
     }
     this.listeners[name].push(callback)
   }
+
   emit(name: string, ...args: any[]) {
-    this.listeners[name].forEach((listener)=>listener(args))
+    this.listeners[name].forEach((listener) => listener(args))
   }
 }
 
