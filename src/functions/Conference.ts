@@ -28,7 +28,7 @@ class Conference {
 send(message: any) {
     this.xmpp.connection.send(message)
 }
-XmmpOn(name: string, callback: (...args: any[])=>void) {
+XmppOn(name: string, callback: (...args: any[])=>void) {
     this.xmpp.on(name, callback)
 }
 }

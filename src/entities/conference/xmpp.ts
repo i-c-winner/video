@@ -1,6 +1,7 @@
 import * as strophe from "strophe.js"
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
+import { glagol } from "../glagol/glagol";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
@@ -28,7 +29,7 @@ class Xmpp {
     return this.connection
   }
 
-  register(userNode: string) {
+  register = (userNode: string) => {
 
     const callback = (status: number) => {
       //@ts-ignore
@@ -54,8 +55,10 @@ class Xmpp {
         console.log("The Server does not support In-Band Registration")
       } else if (status === Strophe.Status.CONNECTED) {
         console.log('connected')
-        this.connection.addHandler(this.handler)
-        this.emit('inviteToRoom')
+        this.connection.addHandler(this.handlerPresence, null, 'presence')
+        this.connection.addHandler(this.handlerMessage, null, 'message')
+        this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result")
+        this.emit("createRoom")
         // do something after successful authentication
       } else {
         // Do other stuff
@@ -64,10 +67,41 @@ class Xmpp {
     this.connection.register.connect("prosolen.net", callback)
   }
 
-handler(stanza: any){
+  handlerPresence(stanza: any) {
+    const jingle = stanza.getElementsByTagName('jingle')
     console.log(stanza)
-  return true
-}
+    try {
+      if (jingle[0].getAttribute('action') === "enter_to_room") {
+        const x = stanza.getElementsByTagName('x')
+        try {
+          Array.from(x[1].getElementsByTagName('status')).forEach((status: any) => {
+            if (+status.getAttribute("code") === 201) {
+              Xmpp.instance.emit("validateRoom")
+            }
+          })
+        } catch (e) {
+        }
+        const item: any[] = Array.from((x[1].getElementsByTagName("item")))
+        console.log(item)
+        if (item[0].getAttribute('role') !== "moderator") {
+          Xmpp.instance.emit("inviteRoom")
+        }
+      }
+    } catch (e) {
+    }
+    return true
+  }
+
+  handlerMessage(stanza: any) {
+    console.log(stanza)
+    return true
+  }
+
+  handlerIqTypeResult = (stanza: any) => {
+    this.emit("inviteRoom")
+    return true
+  }
+
   on(name: string, callback: Callback) {
     if (!this.listeners[name]) {
       this.listeners[name] = []
@@ -76,7 +110,7 @@ handler(stanza: any){
   }
 
   emit(name: string, ...args: any[]) {
-    if (!this.listeners[name]) {
+    if (this.listeners[name]) {
       new Error(`Listener ${name} не сущевствуте`)
     }
     this.listeners[name].forEach((listener) => listener(args))
