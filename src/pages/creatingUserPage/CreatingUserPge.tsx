@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Input, TextField } from "@mui/material";
 import { glagol } from "../../entities/glagol/glagol";
-import {RoomPage} from "../index";
+import { RoomPage } from "../index";
 import { getRandomText } from "../../shared/lib/getRandomText";
 import '../styles/index.scss'
 
@@ -15,7 +15,7 @@ function CreatingUserPage() {
     }
     return "createRoom"
   }
-  const [ text, setText ] = useState<"createName" | "createRoom"|"Room">(stateValue())
+  const [ text, setText ] = useState<"createName" | "createRoom" | "Room">(stateValue())
 
   function getTextButton() {
     return text === "createName" ? "Create NAme" : "Create ROom"
@@ -25,15 +25,15 @@ function CreatingUserPage() {
 
   function action() {
     if (text === "createRoom") {
-      if (refInput.current.value==="") {
-        glagol.roomName=getRandomText(5)
+      if (refInput.current.value === "") {
+        glagol.roomName = getRandomText(5)
       } else {
         glagol.roomName = refInput.current.value
       }
       setText("createName")
     } else {
       glagol.userDisplayName = refInput.current.value
-      glagol.userNode=getRandomText(8)
+      glagol.userNode = getRandomText(8)
       setText("Room")
 
     }
@@ -49,20 +49,40 @@ function CreatingUserPage() {
     })
   }, [])
 
-   {return  text!=="Room"?  <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
-      <Box width="300px">
+  {
+    return text !== "Room" ? <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
+      <Box
+        sx={{
+          display: "flex",
+          flexFlow: "column",
+          marginTop: "25px",
+          alignItems: "center"
+        }}
+        width="300px">
         <TextField
+          placeholder="Введите имя"
+          InputProps={{
+            classes:{
+              root: "input-box",
+              input: "input-box_creating"
+            }
+          }}
+          inputProps={{
+            className: "myInput"
+          }}
           inputRef={refInput}
           sx={{
+            padding: "0",
             backgroundColor: "background.paper"
           }}
         />
-        <Button onClick={action}>{getTextButton()}</Button>
+        <Button sx={{marginTop: "15px"}}  variant="contained" onClick={action}>{getTextButton()}</Button>
       </Box>
       <Box width="300px">
         <video className="video" autoPlay={true} ref={refVideo}/>
       </Box>
-    </Box>: <RoomPage /> }
+    </Box> : <RoomPage/>
+  }
 }
 
 export { CreatingUserPage }

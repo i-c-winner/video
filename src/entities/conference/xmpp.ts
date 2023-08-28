@@ -83,7 +83,7 @@ class Xmpp {
         }
         const item: any[] = Array.from((x[1].getElementsByTagName("item")))
         console.log(item)
-        if (item[0].getAttribute('role') !== "moderator") {
+        if (item[0].getAttribute('role') === "participant") {
           Xmpp.instance.emit("inviteRoom")
         }
       }
