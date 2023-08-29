@@ -4,6 +4,8 @@ import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
 import { RemoteStreams } from "../../widgets/remoteStreams/RemoteStreams";
+import {useDispatch} from "react-redux";
+import {addStream, removeStream} from "../../app/store/streamsSlice";
 
 let firstLoad = true
 
@@ -15,6 +17,7 @@ const connection = async () => {
 }
 
 function RoomPage() {
+  const dispatch= useDispatch()
   window.history.replaceState({}, '', glagol.roomName)
   const { data, error, isPending } = useAsync(connection)
   useEffect(() => {
@@ -35,6 +38,8 @@ function RoomPage() {
       conference.XmppOn("createRoom", createRoom)
       conference.XmppOn("validateRoom", validateRoom)
       conference.XmppOn("inviteRoom", inviteRoom)
+      conference.XmppOn('setStreamId', setStreamId)
+      conference.XmppOn('deleteStreamId', deleteStreamId)
 
       function createRoom() {
         const message = new Strophe.Builder('presence', {
@@ -82,6 +87,13 @@ function RoomPage() {
           xmlns: 'http://jabber.org/protocol/nick'
         }).t(glagol.userDisplayName).up().c('jimble').t(inviteMessageB64)
         conference.send(message)
+      }
+
+      function setStreamId(stream: RTCSessionDescription[]) {
+      dispatch(addStream(stream[0]))
+      }
+      function deleteStreamId(stream: RTCSessionDescription) {
+        dispatch(removeStream(stream))
       }
       conference.xmppRegistering()
       firstLoad = false

@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IStreams} from "../types";
 const initialState: IStreams={
-  streams: []
+  streamsId: []
 }
 
 
@@ -10,10 +10,10 @@ const streamsSlice=createSlice({
   initialState,
   reducers: {
     addStream: ((state: IStreams, action)=>{
-      state.streams.push(action.payload)
+      state.streamsId.push(action.payload)
     }),
     removeStream: ((state: IStreams, action)=>{
-      state.streams.filter((stream)=>{
+      state.streamsId.filter((stream)=>{
         return stream!==action.payload
       })
     })

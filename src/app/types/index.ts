@@ -1,4 +1,4 @@
 interface IStreams  {
-  streams: string[]
+  streamsId: string[]
 }
 export type { IStreams }

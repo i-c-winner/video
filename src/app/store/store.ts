@@ -3,7 +3,7 @@ import streamsSlice from "./streamsSlice";
 
 const store = configureStore({
   reducer: {
-    stream: streamsSlice
+    streams: streamsSlice
   }
 })
-export {store}
+export { store }
