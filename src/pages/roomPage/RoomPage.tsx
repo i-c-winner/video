@@ -18,7 +18,10 @@ function RoomPage() {
   const { data, error, isPending } = useAsync(connection)
   useEffect(() => {
     if (!isPending) {
-      startLocalStream().then((stream: any) => {
+      startLocalStream({
+        video: true,
+        audio: true
+      }).then((stream: any) => {
         stream.getTracks().forEach((track: any) => {
           conference.addTrack(track, stream)
         })
