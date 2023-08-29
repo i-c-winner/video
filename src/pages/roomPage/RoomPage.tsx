@@ -3,6 +3,7 @@ import { Conference } from "../../functions/Conference";
 import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
+import { RemoteStreams } from "../../widgets/remoteStreams/RemoteStreams";
 
 let firstLoad = true
 
@@ -86,7 +87,9 @@ function RoomPage() {
       firstLoad = false
     }
 
-    return <div className="">Room</div>
+    return <div className="">Room
+    <RemoteStreams />
+    </div>
   }
 }
 

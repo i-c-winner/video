@@ -1,5 +1,3 @@
-
-
 type Callback = (...args: any[]) => void
 type Params = {
   audio: number,
@@ -32,7 +30,6 @@ class PeerConnection {
       ]
     })
     this.pc.ontrack = (event) => {
-      console.log(event, "Event")
     }
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent)=>{
           if (event.candidate) {

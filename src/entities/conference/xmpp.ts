@@ -1,6 +1,7 @@
 import * as strophe from "strophe.js"
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
+import { glagol } from "../glagol/glagol";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
@@ -72,10 +73,10 @@ class Xmpp {
       if (jingle[0].getAttribute('action') === "enter_to_room") {
         const x = stanza.getElementsByTagName('x')
         try {
-      const statuses: any[]=Array.from(x[1].getElementsByTagName('status'))
-          if (+statuses[0].getAttribute('code')===201) {
+          const statuses: any[] = Array.from(x[1].getElementsByTagName('status'))
+          if (+statuses[0].getAttribute('code') === 201) {
             Xmpp.instance.emit("validateRoom")
-          } else if (+statuses[0].getAttribute('code')===100) {
+          } else if (+statuses[0].getAttribute('code') === 100) {
             Xmpp.instance.emit("inviteRoom")
           }
         } catch (e) {
@@ -87,20 +88,26 @@ class Xmpp {
     return true
   }
 
-  handlerMessage=(stanza: any)=> {
-    const bodyText=Strophe.getText(stanza.getElementsByTagName('body')[0])
-    const jimble=stanza.getElementsByTagName('jimble')[0]
-    const jimbleText=Strophe.getText(jimble)
-    if (bodyText==="add_track") {
-      const video: number=+jimble.getAttribute('video')
-      const audio: number=+jimble.getAttribute('audio')
+  handlerMessage = (stanza: any) => {
+    const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0])
+    const jimble = stanza.getElementsByTagName('jimble')[0]
+    const jimbleText = Strophe.getText(jimble)
+    if (bodyText === "add_track") {
+      const video: number = +jimble.getAttribute('video')
+      const audio: number = +jimble.getAttribute('audio')
       this.emit('addTrack', {
         audio,
         video,
         description: jimbleText
       })
+      try {
+        const id = jimble.getAttribute("id_remote").split('/')[1]
+        if (id!==undefined)   glagol.currentStreams[id] = jimbleText
+      } catch (e) {
 
-    } else if(bodyText==="ice_candidate") {
+      }
+      console.log(glagol)
+    } else if (bodyText === "ice_candidate") {
       this.emit("iceCandidate", jimbleText)
     }
     console.log(stanza)
