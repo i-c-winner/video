@@ -60,11 +60,16 @@ class PeerConnection {
     } while (this.currentTransceivers.video > 0)
   }
 
-  setCandidate(candidate: RTCIceCandidate) {
+  pushCandidate(candidate: RTCIceCandidate) {
     this.candidates.push(candidate)
   }
 
-  setRemoteDescripton(params: Params) {
+  setRemoteDescripton(params: {
+    audio: number,
+    video: number,
+    description: string
+  }) {
+
     this.changeTranseivers({ audio: params.audio, video: params.video })
     this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
       while (this.candidates.length > 0) {

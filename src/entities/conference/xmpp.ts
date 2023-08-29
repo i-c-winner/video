@@ -92,7 +92,21 @@ class Xmpp {
     return true
   }
 
-  handlerMessage(stanza: any) {
+  handlerMessage=(stanza: any)=> {
+    const bodyText=Strophe.getText(stanza.getElementsByTagName('body')[0])
+    const jimble=stanza.getElementsByTagName('jimble')[0]
+    const jimbleText=Strophe.getText(jimble)
+    if (bodyText==="add_track") {
+      const video: number=+jimble.getAttribute('video')
+      const audio: number=+jimble.getAttribute('audio')
+      this.emit('addTrack', {
+        audio,
+        video,
+        description: jimbleText
+      })
+    } else if(bodyText==="ice_candidate") {
+      this.emit("iceCandidate", jimbleText)
+    }
     console.log(stanza)
     return true
   }

@@ -1,6 +1,7 @@
 import { PeerConnection } from "../entities/conference/peerConnection";
 import { Xmpp } from "../entities/conference/xmpp";
 import { glagol } from "../entities/glagol/glagol";
+import { Params } from "react-router-dom";
 
 
 class Conference {
@@ -10,6 +11,7 @@ class Conference {
   constructor() {
     this.peerConnection = new PeerConnection('https://xmpp.prosolen.net:5281/http-bind')
     this.xmpp = new Xmpp()
+    this.addCallbacks()
   }
 
   initPeerConnection() {
@@ -28,6 +30,25 @@ class Conference {
 send(message: any) {
     this.xmpp.connection.send(message)
 }
+addCallbacks() {
+    this.XmppOn('addTrack', (params: [{
+      audio: number,
+      video: number,
+      description: string
+    }])=>{
+      this.peerConnection.setRemoteDescripton(params[0])
+    })
+  this.XmppOn('iceCandidate', (description: [string]) =>{
+    const candidate=JSON.parse(atob(description[0]))
+    console.log(description[0], 'desc')
+      const icecandidate = new RTCIceCandidate(candidate)
+      if (this.peerConnection.pc.remoteDescription) {
+        this.peerConnection.pc.addIceCandidate(icecandidate)
+      } else {
+        this.peerConnection.pushCandidate(icecandidate)
+      }
+  })
+  }
 XmppOn(name: string, callback: (...args: any[])=>void) {
     this.xmpp.on(name, callback)
 }
