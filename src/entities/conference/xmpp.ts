@@ -103,10 +103,8 @@ class Xmpp {
       try {
         const id = jimble.getAttribute("id_remote").split('/')[1]
         if (id !== undefined && id !== null) {
-          glagol.currentStreams[id] = jimbleText
           this.emit('setStreamId', id)
         }
-
       } catch (e) {
       }
 

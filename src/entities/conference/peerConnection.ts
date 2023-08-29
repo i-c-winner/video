@@ -1,3 +1,6 @@
+import { glagol } from "../glagol/glagol";
+import * as stream from "stream";
+
 type Callback = (...args: any[]) => void
 type Params = {
   audio: number,
@@ -29,15 +32,34 @@ class PeerConnection {
         }
       ]
     })
-    this.pc.ontrack = (event) => {
-    }
-    this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent)=>{
-          if (event.candidate) {
-            const candidate64 = btoa(JSON.stringify({
-              candidate: event.candidate
-            }))
-            this.emit("sendAnswer", candidate64)
+    this.pc.ontrack = (event: RTCTrackEvent) => {
+      interface Streams {
+        audio: MediaStreamTrack | null,
+        video: MediaStreamTrack | null
+      }
+
+      const type = event.track.kind
+      const id = event.streams[0].id.split('/')[1]
+      if (!glagol.currentStreams[id]) {
+        if (id!==undefined) {
+          glagol.currentStreams[id] = {
+            audio: null,
+            video: null
           }
+        }
+      }
+      if (id !== undefined) {
+        if (type === "audio") glagol.currentStreams[id].audio = event.track
+        if (type === "video") glagol.currentStreams[id].video = event.track
+      }
+    }
+    this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
+      if (event.candidate) {
+        const candidate64 = btoa(JSON.stringify({
+          candidate: event.candidate
+        }))
+        this.emit("sendAnswer", candidate64)
+      }
     })
     this.currentTransceivers = {
       audio: 0,
@@ -96,6 +118,7 @@ class PeerConnection {
       this.emit("sendAnswer", answer64)
     })
   }
+
   on(name: string, callback: Callback) {
     if (!this.listeners[name]) {
       this.listeners[name] = []

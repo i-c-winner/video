@@ -3,7 +3,10 @@ interface Glagol {
   userDisplayName: string,
   roomName: string,
   currentStreams: {
-    [key: string]:RTCSessionDescription | null
+    [key: string]: {
+      audio: MediaStreamTrack|null,
+      video: MediaStreamTrack|null
+    }
   }
 }
 export type {Glagol}

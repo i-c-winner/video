@@ -1,7 +1,5 @@
 function RemoteStreams() {
-  return (
-    <div className="">remoteSreams</div>
-  )
+return <p>RemoteStream</p>
 }
 
 export { RemoteStreams }
