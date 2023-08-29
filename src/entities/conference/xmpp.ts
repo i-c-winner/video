@@ -1,7 +1,6 @@
 import * as strophe from "strophe.js"
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
-import { glagol } from "../glagol/glagol";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
@@ -69,26 +68,22 @@ class Xmpp {
 
   handlerPresence(stanza: any) {
     const jingle = stanza.getElementsByTagName('jingle')
-    console.log(stanza)
     try {
       if (jingle[0].getAttribute('action') === "enter_to_room") {
         const x = stanza.getElementsByTagName('x')
         try {
-          Array.from(x[1].getElementsByTagName('status')).forEach((status: any) => {
-            if (+status.getAttribute("code") === 201) {
-              Xmpp.instance.emit("validateRoom")
-            }
-          })
+      const statuses: any[]=Array.from(x[1].getElementsByTagName('status'))
+          if (+statuses[0].getAttribute('code')===201) {
+            Xmpp.instance.emit("validateRoom")
+          } else if (+statuses[0].getAttribute('code')===100) {
+            Xmpp.instance.emit("inviteRoom")
+          }
         } catch (e) {
-        }
-        const item: any[] = Array.from((x[1].getElementsByTagName("item")))
-        console.log(item)
-        if (item[0].getAttribute('role') === "participant") {
-          Xmpp.instance.emit("inviteRoom")
         }
       }
     } catch (e) {
     }
+    console.log(stanza)
     return true
   }
 
@@ -104,6 +99,7 @@ class Xmpp {
         video,
         description: jimbleText
       })
+
     } else if(bodyText==="ice_candidate") {
       this.emit("iceCandidate", jimbleText)
     }
@@ -112,6 +108,7 @@ class Xmpp {
   }
 
   handlerIqTypeResult = (stanza: any) => {
+    debugger
     this.emit("inviteRoom")
     return true
   }

@@ -30,7 +30,6 @@ function RoomPage() {
   }, [ isPending ])
   if (isPending) return <>...isPending</>
   if (data) {
-
     if (firstLoad) {
       conference.XmppOn("createRoom", createRoom)
       conference.XmppOn("validateRoom", validateRoom)

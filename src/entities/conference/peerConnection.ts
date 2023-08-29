@@ -1,3 +1,5 @@
+
+
 type Callback = (...args: any[]) => void
 type Params = {
   audio: number,
@@ -32,6 +34,14 @@ class PeerConnection {
     this.pc.ontrack = (event) => {
       console.log(event, "Event")
     }
+    this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent)=>{
+          if (event.candidate) {
+            const candidate64 = btoa(JSON.stringify({
+              candidate: event.candidate
+            }))
+            this.emit("sendAnswer", candidate64)
+          }
+    })
     this.currentTransceivers = {
       audio: 0,
       video: 0
@@ -81,14 +91,26 @@ class PeerConnection {
   }
 
   createAnswer() {
-
     this.pc.createAnswer({
       iceRestart: true
     }).then((answer: any) => {
       this.pc.setLocalDescription(answer)
       const answer64 = btoa(JSON.stringify({ answer }))
-      // doSignaling(answer64)
+      this.emit("sendAnswer", answer64)
     })
+  }
+  on(name: string, callback: Callback) {
+    if (!this.listeners[name]) {
+      this.listeners[name] = []
+    }
+    this.listeners[name].push(callback)
+  }
+
+  emit(name: string, ...args: any[]) {
+    if (this.listeners[name]) {
+      new Error(`Listener ${name} не сущевствуте`)
+    }
+    this.listeners[name].forEach((listener) => listener(args))
   }
 }
 

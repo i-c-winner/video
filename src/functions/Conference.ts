@@ -1,7 +1,7 @@
 import { PeerConnection } from "../entities/conference/peerConnection";
 import { Xmpp } from "../entities/conference/xmpp";
 import { glagol } from "../entities/glagol/glagol";
-import { Params } from "react-router-dom";
+import {doSignaling} from "./index";
 
 
 class Conference {
@@ -27,31 +27,40 @@ class Conference {
   addTrack(track: MediaStreamTrack, stream: MediaStream) {
     this.peerConnection.addTrack(track, stream)
   }
-send(message: any) {
+
+  send(message: any) {
     this.xmpp.connection.send(message)
-}
-addCallbacks() {
-    this.XmppOn('addTrack', (params: [{
+  }
+
+  addCallbacks() {
+    this.XmppOn('addTrack', (params: [ {
       audio: number,
       video: number,
       description: string
-    }])=>{
+    } ]) => {
       this.peerConnection.setRemoteDescripton(params[0])
     })
-  this.XmppOn('iceCandidate', (description: [string]) =>{
-    const candidate=JSON.parse(atob(description[0]))
-    console.log(description[0], 'desc')
+    this.XmppOn('iceCandidate', (description: [ string ]) => {
+      const candidate = JSON.parse(atob(description[0]))
       const icecandidate = new RTCIceCandidate(candidate)
       if (this.peerConnection.pc.remoteDescription) {
         this.peerConnection.pc.addIceCandidate(icecandidate)
       } else {
         this.peerConnection.pushCandidate(icecandidate)
       }
-  })
+    })
+    this.peerConnectionOn("sendAnswer", (answer) => {
+      this.send(doSignaling(answer[0]))
+      // doSignaling(answer[0])
+    })
   }
-XmppOn(name: string, callback: (...args: any[])=>void) {
+
+  XmppOn(name: string, callback: (...args: any[]) => void) {
     this.xmpp.on(name, callback)
-}
+  }
+  peerConnectionOn(name: string, callback: (...args: any[]) => void) {
+    this.peerConnection.on(name, callback)
+  }
 }
 
 export { Conference }
