@@ -60,14 +60,13 @@ function CreatingUserPage() {
   }, []);
 
   {
-    return text !== "Room" ? <Box display="flex" justifyContent="space-between" width="650px" mx="auto" mt="300px">
+    return text !== "Room" ? <Box display="flex" justifyContent="space-between" width="650px" mx="auto" pt="300px">
       <Box
         sx={{
           display: "flex",
           flexFlow: "column",
           paddingTop: "25px",
           alignItems: "center",
-          backgroundColor: 'background.default',
         }}
         width="300px">
         <TextField
@@ -78,15 +77,7 @@ function CreatingUserPage() {
               input: "input-box_creating"
             }
           }}
-          inputProps={{
-            className: "myInput"
-          }}
           inputRef={refInput}
-          sx={{
-            padding: "0",
-            color: "black"
-            // backgroundColor: "background.paper"
-          }}
         />
         <Box>
           <CreateSvgIcon styles={stylesSvgButton} attributes={iconCamera.attributes} content={iconCamera.content}/>
