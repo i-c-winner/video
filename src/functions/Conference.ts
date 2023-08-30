@@ -53,6 +53,13 @@ class Conference {
       this.send(doSignaling(answer[0]))
       // doSignaling(answer[0])
     })
+    this.XmppOn('removeTrack', ( params:[ {
+      audio: number,
+      video: number,
+      description: string
+    } ])=>{
+      this.peerConnection.setRemoteDescripton(params[0])
+    })
   }
 
   XmppOn(name: string, callback: (...args: any[]) => void) {

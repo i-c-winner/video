@@ -39,7 +39,7 @@ function RoomPage() {
       conference.XmppOn("validateRoom", validateRoom)
       conference.XmppOn("inviteRoom", inviteRoom)
       conference.peerConnectionOn('setStreamId', setStreamId)
-      conference.peerConnectionOn('deleteStreamId', deleteStreamId)
+      conference.XmppOn('deleteStreamId', deleteStreamId)
 
       function createRoom() {
         const message = new Strophe.Builder('presence', {
@@ -94,8 +94,8 @@ function RoomPage() {
         if ( id.split('/')[1]!==undefined) dispatch(addStream(id.split('/')[1]))
       }
 
-      function deleteStreamId(stream: RTCSessionDescription) {
-        dispatch(removeStream(stream))
+      function deleteStreamId(stream: string) {
+        dispatch(removeStream(stream[0]))
       }
 
       conference.xmppRegistering()

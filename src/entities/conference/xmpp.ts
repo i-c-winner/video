@@ -1,7 +1,6 @@
 import * as strophe from "strophe.js"
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
-import { glagol } from "../glagol/glagol";
 
 const { Strophe }: any = strophe
 setRegister(strophe)
@@ -91,34 +90,32 @@ class Xmpp {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0])
     const jimble = stanza.getElementsByTagName('jimble')[0]
     const jimbleText = Strophe.getText(jimble)
-
     if (bodyText === "add_track") {
-
       const video: number = +jimble.getAttribute('video')
       const audio: number = +jimble.getAttribute('audio')
       this.emit('addTrack', {
+        audio: audio*(-1),
+        video: video*(-1),
+        description: jimbleText
+      })
+    } else if (bodyText === "ice_candidate") {
+      this.emit("iceCandidate", jimbleText)
+    } else if(bodyText=== "remove_track") {
+      const video: number = +jimble.getAttribute('video')
+      const audio: number = +jimble.getAttribute('audio')
+      const id=jimble.getAttribute('id_remote').split('/')[1]
+      this.emit('deleteStreamId', id)
+      this.emit('removeTrack', {
         audio,
         video,
         description: jimbleText
       })
-
-      try {
-        const id = jimble.getAttribute("id_remote").split('/')[1]
-
-        if (id !== undefined && id !== null) {
-          // this.emit('setStreamId', id)
-        }
-      } catch (e) {
-      }
-
-    } else if (bodyText === "ice_candidate") {
-      this.emit("iceCandidate", jimbleText)
     }
+    console.log(stanza, "Message")
     return true
   }
 
   handlerIqTypeResult = (stanza: any) => {
-    debugger
     this.emit("inviteRoom")
     return true
   }
