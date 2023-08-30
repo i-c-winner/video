@@ -84,7 +84,6 @@ class Xmpp {
       }
     } catch (e) {
     }
-    console.log(stanza)
     return true
   }
 
@@ -92,7 +91,9 @@ class Xmpp {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0])
     const jimble = stanza.getElementsByTagName('jimble')[0]
     const jimbleText = Strophe.getText(jimble)
+
     if (bodyText === "add_track") {
+
       const video: number = +jimble.getAttribute('video')
       const audio: number = +jimble.getAttribute('audio')
       this.emit('addTrack', {
@@ -100,10 +101,12 @@ class Xmpp {
         video,
         description: jimbleText
       })
+
       try {
         const id = jimble.getAttribute("id_remote").split('/')[1]
+
         if (id !== undefined && id !== null) {
-          this.emit('setStreamId', id)
+          // this.emit('setStreamId', id)
         }
       } catch (e) {
       }
@@ -111,7 +114,6 @@ class Xmpp {
     } else if (bodyText === "ice_candidate") {
       this.emit("iceCandidate", jimbleText)
     }
-    console.log(stanza)
     return true
   }
 

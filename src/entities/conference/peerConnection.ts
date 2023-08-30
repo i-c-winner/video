@@ -33,10 +33,7 @@ class PeerConnection {
       ]
     })
     this.pc.ontrack = (event: RTCTrackEvent) => {
-      interface Streams {
-        audio: MediaStreamTrack | null,
-        video: MediaStreamTrack | null
-      }
+      console.log(event, "EVENT")
 
       const type = event.track.kind
       const id = event.streams[0].id.split('/')[1]
@@ -52,6 +49,7 @@ class PeerConnection {
         if (type === "audio") glagol.currentStreams[id].audio = event.track
         if (type === "video") glagol.currentStreams[id].video = event.track
       }
+      this.emit("setStreamId", event)
     }
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
       if (event.candidate) {
@@ -70,7 +68,6 @@ class PeerConnection {
   }
 
   addTrack(track: MediaStreamTrack, stream: MediaStream) {
-    console.log(this.pc, track)
     this.pc.addTrack(track, stream)
   }
 

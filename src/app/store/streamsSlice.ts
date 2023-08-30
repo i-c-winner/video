@@ -10,7 +10,14 @@ const streamsSlice=createSlice({
   initialState,
   reducers: {
     addStream: ((state: IStreams, action)=>{
-      state.streamsId.push(action.payload)
+      function hasId(id:string) {
+        return state.streamsId.includes(id)
+      }
+      const id=action.payload
+
+        if (!hasId(id)) {
+          state.streamsId.push(id)
+        }
     }),
     removeStream: ((state: IStreams, action)=>{
       state.streamsId.filter((stream)=>{
