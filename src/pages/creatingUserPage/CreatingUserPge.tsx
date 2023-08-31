@@ -87,6 +87,7 @@ function CreatingUserPage() {
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream: MediaStream) => {
+      glagol.localStream=stream
       stream.getTracks().forEach((track: MediaStreamTrack) => {
         if (track.kind === "video") {
           if (refVideo.current !== null) refVideo.current.srcObject = stream;
@@ -143,7 +144,7 @@ function CreatingUserPage() {
         </Dialog>
       </Box>
       <Box width="300px">
-        <video className="video" autoPlay={true} ref={refVideo}/>
+        <video className="video video__createscreen" autoPlay={true} ref={refVideo}/>
       </Box>
     </Box> : <RoomPage/>;
   }

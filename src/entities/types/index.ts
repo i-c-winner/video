@@ -7,6 +7,7 @@ interface Glagol {
       audio: MediaStreamTrack|null,
       video: MediaStreamTrack|null
     }
-  }
+  },
+  localStream: MediaStream|null
 }
 export type {Glagol}

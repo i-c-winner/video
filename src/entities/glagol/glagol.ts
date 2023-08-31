@@ -5,7 +5,8 @@ const glagol: Glagol= {
   userDisplayName: "",
   roomName: "",
   currentStreams: {
-  }
+  },
+  localStream: null
 }
 
 export {glagol}

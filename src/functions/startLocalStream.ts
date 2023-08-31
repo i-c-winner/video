@@ -1,5 +1,3 @@
-import * as stream from "stream";
-
 function startLocalStream(params: {
   video: boolean|MediaTrackConstraints,
   audio: boolean|MediaTrackConstraints
