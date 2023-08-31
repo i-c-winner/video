@@ -87,7 +87,7 @@ function CreatingUserPage() {
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream: MediaStream) => {
-      glagol.localStream=stream
+      glagol.localStream = stream;
       stream.getTracks().forEach((track: MediaStreamTrack) => {
         if (track.kind === "video") {
           if (refVideo.current !== null) refVideo.current.srcObject = stream;

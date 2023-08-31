@@ -1,7 +1,12 @@
 import { CreatingUserPage } from "../index";
+import { Logo } from "../../widgets/Logo/Logo";
 
 function StartingPage() {
-    return <CreatingUserPage />
+  return <div>
+    <Logo/>
+    <CreatingUserPage/>
+  </div>;
 }
 
-export { StartingPage }
+
+export { StartingPage };
