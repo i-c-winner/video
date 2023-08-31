@@ -10,7 +10,7 @@ function Header() {
         position: 'absolute',
         width: '100%',
         marginTop: '25px',
-       textAlign: 'center'
+       textAlign: 'center',
       }
     }>
       <Typography color='white'>Имя комнаты: {glagol.roomName}</Typography>

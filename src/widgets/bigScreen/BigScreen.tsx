@@ -1,20 +1,22 @@
-import { useRef, useEffect } from "react";
-import { glagol } from "../../entities/glagol/glagol";
-import { Box } from "@mui/material";
+import { Box} from "@mui/material";
 import "../styles/index.scss";
-import { Header } from '../panels/Header';
-import { Toolbox } from '../panels/Toolbox';
+import { Screens } from '../Screens/Screens';
+import {ChatBox} from '../chatBox/ChatBox';
+import { useSelector } from 'react-redux';
 
 function BigScreen() {
-  const refVideo = useRef<any>();
-  useEffect(() => {
-    refVideo.current.srcObject = glagol.localStream;
-  });
+  const config = useSelector((state: any) => state.config);
+  const chatVisible = config.UI.chatBoxVisible;
   return (
-    <Box>
-      <Header />
-      <video autoPlay={true} ref={refVideo} className="video video__bigscreen"/>
-      <Toolbox />
+    <Box sx={
+      {
+        position: 'relative',
+        flexGrow: '1',
+        display: 'flex'
+      }
+    }>
+      {chatVisible ? <ChatBox/> : null}
+      <Screens/>
     </Box>
   );
 }

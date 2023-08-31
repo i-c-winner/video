@@ -4,6 +4,9 @@ const config = {
       width: "32px",
       height: "32px"
     }
+  },
+  UI: {
+    chatBoxVisible: true
   }
 }
 

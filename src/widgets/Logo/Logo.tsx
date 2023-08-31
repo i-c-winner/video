@@ -10,7 +10,8 @@ function Logo() {
       top: '15px',
       left: '15px',
       alignItems: 'center',
-      position: 'absolute'
+      position: 'absolute',
+      zIndex: 10
     }}>
       <CreateSvgIcon
         styles={{

@@ -3,7 +3,6 @@ import { Conference } from "../../functions/Conference";
 import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
-import { RemoteStreamsBox } from "../../widgets/remoteStreams/RemoteStreamsBox";
 import { useDispatch } from "react-redux";
 import { addStream, removeStream } from "../../app/store/streamsSlice";
 import { Box } from "@mui/material";
@@ -104,9 +103,16 @@ function RoomPage() {
       firstLoad = false;
     }
 
-    return <Box>
+    return <Box sx={{
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      display: 'flex',
+      position: 'absolute',
+      justifyContent: 'space-between'
+    }}>
       <BigScreen/>
-      <RemoteStreamsBox/>
     </Box>;
   }
 }
