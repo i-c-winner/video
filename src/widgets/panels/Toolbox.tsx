@@ -1,52 +1,39 @@
-import { useDispatch, useSelector } from "react-redux";
-import { changeIsChatVisible } from "../../app/store/UISlice/UiSlice";
-import { ButtonInstance } from "../../shared";
-import { iconChat, iconExit, iconSettings } from "../../shared/img/svg/index"
-import { PeerConnection } from "../index";
-import { changeModal } from "../../app/store/UISlice/UiSlice";
-import { constants } from "../../shared";
-
-const peerConnection = new PeerConnection()
+import { Box, Button } from '@mui/material';
+import { useState } from 'react';
+import { iconChat, iconSettings, iconExit } from '../../shared/img/svg';
+import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 
 function Toolbox() {
-  const dispatch = useDispatch()
-  const visibleChat = useSelector((state: any) => {
-    return state.UI.isChatVisible
-  })
+  const [ visible, setVisible ] = useState<boolean>(true);
+  const baseStyle = {
+    backgroundColor: 'background.paper',
+    position: 'absolute',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-around'
+  };
 
-  function openChat() {
-    dispatch(changeIsChatVisible(!visibleChat))
-  }
-
-  function openModal() {
-    dispatch(changeModal({
-      type: "settings",
-      isOpen: true,
-    }))
+  function getStyleToolbox() {
+    if (visible) {
+      return {
+        ...baseStyle,
+        bottom: '0px'
+      };
+    }
+    return {
+      ...baseStyle,
+      bottom: '-50px'
+    };
   }
 
   return (
-    <div className="toolbox">
-      <ButtonInstance
-        action={openChat}
-        variant="text"
-        icon={iconChat}
-      />
-      <ButtonInstance
-        icon={iconSettings}
-        action={openModal}
-      />
-      <ButtonInstance
+    <Box sx={getStyleToolbox()}>
+      <Button startIcon={<CreateSvgIcon attributes={iconChat.attributes} content={iconChat.content}/>}></Button>
+      <Button startIcon={<CreateSvgIcon attributes={iconSettings.attributes} content={iconSettings.content}/>}></Button>
+      <Button startIcon={<CreateSvgIcon attributes={iconExit.attributes} content={iconExit.content}/>}></Button>
 
-        variant="text"
-        icon={iconExit}
-        styles={{
-          color: 'red'
-        }
-        }
-      />
-    </div>
-  )
+    </Box>
+  );
 }
 
-export { Toolbox }
+export { Toolbox };
