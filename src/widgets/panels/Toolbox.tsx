@@ -10,6 +10,7 @@ function Toolbox() {
   const dispatch = useDispatch();
   const chatBoxVisible = useSelector((state: any) => state.config.UI.chatBoxVisible);
 
+
 const [ visible, setVisible ] = useState<boolean>(true);
 const baseStyle = {
   backgroundColor: 'background.paper',
@@ -31,15 +32,14 @@ function getStyleToolbox() {
     bottom: '-50px'
   };
 }
-
 return (
   <Box sx={getStyleToolbox()}>
     <Button
       onClick={()=>{
         toolboxAction.apply({ dispatch, actionCreater: changeChatVisible })}}
-      startIcon={<CreateSvgIcon attributes={iconChat.attributes} content={iconChat.content}/>}></Button>
-    <Button startIcon={<CreateSvgIcon attributes={iconSettings.attributes} content={iconSettings.content}/>}></Button>
-    <Button startIcon={<CreateSvgIcon attributes={iconExit.attributes} content={iconExit.content}/>}></Button>
+      startIcon={<CreateSvgIcon attributes={iconChat.attributes} styles={{color: 'white'}} content={iconChat.content}/>}></Button>
+    <Button startIcon={<CreateSvgIcon styles={{color: 'white'}} attributes={iconSettings.attributes} content={iconSettings.content}/>}></Button>
+    <Button startIcon={<CreateSvgIcon styles={{color: 'white'}} attributes={iconExit.attributes} content={iconExit.content}/>}></Button>
 
   </Box>
 );
