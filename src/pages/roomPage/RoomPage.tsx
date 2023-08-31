@@ -96,6 +96,7 @@ function RoomPage() {
       }
 
       function deleteStreamId(stream: string) {
+       delete glagol.currentStreams[stream[0]]
         dispatch(removeStream(stream[0]));
       }
 

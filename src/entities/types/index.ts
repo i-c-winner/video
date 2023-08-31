@@ -5,7 +5,8 @@ interface Glagol {
   currentStreams: {
     [key: string]: {
       audio: MediaStreamTrack|null,
-      video: MediaStreamTrack|null
+      video: MediaStreamTrack|null,
+      stream: MediaStream
     }
   },
   localStream: MediaStream|null

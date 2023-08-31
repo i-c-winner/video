@@ -19,11 +19,12 @@ class PeerConnection {
     video: number
   };
   private candidates: RTCIceCandidate[];
-
+public loop: string|null
   constructor(urls: string) {
     if (!PeerConnection.instance) {
       PeerConnection.instance = this
     }
+    this.loop=null
     this.listeners = {}
     this.pc = new RTCPeerConnection({
       iceServers: [
@@ -39,7 +40,8 @@ class PeerConnection {
         if (id!==undefined) {
           glagol.currentStreams[id] = {
             audio: null,
-            video: null
+            video: null,
+            stream: event.streams[0]
           }
         }
       }

@@ -10,6 +10,7 @@ class Conference {
 
   constructor() {
     this.peerConnection = new PeerConnection('https://xmpp.prosolen.net:5281/http-bind')
+    this.peerConnection.loop='sdfsdf'
     this.xmpp = new Xmpp()
     this.addCallbacks()
   }

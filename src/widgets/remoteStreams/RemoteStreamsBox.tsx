@@ -9,11 +9,9 @@ function RemoteStreamsBox() {
   return (
     <Box sx={
       {
-        width: '250px',
         position: 'absolute',
         top: '0',
         right: '0',
-        border: '1px solid red',
         height: '100px',
         flexGrow: '1'
       }

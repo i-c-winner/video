@@ -1,5 +1,11 @@
-.video__bigscreen {
-  height: 99vh;
-  width: 100%;
-  margin: 0 auto;
+.video {
+  &__bigscreen {
+    height: 99vh;
+  }
+
+  &__remoutstream {
+    width: 90%;
+  }
 }
+
+

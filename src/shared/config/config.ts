@@ -6,7 +6,7 @@ const config = {
     }
   },
   UI: {
-    chatBoxVisible: true
+    chatBoxVisible: false
   }
 }
 

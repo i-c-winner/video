@@ -12,7 +12,8 @@ function BigScreen() {
       {
         position: 'relative',
         flexGrow: '1',
-        display: 'flex'
+        display: 'flex',
+        textAlign: 'center'
       }
     }>
       <ChatBox chatBoxVisible={chatVisible}/>
