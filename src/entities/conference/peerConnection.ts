@@ -33,8 +33,6 @@ class PeerConnection {
       ]
     })
     this.pc.ontrack = (event: RTCTrackEvent) => {
-      console.log(event, "EVENT")
-
       const type = event.track.kind
       const id = event.streams[0].id.split('/')[1]
       if (!glagol.currentStreams[id]) {

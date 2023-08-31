@@ -5,10 +5,10 @@ const configSlice = createSlice({
   name: "config",
   initialState: config,
   reducers: {
-changeChatVisible: ((state: any, action)=>{
-  state.UI.chatBox=action.payload
-})
+    changeChatVisible: ((state: any) => {
+      state.UI.chatBoxVisible = !state.UI.chatBoxVisible
+    })
   }
-})
-export const{changeChatVisible}=configSlice.actions
-export default configSlice.reducer
+});
+export const { changeChatVisible } = configSlice.actions;
+export default configSlice.reducer;

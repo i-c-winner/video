@@ -6,7 +6,7 @@ import { glagol } from '../../entities/glagol/glagol';
 
 function LocalStreamsBox() {
 const refVideo=useRef<any>(null)
-  useEffect(()=>{console.log(glagol.localStream)
+  useEffect(()=>{
     refVideo.current.srcObject=glagol.localStream
   },[])
   return (
