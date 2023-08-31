@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Input, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { glagol } from "../../entities/glagol/glagol";
 import { RoomPage } from "../index";
 import { getRandomText } from "../../shared/lib/getRandomText";
@@ -12,7 +12,10 @@ import '../styles/index.scss';
 function CreatingUserPage() {
   const theme = useTheme();
   const url = window.location.pathname.split('/')[1];
+  const [ openVideo, setOpenVideo ] = useState<boolean>(false);
+  const [ openAudio, setOpenAudio ] = useState<boolean>(false);
   const refVideo = useRef<any>(null);
+
   const stateValue = () => {
     if (url !== "") {
       glagol.roomName = url;
@@ -26,6 +29,23 @@ function CreatingUserPage() {
     padding: "5px",
     margin: "10px"
   };
+
+  function Actions() {
+    return <DialogActions>
+      <Button onClick={switchOff} variant="contained">switch off</Button>
+      <Button onClick={switchOn} variant="contained">switch on</Button>
+    </DialogActions>;
+  }
+
+  function switchOn() {
+    setOpenAudio(false);
+    setOpenVideo(false);
+  }
+
+  function switchOff() {
+    setOpenAudio(false);
+    setOpenVideo(false);
+  }
 
   function getTextButton() {
     return text === "createName" ? "Create NAme" : "Create ROom";
@@ -47,6 +67,22 @@ function CreatingUserPage() {
       setText("Room");
 
     }
+  }
+
+  function closeVideo() {
+    setOpenVideo(false);
+  }
+
+  function closeAudio() {
+    setOpenAudio(false);
+  }
+
+  function openingVideo() {
+    setOpenVideo(true);
+  }
+
+  function openingAudio() {
+    setOpenAudio(true);
   }
 
   useEffect(() => {
@@ -80,11 +116,31 @@ function CreatingUserPage() {
           inputRef={refInput}
         />
         <Box>
-          <CreateSvgIcon styles={stylesSvgButton} attributes={iconCamera.attributes} content={iconCamera.content}/>
-          <CreateSvgIcon styles={stylesSvgButton} attributes={iconMicrophone.attributes}
-                         content={iconMicrophone.content}/>
+          <Button onClick={openingVideo}
+                  startIcon={<CreateSvgIcon styles={stylesSvgButton} attributes={iconCamera.attributes}
+                                            content={iconCamera.content}/>}/>
+          <Dialog
+            open={openVideo}
+            onClose={closeVideo}>
+            <DialogTitle>
+              <p>Settings video</p>
+            </DialogTitle>
+            <Actions/>
+          </Dialog>
+
+          <Button onClick={openingAudio}
+                  startIcon={<CreateSvgIcon styles={stylesSvgButton} attributes={iconMicrophone.attributes}
+                                            content={iconMicrophone.content}/>}/>
         </Box>
         <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
+        <Dialog
+          open={openAudio}
+          onClose={closeAudio}>
+          <DialogTitle>
+            <p>Settings video</p>
+          </DialogTitle>
+          <Actions/>
+        </Dialog>
       </Box>
       <Box width="300px">
         <video className="video" autoPlay={true} ref={refVideo}/>
