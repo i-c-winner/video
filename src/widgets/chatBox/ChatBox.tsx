@@ -5,7 +5,8 @@ import { useRef } from 'react';
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
   const [ text, setText ] = useState<string>('kkk');
-  const refText = useRef<HTMLDivElement>(null);
+  const refText = useRef<any>(null);
+  const refContainer = useRef<any>(null);
 
   function changeText(event: any) {
     setText(event.target.value);
@@ -15,6 +16,21 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     setText('');
   }
 
+  useEffect(() => {
+    function listenerTextArea(event: any) {
+      if (event.key === 'Escape') {
+        console.log(refText.current);
+        refText.current.blur();
+      }
+    }
+    if (refContainer.current !== null) {
+
+      refText.current.addEventListener('keydown', listenerTextArea);
+    }
+    return () => {
+      refText.current.removeEventListener('keydown', listenerTextArea);
+    };
+  }, [ props.chatBoxVisible ]);
   return props.chatBoxVisible ? <Box sx={
     {
       display: 'flex',
@@ -27,12 +43,12 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     }
   }
   >
-    <Box>
+    <Box ref={refContainer}>
       <ChatCard/>
       <ChatCard/>
     </Box>
     <Box>
-      <textarea className="textarea textarea_chat-box" value={text} onChange={changeText}/>
+      <textarea ref={refText} className="textarea textarea_chat-box" value={text} onChange={changeText}/>
       <Button onClick={sendText} variant="contained">Send</Button>
     </Box>
   </Box> : null;
