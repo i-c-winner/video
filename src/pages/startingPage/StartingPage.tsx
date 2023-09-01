@@ -1,5 +1,5 @@
 import { CreatingUserPage } from "../index";
-import { Logo } from "../../widgets/Logo/Logo";
+import { Logo } from "../../entities/logo/Logo";
 
 function StartingPage() {
   return <div>

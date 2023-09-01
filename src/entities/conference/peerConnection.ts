@@ -34,9 +34,12 @@ public loop: string|null
       ]
     })
     this.pc.ontrack = (event: RTCTrackEvent) => {
+      // @ts-ignore
+      window.glagol=glagol
       const type = event.track.kind
       const id = event.streams[0].id.split('/')[1]
       if (!glagol.currentStreams[id]) {
+
         if (id!==undefined) {
           glagol.currentStreams[id] = {
             audio: null,

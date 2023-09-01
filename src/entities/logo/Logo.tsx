@@ -1,4 +1,4 @@
-import { CreateSvgIcon } from "../createSvgIcon/CreateSvgIcon";
+import { CreateSvgIcon } from "../../widgets/createSvgIcon/CreateSvgIcon";
 import { iconLogo } from "../../shared/img/svg";
 import { Box, Typography } from "@mui/material";
 

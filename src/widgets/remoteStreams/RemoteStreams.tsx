@@ -8,8 +8,13 @@ const peerConnection = new PeerConnection('https://xmpp.prosolen.net:5281/http-b
 function RemoteStreams(props: { streamId: string }) {
   const refVideo = useRef<any>(null);
   useEffect(() => {
-    refVideo.current.srcObject = glagol.currentStreams[props.streamId].stream;
-  });
+    glagol.currentStreams[props.streamId].stream.getTracks().forEach((track)=>{
+      if (track.kind==='video') {
+        refVideo.current.srcObject=glagol.currentStreams[props.streamId].stream
+      }
+    })
+  
+  }, [props.streamId]);
   return (
     <Card>
         <CardMedia sx={{
