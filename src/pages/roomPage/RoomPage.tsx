@@ -119,7 +119,6 @@ function RoomPage() {
           );
         } catch (e) {
         }
-        console.log(stanza[0], 'This is Stanza');
       }
 
       conference.xmppRegistering();

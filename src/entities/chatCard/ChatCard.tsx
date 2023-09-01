@@ -1,31 +1,38 @@
 import { CardContent, CardHeader, Card, Typography } from '@mui/material';
+import { IChat } from '../../app/types';
+import {glagol} from '../glagol/glagol';
 
-function ChatCard() {
-  const styleBaseChat={
+function ChatCard(props: { chat: IChat }) {
+  const styleBaseChat = {
     width: '80%',
     margin: '0 auto 10px',
 
-  }
-const styleMyChat={
-...styleBaseChat,
-  textAlign: 'right',
-  backgroundColor: 'blue'
-
-}
-const styleOutherChat={
+  };
+  const styleMyChat = {
     ...styleBaseChat,
-textAlign: 'left'
-}
-function getStyle() {
-    return styleOutherChat
-}
+    textAlign: 'right',
+  };
+  const styleOutherChat = {
+    ...styleBaseChat,
+    textAlign: 'left',
+    backgroundColor: 'blue'
+  };
+
+  function getStyle() {
+    if (props.chat.id===glagol.userNode) {
+      return styleMyChat;
+    } return styleOutherChat
+
+  }
+  const titleText= <Typography variant={'subtitle1'}> Время: {props.chat.time}  </Typography>
+
   return (
     <Card sx={getStyle()}>
-      <CardHeader>
-<Typography>Time</Typography>
-      </CardHeader>
+      <CardHeader
+      title={titleText}
+      />
       <CardContent>
-<Typography>Text</Typography>
+        <Typography variant='body1'>{props.chat.text}</Typography>
       </CardContent>
     </Card>
   );
