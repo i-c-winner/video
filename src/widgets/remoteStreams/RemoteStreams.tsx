@@ -9,11 +9,12 @@ function RemoteStreams(props: { streamId: string }) {
   const refVideo = useRef<any>(null);
   useEffect(() => {
     glagol.currentStreams[props.streamId].stream.getTracks().forEach((track)=>{
+      console.log(track, 'TRACK')
       if (track.kind==='video') {
         refVideo.current.srcObject=glagol.currentStreams[props.streamId].stream
       }
     })
-  
+
   }, [props.streamId]);
   return (
     <Card>

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { roRO } from '@mui/material/locale';
+import { ChatCard } from '../../entities/chatCard/ChatCard';
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
   {
@@ -10,7 +11,11 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
         paddingTop: '85px'
       }
     }
-    >ChatBox</Box> : null;
+    >
+      <ChatCard/>
+      <ChatCard/>
+
+    </Box> : null;
   }
 }
 
