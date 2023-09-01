@@ -6,7 +6,8 @@ function ChatCard(props: { chat: IChat }) {
   const styleBaseChat = {
     width: '80%',
     margin: '0 auto 20px',
-    backgroundColor: 'rgba(25,25,25,.2)'
+    backgroundColor: 'rgba(25,25,25,.2)',
+    flexShrink: 0
   };
   const styleMyChat = {
     ...styleBaseChat,

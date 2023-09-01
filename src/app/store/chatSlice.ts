@@ -8,7 +8,7 @@ const chatSlice=createSlice({
   initialState,
   reducers: {
     pushChat: ((state: TChats, action)=>{
-      state.push(action.payload)
+      state.unshift(action.payload)
     })
   }
 })

@@ -11,7 +11,7 @@ const xmpp = new Xmpp();
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
   const chats  = useSelector((state: any) => state.chat);
-  const [ text, setText ] = useState<string>('kkk');
+  const [ text, setText ] = useState<string>('');
   const refText = useRef<any>(null);
   const refContainer = useRef<any>(null);
 
@@ -69,8 +69,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     {
       display: 'flex',
       flexFlow: 'column',
-
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
       paddingBottom: '10px',
       width: '350px',
       backgroundColor: 'background.paper',
@@ -81,7 +80,9 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     <Box
       sx={
         {
-          maxHeight: 'calc(100vh - 195px)',
+          // maxHeight: 'calc(100vh - 195px)',
+          display: 'flex',
+          flexDirection: 'column-reverse',
           overflowY: 'auto'
         }
       }
@@ -93,7 +94,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     <Box sx={{
       height: '100px'
     }}>
-      <textarea ref={refText} className="textarea textarea_chat-box" value={text} onChange={changeText}/>
+      <textarea ref={refText} defaultValue="Введите сообщение" className="textarea textarea_chat-box" value={text} onChange={changeText}/>
       <Button onClick={sendText} variant="contained">Send</Button>
     </Box>
   </Box> : null;
