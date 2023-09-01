@@ -4,8 +4,9 @@ interface IStreams  {
 interface IChat {
   chats: {
     author: string,
-    time: Date,
-    text: string
+    time: string,
+    text: string,
+    id: string
   }[]
 }
 

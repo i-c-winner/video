@@ -9,6 +9,7 @@ const chatSlice=createSlice({
   initialState,
   reducers: {
     pushChat: ((state: IChat, action)=>{
+      console.log(action)
       state.chats.push(action.payload)
     })
   }

@@ -57,6 +57,7 @@ class Xmpp {
         this.connection.addHandler(this.handlerPresence, null, 'presence')
         this.connection.addHandler(this.handlerMessage, null, 'message')
         this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result")
+        this.connection.addHandler(this.handlerMessageGroupChat, null, 'message', 'groupchat')
         this.emit("createRoom")
         // do something after successful authentication
       } else {
@@ -118,6 +119,13 @@ class Xmpp {
   handlerIqTypeResult = (stanza: any) => {
     this.emit("inviteRoom")
     return true
+  }
+  handlerMessageGroupChat= (stanza: any)=>{
+    this.emit('messageWasReceived', stanza)
+    return true
+  }
+  getConnection() {
+    return this.connection
   }
 
   on(name: string, callback: Callback) {

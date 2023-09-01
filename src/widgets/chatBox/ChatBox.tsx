@@ -24,7 +24,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     }).c('body').t(text).up().c('jingle', {
       id: glagol.userNode,
       date: getDate(),
-      authorName: glagol.userDisplayName
+      authorName: glagol.userDisplayName,
     })
 
     function getDate() {
@@ -41,6 +41,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
       return `${addZero(hour)}:${addZero(minute)}`
     }
     setText('');
+    xmpp.getConnection().send(message)
   }
 
   useEffect(() => {

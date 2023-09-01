@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { addStream, removeStream } from "../../app/store/streamsSlice";
 import { Box } from "@mui/material";
 import { BigScreen } from "../../widgets/bigScreen/BigScreen";
+import { pushChat } from '../../app/store/chatSlice';
 
 let firstLoad = true;
 
@@ -41,6 +42,7 @@ function RoomPage() {
       conference.XmppOn("inviteRoom", inviteRoom);
       conference.peerConnectionOn('setStreamId', setStreamId);
       conference.XmppOn('deleteStreamId', deleteStreamId);
+      conference.XmppOn('messageWasReceived', messageWasReceived);
 
       function createRoom() {
         const message = new Strophe.Builder('presence', {
@@ -96,8 +98,28 @@ function RoomPage() {
       }
 
       function deleteStreamId(stream: string) {
-       delete glagol.currentStreams[stream[0]]
+        delete glagol.currentStreams[stream[0]];
         dispatch(removeStream(stream[0]));
+      }
+
+      function messageWasReceived(stanza: any) {
+
+        try {
+          const jingle = stanza[0].getElementsByTagName('jingle')[0];
+          const text = Strophe.getText(stanza[0].getElementsByTagName('body')[0]);
+          const date = jingle.getAttribute('date');
+          const id = jingle.getAttribute('id');
+          const author = jingle.getAttribute('authorName');
+          dispatch(pushChat({
+              author,
+              time: date,
+              text,
+              id
+            })
+          );
+        } catch (e) {
+        }
+        console.log(stanza[0], 'This is Stanza');
       }
 
       conference.xmppRegistering();
