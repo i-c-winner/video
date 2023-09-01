@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { glagol } from "../../entities/glagol/glagol";
-import { Card, CardActionArea, CardMedia } from '@mui/material';
+import { Card, CardMedia } from '@mui/material';
 import { PeerConnection } from '../../entities/conference/peerConnection';
 
 const peerConnection = new PeerConnection('https://xmpp.prosolen.net:5281/http-bind');
@@ -17,13 +17,13 @@ function RemoteStreams(props: { streamId: string }) {
 
   }, [props.streamId]);
   return (
-    <Card>
+      <Card>
         <CardMedia sx={{
           width: '300px'
         }}>
           <video className='video__remoutstream' autoPlay={true} ref={refVideo}/>
         </CardMedia>
-    </Card>
+      </Card>
   );
 }
 
