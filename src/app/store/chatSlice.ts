@@ -1,15 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {IChats} from '../types';
+import {TChats} from '../types';
 
-const initialState: IChats ={
-  chats: []
-}
+const initialState: TChats =[]
+
 const chatSlice=createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    pushChat: ((state: IChats, action)=>{
-      state.chats.push(action.payload)
+    pushChat: ((state: TChats, action)=>{
+      state.push(action.payload)
     })
   }
 })

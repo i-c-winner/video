@@ -62,7 +62,7 @@ function CreatingUserPage() {
       }
       setText("createName");
     } else {
-      glagol.userDisplayName = refInput.current.value!==''? 'refInput.current.value' :"I'm incognito";
+      glagol.userDisplayName = refInput.current.value!==''? refInput.current.value :"I'm incognito";
       glagol.userNode = getRandomText(8);
       setText("Room");
 

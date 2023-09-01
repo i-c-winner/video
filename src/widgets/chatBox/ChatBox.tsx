@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 const xmpp = new Xmpp();
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
-  const { chats } = useSelector((state: any) => state.chat);
+  const chats  = useSelector((state: any) => state.chat);
   const [ text, setText ] = useState<string>('kkk');
   const refText = useRef<any>(null);
   const refContainer = useRef<any>(null);
@@ -69,6 +69,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     {
       display: 'flex',
       flexFlow: 'column',
+
       justifyContent: 'space-between',
       paddingBottom: '10px',
       width: '350px',

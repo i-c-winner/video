@@ -7,9 +7,7 @@ interface IChat {
   text: string,
   id: string
 }
-interface IChats {
-  chats: IChat[]
+type  TChats = IChat[]
 
-}
 
-export type { IStreams, IChat, IChats }
+export type { IStreams, IChat, TChats }
