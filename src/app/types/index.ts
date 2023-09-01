@@ -1,4 +1,12 @@
 interface IStreams  {
   streamsId: string[]
 }
-export type { IStreams }
+interface IChat {
+  chats: {
+    author: string,
+    time: Date,
+    text: string
+  }[]
+}
+
+export type { IStreams, IChat }
