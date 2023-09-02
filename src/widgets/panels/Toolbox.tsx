@@ -1,48 +1,82 @@
-import { Box, Button } from '@mui/material';
+import React, { useRef } from 'react';
+import { Box, Button, Modal } from '@mui/material';
 import { useState } from 'react';
 import { iconChat, iconSettings, iconExit } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeChatVisible } from '../../app/store/configSlice';
+import { changeChatVisible, changeModalVisible, setTypeModal } from '../../app/store/configSlice';
+import { Settings } from '../modal/settingsChildren/Settings';
 
 function Toolbox() {
+  const refSettings = useRef<any>();
   const dispatch = useDispatch();
-  const chatBoxVisible = useSelector((state: any) => state.config.UI.chatBoxVisible);
+  const { openModal, settings, type, width } = useSelector((state: any) => {
 
+    return state.config.modal;
+  });
 
-const [ visible, setVisible ] = useState<boolean>(true);
-const baseStyle = {
-  backgroundColor: 'background.paper',
-  position: 'absolute',
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'space-around'
-};
+  const [ open, setOpen ] = useState<boolean>(openModal);
 
-function getStyleToolbox() {
-  if (visible) {
+  const [ visible, setVisible ] = useState<boolean>(true);
+  const baseStyle = {
+    backgroundColor: 'background.paper',
+    position: 'absolute',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-around'
+  };
+
+  function getStyleToolbox() {
+    if (visible) {
+      return {
+        ...baseStyle,
+        bottom: '0px'
+      };
+    }
     return {
       ...baseStyle,
-      bottom: '0px'
+      bottom: '-50px'
     };
   }
-  return {
-    ...baseStyle,
-    bottom: '-50px'
-  };
-}
-return (
-  <Box sx={getStyleToolbox()}>
-    <Button
-      onClick={()=>{
-        toolboxAction.apply({ dispatch, actionCreater: changeChatVisible })}}
-      startIcon={<CreateSvgIcon attributes={iconChat.attributes} styles={{color: 'white'}} content={iconChat.content}/>}></Button>
-    <Button startIcon={<CreateSvgIcon styles={{color: 'white'}} attributes={iconSettings.attributes} content={iconSettings.content}/>}></Button>
-    <Button startIcon={<CreateSvgIcon styles={{color: 'white'}} attributes={iconExit.attributes} content={iconExit.content}/>}></Button>
 
-  </Box>
-);
+  function openSettings() {
+    setOpen(true);
+    dispatch(setTypeModal('settings'));
+    dispatch(changeModalVisible(true));
+  }
+
+  function handlerClose() {
+    setOpen(false);
+  }
+
+  const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
+    return <Settings {...props} ref={ref}/>;
+  });
+  return (
+    <Box sx={getStyleToolbox()}>
+      <Button
+        onClick={() => {
+          toolboxAction.apply({ dispatch, actionCreater: changeChatVisible });
+        }}
+        startIcon={<CreateSvgIcon attributes={iconChat.attributes} styles={{ color: 'white' }}
+                                  content={iconChat.content}/>}></Button>
+      <Button onClick={openSettings}
+              startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconSettings.attributes}
+                                        content={iconSettings.content}/>}></Button>
+      <Button startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconExit.attributes}
+                                        content={iconExit.content}/>}></Button>
+      <Modal
+        sx={{
+          width: width.md,
+          bottom: 'initial'
+        }}
+        classes={{
+          root: 'modal_settings'
+        }
+        } open={open} onClose={handlerClose} children={<SettingsRef ref={refSettings}/>}></Modal>
+    </Box>
+  );
 }
 
 export { Toolbox };
