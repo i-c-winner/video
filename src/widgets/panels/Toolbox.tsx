@@ -7,15 +7,20 @@ import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeChatVisible, changeModalVisible, setTypeModal } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
+import { constants } from '../../shared/config/constants';
 
 function Toolbox() {
+  interface IWidth {
+    WIDTH_HEIGHT: string,
+    WIDTH_MIDDLE: string,
+    WIDTH_LOW: string
+  }
   const refSettings = useRef<any>();
   const dispatch = useDispatch();
-  const { openModal, settings, type, width } = useSelector((state: any) => {
-
+  const { openModal, settings, type } = useSelector((state: any) => {
     return state.config.modal;
   });
-
+  const width: keyof IWidth= useSelector((state: any)=>state.config.modal.width)
   const [ open, setOpen ] = useState<boolean>(openModal);
 
   const [ visible, setVisible ] = useState<boolean>(true);
@@ -50,6 +55,11 @@ function Toolbox() {
     setOpen(false);
   }
 
+  function getWidth() {
+    const modal: IWidth = constants.modal;
+    return modal[width];
+  }
+
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
     return <Settings {...props} ref={ref}/>;
   });
@@ -68,7 +78,7 @@ function Toolbox() {
                                         content={iconExit.content}/>}></Button>
       <Modal
         sx={{
-          width: width.md,
+          width: getWidth(),
           bottom: 'initial'
         }}
         classes={{

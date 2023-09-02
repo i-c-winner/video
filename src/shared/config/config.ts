@@ -9,12 +9,8 @@ const config = {
     chatBoxVisible: false
   },
   modal: {
-    width: {
-      xl: '900px',
-      md: '750px',
-      ls: '400px'
-    },
-    openModal: true,
+    width: 'WIDTH_MIDDLE',
+    openModal: false,
     type: '',
     settings: {
       tabs: ['audio' , 'video', 'user'],
