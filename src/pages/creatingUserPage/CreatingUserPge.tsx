@@ -29,7 +29,8 @@ function CreatingUserPage() {
   const stylesSvgButton = {
     border: `1px solid ${theme.palette.background.paper}`,
     padding: "5px",
-    margin: "10px"
+    margin: "10px",
+    color: 'green'
   };
 
   function Actions() {

@@ -1,4 +1,11 @@
 const constants = {
+  icon: {
+    buttonIcon: {
+      width: "25px",
+      height: "25px",
+      viewBox: '0 0 25 25'
+    }
+  },
   modal: {
     WIDTH_HEIGHT: '900px',
     WIDTH_MIDDLE: '700px',

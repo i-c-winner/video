@@ -15,12 +15,13 @@ function Toolbox() {
     WIDTH_MIDDLE: string,
     WIDTH_LOW: string
   }
+
   const refSettings = useRef<any>();
   const dispatch = useDispatch();
   const { openModal, settings, type } = useSelector((state: any) => {
     return state.config.modal;
   });
-  const width: keyof IWidth= useSelector((state: any)=>state.config.modal.width)
+  const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
   const [ open, setOpen ] = useState<boolean>(openModal);
 
   const [ visible, setVisible ] = useState<boolean>(true);
@@ -69,13 +70,38 @@ function Toolbox() {
         onClick={() => {
           toolboxAction.apply({ dispatch, actionCreater: changeChatVisible });
         }}
+        classes={
+          {
+            startIcon: 'marginZero'
+          }
+        }
         startIcon={<CreateSvgIcon attributes={iconChat.attributes} styles={{ color: 'white' }}
                                   content={iconChat.content}/>}></Button>
-      <Button onClick={openSettings}
+      <Button
+        onClick={openSettings}
+              classes={
+                {
+                  startIcon: 'marginZero'
+                }
+              }
               startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconSettings.attributes}
                                         content={iconSettings.content}/>}></Button>
-      <Button startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconExit.attributes}
-                                        content={iconExit.content}/>}></Button>
+      <Button
+        onClick={()=>{
+        console.log('exit')
+        }
+        }
+        classes={
+        {
+          startIcon: 'marginZero'
+        }
+      } startIcon={<CreateSvgIcon
+        sizes={{
+        viewBox: '0 0 86 44',
+          width: '86px',
+          height: '44px'
+      }} attributes={iconExit.attributes}
+                                  content={iconExit.content}/>}></Button>
       <Modal
         sx={{
           width: getWidth(),

@@ -2,7 +2,11 @@ body {
   background-color: #1D565C;
   margin: initial;
 }
-
+button {
+  .marginZero {
+    margin: 0;
+  }
+}
 :root {
  --background-paper: #202f33;
 }

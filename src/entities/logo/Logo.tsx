@@ -15,18 +15,20 @@ function Logo() {
     }}>
       <CreateSvgIcon
         styles={{
-          marginRight: "10px"
+          marginRight: "10px",
+
         }}
         sizes={{
-          width: '50px',
-          height: '50px'
-        }}
-
+          width: '60px',
+          height: '60px',
+          viewBox: '0 0 32 32'
+        }
+        }
         attributes={iconLogo.attributes} content={iconLogo.content}/>
       <Typography sx={{
         color: 'white',
         fontSize: '35px'
-      }} >Glagol</Typography>
+      }}>Glagol</Typography>
     </Box>
 
   );

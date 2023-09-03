@@ -1,5 +1,5 @@
-const EN= {
-  UI:{
+const EN = {
+  UI: {
     createPage: {
       room: 'Room name',
       name: 'Your name'
@@ -12,6 +12,6 @@ const EN= {
     createRoom: "Create room",
     createName: "Your name",
   }
-}
+};
 
-export {EN}
+export { EN };
