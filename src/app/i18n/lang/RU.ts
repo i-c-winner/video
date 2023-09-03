@@ -1,4 +1,10 @@
 const RU= {
+  UI:{
+    createPage: {
+      room: 'Название комнаты',
+      name: 'Ваше имя'
+    }
+  },
   room: {
     roomName: "Комната: "
   },

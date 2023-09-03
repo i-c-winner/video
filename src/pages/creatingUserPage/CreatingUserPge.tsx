@@ -70,7 +70,9 @@ function CreatingUserPage() {
 
     }
   }
-
+function getPlaceholder(){
+  return text === "createName" ? t('UI.createPage.name')  : t('UI.createPage.room');
+}
   function closeVideo() {
     setOpenVideo(false);
   }
@@ -97,7 +99,9 @@ function CreatingUserPage() {
       });
     });
   }, []);
-
+useEffect(()=>{
+  if (text!=='Room') refInput.current.value=''
+}, [text])
   {
     return text !== "Room" ? <Box display="flex" justifyContent="space-between" width="650px" mx="auto" pt="300px">
       <Box
@@ -109,7 +113,7 @@ function CreatingUserPage() {
         }}
         width="300px">
         <TextField
-          placeholder="Введите имя"
+          placeholder={getPlaceholder()}
           InputProps={{
             classes: {
               root: "input-box",
