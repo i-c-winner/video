@@ -7,6 +7,7 @@ import router from "./router/router";
 import {store} from "./store/store";
 import {Provider} from "react-redux";
 import "./index.scss"
+import './i18n/i18n'
 
 const container =document.getElementById("root")
 if (container!==null) {

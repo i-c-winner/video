@@ -6,10 +6,12 @@ import { getRandomText } from "../../shared/lib/getRandomText";
 import { iconCamera, iconMicrophone } from "../../shared/img/svg";
 import { CreateSvgIcon } from "../../widgets/createSvgIcon/CreateSvgIcon";
 import { useTheme } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
 
 
 function CreatingUserPage() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const url = window.location.pathname.split('/')[1];
   const [ openVideo, setOpenVideo ] = useState<boolean>(false);
@@ -48,7 +50,7 @@ function CreatingUserPage() {
   }
 
   function getTextButton() {
-    return text === "createName" ? "Create NAme" : "Create ROom";
+    return text === "createName" ? t('buttons.createName')  : t('buttons.createRoom');
   }
 
   const refInput = useRef<any>("");
@@ -62,7 +64,7 @@ function CreatingUserPage() {
       }
       setText("createName");
     } else {
-      glagol.userDisplayName = refInput.current.value!==''? refInput.current.value :"I'm incognito";
+      glagol.userDisplayName = refInput.current.value !== '' ? refInput.current.value : "I'm incognito";
       glagol.userNode = getRandomText(8);
       setText("Room");
 
