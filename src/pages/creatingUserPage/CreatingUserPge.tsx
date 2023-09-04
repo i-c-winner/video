@@ -65,7 +65,7 @@ function CreatingUserPage() {
       if (refInput.current.value === "") {
         glagol.roomName = getRandomText(5);
       } else {
-        glagol.roomName = refInput.current.value;
+        glagol.roomName = refInput.current.value.toLowerCase();
       }
       setText("createName");
     } else {

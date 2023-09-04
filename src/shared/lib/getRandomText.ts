@@ -6,7 +6,7 @@ function getRandomText(number: number): string {
     const position = Math.floor(Math.random() * max_position);
     result = result + words.substring(position, position + 1);
   }
-  return result;
+  return result.toLowerCase();
 }
 
 export {getRandomText}

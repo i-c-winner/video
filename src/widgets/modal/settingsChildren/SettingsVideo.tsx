@@ -1,8 +1,5 @@
 import { ISettingsProps } from '../../types';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { constants } from '../../../shared/config/constants';
-import { Conference } from '../../../functions/Conference';
-const conference= new Conference()
 
 const qualityVideo = {
   HEIGHT: "Высокое",
