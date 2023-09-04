@@ -59,10 +59,11 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     }
 
     if (refContainer.current !== null) {
-      refText.current.addEventListener('keydown', listenerTextArea);
+        refText.current.addEventListener('keydown', listenerTextArea);
     }
     return () => {
-      refText.current.removeEventListener('keydown', listenerTextArea);
+      console.log(refText.current)
+     if (refText.current!==null) refText.current.removeEventListener('keydown', listenerTextArea);
     };
   }, [ props.chatBoxVisible ]);
   return props.chatBoxVisible ? <Box sx={
@@ -94,7 +95,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     <Box sx={{
       height: '100px'
     }}>
-      <textarea ref={refText} defaultValue="Введите сообщение" className="textarea textarea_chat-box" value={text} onChange={changeText}/>
+      <textarea ref={refText} placeholder='inter text' className="textarea textarea_chat-box" value={text} onChange={changeText}/>
       <Button onClick={sendText} variant="contained">Send</Button>
     </Box>
   </Box> : null;

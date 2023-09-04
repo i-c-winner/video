@@ -46,6 +46,10 @@ function CreatingUserPage() {
   }
 
   function switchOff() {
+    glagol.localStream?.getTracks().forEach((track)=>{
+      if (track.kind==='video') {
+      }
+    })
     setOpenAudio(false);
     setOpenVideo(false);
   }

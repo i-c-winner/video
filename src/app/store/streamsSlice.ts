@@ -14,7 +14,6 @@ const streamsSlice=createSlice({
         return state.streamsId.includes(id)
       }
       const id=action.payload
-
         if (!hasId(id)) {
           state.streamsId.push(id)
         }

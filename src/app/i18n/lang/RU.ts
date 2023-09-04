@@ -11,6 +11,11 @@ const RU= {
   buttons: {
     createRoom: "Создать комнату",
     createName: "Введите имя",
+    labels: {
+      settings_video: 'Настройки видео',
+      settings_audio: 'Настройки аудио',
+      settings_user: 'Настройки юзера'
+    }
   }
 }
 
