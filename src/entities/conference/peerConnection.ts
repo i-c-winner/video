@@ -70,8 +70,8 @@ public loop: string|null
     return PeerConnection.instance
   }
 
-  addTrack(track: MediaStreamTrack, stream: MediaStream) {
-    this.pc.addTrack(track, stream)
+  addTrack(track: MediaStreamTrack) {
+    this.pc.addTrack(track)
   }
 
   changeTranseivers(params: { audio: number, video: number }) {

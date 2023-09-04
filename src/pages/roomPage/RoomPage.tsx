@@ -29,10 +29,12 @@ function RoomPage() {
         audio: true
       }).then((stream: any) => {
         stream.getTracks().forEach((track: any) => {
-          conference.addTrack(track, stream);
+          const as=new MediaStream
+          conference.addTrack(track);
         });
       });
     }
+
   }, [ isPending ]);
   if (isPending) return <>...isPending</>;
   if (data) {
@@ -135,6 +137,10 @@ function RoomPage() {
       justifyContent: 'space-between'
     }}>
       <BigScreen/>
+      <button onClick={()=>{
+        debugger
+        console.log(conference.getPeerConnection().pc.getSenders())}
+      }>Click</button>
     </Box>;
   }
 }

@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeChatVisible, changeModalVisible, setTypeModal } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
-
 function Toolbox() {
   interface IWidth {
     WIDTH_HEIGHT: string,
@@ -61,9 +60,12 @@ function Toolbox() {
     return modal[width];
   }
 
+  function exit() {
+  }
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
     return <Settings {...props} ref={ref}/>;
   });
+
   return (
     <Box sx={getStyleToolbox()}>
       <Button
@@ -87,10 +89,7 @@ function Toolbox() {
               startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconSettings.attributes}
                                         content={iconSettings.content}/>}></Button>
       <Button
-        onClick={()=>{
-        console.log('exit')
-        }
-        }
+        onClick={exit }
         classes={
         {
           startIcon: 'marginZero'
