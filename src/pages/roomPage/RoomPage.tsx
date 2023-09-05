@@ -28,20 +28,17 @@ function RoomPage() {
         video: true,
         audio: true
       }).then((stream: any) => {
+        glagol.localStreamForPeer = stream;
         stream.getTracks().forEach((track: any) => {
-          const as = new MediaStream;
           conference.addTrack(track);
+          conference.changeQualityVideo(videoQuantity);
         });
       });
     }
   }, [ isPending ]);
   useEffect(() => {
-    if (videoEnabled) {
-      conference.changeQulityVideo(videoQuantity);
-    } else {
-
-    }
-  }, [ videoEnabled, audioEnabled, videoQuantity ]);
+      conference.changeQualityVideo(videoQuantity);
+  }, [ videoQuantity ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {

@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function allProps(index: number) {
-
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
@@ -20,8 +19,6 @@ const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, r
   function handlerChange(event: React.SyntheticEvent, newValue: number) {
     setValue(+newValue);
   }
-
-  console.log(props.onFocus, 'Props');
   return (
     <Box>
       <Box  sx={{

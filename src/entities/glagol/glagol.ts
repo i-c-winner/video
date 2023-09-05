@@ -6,7 +6,8 @@ const glagol: Glagol= {
   roomName: "",
   currentStreams: {
   },
-  localStream: null
+  localStream: null,
+  localStreamForPeer: null
 }
 
 export {glagol}

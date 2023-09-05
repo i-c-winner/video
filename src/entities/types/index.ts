@@ -9,6 +9,7 @@ interface Glagol {
       stream: MediaStream
     }
   },
-  localStream: MediaStream|null
+  localStream: MediaStream|null,
+  localStreamForPeer: MediaStream| null
 }
 export type {Glagol}

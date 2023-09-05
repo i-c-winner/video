@@ -9,7 +9,8 @@ import { useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeVideoEnabled, changeAudioEnabled } from '../../app/store/configSlice';
+import {changeQuantityVideo} from '../../app/store/configSlice';
+import * as constants from 'constants';
 
 
 function CreatingUserPage() {
@@ -20,7 +21,8 @@ function CreatingUserPage() {
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
   const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
   const refVideo = useRef<any>(null);
-  const {videoEnabled, audioEnabled} = useSelector((state: any)=> state.config.conference)
+  const {videoQuantity, audioQuantity} = useSelector((state: any)=> state.config.conference)
+
   type TSelectedType = 'microphone' | 'camera'
 
 
@@ -40,14 +42,14 @@ function CreatingUserPage() {
  function stylesSvgButtonCamera() {
    return {
      ...stylesSvgButton,
-     color: videoEnabled? 'green': 'red'
+     color: videoQuantity!=='disabled'? 'green': 'red'
    }
   }
 
   function stylesSvgButtonMicrophone() {
    return {
      ...stylesSvgButton,
-     color: audioEnabled? 'green': 'red'
+     color: audioQuantity? 'green': 'red'
    }
   }
 
@@ -60,18 +62,17 @@ function CreatingUserPage() {
 
   function switchOn() {
     if (selectedType === 'camera') {
-      dispatch(changeVideoEnabled(true));
+      dispatch(changeQuantityVideo('VIDEO_MIDDLE'));
     } else {
-      dispatch(changeAudioEnabled(true));
+
     }
     setModalIsOpen(false)
   }
 
   function switchOff() {
     if (selectedType === 'camera') {
-      dispatch(changeVideoEnabled(false));
+      dispatch(changeQuantityVideo('disabled'));
     } else {
-      dispatch(changeAudioEnabled(false));
     }
     setModalIsOpen(false)
   }

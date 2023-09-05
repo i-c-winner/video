@@ -17,12 +17,6 @@ const configSlice = createSlice({
     changeModalVisible: ((state: any, action) => {
       state.modal.openModal = action.payload;
     }),
-    changeVideoEnabled: ((state: any, action) => {
-      state.conference.videoEnabled = action.payload;
-    }),
-    changeAudioEnabled: ((state: any, action) => {
-      state.conference.audioEnabled = action.payload;
-    }),
     changeQuantityVideo: ((state: any, action) => {
       state.conference.videoQuantity = action.payload;
     })
@@ -30,11 +24,8 @@ const configSlice = createSlice({
 });
 export const {
   changeChatVisible,
-  setSelectedTab,
   setTypeModal,
   changeModalVisible,
-  changeVideoEnabled,
-  changeAudioEnabled,
   changeQuantityVideo
 } = configSlice.actions;
 export default configSlice.reducer;

@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, Button, Modal } from '@mui/material';
-import { useState } from 'react';
 import { iconChat, iconSettings, iconExit } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
@@ -21,7 +20,6 @@ function Toolbox() {
     return state.config.modal;
   });
   const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
-  const [ open, setOpen ] = useState<boolean>(openModal);
 
   const [ visible, setVisible ] = useState<boolean>(true);
   const baseStyle = {
@@ -46,13 +44,13 @@ function Toolbox() {
   }
 
   function openSettings() {
-    setOpen(true);
+    dispatch(changeModalVisible(true))
     dispatch(setTypeModal('settings'));
     dispatch(changeModalVisible(true));
   }
 
   function handlerClose() {
-    setOpen(false);
+    dispatch(changeModalVisible(false))
   }
 
   function getWidth() {
@@ -109,7 +107,7 @@ function Toolbox() {
         classes={{
           root: 'modal_settings'
         }
-        } open={open} onClose={handlerClose} children={<SettingsRef ref={refSettings}/>}></Modal>
+        } open={openModal} onClose={handlerClose} children={<SettingsRef ref={refSettings}/>}></Modal>
     </Box>
   );
 }
