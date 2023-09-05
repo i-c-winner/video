@@ -38,11 +38,10 @@ function RoomPage() {
   useEffect(() => {
     if (videoEnabled) {
       conference.changeQulityVideo(videoQuantity);
-      console.log('videonabled');
     } else {
 
     }
-  }, [ videoEnabled, audioEnabled ]);
+  }, [ videoEnabled, audioEnabled, videoQuantity ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {

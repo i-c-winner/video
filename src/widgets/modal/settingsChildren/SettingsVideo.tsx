@@ -1,6 +1,6 @@
 import { ISettingsProps } from '../../types';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {changeQuantityVideo} from '../../../app/store/configSlice';
 
 const qualityVideo = {
@@ -11,6 +11,7 @@ const qualityVideo = {
 
 function SettingsVideo(props: ISettingsProps) {
   const dispatch=useDispatch()
+  const {videoQuantity}= useSelector((state: any)=>state.config.conference)
   function changeButton(event: any) {
     dispatch(changeQuantityVideo(event.target.value))
   }
@@ -25,7 +26,7 @@ function SettingsVideo(props: ISettingsProps) {
         *DO TO Необходимо определить начальное качество видео в
         зависимости от настроек
         */
-        defaultValue={qualityVideo.MIDDLE}
+        defaultValue={videoQuantity}
         name="radio-buttons-group"
         onChange={changeButton}
       >
