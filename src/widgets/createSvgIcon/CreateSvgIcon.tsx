@@ -13,7 +13,7 @@ interface Props {
     viewBox: string
   }
   styles?: {
-    [key: string]: string
+    [key: string]: string | (()=>string)
   }
 }
 

@@ -8,7 +8,7 @@ import { CreateSvgIcon } from "../../widgets/createSvgIcon/CreateSvgIcon";
 import { useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeVideoEnabled, changeAudioEnabled } from '../../app/store/configSlice';
 
 
@@ -20,6 +20,7 @@ function CreatingUserPage() {
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
   const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
   const refVideo = useRef<any>(null);
+  const {videoEnabled, audioEnabled} = useSelector((state: any)=> state.config.conference)
   type TSelectedType = 'microphone' | 'camera'
 
 
@@ -34,9 +35,21 @@ function CreatingUserPage() {
   const stylesSvgButton = {
     border: `1px solid ${theme.palette.background.paper}`,
     padding: "5px",
-    margin: "10px",
-    color: 'green'
+    margin: "10px"
   };
+ function stylesSvgButtonCamera() {
+   return {
+     ...stylesSvgButton,
+     color: videoEnabled? 'green': 'red'
+   }
+  }
+
+  function stylesSvgButtonMicrophone() {
+   return {
+     ...stylesSvgButton,
+     color: audioEnabled? 'green': 'red'
+   }
+  }
 
   function Actions() {
     return <DialogActions>
@@ -143,11 +156,11 @@ function CreatingUserPage() {
           <Box>
             <Button onClick={openingModal.bind({ type: 'camera' })}
                     startIcon={<CreateSvgIcon
-                      styles={stylesSvgButton} attributes={iconCamera.attributes}
+                      styles={stylesSvgButtonCamera()} attributes={iconCamera.attributes}
                       content={iconCamera.content}/>}/>
             <Button onClick={openingModal.bind({ type: 'microphone' })}
                     startIcon={<CreateSvgIcon
-                      styles={stylesSvgButton} attributes={iconMicrophone.attributes}
+                      styles={stylesSvgButtonMicrophone()} attributes={iconMicrophone.attributes}
                       content={iconMicrophone.content}/>}/>
           </Box>
           <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
