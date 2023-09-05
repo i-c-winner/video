@@ -14,16 +14,27 @@ const configSlice = createSlice({
     setTypeModal: ((state, action) => {
       state.modal.type = action.payload;
     }),
-    changeModalVisible: ((state: any, action)=>{
-      state.modal.openModal=action.payload
+    changeModalVisible: ((state: any, action) => {
+      state.modal.openModal = action.payload;
     }),
-    changeVideoEnabled: ((state: any, action)=>{
-      state.conference.videoEnabled=action.payload
+    changeVideoEnabled: ((state: any, action) => {
+      state.conference.videoEnabled = action.payload;
     }),
-    changeAudioEnabled: ((state: any, action)=>{
-      state.conference.audioEnabled=action.payload
+    changeAudioEnabled: ((state: any, action) => {
+      state.conference.audioEnabled = action.payload;
+    }),
+    changeQuantityVideo: ((state: any, action) => {
+      state.conference.videoQuantity = action.payload;
     })
   }
 });
-export const { changeChatVisible, setSelectedTab, setTypeModal, changeModalVisible, changeVideoEnabled, changeAudioEnabled } = configSlice.actions;
+export const {
+  changeChatVisible,
+  setSelectedTab,
+  setTypeModal,
+  changeModalVisible,
+  changeVideoEnabled,
+  changeAudioEnabled,
+  changeQuantityVideo
+} = configSlice.actions;
 export default configSlice.reducer;

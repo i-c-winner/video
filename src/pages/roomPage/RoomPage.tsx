@@ -10,7 +10,6 @@ import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
 
 let firstLoad = true;
-
 const conference = new Conference();
 
 const connection = async () => {
@@ -19,11 +18,8 @@ const connection = async () => {
 };
 
 function RoomPage() {
+  const { videoEnabled, audioEnabled, videoQuantity } = useSelector((state: any) => state.config.conference);
   const dispatch = useDispatch();
-  const {videoEnabled, audioEnabled}= useSelector((state: any)=>{
-
-   return  state.config.conference
-  })
   window.history.replaceState({}, '', glagol.roomName);
   const { data, error, isPending } = useAsync(connection);
   useEffect(() => {
@@ -33,23 +29,24 @@ function RoomPage() {
         audio: true
       }).then((stream: any) => {
         stream.getTracks().forEach((track: any) => {
-          const as=new MediaStream
+          const as = new MediaStream;
           conference.addTrack(track);
         });
       });
     }
   }, [ isPending ]);
-  useEffect(()=>{
+  useEffect(() => {
     if (videoEnabled) {
-console.log('videonabled')
+      conference.changeQulityVideo(videoQuantity);
+      console.log('videonabled');
     } else {
-console.log('videoenabled')
+
     }
-  },[videoEnabled, audioEnabled])
+  }, [ videoEnabled, audioEnabled ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
-      console.log(conference.getPeerConnection().pc.getSenders())
+      console.log(conference.getPeerConnection().pc.getSenders());
       conference.XmppOn("createRoom", createRoom);
       conference.XmppOn("validateRoom", validateRoom);
       conference.XmppOn("inviteRoom", inviteRoom);
@@ -148,10 +145,6 @@ console.log('videoenabled')
       justifyContent: 'space-between'
     }}>
       <BigScreen/>
-      <button onClick={()=>{
-        debugger
-        console.log(conference.getPeerConnection().pc.getSenders())}
-      }>Click</button>
     </Box>;
   }
 }

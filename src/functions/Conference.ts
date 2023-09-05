@@ -35,6 +35,9 @@ class Conference {
   send(message: any) {
     this.xmpp.connection.send(message);
   }
+  changeQulityVideo(props: {quality: 'VIDEO_HEIGTH' | 'VIDEO_MIDDLE' | 'VIDEO_LOW'} ) {
+    this.peerConnection.changeConstraints(props.quality)
+  }
 
   addCallbacks() {
     this.XmppOn('addTrack', (params: [ {

@@ -108,6 +108,9 @@ public loop: string|null
     })
     this.createAnswer()
   }
+  changeConstraints(quality: 'VIDEO_HEIGTH' | 'VIDEO_MIDDLE' | 'VIDEO_LOW') {
+  console.log(this.pc)
+  }
 
   createAnswer() {
     this.pc.createAnswer({

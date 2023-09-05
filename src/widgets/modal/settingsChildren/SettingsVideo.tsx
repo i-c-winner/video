@@ -1,5 +1,7 @@
 import { ISettingsProps } from '../../types';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import {changeQuantityVideo} from '../../../app/store/configSlice';
 
 const qualityVideo = {
   HEIGHT: "Высокое",
@@ -8,19 +10,9 @@ const qualityVideo = {
 };
 
 function SettingsVideo(props: ISettingsProps) {
+  const dispatch=useDispatch()
   function changeButton(event: any) {
-    switch (event.target.value) {
-      case qualityVideo.HEIGHT:
-
-        break
-      case qualityVideo.MIDDLE:
-
-        break
-      case qualityVideo.LOW:
-
-        break
-      case "disabledVideo":
-    }
+    dispatch(changeQuantityVideo(event.target.value))
   }
 
   const { value, index } = props;
@@ -37,9 +29,9 @@ function SettingsVideo(props: ISettingsProps) {
         name="radio-buttons-group"
         onChange={changeButton}
       >
-        <FormControlLabel value={qualityVideo.HEIGHT} control={<Radio/>} label={qualityVideo.HEIGHT}/>
-        <FormControlLabel value={qualityVideo.MIDDLE} control={<Radio/>} label={qualityVideo.MIDDLE}/>
-        <FormControlLabel value={qualityVideo.LOW} control={<Radio/>} label={qualityVideo.LOW}/>
+        <FormControlLabel value={'VIDEO_HEIGHT'} control={<Radio/>} label={qualityVideo.HEIGHT}/>
+        <FormControlLabel value={'VIDEO_MIDDLE'} control={<Radio/>} label={qualityVideo.MIDDLE}/>
+        <FormControlLabel value={'VIDEO_LOW'} control={<Radio/>} label={qualityVideo.LOW}/>
         <FormControlLabel value="disabledVideo" control={<Radio/>} label="disable video"/>
       </RadioGroup>
     </FormControl>
