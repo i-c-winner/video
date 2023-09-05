@@ -1,4 +1,8 @@
 const config = {
+  conference: {
+    videoEnabled: false,
+    audioEnabled: true
+  },
   UI: {
     chatBoxVisible: false,
     position: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL'

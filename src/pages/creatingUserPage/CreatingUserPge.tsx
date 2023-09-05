@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogTitle, TextField } from "@mui/material";
 import { glagol } from "../../entities/glagol/glagol";
 import { RoomPage } from "../index";
 import { getRandomText } from "../../shared/lib/getRandomText";
@@ -8,15 +8,20 @@ import { CreateSvgIcon } from "../../widgets/createSvgIcon/CreateSvgIcon";
 import { useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
+import { useDispatch } from 'react-redux';
+import { changeVideoEnabled, changeAudioEnabled } from '../../app/store/configSlice';
 
 
 function CreatingUserPage() {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const url = window.location.pathname.split('/')[1];
-  const [ openVideo, setOpenVideo ] = useState<boolean>(false);
-  const [ openAudio, setOpenAudio ] = useState<boolean>(false);
+  const [ modalIsOpen, setModalIsOpen ] = useState(false);
+  const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
   const refVideo = useRef<any>(null);
+  type TSelectedType = 'microphone' | 'camera'
+
 
   const stateValue = () => {
     if (url !== "") {
@@ -41,21 +46,25 @@ function CreatingUserPage() {
   }
 
   function switchOn() {
-    setOpenAudio(false);
-    setOpenVideo(false);
+    if (selectedType === 'camera') {
+      dispatch(changeVideoEnabled(true));
+    } else {
+      dispatch(changeAudioEnabled(true));
+    }
+    setModalIsOpen(false)
   }
 
   function switchOff() {
-    glagol.localStream?.getTracks().forEach((track)=>{
-      if (track.kind==='video') {
-      }
-    })
-    setOpenAudio(false);
-    setOpenVideo(false);
+    if (selectedType === 'camera') {
+      dispatch(changeVideoEnabled(false));
+    } else {
+      dispatch(changeAudioEnabled(false));
+    }
+    setModalIsOpen(false)
   }
 
   function getTextButton() {
-    return text === "createName" ? t('buttons.createName')  : t('buttons.createRoom');
+    return text === "createName" ? t('buttons.createName') : t('buttons.createRoom');
   }
 
   const refInput = useRef<any>("");
@@ -72,26 +81,29 @@ function CreatingUserPage() {
       glagol.userDisplayName = refInput.current.value !== '' ? refInput.current.value : "I'm incognito";
       glagol.userNode = getRandomText(8);
       setText("Room");
-
     }
   }
-function getPlaceholder(){
-  return text === "createName" ? t('UI.createPage.name')  : t('UI.createPage.room');
-}
-  function closeVideo() {
-    setOpenVideo(false);
+
+  function getPlaceholder() {
+    return text === "createName" ? t('UI.createPage.name') : t('UI.createPage.room');
+  }
+  function openingModal(this: { type: TSelectedType }) {
+    setSelectedType(this.type);
+    setModalIsOpen(true);
   }
 
-  function closeAudio() {
-    setOpenAudio(false);
-  }
-
-  function openingVideo() {
-    setOpenVideo(true);
-  }
-
-  function openingAudio() {
-    setOpenAudio(true);
+  const DialogBox = (props: { type: TSelectedType }) => {
+    return <Dialog
+      open={modalIsOpen}
+      onClose={closingModal}>
+      <DialogTitle>
+        <p>{props.type}</p>
+      </DialogTitle>
+      <Actions/>
+    </Dialog>;
+  };
+  function closingModal() {
+    setModalIsOpen(false);
   }
 
   useEffect(() => {
@@ -104,60 +116,47 @@ function getPlaceholder(){
       });
     });
   }, []);
-useEffect(()=>{
-  if (text!=='Room') refInput.current.value=''
-}, [text])
+  useEffect(() => {
+    if (text !== 'Room') refInput.current.value = '';
+  }, [ text ]);
   {
-    return text !== "Room" ? <Box display="flex" justifyContent="space-between" width="650px" mx="auto" pt="300px">
-      <Box
-        sx={{
-          display: "flex",
-          flexFlow: "column",
-          paddingTop: "25px",
-          alignItems: "center",
-        }}
-        width="300px">
-        <TextField
-          placeholder={getPlaceholder()}
-          InputProps={{
-            classes: {
-              root: "input-box",
-              input: "input-box_creating"
-            }
+    return text !== "Room" ?
+      <Box display="flex" justifyContent="space-between" width="650px" mx="auto" pt="300px">
+        <Box
+          sx={{
+            display: "flex",
+            flexFlow: "column",
+            paddingTop: "25px",
+            alignItems: "center",
           }}
-          inputRef={refInput}
-        />
-        <Box>
-          <Button onClick={openingVideo}
-                  startIcon={<CreateSvgIcon styles={stylesSvgButton} attributes={iconCamera.attributes}
-                                            content={iconCamera.content}/>}/>
-          <Dialog
-            open={openVideo}
-            onClose={closeVideo}>
-            <DialogTitle>
-              <p>Settings video</p>
-            </DialogTitle>
-            <Actions/>
-          </Dialog>
-
-          <Button onClick={openingAudio}
-                  startIcon={<CreateSvgIcon styles={stylesSvgButton} attributes={iconMicrophone.attributes}
-                                            content={iconMicrophone.content}/>}/>
+          width="300px">
+          <TextField
+            placeholder={getPlaceholder()}
+            InputProps={{
+              classes: {
+                root: "input-box",
+                input: "input-box_creating"
+              }
+            }}
+            inputRef={refInput}
+          />
+          <Box>
+            <Button onClick={openingModal.bind({ type: 'camera' })}
+                    startIcon={<CreateSvgIcon
+                      styles={stylesSvgButton} attributes={iconCamera.attributes}
+                      content={iconCamera.content}/>}/>
+            <Button onClick={openingModal.bind({ type: 'microphone' })}
+                    startIcon={<CreateSvgIcon
+                      styles={stylesSvgButton} attributes={iconMicrophone.attributes}
+                      content={iconMicrophone.content}/>}/>
+          </Box>
+          <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
+          <DialogBox type={selectedType}/>
         </Box>
-        <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
-        <Dialog
-          open={openAudio}
-          onClose={closeAudio}>
-          <DialogTitle>
-            <p>Settings video</p>
-          </DialogTitle>
-          <Actions/>
-        </Dialog>
-      </Box>
-      <Box width="300px">
-        <video className="video video__createscreen" autoPlay={true} ref={refVideo}/>
-      </Box>
-    </Box> : <RoomPage/>;
+        <Box width="300px">
+          <video className="video video__createscreen" autoPlay={true} ref={refVideo}/>
+        </Box>
+      </Box> : <RoomPage/>;
   }
 }
 

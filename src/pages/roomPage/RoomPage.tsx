@@ -3,7 +3,7 @@ import { Conference } from "../../functions/Conference";
 import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addStream, removeStream } from "../../app/store/streamsSlice";
 import { Box } from "@mui/material";
 import { BigScreen } from "../../widgets/bigScreen/BigScreen";
@@ -20,6 +20,10 @@ const connection = async () => {
 
 function RoomPage() {
   const dispatch = useDispatch();
+  const {videoEnabled, audioEnabled}= useSelector((state: any)=>{
+
+   return  state.config.conference
+  })
   window.history.replaceState({}, '', glagol.roomName);
   const { data, error, isPending } = useAsync(connection);
   useEffect(() => {
@@ -34,11 +38,18 @@ function RoomPage() {
         });
       });
     }
-
   }, [ isPending ]);
+  useEffect(()=>{
+    if (videoEnabled) {
+console.log('videonabled')
+    } else {
+console.log('videoenabled')
+    }
+  },[videoEnabled, audioEnabled])
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
+      console.log(conference.getPeerConnection().pc.getSenders())
       conference.XmppOn("createRoom", createRoom);
       conference.XmppOn("validateRoom", validateRoom);
       conference.XmppOn("inviteRoom", inviteRoom);
