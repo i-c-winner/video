@@ -6,7 +6,7 @@ const config = {
   UI: {
     chatBoxVisible: false,
     disposition: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL',
-    tittle: true
+    tittle: false
   },
   modal: {
     width: 'WIDTH_MIDDLE',

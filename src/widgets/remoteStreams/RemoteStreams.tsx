@@ -16,12 +16,10 @@ function RemoteStreams(props: { streamId: string }) {
   return (
       <Card sx={
         {
-          width: '320px',
           flexShrink: '0'
         }
       }>
         <CardMedia sx={{
-          width: '300px'
         }}>
           <video className='video__remoutstream' autoPlay={true} ref={refVideo}/>
         </CardMedia>
