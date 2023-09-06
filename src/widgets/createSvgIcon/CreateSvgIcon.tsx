@@ -8,9 +8,9 @@ interface Props {
   },
   content: string,
   sizes?: {
-    width: string,
-    height: string,
-    viewBox: string
+    width?: string,
+    height?: string,
+    viewBox?: string
   }
   styles?: {
     [key: string]: string | (()=>string)

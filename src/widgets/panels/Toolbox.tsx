@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Box, Button, Modal } from '@mui/material';
-import { iconChat, iconSettings, iconExit } from '../../shared/img/svg';
+import { iconChat, iconSettings, iconExit, iconTittle } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeChatVisible, changeModalVisible, setTypeModal } from '../../app/store/configSlice';
+import { changeChatVisible, changeModalVisible, setTypeModal, changeTittle } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
 function Toolbox() {
@@ -19,6 +19,7 @@ function Toolbox() {
   const { openModal, settings, type } = useSelector((state: any) => {
     return state.config.modal;
   });
+  const {tittle}= useSelector((state: any)=>state.config.UI)
   const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
 
   const [ visible, setVisible ] = useState<boolean>(true);
@@ -60,6 +61,13 @@ function Toolbox() {
 
   function exit() {
   }
+  function changingTittle() {
+    dispatch(changeTittle(!tittle))
+  }
+  function getColorForTittleButton() {
+    return tittle? { color: 'green' }: {color: 'white'}
+  }
+
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
     return <Settings {...props} ref={ref}/>;
   });
@@ -86,6 +94,15 @@ function Toolbox() {
               }
               startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconSettings.attributes}
                                         content={iconSettings.content}/>}></Button>
+      <Button
+        onClick={changingTittle}
+        classes={
+          {
+            startIcon: 'marginZero'
+          }
+        }
+        startIcon={<CreateSvgIcon sizes={{viewBox: '15 15 30 30'}} styles={getColorForTittleButton()} attributes={iconTittle.attributes}
+                                  content={iconTittle.content}/>}></Button>
       <Button
         onClick={exit }
         classes={

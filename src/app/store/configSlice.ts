@@ -19,6 +19,9 @@ const configSlice = createSlice({
     }),
     changeQuantityVideo: ((state: any, action) => {
       state.conference.videoQuantity = action.payload;
+    }),
+    changeTittle: ((state: any, action)=>{
+      state.UI.tittle=action.payload
     })
   }
 });
@@ -26,6 +29,7 @@ export const {
   changeChatVisible,
   setTypeModal,
   changeModalVisible,
-  changeQuantityVideo
+  changeQuantityVideo,
+  changeTittle
 } = configSlice.actions;
 export default configSlice.reducer;
