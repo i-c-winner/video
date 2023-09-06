@@ -1,11 +1,11 @@
 const config = {
   conference: {
     videoQuantity: 'VIDEO_MIDDLE',
-    audioQuantity: 'sample'
+    audioQuantity: 'enabled'
   },
   UI: {
     chatBoxVisible: false,
-    position: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL'
+    disposition: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL'
   },
   modal: {
     width: 'WIDTH_MIDDLE',
