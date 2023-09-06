@@ -5,7 +5,8 @@ const config = {
   },
   UI: {
     chatBoxVisible: false,
-    disposition: 'HORIZONTAL' as 'VERTICAL'|'HORIZONTAL'
+    disposition: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL',
+    tittle: true
   },
   modal: {
     width: 'WIDTH_MIDDLE',

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Pagination } from '@mui/material';
 import { Header } from '../panels/Header';
 import { Toolbox } from '../panels/Toolbox';
 import { useEffect, useRef } from 'react';
@@ -16,6 +16,18 @@ function LocalStreamsBox() {
     }}>
       <Header/>
       <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>
+      <Pagination
+        sx={
+          {
+            padding: '5px 10px',
+            position: 'absolute',
+            bottom: '65px',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%'
+          }
+        }
+        showFirstButton={true} showLastButton={true} variant="outlined" count={10} hidePrevButton hideNextButton/>
       <Toolbox/>
     </Box>
   );
