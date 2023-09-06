@@ -19,7 +19,7 @@ function RemoteStreamsBox() {
   useEffect(() => {
     if (tittle) {
       setStyles({
-        backgroundColor: 'green'
+        display: 'none'
       })
     } else {
       if (disposition === 'VERTICAL') {

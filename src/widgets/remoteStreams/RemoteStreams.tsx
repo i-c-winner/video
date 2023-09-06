@@ -3,8 +3,6 @@ import { glagol } from "../../entities/glagol/glagol";
 import { Card, CardMedia } from '@mui/material';
 import { PeerConnection } from '../../entities/conference/peerConnection';
 
-const peerConnection = new PeerConnection('https://xmpp.prosolen.net:5281/http-bind');
-
 function RemoteStreams(props: { streamId: string }) {
   const refVideo = useRef<any>(null);
   useEffect(() => {

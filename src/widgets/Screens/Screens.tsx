@@ -5,7 +5,6 @@ import { RemoteStreamsBox } from '../remoteStreams/RemoteStreamsBox';
 import { LocalStreamsBox } from '../localStreams/LocalStreamsBox';
 
 function Screens() {
-
   return (
     <Box sx={{
       display: 'flex',
