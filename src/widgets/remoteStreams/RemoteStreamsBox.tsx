@@ -32,13 +32,12 @@ function RemoteStreamsBox() {
         bottom: '70px',
         left: '10px',
         backgroundColor: 'background.paper',
-        padding: '5px 10px',
         display: 'flex',
         flexFlow: 'row',
+        'flexWrap': 'nowrap',
         height: '220px',
-        flexGrow: '1',
-        "max-width": '95%',
-        "overflow-x": 'auto',
+        "maxWidth": '95%',
+        "overflowX": 'auto',
       });
     }
     ;

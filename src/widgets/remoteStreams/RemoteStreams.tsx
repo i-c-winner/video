@@ -16,7 +16,12 @@ function RemoteStreams(props: { streamId: string }) {
 
   }, [props.streamId]);
   return (
-      <Card>
+      <Card sx={
+        {
+          width: '320px',
+          flexShrink: '0'
+        }
+      }>
         <CardMedia sx={{
           width: '300px'
         }}>
