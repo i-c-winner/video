@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { glagol } from "../../entities/glagol/glagol";
 import { Card, CardMedia } from '@mui/material';
-import { PeerConnection } from '../../entities/conference/peerConnection';
 
 function RemoteStreams(props: { streamId: string }) {
   const refVideo = useRef<any>(null);

@@ -23,6 +23,9 @@ function LocalStreamsBox() {
     setPage(page);
     setSource(() => streamsId.slice(30 * (page - 1), (30 + page)));
   }
+  function getMaxPages() {
+    return Math.ceil(streamsId.length/30)||1
+  }
   useEffect(() => {
     setSource(() => {
       return streamsId.slice(30 * (page - 1), (30 + page));
@@ -30,7 +33,7 @@ function LocalStreamsBox() {
   }, [ streamsId ]);
   useEffect(()=>{
     if (refVideo.current!==null) refVideo.current.srcObject=glagol.localStream
-  }, [])
+  }, [tittle])
   return (
     <Box sx={{
       flexGrow: '1',
@@ -45,38 +48,33 @@ function LocalStreamsBox() {
               left: '0',
               right: '0',
               bottom: '110px',
-              border: '1px solid red',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
               gridTemplateRows: '1fr 1fr 1fr 1fr 1fr'
             }}
           >
             {cells.map((index) => {
-              console.log(index);
               const value: string = source[index];
               return <Box
-                sx={{
-                  border: '1px solid green',
-                }}
+                key={index}
               >
                 {value ? <RemoteStreams streamId={value}/> : null}
               </Box>;
             })}
             {/*{source.map((id: string, index: number) => <RemoteStreams key={index} streamId={id}/>)}*/}
           </Box>
-          <Pagination
-            onChange={changePage}
-            sx={
-              {
-                padding: '5px 10px',
-                position: 'absolute',
-                bottom: '65px',
-                justifyContent: 'center',
-                display: 'flex',
-                width: '100%'
-              }
-            }
-            showFirstButton={true} showLastButton={true} variant="outlined" count={10} hidePrevButton hideNextButton/>
+        {getMaxPages()>1?<Pagination
+        onChange={changePage}
+        sx={
+          {
+            position: 'absolute',
+            bottom: '65px',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%'
+          }
+        }
+        showFirstButton={true} showLastButton={true} variant="outlined" count={getMaxPages()} hidePrevButton hideNextButton/>: null}
         </Box>: <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>}
       <Toolbox/>
     </Box>

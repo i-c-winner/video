@@ -39,10 +39,10 @@ function RemoteStreamsBox() {
           backgroundColor: 'background.paper',
           display: 'flex',
           flexFlow: 'row',
-          'flexWrap': 'nowrap',
+          flexWrap: 'nowrap',
           height: '220px',
-          "maxWidth": '95%',
-          "overflowX": 'auto',
+          maxWidth: '95%',
+          overflowX: 'auto',
         });
       }
     }
