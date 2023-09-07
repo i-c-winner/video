@@ -14,7 +14,6 @@ function SettingsVideo(props: ISettingsProps) {
   const { videoQuantity } = useSelector((state: any) => state.config.conference);
 
   function changeButton(event: any) {
-    dispatch(changeModalVisible(false));
     dispatch(changeQuantityVideo(event.target.value));
   }
 

@@ -4,6 +4,8 @@ import { SettingsAudio } from './SettingsAudio';
 import { SettingsUser } from './SettingsUser';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import {changeSelectedTab} from '../../../app/store/configSlice';
 
 function allProps(index: number) {
   return {
@@ -13,11 +15,14 @@ function allProps(index: number) {
 }
 
 const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, ref) => {
-  const [ value, setValue ] = useState<number>(0);
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
+  const {tabs, selectedTab}= useSelector((state: any)=> state.config.modal.settings)
+ const dispatch=useDispatch()
+  const [ value, setValue ] = useState<number>(selectedTab);
   function handlerChange(event: React.SyntheticEvent, newValue: number) {
-    setValue(+newValue);
+    dispatch(changeSelectedTab(newValue))
+    setValue(newValue);
   }
   return (
     <Box>
@@ -27,7 +32,7 @@ const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, r
         marginBottom: '25px'
       }}>
         <Tabs
-          value={+value} onChange={handlerChange} aria-label="basic tabs example">
+          value={value} onChange={handlerChange} aria-label="basic tabs example">
           <Tab label={t('buttons.labels.settings_video')} tabIndex={0} onFocus={props.onFocus} {...allProps(0)}></Tab>
           <Tab label={t('buttons.labels.settings_audio')} tabIndex={1} onFocus={props.onFocus}  {...allProps(1)}></Tab>
           <Tab label={t('buttons.labels.settings_user')} tabIndex={2} onFocus={props.onFocus}  {...allProps(2)}></Tab>

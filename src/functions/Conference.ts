@@ -39,6 +39,9 @@ class Conference {
   changeQualityVideo(type: 'VIDEO_HEIGHT' | 'VIDEO_MIDDLE' | 'VIDEO_LOW' | 'disabled' ) {
     this.peerConnection.changeConstraints(type);
   }
+  changeAudio(state: boolean){
+    this.peerConnection.changeAudio(state)
+  }
   addCallbacks() {
     this.XmppOn('addTrack', (params: [ {
       audio: number,

@@ -1,7 +1,7 @@
 const config = {
   conference: {
     videoQuantity: 'VIDEO_MIDDLE',
-    audioQuantity: 'enabled'
+    audioStream: true
   },
   UI: {
     chatBoxVisible: false,
@@ -14,7 +14,7 @@ const config = {
     type: '',
     settings: {
       tabs: ['audio' , 'video', 'user'],
-      selectedTab: undefined
+      selectedTab: 0
     }
   }
 };

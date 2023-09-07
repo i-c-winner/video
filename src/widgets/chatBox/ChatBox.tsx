@@ -62,7 +62,6 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
         refText.current.addEventListener('keydown', listenerTextArea);
     }
     return () => {
-      console.log(refText.current)
      if (refText.current!==null) refText.current.removeEventListener('keydown', listenerTextArea);
     };
   }, [ props.chatBoxVisible ]);

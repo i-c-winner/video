@@ -115,9 +115,16 @@ class PeerConnection {
           track.enabled = true;
           track.applyConstraints(constants.videoQuantity[quality]);
         }
-        console.log(track.getSettings())
       }
     });
+  }
+
+  changeAudio(state: boolean) {
+    glagol.localStreamForPeer?.getTracks().forEach((track)=>{
+      if (track.kind==='audio') {
+     track.enabled=state
+      }
+    })
   }
 
   createAnswer() {

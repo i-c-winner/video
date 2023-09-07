@@ -18,7 +18,7 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const { videoEnabled, audioEnabled, videoQuantity } = useSelector((state: any) => state.config.conference);
+  const { audioStream, videoQuantity } = useSelector((state: any) => state.config.conference);
   const dispatch = useDispatch();
   window.history.replaceState({}, '', glagol.roomName);
   const { data, error, isPending } = useAsync(connection);
@@ -39,10 +39,12 @@ function RoomPage() {
   useEffect(() => {
       conference.changeQualityVideo(videoQuantity);
   }, [ videoQuantity ]);
+  useEffect(()=>{
+    conference.changeAudio(audioStream)
+  },[audioStream])
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
-      console.log(conference.getPeerConnection().pc.getSenders());
       conference.XmppOn("createRoom", createRoom);
       conference.XmppOn("validateRoom", validateRoom);
       conference.XmppOn("inviteRoom", inviteRoom);
@@ -109,7 +111,6 @@ function RoomPage() {
       }
 
       function messageWasReceived(stanza: any) {
-
         try {
           const jingle = stanza[0].getElementsByTagName('jingle')[0];
           const text = Strophe.getText(stanza[0].getElementsByTagName('body')[0]);

@@ -20,8 +20,14 @@ const configSlice = createSlice({
     changeQuantityVideo: ((state: any, action) => {
       state.conference.videoQuantity = action.payload;
     }),
+    changeAudioStream: ((state: any, action)=>{
+      state.conference.audioStream=action.payload
+    }),
     changeTittle: ((state: any, action)=>{
       state.UI.tittle=action.payload
+    }),
+    changeSelectedTab: ((state: any, action)=>{
+      state.modal.settings.selectedTab=action.payload
     })
   }
 });
@@ -30,6 +36,8 @@ export const {
   setTypeModal,
   changeModalVisible,
   changeQuantityVideo,
-  changeTittle
+  changeTittle,
+  changeAudioStream,
+  changeSelectedTab
 } = configSlice.actions;
 export default configSlice.reducer;
