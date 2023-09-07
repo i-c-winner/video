@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from '../../shared/config/config';
+import * as stream from 'stream';
 
 const configSlice = createSlice({
   name: "config",

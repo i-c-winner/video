@@ -25,8 +25,8 @@ function SettingsAudio(props: ISettingsProps) {
         name="radio-buttons-group"
         onChange={changeButton}
       >
-        <FormControlLabel value={true} control={<Radio/>} label="Октл"/>
-        <FormControlLabel value={false} control={<Radio/>} label="Вкл"/>
+        <FormControlLabel value={false} control={<Radio/>} label="Октл"/>
+        <FormControlLabel value={true} control={<Radio/>} label="Вкл"/>
       </RadioGroup>
     </FormControl>
   );

@@ -94,7 +94,6 @@ class Xmpp {
     if (bodyText === "add_track") {
       const video: number = +jimble.getAttribute('video')
       const audio: number = +jimble.getAttribute('audio')
-      console.log(video)
       this.emit('addTrack', {
         audio: audio*(-1),
         video: video*(-1),
