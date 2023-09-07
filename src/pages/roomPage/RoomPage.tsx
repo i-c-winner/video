@@ -29,6 +29,8 @@ function RoomPage() {
         audio: true
       }).then((stream: any) => {
         glagol.localStreamForPeer = stream;
+        conference.changeAudio(audioStream)
+        conference.changeQualityVideo(videoQuantity);
         stream.getTracks().forEach((track: any) => {
           conference.addTrack(track);
           conference.changeQualityVideo(videoQuantity);

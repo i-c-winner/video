@@ -9,8 +9,7 @@ import { useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import {changeQuantityVideo} from '../../app/store/configSlice';
-import * as constants from 'constants';
+import { changeQuantityVideo, changeAudioStream } from '../../app/store/configSlice';
 
 
 function CreatingUserPage() {
@@ -21,7 +20,7 @@ function CreatingUserPage() {
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
   const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
   const refVideo = useRef<any>(null);
-  const {videoQuantity, audioQuantity} = useSelector((state: any)=> state.config.conference)
+  const { videoQuantity, audioStream } = useSelector((state: any) => state.config.conference);
 
   type TSelectedType = 'microphone' | 'camera'
 
@@ -39,18 +38,19 @@ function CreatingUserPage() {
     padding: "5px",
     margin: "10px"
   };
- function stylesSvgButtonCamera() {
-   return {
-     ...stylesSvgButton,
-     color: videoQuantity!=='disabled'? 'green': 'red'
-   }
+
+  function stylesSvgButtonCamera() {
+    return {
+      ...stylesSvgButton,
+      color: videoQuantity !== 'disabled' ? 'green' : 'red'
+    };
   }
 
   function stylesSvgButtonMicrophone() {
-   return {
-     ...stylesSvgButton,
-     color: audioQuantity? 'green': 'red'
-   }
+    return {
+      ...stylesSvgButton,
+      color: audioStream ? 'green' : 'red'
+    };
   }
 
   function Actions() {
@@ -64,17 +64,18 @@ function CreatingUserPage() {
     if (selectedType === 'camera') {
       dispatch(changeQuantityVideo('VIDEO_MIDDLE'));
     } else {
-
+      dispatch(changeAudioStream(true));
     }
-    setModalIsOpen(false)
+    setModalIsOpen(false);
   }
 
   function switchOff() {
     if (selectedType === 'camera') {
       dispatch(changeQuantityVideo('disabled'));
     } else {
+      dispatch(changeAudioStream(false))
     }
-    setModalIsOpen(false)
+    setModalIsOpen(false);
   }
 
   function getTextButton() {
@@ -101,6 +102,7 @@ function CreatingUserPage() {
   function getPlaceholder() {
     return text === "createName" ? t('UI.createPage.name') : t('UI.createPage.room');
   }
+
   function openingModal(this: { type: TSelectedType }) {
     setSelectedType(this.type);
     setModalIsOpen(true);
@@ -116,6 +118,7 @@ function CreatingUserPage() {
       <Actions/>
     </Dialog>;
   };
+
   function closingModal() {
     setModalIsOpen(false);
   }

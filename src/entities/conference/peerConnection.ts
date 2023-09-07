@@ -120,11 +120,12 @@ class PeerConnection {
   }
 
   changeAudio(state: boolean) {
-    glagol.localStreamForPeer?.getTracks().forEach((track)=>{
-      if (track.kind==='audio') {
-     track.enabled=state
+    debugger
+    glagol.localStreamForPeer?.getTracks().forEach((track) => {
+      if (track.kind === 'audio') {
+        track.enabled = state;
       }
-    })
+    });
   }
 
   createAnswer() {
