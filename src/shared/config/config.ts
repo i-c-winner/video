@@ -19,6 +19,9 @@ const config = {
     record: {
       state: false
     }
+  },
+  functions: {
+    isRecording: false
   }
 };
 

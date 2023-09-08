@@ -29,6 +29,9 @@ const configSlice = createSlice({
     }),
     changeSelectedTab: ((state: any, action)=>{
       state.modal.settings.selectedTab=action.payload
+    }),
+    changeIsRecording: ((state: any, action)=>{
+      state.functions.isRecording=action.payload
     })
   }
 });
@@ -39,6 +42,7 @@ export const {
   changeQuantityVideo,
   changeTittle,
   changeAudioStream,
-  changeSelectedTab
+  changeSelectedTab,
+  changeIsRecording
 } = configSlice.actions;
 export default configSlice.reducer;
