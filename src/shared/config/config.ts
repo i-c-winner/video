@@ -15,6 +15,9 @@ const config = {
     settings: {
       tabs: ['audio' , 'video', 'user'],
       selectedTab: 0
+    },
+    record: {
+      state: false
     }
   }
 };

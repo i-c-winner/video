@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { Box, Button, Modal } from '@mui/material';
-import { iconChat, iconSettings, iconExit, iconTittle } from '../../shared/img/svg';
+import { iconChat, iconSettings, iconExit, iconTittle, iconRecordStop, iconRecordStart } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeChatVisible, changeModalVisible, setTypeModal, changeTittle } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
+import {Record} from '../modal/RecordChildren/Record';
+
 function Toolbox() {
   interface IWidth {
     WIDTH_HEIGHT: string,
@@ -15,6 +17,7 @@ function Toolbox() {
   }
 
   const refSettings = useRef<any>();
+  const refRecord = useRef<any>()
   const dispatch = useDispatch();
   const { openModal, settings, type } = useSelector((state: any) => {
     return state.config.modal;
@@ -47,7 +50,11 @@ function Toolbox() {
   function openSettings() {
     dispatch(changeModalVisible(true))
     dispatch(setTypeModal('settings'));
-    dispatch(changeModalVisible(true));
+  }
+
+  function openRecordingDialog() {
+    dispatch(changeModalVisible(true))
+    dispatch(setTypeModal('record'));
   }
 
   function handlerClose() {
@@ -71,7 +78,19 @@ function Toolbox() {
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
     return <Settings {...props} ref={ref}/>;
   });
-
+  const RecordRef=React.forwardRef<React.Ref<React.ComponentType>>((props, ref)=>{
+    return <Record {...props} ref={ref}/>
+  })
+function getChildren() {
+    switch (type) {
+      case 'settings':
+        return <SettingsRef ref={refSettings}/>
+      case 'record':
+        return <RecordRef  ref={refRecord} />
+      default:
+        return <p>Empty dilog</p>
+    }
+}
   return (
     <Box sx={getStyleToolbox()}>
       <Button
@@ -104,6 +123,15 @@ function Toolbox() {
         startIcon={<CreateSvgIcon sizes={{viewBox: '15 15 30 30'}} styles={getColorForTittleButton()} attributes={iconTittle.attributes}
                                   content={iconTittle.content}/>}></Button>
       <Button
+        onClick={openRecordingDialog}
+        classes={
+          {
+            startIcon: 'marginZero'
+          }
+        }
+        startIcon={<CreateSvgIcon sizes={{viewBox: '0 0 25 25'}} styles={getColorForTittleButton()} attributes={iconRecordStart.attributes}
+                                  content={iconRecordStart.content}/>}></Button>
+      <Button
         onClick={exit }
         classes={
         {
@@ -124,7 +152,7 @@ function Toolbox() {
         classes={{
           root: 'modal_settings'
         }
-        } open={openModal} onClose={handlerClose} children={<SettingsRef ref={refSettings}/>}></Modal>
+        } open={openModal} onClose={handlerClose} children={getChildren()}></Modal>
     </Box>
   );
 }

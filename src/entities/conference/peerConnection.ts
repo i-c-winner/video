@@ -120,7 +120,6 @@ class PeerConnection {
   }
 
   changeAudio(state: boolean) {
-    debugger
     glagol.localStreamForPeer?.getTracks().forEach((track) => {
       if (track.kind === 'audio') {
         track.enabled = state;

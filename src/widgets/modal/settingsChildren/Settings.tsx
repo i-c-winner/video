@@ -15,7 +15,6 @@ function allProps(index: number) {
 }
 
 const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, ref) => {
-
   const { t } = useTranslation();
   const {tabs, selectedTab}= useSelector((state: any)=> state.config.modal.settings)
  const dispatch=useDispatch()
