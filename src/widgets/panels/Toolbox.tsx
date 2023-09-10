@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Modal } from '@mui/material';
 import {
   iconChat,
@@ -21,6 +21,9 @@ import {
 } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
+import {Recording} from '../../functions/recording/recording';
+
+let recording: any= null
 
 
 interface IWidth {
@@ -106,6 +109,23 @@ function Toolbox() {
   function recordClick() {
     dispatch(changeIsRecording(!isRecording));
   }
+
+  useEffect(()=>{
+    if (isRecording) {
+      const rec= new Recording()
+      rec.init().then((result: any)=>{
+        rec.createRecorder(result)
+        rec.createListeners()
+        rec.start()
+        recording=rec
+      })
+    } else {
+      if (recording!==null) {
+        recording.stop()
+      }
+
+    }
+  }, [isRecording])
 
   return (
     <Box sx={getStyleToolbox()}>

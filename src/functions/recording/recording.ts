@@ -27,30 +27,20 @@ class Recording {
     });
     return this.mediaRecorder;
   }
-  chunksListener(e: BlobEvent) {
-    this.chunks.push(e.data);
-  }
-  downloadField() {
-    let blob = new Blob(this.chunks, {
-      type: this.chunks[0].type
-    });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = 'video.webm';
-    a.click();
-  }
 
   createListeners() {
     if (this.mediaRecorder !== null) {
-      this.mediaRecorder.addEventListener('dataavailable', this.chunksListener);
-      this.mediaRecorder.addEventListener('stop', this.downloadField);
-    }
-  }
-  removeListeners() {
-    if (this.mediaRecorder !== null) {
-      this.mediaRecorder.removeEventListener('dataavailable', this.chunksListener);
-      this.mediaRecorder.removeEventListener('stop', this.downloadField);
+      this.mediaRecorder.ondataavailable = (ev) => this.chunks.push(ev.data);
+      this.mediaRecorder.onstop = (ev) => {
+        let blob = new Blob(this.chunks, {
+          type: this.chunks[0].type
+        });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'video.webm';
+        a.click();
+      };
     }
   }
 
