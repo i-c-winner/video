@@ -6,11 +6,15 @@ const RU= {
     }
   },
   room: {
-    roomName: "Комната: "
+    roomName: 'Комната: ',
+    chat: {
+      placeholder: 'Введите текс'
+    }
   },
   buttons: {
-    createRoom: "Создать комнату",
-    createName: "Введите имя",
+    createRoom: 'Создать комнату',
+    createName: 'Введите имя',
+    sendChat: 'Отправить',
     labels: {
       settings_video: 'Настройки видео',
       settings_audio: 'Настройки аудио',

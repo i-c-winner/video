@@ -6,10 +6,12 @@ import { glagol } from '../../entities/glagol/glagol';
 import { Xmpp } from '../../entities/conference/xmpp';
 import { IChat } from '../../app/types';
 import { useSelector } from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const xmpp = new Xmpp();
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
+  const {t}= useTranslation()
   const chats  = useSelector((state: any) => state.chat);
   const [ text, setText ] = useState<string>('');
   const refText = useRef<any>(null);
@@ -94,8 +96,8 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
     <Box sx={{
       height: '100px'
     }}>
-      <textarea ref={refText} placeholder='inter text' className="textarea textarea_chat-box" value={text} onChange={changeText}/>
-      <Button onClick={sendText} variant="contained">Send</Button>
+      <textarea ref={refText} placeholder={t('room.chat.placeholder')} className="textarea textarea_chat-box" value={text} onChange={changeText}/>
+      <Button onClick={sendText} variant="contained">{t('buttons.sendChat')}</Button>
     </Box>
   </Box> : null;
 }
