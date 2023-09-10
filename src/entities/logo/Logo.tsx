@@ -24,7 +24,7 @@ function Logo() {
           viewBox: '0 0 32 32'
         }
         }
-        attributes={iconLogo.attributes} content={iconLogo.content}/>
+        icon={iconLogo}/>
       <Typography sx={{
         color: 'white',
         fontSize: '35px'

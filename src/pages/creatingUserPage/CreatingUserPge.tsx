@@ -160,12 +160,12 @@ function CreatingUserPage() {
           <Box>
             <Button onClick={openingModal.bind({ type: 'camera' })}
                     startIcon={<CreateSvgIcon
-                      styles={stylesSvgButtonCamera()} attributes={iconCamera.attributes}
-                      content={iconCamera.content}/>}/>
+                      styles={stylesSvgButtonCamera()}
+                      icon={iconCamera}
+                  />}/>
             <Button onClick={openingModal.bind({ type: 'microphone' })}
                     startIcon={<CreateSvgIcon
-                      styles={stylesSvgButtonMicrophone()} attributes={iconMicrophone.attributes}
-                      content={iconMicrophone.content}/>}/>
+                      styles={stylesSvgButtonMicrophone()}  icon={iconMicrophone} />}/>
           </Box>
           <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
           <DialogBox type={selectedType}/>

@@ -1,29 +1,47 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState} from 'react';
 import { Box, Button, Modal } from '@mui/material';
-import { iconChat, iconSettings, iconExit, iconTittle, iconRecordStop, iconRecordStart } from '../../shared/img/svg';
+import {
+  iconChat,
+  iconExit,
+  iconRecordStart,
+  iconRecordStop,
+  iconSettings,
+  iconTittle
+} from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeChatVisible, changeModalVisible, setTypeModal, changeTittle } from '../../app/store/configSlice';
+
+import {
+  changeChatVisible,
+  changeIsRecording,
+  changeModalVisible,
+  changeTittle,
+  setTypeModal
+} from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
-import {Record} from '../modal/RecordChildren/Record';
+
+
+interface IWidth {
+  WIDTH_HEIGHT: string,
+  WIDTH_MIDDLE: string,
+  WIDTH_LOW: string
+}
 
 function Toolbox() {
-  interface IWidth {
-    WIDTH_HEIGHT: string,
-    WIDTH_MIDDLE: string,
-    WIDTH_LOW: string
-  }
 
   const refSettings = useRef<any>();
-  const refRecord = useRef<any>()
   const dispatch = useDispatch();
-  const { openModal, settings, type } = useSelector((state: any) => {
+  const { openModal, type } = useSelector((state: any) => {
     return state.config.modal;
   });
-  const {tittle}= useSelector((state: any)=>state.config.UI)
+  const { isRecording } = useSelector((state: any) => state.config.functions);
+  const { tittle } = useSelector((state: any) => state.config.UI);
   const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
+  /**
+   * TO DO useState предусмотренно для скрывания
+   */
 
   const [ visible, setVisible ] = useState<boolean>(true);
   const baseStyle = {
@@ -48,17 +66,12 @@ function Toolbox() {
   }
 
   function openSettings() {
-    dispatch(changeModalVisible(true))
+    dispatch(changeModalVisible(true));
     dispatch(setTypeModal('settings'));
   }
 
-  function openRecordingDialog() {
-    dispatch(changeModalVisible(true))
-    dispatch(setTypeModal('record'));
-  }
-
   function handlerClose() {
-    dispatch(changeModalVisible(false))
+    dispatch(changeModalVisible(false));
   }
 
   function getWidth() {
@@ -68,29 +81,32 @@ function Toolbox() {
 
   function exit() {
   }
+
   function changingTittle() {
-    dispatch(changeTittle(!tittle))
+    dispatch(changeTittle(!tittle));
   }
+
   function getColorForTittleButton() {
-    return tittle? { color: 'green' }: {color: 'white'}
+    return tittle ? { color: 'green' } : { color: 'white' };
   }
 
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
     return <Settings {...props} ref={ref}/>;
   });
-  const RecordRef=React.forwardRef<React.Ref<React.ComponentType>>((props, ref)=>{
-    return <Record {...props} ref={ref}/>
-  })
-function getChildren() {
+
+  function getChildren() {
     switch (type) {
       case 'settings':
-        return <SettingsRef ref={refSettings}/>
-      case 'record':
-        return <RecordRef  ref={refRecord} />
+        return <SettingsRef ref={refSettings}/>;
       default:
-        return <p>Empty dilog</p>
+        return <p>Empty dilog</p>;
     }
-}
+  }
+
+  function recordClick() {
+    dispatch(changeIsRecording(!isRecording));
+  }
+
   return (
     <Box sx={getStyleToolbox()}>
       <Button
@@ -102,17 +118,16 @@ function getChildren() {
             startIcon: 'marginZero'
           }
         }
-        startIcon={<CreateSvgIcon attributes={iconChat.attributes} styles={{ color: 'white' }}
-                                  content={iconChat.content}/>}></Button>
+        startIcon={<CreateSvgIcon icon={iconChat} styles={{ color: 'white' }}
+        />}></Button>
       <Button
         onClick={openSettings}
-              classes={
-                {
-                  startIcon: 'marginZero'
-                }
-              }
-              startIcon={<CreateSvgIcon styles={{ color: 'white' }} attributes={iconSettings.attributes}
-                                        content={iconSettings.content}/>}></Button>
+        classes={
+          {
+            startIcon: 'marginZero'
+          }
+        }
+        startIcon={<CreateSvgIcon styles={{ color: 'white' }} icon={iconSettings}/>}></Button>
       <Button
         onClick={changingTittle}
         classes={
@@ -120,30 +135,35 @@ function getChildren() {
             startIcon: 'marginZero'
           }
         }
-        startIcon={<CreateSvgIcon sizes={{viewBox: '15 15 30 30'}} styles={getColorForTittleButton()} attributes={iconTittle.attributes}
-                                  content={iconTittle.content}/>}></Button>
+        startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTittleButton()}
+                                  icon={iconTittle}/>}></Button>
+
       <Button
-        onClick={openRecordingDialog}
+        onClick={recordClick}
         classes={
           {
             startIcon: 'marginZero'
           }
-        }
-        startIcon={<CreateSvgIcon sizes={{viewBox: '0 0 25 25'}} styles={getColorForTittleButton()} attributes={iconRecordStart.attributes}
-                                  content={iconRecordStart.content}/>}></Button>
+        } startIcon={isRecording ? <CreateSvgIcon
+        key="start"
+        styles={{color: 'red'}}
+        icon={iconRecordStop}/> : <CreateSvgIcon
+        key="stop"
+        styles={{color: 'white'}}
+        icon={iconRecordStart}/>}></Button>
+
       <Button
-        onClick={exit }
+        onClick={exit}
         classes={
-        {
-          startIcon: 'marginZero'
-        }
-      } startIcon={<CreateSvgIcon
+          {
+            startIcon: 'marginZero'
+          }
+        } startIcon={<CreateSvgIcon
         sizes={{
-        viewBox: '0 0 86 44',
+          viewBox: '0 0 86 44',
           width: '86px',
           height: '44px'
-      }} attributes={iconExit.attributes}
-                                  content={iconExit.content}/>}></Button>
+        }} icon={iconExit}/>}></Button>
       <Modal
         sx={{
           width: getWidth(),

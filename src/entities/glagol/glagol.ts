@@ -7,7 +7,7 @@ const glagol: Glagol= {
   currentStreams: {
   },
   localStream: null,
-  localStreamForPeer: null
+  localStreamForPeer: null,
 }
 
 export {glagol}
