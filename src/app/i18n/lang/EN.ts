@@ -3,6 +3,9 @@ const EN = {
     createPage: {
       room: 'Room name',
       name: 'Your name'
+    },
+    roomPage: {
+      name:  'Room: '
     }
   },
   room: {

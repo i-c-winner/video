@@ -3,6 +3,9 @@ const RU= {
     createPage: {
       room: 'Название комнаты',
       name: 'Ваше имя'
+    },
+    roomPage: {
+      name:  'Комната: '
     }
   },
   room: {

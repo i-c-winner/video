@@ -1,9 +1,9 @@
 import {glagol } from '../../entities/glagol/glagol';
 import { Typography, Box } from '@mui/material';
-// import {useTranslation} from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 function Header() {
-// const {t}=useTranslation()
+const {t}=useTranslation()
   return (
     <Box sx={
       {
@@ -13,7 +13,7 @@ function Header() {
        textAlign: 'center',
       }
     }>
-      <Typography color='white'>Имя комнаты: {glagol.roomName}</Typography>
+      <Typography color='white'>{t('UI.roomPage.name')}{glagol.roomName}</Typography>
     </Box>
   )
 }
