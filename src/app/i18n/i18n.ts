@@ -13,7 +13,7 @@ const resources= {
 }
 i18n.use(initReactI18next).init({
   resources,
-  lng: "ru",
+  lng: "en",
   fallbackLng: "en"
 })
 export default i18n

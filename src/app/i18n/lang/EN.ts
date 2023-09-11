@@ -14,13 +14,19 @@ const EN = {
   buttons: {
     createRoom: 'Create room',
     createName: 'Your name',
-    sendChat: 'Send'
+    sendChat: 'Send',
+    labels: {
+      settings_video: 'Settings video',
+      settings_audio: 'Settings audio',
+      settings_user: 'Settings user',
+      chat: 'Chat',
+      settings: 'Settings',
+      tittle: 'Tittle',
+      record: 'Record',
+      exit: 'Exit'
+    }
   },
-  labels: {
-    settings_video: 'Settings video',
-    settings_audio: 'Settings audio',
-    settings_user: 'Settings user'
-  }
+
 };
 
 export { EN };

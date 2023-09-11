@@ -18,7 +18,13 @@ const RU= {
     labels: {
       settings_video: 'Настройки видео',
       settings_audio: 'Настройки аудио',
-      settings_user: 'Настройки юзера'
+      settings_user: 'Настройки юзера',
+      chat: 'Чат',
+      settings: 'Настройки',
+      tittle: 'Плитка',
+      record: 'Запись',
+      exit: 'Выход'
+
     }
   }
 }

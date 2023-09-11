@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Modal, Tooltip } from '@mui/material';
 import {
   iconChat,
   iconExit,
@@ -11,6 +11,7 @@ import {
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import {
   changeChatVisible,
@@ -21,9 +22,9 @@ import {
 } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
-import {Recording} from '../../functions/recording/recording';
+import { Recording } from '../../functions/recording/recording';
 
-let recording: any= null
+let recording: any = null;
 
 
 interface IWidth {
@@ -33,7 +34,7 @@ interface IWidth {
 }
 
 function Toolbox() {
-
+  const { t } = useTranslation();
   const refSettings = useRef<any>();
   const dispatch = useDispatch();
   const { openModal, type } = useSelector((state: any) => {
@@ -110,80 +111,90 @@ function Toolbox() {
     dispatch(changeIsRecording(!isRecording));
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (isRecording) {
-      const rec= new Recording()
-      rec.init().then((result: any)=>{
-        rec.createRecorder(result)
-        rec.createListeners()
-        rec.start()
-        recording=rec
-      })
+      const rec = new Recording();
+      rec.init().then((result: any) => {
+        rec.createRecorder(result);
+        rec.createListeners();
+        rec.start();
+        recording = rec;
+      });
     } else {
-      if (recording!==null) {
-        recording.stop()
+      if (recording !== null) {
+        recording.stop();
       }
 
     }
-  }, [isRecording])
+  }, [ isRecording ]);
 
   return (
     <Box sx={getStyleToolbox()}>
-      <Button
-        onClick={() => {
-          toolboxAction.apply({ dispatch, actionCreater: changeChatVisible });
-        }}
-        classes={
-          {
-            startIcon: 'marginZero'
+      <Tooltip title={t('buttons.labels.chat')}>
+        <Button
+          onClick={() => {
+            toolboxAction.apply({ dispatch, actionCreater: changeChatVisible });
+          }}
+          classes={
+            {
+              startIcon: 'marginZero'
+            }
           }
-        }
-        startIcon={<CreateSvgIcon icon={iconChat} styles={{ color: 'white' }}
-        />}></Button>
-      <Button
-        onClick={openSettings}
-        classes={
-          {
-            startIcon: 'marginZero'
+          startIcon={<CreateSvgIcon icon={iconChat} styles={{ color: 'white' }}
+          />}></Button>
+      </Tooltip>
+      <Tooltip title={t('buttons.labels.settings')}>
+        <Button
+          onClick={openSettings}
+          classes={
+            {
+              startIcon: 'marginZero'
+            }
           }
-        }
-        startIcon={<CreateSvgIcon styles={{ color: 'white' }} icon={iconSettings}/>}></Button>
-      <Button
-        onClick={changingTittle}
-        classes={
-          {
-            startIcon: 'marginZero'
+          startIcon={<CreateSvgIcon styles={{ color: 'white' }} icon={iconSettings}/>}></Button>
+      </Tooltip>
+      <Tooltip title={t('buttons.labels.tittle')}>
+        <Button
+          onClick={changingTittle}
+          classes={
+            {
+              startIcon: 'marginZero'
+            }
           }
-        }
-        startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTittleButton()}
-                                  icon={iconTittle}/>}></Button>
+          startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTittleButton()}
+                                    icon={iconTittle}/>}></Button>
+      </Tooltip>
+      <Tooltip title={t('buttons.labels.record')}>
+        <Button
+          onClick={recordClick}
+          classes={
+            {
+              startIcon: 'marginZero'
+            }
+          } startIcon={isRecording ? <CreateSvgIcon
+          key="start"
+          styles={{ color: 'red' }}
+          icon={iconRecordStop}/> : <CreateSvgIcon
+          key="stop"
+          styles={{ color: 'white' }}
+          icon={iconRecordStart}/>}></Button>
+      </Tooltip>
 
-      <Button
-        onClick={recordClick}
-        classes={
-          {
-            startIcon: 'marginZero'
-          }
-        } startIcon={isRecording ? <CreateSvgIcon
-        key="start"
-        styles={{color: 'red'}}
-        icon={iconRecordStop}/> : <CreateSvgIcon
-        key="stop"
-        styles={{color: 'white'}}
-        icon={iconRecordStart}/>}></Button>
+      <Tooltip title={t('buttons.labels.exit')}>
+        <Button
+          onClick={exit}
+          classes={
+            {
+              startIcon: 'marginZero'
+            }
+          } startIcon={<CreateSvgIcon
+          sizes={{
+            viewBox: '0 0 86 44',
+            width: '86px',
+            height: '44px'
+          }} icon={iconExit}/>}></Button>
+      </Tooltip>
 
-      <Button
-        onClick={exit}
-        classes={
-          {
-            startIcon: 'marginZero'
-          }
-        } startIcon={<CreateSvgIcon
-        sizes={{
-          viewBox: '0 0 86 44',
-          width: '86px',
-          height: '44px'
-        }} icon={iconExit}/>}></Button>
       <Modal
         sx={{
           width: getWidth(),
