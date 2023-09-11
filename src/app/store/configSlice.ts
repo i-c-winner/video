@@ -32,6 +32,9 @@ const configSlice = createSlice({
     }),
     changeIsRecording: ((state: any, action)=>{
       state.functions.isRecording=action.payload
+    }),
+    changeLeftOut: ((state: any)=>{
+      state.conference.leftOut=true
     })
   }
 });
@@ -43,6 +46,7 @@ export const {
   changeTittle,
   changeAudioStream,
   changeSelectedTab,
-  changeIsRecording
+  changeIsRecording,
+  changeLeftOut
 } = configSlice.actions;
 export default configSlice.reducer;

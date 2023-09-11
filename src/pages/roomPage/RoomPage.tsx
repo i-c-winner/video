@@ -8,6 +8,7 @@ import { addStream, removeStream } from "../../app/store/streamsSlice";
 import { Box } from "@mui/material";
 import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
+import { useNavigate } from 'react-router-dom';
 
 let firstLoad = true;
 const conference = new Conference();
@@ -18,8 +19,9 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const { audioStream, videoQuantity } = useSelector((state: any) => state.config.conference);
+  const { audioStream, videoQuantity, leftOut } = useSelector((state: any) => state.config.conference);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   window.history.replaceState({}, '', glagol.roomName);
   const { data, error, isPending } = useAsync(connection);
   useEffect(() => {
@@ -29,7 +31,7 @@ function RoomPage() {
         audio: true
       }).then((stream: any) => {
         glagol.localStreamForPeer = stream;
-        conference.changeAudio(audioStream)
+        conference.changeAudio(audioStream);
         conference.changeQualityVideo(videoQuantity);
         stream.getTracks().forEach((track: any) => {
           conference.addTrack(track);
@@ -39,11 +41,19 @@ function RoomPage() {
     }
   }, [ isPending ]);
   useEffect(() => {
-      conference.changeQualityVideo(videoQuantity);
+    conference.changeQualityVideo(videoQuantity);
   }, [ videoQuantity ]);
-  useEffect(()=>{
-    conference.changeAudio(audioStream)
-  },[audioStream])
+  useEffect(() => {
+    conference.changeAudio(audioStream);
+  }, [ audioStream ]);
+  useEffect(() => {
+    const message = new Strophe.Builder('presence', {
+      from: `${glagol.roomName}@prosolen.net/${glagol.userNode}`,
+      type: 'unavailable',
+      to: `${glagol.roomName}@conference.prosolen.net`
+    });
+    conference.send(message);
+  }, [ leftOut ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
@@ -53,6 +63,11 @@ function RoomPage() {
       conference.peerConnectionOn('setStreamId', setStreamId);
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
+      conference.XmppOn('leaveRoom', leaveRoom);
+
+      function leaveRoom() {
+        navigate('/exit');
+      }
 
       function createRoom() {
         const message = new Strophe.Builder('presence', {

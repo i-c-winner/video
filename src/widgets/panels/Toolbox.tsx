@@ -18,7 +18,8 @@ import {
   changeIsRecording,
   changeModalVisible,
   changeTittle,
-  setTypeModal
+  setTypeModal,
+  changeLeftOut
 } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
@@ -84,6 +85,7 @@ function Toolbox() {
   }
 
   function exit() {
+    dispatch(changeLeftOut())
   }
 
   function changingTittle() {

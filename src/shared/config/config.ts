@@ -1,7 +1,8 @@
 const config = {
   conference: {
     videoQuantity: 'VIDEO_MIDDLE',
-    audioStream: true
+    audioStream: true,
+    leftOut: false
   },
   UI: {
     chatBoxVisible: false,
