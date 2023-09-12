@@ -27,8 +27,16 @@ function Logo() {
         icon={iconLogo}/>
       <Typography sx={{
         color: 'white',
+        fontSize: '35px',
+        marginRight: '3px'
+      }}>Communication</Typography>
+      <Typography
+      sx={{
+        color: 'red',
         fontSize: '35px'
-      }}>Glagol</Typography>
+      }}>
+      CS
+    </Typography>
     </Box>
 
   );
