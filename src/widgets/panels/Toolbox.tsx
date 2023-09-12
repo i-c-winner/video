@@ -105,7 +105,7 @@ function Toolbox() {
       case 'settings':
         return <SettingsRef ref={refSettings}/>;
       default:
-        return <p>Empty dilog</p>;
+        return <p>Empty dialog</p>;
     }
   }
 

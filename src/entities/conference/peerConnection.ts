@@ -60,6 +60,13 @@ class PeerConnection {
         this.emit("sendAnswer", candidate64);
       }
     });
+    this.pc.onconnectionstatechange= ((event: any)=>{
+      console.log(event)
+      if (event.target.iceConnectionState=== 'disconnected') this.emit('leaveRoom')
+    })
+    this.pc.oniceconnectionstatechange=((event)=>{
+      console.log(event)
+    })
     this.currentTransceivers = {
       audio: 0,
       video: 0
@@ -126,6 +133,10 @@ class PeerConnection {
       }
     });
   }
+  exit() {
+    this.pc.close()
+    this.emit('leaveRoom')
+  }
 
   createAnswer() {
     this.pc.createAnswer({
@@ -145,10 +156,12 @@ class PeerConnection {
   }
 
   emit(name: string, ...args: any[]) {
-    if (this.listeners[name]) {
+    if (this.listeners[name]===undefined) {
       new Error(`Listener ${name} не сущевствуте`);
+    } else {
+      this.listeners[name].forEach((listener) => listener(args));
     }
-    this.listeners[name].forEach((listener) => listener(args));
+
   }
 }
 

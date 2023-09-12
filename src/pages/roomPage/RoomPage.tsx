@@ -47,12 +47,7 @@ function RoomPage() {
     conference.changeAudio(audioStream);
   }, [ audioStream ]);
   useEffect(() => {
-    const message = new Strophe.Builder('presence', {
-      from: `${glagol.roomName}@prosolen.net/${glagol.userNode}`,
-      type: 'unavailable',
-      to: `${glagol.roomName}@conference.prosolen.net`
-    });
-    conference.send(message);
+   if (leftOut) conference.leaveRoom();
   }, [ leftOut ]);
   if (isPending) return <>...isPending</>;
   if (data) {
@@ -63,7 +58,7 @@ function RoomPage() {
       conference.peerConnectionOn('setStreamId', setStreamId);
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
-      conference.XmppOn('leaveRoom', leaveRoom);
+      conference.peerConnectionOn('leaveRoom', leaveRoom);
 
       function leaveRoom() {
         navigate('/exit');

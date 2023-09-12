@@ -36,12 +36,14 @@ class Conference {
     this.xmpp.connection.send(message);
   }
 
-  changeQualityVideo(type: 'VIDEO_HEIGHT' | 'VIDEO_MIDDLE' | 'VIDEO_LOW' | 'disabled' ) {
+  changeQualityVideo(type: 'VIDEO_HEIGHT' | 'VIDEO_MIDDLE' | 'VIDEO_LOW' | 'disabled') {
     this.peerConnection.changeConstraints(type);
   }
-  changeAudio(state: boolean){
-    this.peerConnection.changeAudio(state)
+
+  changeAudio(state: boolean) {
+    this.peerConnection.changeAudio(state);
   }
+
   addCallbacks() {
     this.XmppOn('addTrack', (params: [ {
       audio: number,
@@ -70,6 +72,10 @@ class Conference {
     } ]) => {
       this.peerConnection.setRemoteDescripton(params[0]);
     });
+  }
+
+  leaveRoom() {
+    this.peerConnection.exit();
   }
 
   XmppOn(name: string, callback: (...args: any[]) => void) {
