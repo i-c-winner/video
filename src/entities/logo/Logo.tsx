@@ -3,7 +3,6 @@ import { iconLogo } from "../../shared/img/svg";
 import { Box, Typography } from "@mui/material";
 
 function Logo() {
-
   return (
     <Box sx={{
       display: 'flex',
@@ -16,7 +15,6 @@ function Logo() {
       <CreateSvgIcon
         styles={{
           marginRight: "10px",
-
         }}
         sizes={{
           width: '60px',
@@ -31,12 +29,12 @@ function Logo() {
         marginRight: '3px'
       }}>Communication</Typography>
       <Typography
-      sx={{
-        color: 'red',
-        fontSize: '35px'
-      }}>
-      CS
-    </Typography>
+        sx={{
+          color: 'red',
+          fontSize: '35px'
+        }}>
+        CS
+      </Typography>
     </Box>
 
   );

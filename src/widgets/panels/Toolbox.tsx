@@ -121,6 +121,8 @@ function Toolbox() {
         rec.createListeners();
         rec.start();
         recording = rec;
+      }).catch((error)=>{
+       dispatch(changeIsRecording(false))
       });
     } else {
       if (recording !== null) {

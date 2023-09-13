@@ -14,7 +14,7 @@ class Recording {
 
   init() {
     return new Promise((resolve: any, reject: any) => {
-      resolve(navigator.mediaDevices.getUserMedia({
+      resolve(navigator.mediaDevices.getDisplayMedia({
         video: true,
         audio: true
       }));
