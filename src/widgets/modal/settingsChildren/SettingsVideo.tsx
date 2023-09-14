@@ -2,7 +2,7 @@ import { ISettingsProps } from '../../types';
 import { Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeModalVisible, changeQuantityVideo } from '../../../app/store/configSlice';
-import { Switcher } from '../../switcher/Switcher';
+import { Switcher } from '../../switch/Switcher';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
