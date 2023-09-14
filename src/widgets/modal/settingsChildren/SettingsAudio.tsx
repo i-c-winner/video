@@ -9,7 +9,7 @@ function SettingsAudio(props: ISettingsProps) {
   const { audioStream } = useSelector((state: any) => state.config.conference);
 
   function changeButton(event: any) {
-    dispatch(changeAudioStream(event.target.value));
+    dispatch(changeAudioStream(event.target.value==='true'));
   }
 
   return value === index && (
@@ -17,10 +17,6 @@ function SettingsAudio(props: ISettingsProps) {
       <FormLabel id="demo-radio-buttons-group-label">Отключить аудио</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        /**
-        *DO TO Необходимо определить начальное качество видео в
-        зависимости от настроек
-        */
         defaultValue={audioStream}
         name="radio-buttons-group"
         onChange={changeButton}

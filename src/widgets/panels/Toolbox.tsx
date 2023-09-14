@@ -183,7 +183,6 @@ function Toolbox() {
           styles={{ color: 'white' }}
           icon={iconRecordStart}/>}></Button>
       </Tooltip>
-
       <Tooltip title={t('buttons.labels.exit')}>
         <Button
           onClick={exit}

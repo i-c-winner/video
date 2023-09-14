@@ -61,11 +61,9 @@ class PeerConnection {
       }
     });
     this.pc.onconnectionstatechange = ((event: any) => {
-      console.log(event);
       if (event.target.iceConnectionState === 'disconnected') this.emit('leaveRoom');
     });
     this.pc.oniceconnectionstatechange = ((event) => {
-      console.log(event);
     });
     this.currentTransceivers = {
       audio: 0,
@@ -129,7 +127,7 @@ class PeerConnection {
   changeAudio(state: boolean) {
     glagol.localStreamForPeer?.getTracks().forEach((track) => {
       if (track.kind === 'audio') {
-        track.enabled = state;
+        track.enabled = state
       }
     });
   }
