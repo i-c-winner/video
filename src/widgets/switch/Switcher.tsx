@@ -10,7 +10,7 @@ function Switcher(props: any) {
       top: '1px',
       border: '1px solid'
     }
-    if (props.value===props.label) {
+    if (props.state===props.currentState) {
       return {
         ...baseStyle,
         backgroundColor: 'red',
@@ -25,15 +25,17 @@ function Switcher(props: any) {
   return (
     <Box sx={{
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center'
     }}>
+      {props.isToggle?<Typography mr="10px">{props.textIsToggle}</Typography>:null}
       <Box
         sx={{
           width: '50px',
           height: '16px',
           borderRadius: '8px',
           backgroundColor: 'background.paper',
-          position: 'relative'
+          position: 'relative',
         }}>
         <Box
         sx={getStyles()}

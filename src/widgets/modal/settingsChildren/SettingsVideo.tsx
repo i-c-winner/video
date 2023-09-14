@@ -50,8 +50,8 @@ function SettingsVideo(props: ISettingsProps) {
           }}
         >
           <Switcher
-            value={qualityVideo[videoQuantity]}
-            label={qualityVideo.HEIGHT}
+            currentState={qualityVideo[videoQuantity]}
+            state={qualityVideo.HEIGHT}
             text={t('modal.quality_height')}
           />
           <FormControlLabel
@@ -69,8 +69,8 @@ function SettingsVideo(props: ISettingsProps) {
           }}
         >
           <Switcher
-            value={qualityVideo[videoQuantity]}
-            label={qualityVideo.MIDDLE}
+            currentState={qualityVideo[videoQuantity]}
+            state={qualityVideo.MIDDLE}
             text={t('modal.quality_middle')}
           />
 
@@ -90,8 +90,8 @@ function SettingsVideo(props: ISettingsProps) {
           }}
         >
           <Switcher
-            value={qualityVideo[videoQuantity]}
-            label={qualityVideo.LOW}
+            currentState={qualityVideo[videoQuantity]}
+            state={qualityVideo.LOW}
             text={t('modal.quality_low')}
           />
           <FormControlLabel
@@ -109,8 +109,8 @@ function SettingsVideo(props: ISettingsProps) {
           }}
         >
           <Switcher
-            value={qualityVideo[videoQuantity]}
-            label={qualityVideo.DISABLED}
+            currentState={qualityVideo[videoQuantity]}
+            state={qualityVideo.DISABLED}
             text={t('modal.quality_disabled')}
           />
           <FormControlLabel

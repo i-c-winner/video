@@ -35,6 +35,8 @@ const RU= {
     quality_middle: "Среднее",
     quality_low: "Низкое",
     quality_disabled: "Отключен",
+    toggleAudio_enabled: 'Вкл',
+    toggleAudio_disabled: 'Выкл'
 
   }
 }
