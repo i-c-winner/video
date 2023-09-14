@@ -1,42 +1,34 @@
 import { ISettingsProps } from '../../types';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import React from 'react';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { changeModalVisible, changeQuantityVideo } from '../../../app/store/configSlice';
 
-const qualityVideo = {
-  HEIGHT: "Высокое",
-  MIDDLE: "Среднее",
-  LOW: "Низкое"
-};
+const qualityVideo = [ 'HEIGHT', 'MIDDLE', 'LOW', 'DISABLED' ];
 
 function SettingsVideo(props: ISettingsProps) {
-  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { videoQuantity } = useSelector((state: any) => state.config.conference);
-
-  function changeButton(event: any) {
-    dispatch(changeQuantityVideo(event.target.value));
-  }
+  const dispatch = useDispatch();
+  const [ view, setView ] = React.useState(videoQuantity);
+  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
+    setView(nextView);
+    dispatch(changeQuantityVideo(nextView))
+  };
 
   const { value, index } = props;
   return value === index && (
-    <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label">Качество видео</FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        /**
-        *DO TO Необходимо определить начальное качество видео в
-        зависимости от настроек
-        */
-        defaultValue={videoQuantity}
-        name="radio-buttons-group"
-        onChange={changeButton}
-      >
-        <FormControlLabel value={'VIDEO_HEIGHT'} control={<Radio/>} label={qualityVideo.HEIGHT}/>
-        <FormControlLabel value={'VIDEO_MIDDLE'} control={<Radio/>} label={qualityVideo.MIDDLE}/>
-        <FormControlLabel value={'VIDEO_LOW'} control={<Radio/>} label={qualityVideo.LOW}/>
-        <FormControlLabel value="disabled" control={<Radio/>} label="disable video"/>
-      </RadioGroup>
-    </FormControl>
+    <ToggleButtonGroup
+      orientation="vertical"
+      value={view}
+      exclusive
+      onChange={handleChange}
+    >
+      {qualityVideo.map((type: string, index) => {
+        return <ToggleButton key={index} value={type} aria-label={type}>{t(`modal.quantity_video.${type}`)}</ToggleButton>;
+      })}
+    </ToggleButtonGroup>
   );
 }
 

@@ -1,6 +1,6 @@
 const config = {
   conference: {
-    videoQuantity: 'VIDEO_MIDDLE',
+    videoQuantity: 'MIDDLE',
     audioStream: true,
     leftOut: false
   },

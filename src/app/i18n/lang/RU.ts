@@ -30,7 +30,13 @@ const RU= {
     settings_video: 'Настройки видео',
     settings_audio: 'Настройки аудио',
     settings_user: 'Настройки юзера',
-    disabled_audio: 'Отключить аудио'
+    disabled_audio: 'Отключить аудио',
+    quantity_video: {
+      HEIGHT: 'Высокое',
+      MIDDLE: 'Среднее',
+      LOW: 'Низкое',
+      DISABLED: 'Отключено'
+    }
   }
 }
 

@@ -12,17 +12,17 @@ const constants = {
     WIDTH_LOW: '400px'
   },
   videoQuantity: {
-    VIDEO_HEIGHT: {
+    HEIGHT: {
       video: 1200,
       height: 640,
       frameRate: 60
     },
-    VIDEO_MIDDLE: {
+    MIDDLE: {
       width: 640,
       height: 480,
       frameRate: 50,
     },
-    VIDEO_LOW: {
+    LOW: {
       width: 320,
       height: 240,
       frameRate: 30
