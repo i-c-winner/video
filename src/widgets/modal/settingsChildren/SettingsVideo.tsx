@@ -1,22 +1,31 @@
 import { ISettingsProps } from '../../types';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeModalVisible, changeQuantityVideo } from '../../../app/store/configSlice';
+import { Switcher } from '../../switcher/Switcher';
+import { useEffect, useState } from 'react';
 
 const qualityVideo = {
-  HEIGHT: "Высокое",
-  MIDDLE: "Среднее",
-  LOW: "Низкое"
+  HEIGHT: "height",
+  MIDDLE: "middle",
+  LOW: "low",
+  DISABLED: "disabled"
 };
 
 function SettingsVideo(props: ISettingsProps) {
   const dispatch = useDispatch();
-  const { videoQuantity } = useSelector((state: any) => state.config.conference);
+  const [ currenValue, setCurrentValue ] = useState(qualityVideo.MIDDLE);
+  const videoQuantity: 'HEIGHT' | 'MIDDLE' | 'LOW' | 'DISABLED' = useSelector((state: any) => state.config.conference.videoQuantity);
 
   function changeButton(event: any) {
+    // const value: = event.target.value
     dispatch(changeQuantityVideo(event.target.value));
+    // setCurrentValue(qualityVideo[value])
   }
 
+  useEffect(() => {
+    console.log('START');
+  }, []);
   const { value, index } = props;
   return value === index && (
     <FormControl>
@@ -31,10 +40,78 @@ function SettingsVideo(props: ISettingsProps) {
         name="radio-buttons-group"
         onChange={changeButton}
       >
-        <FormControlLabel value={'VIDEO_HEIGHT'} control={<Radio/>} label={qualityVideo.HEIGHT}/>
-        <FormControlLabel value={'VIDEO_MIDDLE'} control={<Radio/>} label={qualityVideo.MIDDLE}/>
-        <FormControlLabel value={'VIDEO_LOW'} control={<Radio/>} label={qualityVideo.LOW}/>
-        <FormControlLabel value="disabled" control={<Radio/>} label="disable video"/>
+        <Box
+          sx={{
+            display: 'flex',
+            position: 'relative'
+          }}
+        >
+          <Switcher
+            value={qualityVideo[videoQuantity]}
+            label={qualityVideo.HEIGHT}
+          />
+          <FormControlLabel
+            sx={{
+              position: 'absolute',
+              left: '0',
+              opacity: '0'
+            }}
+            value={'HEIGHT'} control={<Radio/>} label={qualityVideo.HEIGHT}/>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            position: 'relative'
+          }}
+        >
+          <Switcher
+            value={qualityVideo[videoQuantity]}
+            label={qualityVideo.MIDDLE}/>
+          <FormControlLabel
+            sx={{
+              position: 'absolute',
+              left: '0',
+              opacity: '0'
+            }}
+            value={'MIDDLE'} control={<Radio/>} label={qualityVideo.MIDDLE}/>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            position: 'relative'
+          }}
+        >
+          <Switcher
+            value={qualityVideo[videoQuantity]}
+            label={qualityVideo.LOW}
+          />
+          <FormControlLabel
+            sx={{
+              position: 'absolute',
+              left: '0',
+              opacity: '0'
+            }}
+            value={'LOW'} control={<Radio/>} label={qualityVideo.LOW}/>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            position: 'relative'
+          }}
+        >
+          <Switcher
+            value={qualityVideo[videoQuantity]}
+            label={qualityVideo.DISABLED}
+          />
+          <FormControlLabel
+            sx={{
+              position: 'absolute',
+              left: '0',
+              opacity: '0'
+            }}
+            value={'DISABLED'} control={<Radio/>} label={'qualityVideo.DISABLED'}/>
+        </Box>
       </RadioGroup>
     </FormControl>
   );
