@@ -19,16 +19,18 @@ const RU= {
     createName: 'Введите имя',
     sendChat: 'Отправить',
     labels: {
-      settings_video: 'Настройки видео',
-      settings_audio: 'Настройки аудио',
-      settings_user: 'Настройки юзера',
       chat: 'Чат',
       settings: 'Настройки',
       tittle: 'Плитка',
       record: 'Запись',
       exit: 'Выход'
-
     }
+  },
+  modal: {
+    settings_video: 'Настройки видео',
+    settings_audio: 'Настройки аудио',
+    settings_user: 'Настройки юзера',
+    disabled_audio: 'Отключить аудио'
   }
 }
 

@@ -19,9 +19,7 @@ const EN = {
     createName: 'Your name',
     sendChat: 'Send',
     labels: {
-      settings_video: 'Settings video',
-      settings_audio: 'Settings audio',
-      settings_user: 'Settings user',
+
       chat: 'Chat',
       settings: 'Settings',
       tittle: 'Tittle',
@@ -29,7 +27,12 @@ const EN = {
       exit: 'Exit'
     }
   },
-
+  modal: {
+    settings_video: 'Settings video',
+    settings_audio: 'Settings audio',
+    settings_user: 'Settings user',
+    disabled_audio: 'Disabled audio'
+  }
 };
 
 export { EN };
