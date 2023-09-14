@@ -1,8 +1,26 @@
 import { Box, Typography } from '@mui/material';
 
 function Switcher(props: any) {
-function getBackground() {
- return  props.label===props.value? 'red': 'green'
+  function getStyles() {
+    const baseStyle={
+      position: 'absolute',
+      width: '12px',
+      borderRadius: '50px',
+      height: '12px',
+      top: '1px',
+      border: '1px solid'
+    }
+    if (props.value===props.label) {
+      return {
+        ...baseStyle,
+        backgroundColor: 'red',
+        right: '2px'
+      }
+    } return {
+      ...baseStyle,
+      backgroundColor: 'grey',
+      left: '2px'
+    }
   }
   return (
     <Box sx={{
@@ -10,11 +28,17 @@ function getBackground() {
     }}>
       <Box
         sx={{
-          width: '100px',
-          height: '26px',
-          borderRadius: '13px',
-          backgroundColor: getBackground()
+          width: '50px',
+          height: '16px',
+          borderRadius: '8px',
+          backgroundColor: 'background.paper',
+          position: 'relative'
         }}>
+        <Box
+        sx={getStyles()}
+        >
+
+        </Box>
       </Box>
       <Typography ml="10px">label</Typography>
     </Box>
