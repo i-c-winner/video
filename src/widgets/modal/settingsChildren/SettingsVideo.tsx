@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeModalVisible, changeQuantityVideo } from '../../../app/store/configSlice';
 import { Switcher } from '../../switcher/Switcher';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const qualityVideo = {
   HEIGHT: "height",
@@ -13,6 +14,7 @@ const qualityVideo = {
 };
 
 function SettingsVideo(props: ISettingsProps) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [ currenValue, setCurrentValue ] = useState(qualityVideo.MIDDLE);
   const videoQuantity: 'HEIGHT' | 'MIDDLE' | 'LOW' | 'DISABLED' = useSelector((state: any) => state.config.conference.videoQuantity);
@@ -43,12 +45,14 @@ function SettingsVideo(props: ISettingsProps) {
         <Box
           sx={{
             display: 'flex',
-            position: 'relative'
+            position: 'relative',
+            paddingTop: '10px'
           }}
         >
           <Switcher
             value={qualityVideo[videoQuantity]}
             label={qualityVideo.HEIGHT}
+            text={t('modal.quality_height')}
           />
           <FormControlLabel
             sx={{
@@ -66,7 +70,10 @@ function SettingsVideo(props: ISettingsProps) {
         >
           <Switcher
             value={qualityVideo[videoQuantity]}
-            label={qualityVideo.MIDDLE}/>
+            label={qualityVideo.MIDDLE}
+            text={t('modal.quality_middle')}
+          />
+
           <FormControlLabel
             sx={{
               position: 'absolute',
@@ -85,6 +92,7 @@ function SettingsVideo(props: ISettingsProps) {
           <Switcher
             value={qualityVideo[videoQuantity]}
             label={qualityVideo.LOW}
+            text={t('modal.quality_low')}
           />
           <FormControlLabel
             sx={{
@@ -103,6 +111,7 @@ function SettingsVideo(props: ISettingsProps) {
           <Switcher
             value={qualityVideo[videoQuantity]}
             label={qualityVideo.DISABLED}
+            text={t('modal.quality_disabled')}
           />
           <FormControlLabel
             sx={{

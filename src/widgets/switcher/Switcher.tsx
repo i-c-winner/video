@@ -24,7 +24,8 @@ function Switcher(props: any) {
   }
   return (
     <Box sx={{
-      display: 'flex'
+      display: 'flex',
+      alignItems: 'center'
     }}>
       <Box
         sx={{
@@ -40,7 +41,7 @@ function Switcher(props: any) {
 
         </Box>
       </Box>
-      <Typography ml="10px">label</Typography>
+      <Typography ml="10px">{props.text}</Typography>
     </Box>
 
   );
