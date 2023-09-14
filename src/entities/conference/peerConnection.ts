@@ -111,10 +111,10 @@ class PeerConnection {
     this.createAnswer();
   }
 
-  changeConstraints(quality: "VIDEO_HEIGHT" | "VIDEO_MIDDLE" | "VIDEO_LOW" | 'disabled') {
+  changeConstraints(quality: "HEIGHT" | "MIDDLE" | "LOW" | 'DISABLED') {
     glagol.localStreamForPeer?.getTracks().forEach((track) => {
       if (track.kind === 'video') {
-        if (quality === "disabled") {
+        if (quality === "DISABLED") {
           track.enabled = false;
         } else {
           track.enabled = true;
