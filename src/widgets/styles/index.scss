@@ -30,5 +30,9 @@
   background-color: var(--background-paper);
   padding: 20px 30px;
   text-align: center;
+
+  .switch_label {
+    text-transform: lowercase;
+  }
 }
 

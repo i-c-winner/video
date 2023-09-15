@@ -36,7 +36,7 @@ class Conference {
     this.xmpp.connection.send(message);
   }
 
-  changeQualityVideo(type: 'HEIGHT' | 'MIDDLE' | 'LOW' | 'DISABLED') {
+  changeQualityVideo(type: 'height' | 'middle' | 'low' | 'disabled') {
     this.peerConnection.changeConstraints(type);
   }
 
