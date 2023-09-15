@@ -7,53 +7,61 @@ import { glagol } from '../../entities/glagol/glagol';
 import { useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
 
-
+const qntyScrens=12
 const cells: number[] = [];
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < qntyScrens; i++) {
   cells.push(i);
 }
 
 function LocalStreamsBox() {
   const refVideo = useRef<any>(null);
+  const refVideoByTileMode=useRef<any>(null)
   const { tile } = useSelector((state: any) => state.config.UI);
   const { streamsId } = useSelector((state: any) => state.streams);
-  const [ source, setSource ] = useState(streamsId.slice(0, 29));
+  const [ source, setSource ] = useState(streamsId.slice(0, (qntyScrens-1)));
   const [ page, setPage ] = useState(1);
 
   function changePage(event: React.ChangeEvent<unknown>, page: number) {
     setPage(page);
-    setSource(() => streamsId.slice(30 * (page - 1), (30 + page)));
+    setSource(() => streamsId.slice(qntyScrens * (page - 1), (qntyScrens + page)));
   }
 
   function getMaxPages() {
-    return Math.ceil(streamsId.length / 30) || 1;
+    return Math.ceil(streamsId.length / qntyScrens) || 1;
   }
 
   useEffect(() => {
     setSource(() => {
-      return streamsId.slice(30 * (page - 1), (30 + page));
+      return streamsId.slice(qntyScrens * (page - 1), (qntyScrens + page));
     });
   }, [ streamsId ]);
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
+    if (refVideoByTileMode.current!==null) refVideoByTileMode.current.srcObject =glagol.localStream
   }, [ tile ]);
   return (
     <Box sx={{
       flexGrow: '1',
-      position: 'relative'
+      position: 'relative',
     }}>
       <Header/>
-      {tile ? <Box>
+      {tile ? <Box
+      sx={{
+        display: 'flex',
+        paddingTop: '100px'
+      }}>
+        <video autoPlay={true} ref={refVideoByTileMode} className="video__localstream"/>
         <Box
           sx={{
-            position: 'absolute',
+            marginRight: '10px',
+            height: 'calc(100vh - 170px)',
             top: '90px',
             left: '0',
             right: '0',
             bottom: '110px',
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr',
-            gridTemplateRows: '1fr 1fr 1fr 1fr 1fr'
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateRows: 'repeat(3, 1fr)'
           }}
         >
           {cells.map((index) => {

@@ -5,7 +5,13 @@
 
   &__remoutstream {
     max-width: 200px;
-    margin: 10px
+    margin: 10px;
+  }
+  &__localstream {
+    width: 250px;
+    height: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 
