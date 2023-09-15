@@ -21,7 +21,7 @@ const RU= {
     labels: {
       chat: 'Чат',
       settings: 'Настройки',
-      tittle: 'Плитка',
+      tile: 'Плитка',
       record: 'Запись',
       exit: 'Выход'
     }

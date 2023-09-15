@@ -24,8 +24,8 @@ const configSlice = createSlice({
     changeAudioStream: ((state: any, action)=>{
       state.conference.audioStream=action.payload
     }),
-    changeTittle: ((state: any, action)=>{
-      state.UI.tittle=action.payload
+    changeTile: ((state: any, action)=>{
+      state.UI.tile=action.payload
     }),
     changeSelectedTab: ((state: any, action)=>{
       state.modal.settings.selectedTab=action.payload
@@ -43,7 +43,7 @@ export const {
   setTypeModal,
   changeModalVisible,
   changeQuantityVideo,
-  changeTittle,
+  changeTile,
   changeAudioStream,
   changeSelectedTab,
   changeIsRecording,

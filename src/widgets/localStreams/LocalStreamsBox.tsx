@@ -15,7 +15,7 @@ for (let i = 0; i < 30; i++) {
 
 function LocalStreamsBox() {
   const refVideo = useRef<any>(null);
-  const { tittle } = useSelector((state: any) => state.config.UI);
+  const { tile } = useSelector((state: any) => state.config.UI);
   const { streamsId } = useSelector((state: any) => state.streams);
   const [ source, setSource ] = useState(streamsId.slice(0, 29));
   const [ page, setPage ] = useState(1);
@@ -36,14 +36,14 @@ function LocalStreamsBox() {
   }, [ streamsId ]);
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
-  }, [ tittle ]);
+  }, [ tile ]);
   return (
     <Box sx={{
       flexGrow: '1',
       position: 'relative'
     }}>
       <Header/>
-      {tittle ? <Box>
+      {tile ? <Box>
         <Box
           sx={{
             position: 'absolute',

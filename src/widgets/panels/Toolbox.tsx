@@ -6,7 +6,7 @@ import {
   iconRecordStart,
   iconRecordStop,
   iconSettings,
-  iconTittle
+  iconTile
 } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
@@ -17,7 +17,7 @@ import {
   changeChatVisible,
   changeIsRecording,
   changeModalVisible,
-  changeTittle,
+  changeTile,
   setTypeModal,
   changeLeftOut
 } from '../../app/store/configSlice';
@@ -42,7 +42,7 @@ function Toolbox() {
     return state.config.modal;
   });
   const { isRecording } = useSelector((state: any) => state.config.functions);
-  const { tittle } = useSelector((state: any) => state.config.UI);
+  const { tile } = useSelector((state: any) => state.config.UI);
   const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
   /**
    * TO DO useState предусмотренно для скрывания
@@ -88,12 +88,12 @@ function Toolbox() {
     dispatch(changeLeftOut())
   }
 
-  function changingTittle() {
-    dispatch(changeTittle(!tittle));
+  function changingTile() {
+    dispatch(changeTile(!tile));
   }
 
-  function getColorForTittleButton() {
-    return tittle ? { color: 'green' } : { color: 'white' };
+  function getColorForTileButton() {
+    return tile ? { color: 'green' } : { color: 'white' };
   }
 
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
@@ -157,16 +157,16 @@ function Toolbox() {
           }
           startIcon={<CreateSvgIcon styles={{ color: 'white' }} icon={iconSettings}/>}></Button>
       </Tooltip>
-      <Tooltip title={t('buttons.labels.tittle')}>
+      <Tooltip title={t('buttons.labels.tile')}>
         <Button
-          onClick={changingTittle}
+          onClick={changingTile}
           classes={
             {
               startIcon: 'marginZero'
             }
           }
-          startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTittleButton()}
-                                    icon={iconTittle}/>}></Button>
+          startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTileButton()}
+                                    icon={iconTile}/>}></Button>
       </Tooltip>
       <Tooltip title={t('buttons.labels.record')}>
         <Button

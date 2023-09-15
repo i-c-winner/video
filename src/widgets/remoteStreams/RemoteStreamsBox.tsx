@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 function RemoteStreamsBox() {
-  const { disposition, tittle } = useSelector((state: any) => state.config.UI);
+  const { disposition, tile } = useSelector((state: any) => state.config.UI);
   const streamsId = useSelector((state: any) => {
     return state.streams.streamsId;
   });
@@ -17,7 +17,7 @@ function RemoteStreamsBox() {
   });
 
   useEffect(() => {
-    if (tittle) {
+    if (tile) {
       setStyles({
         display: 'none'
       })
@@ -46,7 +46,7 @@ function RemoteStreamsBox() {
         });
       }
     }
-  }, [ disposition, tittle ]);
+  }, [ disposition, tile ]);
 
     return (
       <Box sx={

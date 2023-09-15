@@ -19,10 +19,9 @@ const EN = {
     createName: 'Your name',
     sendChat: 'Send',
     labels: {
-
       chat: 'Chat',
       settings: 'Settings',
-      tittle: 'Tittle',
+      tile: 'tile',
       record: 'Record',
       exit: 'Exit'
     }
