@@ -36,6 +36,10 @@ const RU= {
       middle: 'Среднее',
       low: 'Низкое',
       disabled: 'Отключено'
+    },
+    audio: {
+      off: 'выкл',
+      on: 'вкл'
     }
   }
 }
