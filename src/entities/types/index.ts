@@ -11,6 +11,6 @@ interface Glagol {
   },
   localStream: MediaStream|null,
   localStreamForPeer: MediaStream| null,
-  recorder?: any
+  recorder?: boolean
 }
 export type {Glagol}

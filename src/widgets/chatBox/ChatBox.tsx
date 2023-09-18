@@ -1,10 +1,10 @@
 import { Box, Button } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { ChatCard } from '../../entities/chatCard/ChatCard';
 import { useRef } from 'react';
 import { glagol } from '../../entities/glagol/glagol';
 import { Xmpp } from '../../entities/conference/xmpp';
-import { IChat, IRootState } from '../../app/types';
+import { IRootState } from '../../app/types';
 import { useSelector } from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
@@ -17,7 +17,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
   const refText = useRef<HTMLTextAreaElement>(null);
   const refContainer = useRef<HTMLDivElement>(null);
 
-  function changeText(event: any) {
+  function changeText(event: ChangeEvent<HTMLTextAreaElement>) {
     setText(event.target.value);
   }
 

@@ -1,5 +1,4 @@
 class Recording {
-  private promiseStream: any;
   private options: string;
   private chunks: Blob[];
   private mediaRecorder: MediaRecorder | null;
