@@ -25,7 +25,7 @@ interface Props {
 function CreateSvgIcon(props: Props) {
   const config = useSelector((state: IRootState) => state.config);
   const { width, height, viewBox } = constants.icon.buttonIcon;
-  const refIcon = useRef<any>(null);
+  const refIcon = useRef<SVGSVGElement>(null);
   function getHeight() {
 
   }
@@ -34,7 +34,7 @@ function CreateSvgIcon(props: Props) {
   }
 
   useEffect(() => {
-    refIcon.current.insertAdjacentHTML("afterbegin", props.icon.content);
+    if (refIcon.current!==null) refIcon.current.insertAdjacentHTML("afterbegin", props.icon.content);
   }, []);
   return (
     <svg style={props.styles} fill="currentColor" ref={refIcon} id={props.icon.attributes.id} version={props.icon.attributes.version}

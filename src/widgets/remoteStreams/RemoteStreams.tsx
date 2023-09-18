@@ -3,11 +3,11 @@ import { glagol } from "../../entities/glagol/glagol";
 import { Card, CardMedia } from '@mui/material';
 
 function RemoteStreams(props: { streamId: string }) {
-  const refVideo = useRef<any>(null);
+  const refVideo = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     glagol.currentStreams[props.streamId].stream.getTracks().forEach((track)=>{
       if (track.kind==='video') {
-        refVideo.current.srcObject=glagol.currentStreams[props.streamId].stream
+       if (refVideo.current!==null) refVideo.current.srcObject=glagol.currentStreams[props.streamId].stream
       }
     })
 

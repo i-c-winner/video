@@ -30,7 +30,7 @@ let recording: any = null;
 
 function Toolbox() {
   const { t } = useTranslation();
-  const refSettings = useRef<any>();
+  const refSettings = useRef(null);
   const dispatch = useDispatch();
   const { openModal, type } = useSelector((state: IRootState) => {
     return state.config.modal;

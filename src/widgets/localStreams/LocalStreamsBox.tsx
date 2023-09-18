@@ -8,32 +8,32 @@ import { useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
 import { IRootState } from '../../app/types';
 
-const qntyScrens=12
+const qtyScreens=12
 const cells: number[] = [];
-for (let i = 0; i < qntyScrens; i++) {
+for (let i = 0; i < qtyScreens; i++) {
   cells.push(i);
 }
 
 function LocalStreamsBox() {
-  const refVideo = useRef<any>(null);
-  const refVideoByTileMode=useRef<any>(null)
+  const refVideo = useRef<HTMLVideoElement>(null);
+  const refVideoByTileMode=useRef<HTMLVideoElement>(null)
   const { tile } = useSelector((state: IRootState) => state.config.UI);
   const { streamsId } = useSelector((state: IRootState) => state.streams);
-  const [ source, setSource ] = useState(streamsId.slice(0, (qntyScrens-1)));
+  const [ source, setSource ] = useState(streamsId.slice(0, (qtyScreens-1)));
   const [ page, setPage ] = useState(1);
 
   function changePage(event: React.ChangeEvent<unknown>, page: number) {
     setPage(page);
-    setSource(() => streamsId.slice(qntyScrens * (page - 1), (qntyScrens + page)));
+    setSource(() => streamsId.slice(qtyScreens * (page - 1), (qtyScreens + page)));
   }
 
   function getMaxPages() {
-    return Math.ceil(streamsId.length / qntyScrens) || 1;
+    return Math.ceil(streamsId.length / qtyScreens) || 1;
   }
 
   useEffect(() => {
     setSource(() => {
-      return streamsId.slice(qntyScrens * (page - 1), (qntyScrens + page));
+      return streamsId.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
   }, [ streamsId ]);
   useEffect(() => {

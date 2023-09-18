@@ -20,7 +20,7 @@ function CreatingUserPage() {
   const url = window.location.pathname.split('/')[1];
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
   const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
-  const refVideo = useRef<any>(null);
+  const refVideo = useRef<HTMLVideoElement>(null);
   const { videoQuantity, audioStream } = useSelector((state: IRootState) => state.config.conference);
 
   type TSelectedType = 'microphone' | 'camera'
@@ -74,7 +74,7 @@ function CreatingUserPage() {
     if (selectedType === 'camera') {
       dispatch(changeQuantityVideo('disabled'));
     } else {
-      dispatch(changeAudioStream(false))
+      dispatch(changeAudioStream(false));
     }
     setModalIsOpen(false);
   }
@@ -83,20 +83,22 @@ function CreatingUserPage() {
     return text === "createName" ? t('buttons.createName') : t('buttons.createRoom');
   }
 
-  const refInput = useRef<any>("");
+  const refInput = useRef<HTMLInputElement>(null);
 
   function action() {
-    if (text === "createRoom") {
-      if (refInput.current.value === "") {
-        glagol.roomName = getRandomText(5);
+    if (refInput.current !== null) {
+      if (text === "createRoom") {
+        if (refInput.current.value === "") {
+          glagol.roomName = getRandomText(5);
+        } else {
+          glagol.roomName = refInput.current.value.toLowerCase();
+        }
+        setText("createName");
       } else {
-        glagol.roomName = refInput.current.value.toLowerCase();
+        glagol.userDisplayName = refInput.current.value !== '' ? refInput.current.value : "I'm incognito";
+        glagol.userNode = getRandomText(8);
+        setText("Room");
       }
-      setText("createName");
-    } else {
-      glagol.userDisplayName = refInput.current.value !== '' ? refInput.current.value : "I'm incognito";
-      glagol.userNode = getRandomText(8);
-      setText("Room");
     }
   }
 
@@ -135,7 +137,9 @@ function CreatingUserPage() {
     });
   }, []);
   useEffect(() => {
-    if (text !== 'Room') refInput.current.value = '';
+    if (refInput.current!==null) {
+      if (text !== 'Room') refInput.current.value = '';
+    }
   }, [ text ]);
   {
     return text !== "Room" ?
@@ -163,10 +167,10 @@ function CreatingUserPage() {
                     startIcon={<CreateSvgIcon
                       styles={stylesSvgButtonCamera()}
                       icon={iconCamera}
-                  />}/>
+                    />}/>
             <Button onClick={openingModal.bind({ type: 'microphone' })}
                     startIcon={<CreateSvgIcon
-                      styles={stylesSvgButtonMicrophone()}  icon={iconMicrophone} />}/>
+                      styles={stylesSvgButtonMicrophone()} icon={iconMicrophone}/>}/>
           </Box>
           <Button sx={{ marginTop: "15px" }} variant="contained" onClick={action}>{getTextButton()}</Button>
           <DialogBox type={selectedType}/>

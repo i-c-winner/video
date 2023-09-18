@@ -14,8 +14,8 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
   const {t}= useTranslation()
   const chats  = useSelector((state: IRootState) => state.chat);
   const [ text, setText ] = useState<string>('');
-  const refText = useRef<any>(null);
-  const refContainer = useRef<any>(null);
+  const refText = useRef<HTMLTextAreaElement>(null);
+  const refContainer = useRef<HTMLDivElement>(null);
 
   function changeText(event: any) {
     setText(event.target.value);
@@ -56,13 +56,15 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
   useEffect(() => {
     function listenerTextArea(event: any) {
       if (event.key === 'Escape') {
-        refText.current.blur();
+       if (refText.current!==null) refText.current.blur();
       }
     }
 
-    if (refContainer.current !== null) {
+    if (refText.current !== null) {
         refText.current.addEventListener('keydown', listenerTextArea);
     }
+
+
     return () => {
      if (refText.current!==null) refText.current.removeEventListener('keydown', listenerTextArea);
     };
