@@ -13,7 +13,7 @@ class Recording {
   }
 
   init() {
-    return new Promise((resolve: any, reject: any) => {
+    return new Promise<MediaStream>((resolve, reject) => {
       resolve(navigator.mediaDevices.getDisplayMedia({
         video: true,
         audio: true

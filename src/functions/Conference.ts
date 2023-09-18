@@ -19,7 +19,7 @@ class Conference {
   }
 
   initPeerConnection() {
-    return new Promise((resolve: any, reject: any) => {
+    return new Promise<unknown>((resolve, reject) => {
       resolve(this.xmpp.init('https://xmpp.prosolen.net:5281/http-bind'));
     });
   }

@@ -2,7 +2,7 @@ function startLocalStream(params: {
   video: boolean|MediaTrackConstraints,
   audio: boolean|MediaTrackConstraints
 }) {
-  return new Promise((resolve: any, reject: any) => {
+  return new Promise<MediaStream>((resolve, reject) => {
     resolve(navigator.mediaDevices.getUserMedia({ video: params.video, audio: params.audio }))
   })
 }
