@@ -54,7 +54,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
   }
 
   useEffect(() => {
-    function listenerTextArea(event: any) {
+    function listenerTextArea(event: KeyboardEvent) {
       if (event.key === 'Escape') {
        if (refText.current!==null) refText.current.blur();
       }
