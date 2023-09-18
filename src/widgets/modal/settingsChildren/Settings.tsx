@@ -14,7 +14,7 @@ function allProps(index: number) {
   };
 }
 
-const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, ref) => {
+const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
   const { t } = useTranslation();
   const {tabs, selectedTab}= useSelector((state: any)=> state.config.modal.settings)
  const dispatch=useDispatch()
@@ -32,9 +32,9 @@ const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props: any, r
       }}>
         <Tabs
           value={value} onChange={handlerChange} aria-label="basic tabs example">
-          <Tab label={t('modal.settings_video')} tabIndex={0} onFocus={props.onFocus} {...allProps(0)}></Tab>
-          <Tab label={t('modal.settings_audio')} tabIndex={1} onFocus={props.onFocus}  {...allProps(1)}></Tab>
-          <Tab label={t('modal.settings_user')} tabIndex={2} onFocus={props.onFocus}  {...allProps(2)}></Tab>
+          <Tab label={t('modal.settings_video')} tabIndex={0} {...allProps(0)}></Tab>
+          <Tab label={t('modal.settings_audio')} tabIndex={1}  {...allProps(1)}></Tab>
+          <Tab label={t('modal.settings_user')} tabIndex={2}   {...allProps(2)}></Tab>
         </Tabs>
       </Box>
       <Box>
