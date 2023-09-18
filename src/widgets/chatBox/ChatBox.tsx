@@ -4,7 +4,7 @@ import { ChatCard } from '../../entities/chatCard/ChatCard';
 import { useRef } from 'react';
 import { glagol } from '../../entities/glagol/glagol';
 import { Xmpp } from '../../entities/conference/xmpp';
-import { IChat } from '../../app/types';
+import { IChat, IRootState } from '../../app/types';
 import { useSelector } from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
@@ -12,7 +12,7 @@ const xmpp = new Xmpp();
 
 function ChatBox(props: { chatBoxVisible: boolean }) {
   const {t}= useTranslation()
-  const chats  = useSelector((state: any) => state.chat);
+  const chats  = useSelector((state: IRootState) => state.chat);
   const [ text, setText ] = useState<string>('');
   const refText = useRef<any>(null);
   const refContainer = useRef<any>(null);
@@ -89,7 +89,7 @@ function ChatBox(props: { chatBoxVisible: boolean }) {
         }
       }
       ref={refContainer}>
-      {chats.map((chat: IChat, index: number) => {
+      {chats.map((chat, index) => {
         return <ChatCard key={index} chat={chat}/>;
       })}
     </Box>

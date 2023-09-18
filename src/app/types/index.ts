@@ -17,7 +17,7 @@ interface IRootState {
   },
   config: {
     conference: {
-      videoQuantity: string,
+      videoQuantity: 'height'| 'middle' | 'low' | 'disabled',
       audioStream: boolean,
       leftOut: boolean
     },
@@ -27,7 +27,7 @@ interface IRootState {
       tile: boolean
     },
     modal: {
-      width: string,
+      width: 'WIDTH_HEIGHT' | 'WIDTH_MIDDLE' | 'WIDTH_LOW',
       openModal: boolean,
       type: string,
       settings: {
@@ -41,8 +41,8 @@ interface IRootState {
     functions: {
       isRecording: boolean
     },
-    chat: string[]
-  }
+  },
+  chat: TChats
 }
 
 export type {

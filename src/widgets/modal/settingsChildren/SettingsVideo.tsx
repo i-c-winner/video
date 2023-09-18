@@ -4,13 +4,14 @@ import { ToggleButton, ToggleButtonGroup, FormControl, FormLabel, RadioGroup, Fo
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeModalVisible, changeQuantityVideo } from '../../../app/store/configSlice';
+import { IRootState } from '../../../app/types';
 
 const qualityVideo = [ 'HEIGHT', 'MIDDLE', 'LOW', 'DISABLED' ];
 
 function SettingsVideo(props: ISettingsProps) {
   const { t } = useTranslation();
 
-  const { videoQuantity } = useSelector((state: any) => state.config.conference);
+  const { videoQuantity } = useSelector((state: IRootState) => state.config.conference);
   const [currentValue, setCurrentValue]= useState(videoQuantity)
   const dispatch = useDispatch();
   const [ view, setView ] = React.useState(videoQuantity);

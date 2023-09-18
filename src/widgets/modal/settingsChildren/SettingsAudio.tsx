@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { IRootState } from '../../../app/types';
 
 function SettingsAudio(props: ISettingsProps) {
   const { t } = useTranslation();
   const { value, index } = props;
   const dispatch = useDispatch();
-  const { audioStream } = useSelector((state: any) => state.config.conference);
+  const { audioStream } = useSelector((state: IRootState) => state.config.conference);
   const styleText = {
     fontSize: '1em',
   };

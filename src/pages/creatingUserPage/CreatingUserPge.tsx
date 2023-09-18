@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import '../styles/index.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeQuantityVideo, changeAudioStream } from '../../app/store/configSlice';
+import { IRootState } from '../../app/types';
 
 
 function CreatingUserPage() {
@@ -20,7 +21,7 @@ function CreatingUserPage() {
   const [ modalIsOpen, setModalIsOpen ] = useState(false);
   const [ selectedType, setSelectedType ] = useState<'microphone' | 'camera'>('camera');
   const refVideo = useRef<any>(null);
-  const { videoQuantity, audioStream } = useSelector((state: any) => state.config.conference);
+  const { videoQuantity, audioStream } = useSelector((state: IRootState) => state.config.conference);
 
   type TSelectedType = 'microphone' | 'camera'
 

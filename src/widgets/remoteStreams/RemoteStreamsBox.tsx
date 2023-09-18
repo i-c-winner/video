@@ -2,10 +2,11 @@ import { RemoteStreams } from "./RemoteStreams";
 import { useSelector } from "react-redux";
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { IRootState } from '../../app/types';
 
 function RemoteStreamsBox() {
-  const { disposition, tile } = useSelector((state: any) => state.config.UI);
-  const streamsId = useSelector((state: any) => {
+  const { disposition, tile } = useSelector((state: IRootState) => state.config.UI);
+  const streamsId = useSelector((state: IRootState) => {
     return state.streams.streamsId;
   });
   const [ styles, setStyles ] = useState<{ [key: string]: string }>({

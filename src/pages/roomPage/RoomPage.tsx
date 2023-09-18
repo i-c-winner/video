@@ -9,6 +9,7 @@ import { Box } from "@mui/material";
 import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
 import { useNavigate } from 'react-router-dom';
+import { IRootState } from '../../app/types';
 
 let firstLoad = true;
 const conference = new Conference();
@@ -19,7 +20,7 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const { audioStream, videoQuantity, leftOut } = useSelector((state: any) => state.config.conference);
+  const { audioStream, videoQuantity, leftOut } = useSelector((state: IRootState) => state.config.conference);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   window.history.replaceState({}, '', glagol.roomName);

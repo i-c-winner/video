@@ -24,26 +24,20 @@ import {
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
 import { Recording } from '../../functions/recording/recording';
+import { IRootState } from '../../app/types';
 
 let recording: any = null;
-
-
-interface IWidth {
-  WIDTH_HEIGHT: string,
-  WIDTH_MIDDLE: string,
-  WIDTH_LOW: string
-}
 
 function Toolbox() {
   const { t } = useTranslation();
   const refSettings = useRef<any>();
   const dispatch = useDispatch();
-  const { openModal, type } = useSelector((state: any) => {
+  const { openModal, type } = useSelector((state: IRootState) => {
     return state.config.modal;
   });
-  const { isRecording } = useSelector((state: any) => state.config.functions);
-  const { tile } = useSelector((state: any) => state.config.UI);
-  const width: keyof IWidth = useSelector((state: any) => state.config.modal.width);
+  const { isRecording } = useSelector((state: IRootState) => state.config.functions);
+  const { tile } = useSelector((state: IRootState) => state.config.UI);
+  const width= useSelector((state: IRootState) => state.config.modal.width);
   /**
    * TO DO useState предусмотренно для скрывания
    */
@@ -80,7 +74,7 @@ function Toolbox() {
   }
 
   function getWidth() {
-    const modal: IWidth = constants.modal;
+    const modal = constants.modal;
     return modal[width];
   }
 

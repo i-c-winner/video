@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { glagol } from '../../entities/glagol/glagol';
 import { useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
+import { IRootState } from '../../app/types';
 
 const qntyScrens=12
 const cells: number[] = [];
@@ -16,8 +17,8 @@ for (let i = 0; i < qntyScrens; i++) {
 function LocalStreamsBox() {
   const refVideo = useRef<any>(null);
   const refVideoByTileMode=useRef<any>(null)
-  const { tile } = useSelector((state: any) => state.config.UI);
-  const { streamsId } = useSelector((state: any) => state.streams);
+  const { tile } = useSelector((state: IRootState) => state.config.UI);
+  const { streamsId } = useSelector((state: IRootState) => state.streams);
   const [ source, setSource ] = useState(streamsId.slice(0, (qntyScrens-1)));
   const [ page, setPage ] = useState(1);
 

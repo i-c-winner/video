@@ -3,9 +3,10 @@ import "../styles/index.scss";
 import { Screens } from '../Screens/Screens';
 import { ChatBox } from '../chatBox/ChatBox';
 import { useSelector } from 'react-redux';
+import { IRootState } from '../../app/types';
 
 function BigScreen() {
-  const config = useSelector((state: any) => state.config);
+  const config = useSelector((state: IRootState) => state.config);
   const chatVisible: boolean = config.UI.chatBoxVisible;
   return (
     <Box sx={
