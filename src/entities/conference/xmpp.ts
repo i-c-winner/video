@@ -10,7 +10,7 @@ type Callback = (...args: unknown[]) => void
 
 class Xmpp {
   public connection: any;
-  private static instance: any;
+  private static instance: Xmpp;
   private listeners: {
     [key: string]: Callback[]
   };
@@ -68,7 +68,7 @@ class Xmpp {
     this.connection.register.connect("prosolen.net", callback);
   };
 
-  handlerPresence = (stanza: any) => {
+  handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
     try {
       if (jingle[0].getAttribute('action') === "enter_to_room") {
@@ -86,7 +86,7 @@ class Xmpp {
     } catch (e) {
     }
       const type = stanza.getAttribute('type');
-      const from = stanza.getAttribute('from');
+      const from = stanza.getAttribute('from') as string;
       if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
         this.emit('leaveRoom');
       }

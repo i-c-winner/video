@@ -20,7 +20,7 @@ class Recording {
     });
   }
 
-  createRecorder(stream: any) {
+  createRecorder(stream: MediaStream) {
     this.mediaRecorder = new MediaRecorder(stream, {
       mimeType: this.options
     });
