@@ -1,7 +1,7 @@
 import { glagol } from "../glagol/glagol";
 import { constants } from '../../shared/config/constants';
 
-type Callback = (...args: any[]) => void
+type Callback = (...args: unknown[]) => void
 type Params = {
   audio: number,
   video: number,
@@ -9,7 +9,7 @@ type Params = {
 }
 
 class PeerConnection {
-  private static instance: any;
+  private static instance: PeerConnection;
   pc: RTCPeerConnection;
   private listeners: {
     [key: string]: Callback[]

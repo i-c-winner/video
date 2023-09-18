@@ -32,7 +32,7 @@ class Conference {
     this.peerConnection.addTrack(track);
   }
 
-  send(message: any) {
+  send(message: Strophe.Builder) {
     this.xmpp.connection.send(message);
   }
 

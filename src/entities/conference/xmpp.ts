@@ -6,7 +6,7 @@ import { glagol } from '../glagol/glagol';
 const { Strophe }: any = strophe;
 setRegister(strophe);
 
-type Callback = (...args: any[]) => void
+type Callback = (...args: unknown[]) => void
 
 class Xmpp {
   public connection: any;

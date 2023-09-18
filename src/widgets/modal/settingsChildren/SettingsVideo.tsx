@@ -1,5 +1,5 @@
 import { ISettingsProps } from '../../types';
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEventHandler, useState } from 'react';
 import { ToggleButton, ToggleButtonGroup, FormControl, FormLabel, RadioGroup, FormControlLabel,Switch,  Radio } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ function SettingsVideo(props: ISettingsProps) {
   const [currentValue, setCurrentValue]= useState(videoQuantity)
   const dispatch = useDispatch();
   const [ view, setView ] = React.useState(videoQuantity);
-  function onChange(event: any){
+  function onChange(event: ChangeEvent<HTMLInputElement>){
 dispatch(changeQuantityVideo(event.target.value))
   }
 function isChecked(type: string) {

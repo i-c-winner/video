@@ -8,7 +8,7 @@ import {
   Switch
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IRootState } from '../../../app/types';
 
 function SettingsAudio(props: ISettingsProps) {
@@ -20,7 +20,7 @@ function SettingsAudio(props: ISettingsProps) {
     fontSize: '1em',
   };
 
-  function onChange(event: any) {
+  function onChange() {
     dispatch(changeAudioStream(!audioStream));
   }
 
