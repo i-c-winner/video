@@ -74,32 +74,37 @@ class Xmpp {
       if (jingle[0].getAttribute('action') === "enter_to_room") {
         const x = stanza.getElementsByTagName('x');
         try {
-          const statuses: any[] = Array.from(x[1].getElementsByTagName('status'));
-          if (+statuses[0].getAttribute('code') === 201) {
-            Xmpp.instance.emit("validateRoom");
-          } else if (+statuses[0].getAttribute('code') === 100) {
-            Xmpp.instance.emit("inviteRoom");
+          const statuses: Element[] = Array.from(x[1].getElementsByTagName('status'));
+          if (statuses[0] !== null) {
+            if (Number(statuses[0].getAttribute('code')) === 201) {
+              Xmpp.instance.emit("validateRoom");
+            } else if (Number(statuses[0].getAttribute('code')) === 100) {
+              Xmpp.instance.emit("inviteRoom");
+            }
           }
+
         } catch (e) {
         }
       }
     } catch (e) {
     }
-      const type = stanza.getAttribute('type');
-      const from = stanza.getAttribute('from') as string;
-      if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
-        this.emit('leaveRoom');
-      }
+    const type = stanza.getAttribute('type');
+    const from = stanza.getAttribute('from') as string;
+    if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
+      this.emit('leaveRoom');
+    }
     return true;
   };
 
-  handlerMessage = (stanza: any) => {
+  handlerMessage = (stanza: Element) => {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
     const jimble = stanza.getElementsByTagName('jimble')[0];
     const jimbleText = Strophe.getText(jimble);
     if (bodyText === "add_track") {
-      const video: number = +jimble.getAttribute('video');
-      const audio: number = +jimble.getAttribute('audio');
+      const video: number = Number(jimble.getAttribute('video'));
+      const audio: number = Number(jimble.getAttribute('audio'));
+
+
       this.emit('addTrack', {
         audio: audio * (-1),
         video: video * (-1),
@@ -109,10 +114,11 @@ class Xmpp {
       console.log(stanza);
       this.emit("iceCandidate", jimbleText);
     } else if (bodyText === "remove_track") {
-      const video: number = +jimble.getAttribute('video');
-      const audio: number = +jimble.getAttribute('audio');
-      const id = jimble.getAttribute('id_remote').split('/')[1];
-      this.emit('deleteStreamId', id);
+      const video: number = Number(jimble.getAttribute('video'));
+      const audio: number = Number(jimble.getAttribute('audio'));
+
+      const id = jimble.getAttribute('id_remote') as string;
+      this.emit('deleteStreamId', id.split('/')[1]);
       this.emit('removeTrack', {
         audio,
         video,
@@ -124,11 +130,11 @@ class Xmpp {
     return true;
   };
 
-  handlerIqTypeResult = (stanza: any) => {
+  handlerIqTypeResult = (stanza: Element) => {
     this.emit("inviteRoom");
     return true;
   };
-  handlerMessageGroupChat = (stanza: any) => {
+  handlerMessageGroupChat = (stanza: Element) => {
     this.emit('messageWasReceived', stanza);
     return true;
   };
@@ -144,7 +150,7 @@ class Xmpp {
     this.listeners[name].push(callback);
   }
 
-  emit(name: string, ...args: any[]) {
+  emit(name: string, ...args: unknown[]) {
     if (this.listeners[name]) {
       new Error(`Listener ${name} не сущевствуте`);
     }

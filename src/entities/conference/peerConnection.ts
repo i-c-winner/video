@@ -60,11 +60,6 @@ class PeerConnection {
         this.emit("sendAnswer", candidate64);
       }
     });
-    this.pc.onconnectionstatechange = ((event: any) => {
-      if (event.target.iceConnectionState === 'disconnected') this.emit('leaveRoom');
-    });
-    this.pc.oniceconnectionstatechange = ((event) => {
-    });
     this.currentTransceivers = {
       audio: 0,
       video: 0
@@ -140,7 +135,7 @@ class PeerConnection {
   createAnswer() {
     this.pc.createAnswer({
       iceRestart: true
-    }).then((answer: any) => {
+    }).then((answer: RTCLocalSessionDescriptionInit) => {
       this.pc.setLocalDescription(answer);
       const answer64 = btoa(JSON.stringify({ answer }));
       this.emit("sendAnswer", answer64);

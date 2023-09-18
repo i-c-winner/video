@@ -26,7 +26,7 @@ import { constants } from '../../shared/config/constants';
 import { Recording } from '../../functions/recording/recording';
 import { IRootState } from '../../app/types';
 
-let recording: any = null;
+let recording: null | Recording = null;
 
 function Toolbox() {
   const { t } = useTranslation();
@@ -104,13 +104,13 @@ function Toolbox() {
   }
 
   function recordClick() {
-    dispatch(changeIsRecording(!isRecording));
+    dispatch(changeIsRecording(!isRecording));``
   }
 
   useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
-      rec.init().then((result: any) => {
+      rec.init().then((result) => {
         rec.createRecorder(result);
         rec.createListeners();
         rec.start();
