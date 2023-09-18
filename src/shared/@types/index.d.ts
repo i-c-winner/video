@@ -1,5 +1,5 @@
 declare module "\*.svg" {
-  import React = require("react");
-  const ReactComponent: any;
+  import { ComponentType } from 'react';
+  const ReactComponent: {attributes: { [key: string]: string; }; content: string; };
   export default ReactComponent;
 }
