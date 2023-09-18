@@ -1,39 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from '../../shared/config/config';
-import * as stream from 'stream';
+import { IRootState } from '../types';
 
 const configSlice = createSlice({
   name: "config",
   initialState: config,
   reducers: {
-    changeChatVisible: ((state: any) => {
+    changeChatVisible: ((state) => {
       state.UI.chatBoxVisible = !state.UI.chatBoxVisible;
-    }),
-    setSelectedTab: ((state: any, action) => {
-      state.settings.selectedTab = action.payload;
     }),
     setTypeModal: ((state, action) => {
       state.modal.type = action.payload;
     }),
-    changeModalVisible: ((state: any, action) => {
+    changeModalVisible: ((state, action) => {
       state.modal.openModal = action.payload;
     }),
-    changeQuantityVideo: ((state: any, action) => {
+    changeQuantityVideo: ((state, action) => {
       state.conference.videoQuantity = action.payload;
     }),
-    changeAudioStream: ((state: any, action)=>{
+    changeAudioStream: ((state, action)=>{
       state.conference.audioStream=action.payload
     }),
-    changeTile: ((state: any, action)=>{
+    changeTile: ((state, action)=>{
       state.UI.tile=action.payload
     }),
-    changeSelectedTab: ((state: any, action)=>{
+    changeSelectedTab: ((state, action)=>{
       state.modal.settings.selectedTab=action.payload
     }),
-    changeIsRecording: ((state: any, action)=>{
+    changeIsRecording: ((state, action)=>{
       state.functions.isRecording=action.payload
     }),
-    changeLeftOut: ((state: any)=>{
+    changeLeftOut: ((state)=>{
       state.conference.leftOut=true
     })
   }

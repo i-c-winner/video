@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IStreams} from "../types";
-const initialState: IStreams={
+import { IRootState, IStreams } from "../types";
+const initialState: IRootState['streams']={
   streamsId: []
 }
 
@@ -9,7 +9,7 @@ const streamsSlice=createSlice({
   name: 'streams',
   initialState,
   reducers: {
-    addStream: ((state: IStreams, action)=>{
+    addStream: ((state, action)=>{
       function hasId(id:string) {
         return state.streamsId.includes(id)
       }

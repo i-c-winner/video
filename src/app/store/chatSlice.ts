@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {TChats} from '../types';
+import { IRootState } from '../types';
 
-const initialState: TChats =[]
+const initialState: IRootState['chat'] =[]
 
 const chatSlice=createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    pushChat: ((state: TChats, action)=>{
+    pushChat: ((state, action)=>{
       state.unshift(action.payload)
     })
   }
