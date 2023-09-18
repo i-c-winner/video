@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {changeSelectedTab} from '../../../app/store/configSlice';
+import { IRootState } from '../../../app/types';
 
 function allProps(index: number) {
   return {
@@ -16,7 +17,7 @@ function allProps(index: number) {
 
 const Settings = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
   const { t } = useTranslation();
-  const {tabs, selectedTab}= useSelector((state: any)=> state.config.modal.settings)
+  const {tabs, selectedTab}= useSelector((state: IRootState)=> state.config.modal.settings)
  const dispatch=useDispatch()
   const [ value, setValue ] = useState<number>(selectedTab);
   function handlerChange(event: React.SyntheticEvent, newValue: number) {

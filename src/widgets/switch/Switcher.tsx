@@ -1,6 +1,13 @@
 import { Box, Typography } from '@mui/material';
+interface IProps {
+  state: string,
+  currentState: string,
+  isToggle: boolean,
+  textIsToggle: string,
+  text: string
+}
 
-function Switcher(props: any) {
+function Switcher(props: IProps) {
   function getStyles() {
     const baseStyle={
       position: 'absolute',
