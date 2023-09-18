@@ -30,7 +30,7 @@ function RoomPage() {
       startLocalStream({
         video: true,
         audio: true
-      }).then((stream: any) => {
+      }).then((stream) => {
         glagol.localStreamForPeer = stream;
         conference.changeAudio(audioStream);
         conference.changeQualityVideo(videoQuantity);
@@ -123,7 +123,7 @@ function RoomPage() {
         dispatch(removeStream(stream[0]));
       }
 
-      function messageWasReceived(stanza: any) {
+      function messageWasReceived(stanza: Element[]) {
         try {
           const jingle = stanza[0].getElementsByTagName('jingle')[0];
           const text = Strophe.getText(stanza[0].getElementsByTagName('body')[0]);
