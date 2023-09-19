@@ -32,6 +32,9 @@ const configSlice = createSlice({
     }),
     changeLeftOut: ((state)=>{
       state.conference.leftOut=true
+    }),
+    changeToolboxIsVisible: ((state, action)=>{
+      state.UI.toolboxIsVisible=action.payload
     })
   }
 });
@@ -44,6 +47,7 @@ export const {
   changeAudioStream,
   changeSelectedTab,
   changeIsRecording,
-  changeLeftOut
+  changeLeftOut,
+  changeToolboxIsVisible
 } = configSlice.actions;
 export default configSlice.reducer;

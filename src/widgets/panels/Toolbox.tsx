@@ -32,17 +32,19 @@ function Toolbox() {
   const { t } = useTranslation();
   const refSettings = useRef(null);
   const dispatch = useDispatch();
+  const [toolboxVisible, setToolboxVisible]= useState(true)
   const { openModal, type } = useSelector((state: IRootState) => {
     return state.config.modal;
   });
   const { isRecording } = useSelector((state: IRootState) => state.config.functions);
   const { tile } = useSelector((state: IRootState) => state.config.UI);
   const width= useSelector((state: IRootState) => state.config.modal.width);
-  /**
-   * TO DO useState предусмотренно для скрывания
-   */
+  const {toolboxIsVisible} = useSelector((state: IRootState)=>state.config.UI)
+  function startTiming() {
+    setToolboxVisible(true)
+    setTimeout(()=>{setToolboxVisible(false)},1500)
+  }
 
-  const [ visible, setVisible ] = useState<boolean>(true);
   const baseStyle = {
     backgroundColor: 'background.paper',
     position: 'absolute',
@@ -52,7 +54,7 @@ function Toolbox() {
   };
 
   function getStyleToolbox() {
-    if (visible) {
+    if (toolboxVisible) {
       return {
         ...baseStyle,
         bottom: '0px'
@@ -60,7 +62,7 @@ function Toolbox() {
     }
     return {
       ...baseStyle,
-      bottom: '-50px'
+      bottom: '-250px'
     };
   }
 
@@ -106,7 +108,17 @@ function Toolbox() {
   function recordClick() {
     dispatch(changeIsRecording(!isRecording));``
   }
-
+  useEffect(()=>{
+    setToolboxVisible(toolboxIsVisible)
+    startTiming()
+  },[])
+  useEffect(()=>{
+    if (toolboxIsVisible) {
+      setToolboxVisible(true)
+    } else {
+      startTiming()
+    }
+  }, [toolboxIsVisible])
   useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
@@ -122,10 +134,8 @@ function Toolbox() {
       if (recording !== null) {
         recording.stop();
       }
-
     }
   }, [ isRecording ]);
-
   return (
     <Box sx={getStyleToolbox()}>
       <Tooltip title={t('buttons.labels.chat')}>
