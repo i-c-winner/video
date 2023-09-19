@@ -9,6 +9,8 @@ function Screens() {
     <Box sx={{
       display: 'flex',
       flexGrow: '1',
+      height: 'vh100',
+      overflowY: 'hidden'
     }}>
       <LocalStreamsBox />
       <RemoteStreamsBox/>

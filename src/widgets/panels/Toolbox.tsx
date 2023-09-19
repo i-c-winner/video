@@ -50,7 +50,7 @@ function Toolbox() {
     position: 'absolute',
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   };
 
   function getStyleToolbox() {
