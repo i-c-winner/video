@@ -11,7 +11,6 @@ import { TimeoutId } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/type
 
 function BigScreen() {
   const dispatch = useDispatch();
-  const [ timeOutId, setTimeOutId ] = useState<null | TimeoutId>(null);
   const refScreen = useRef<HTMLDivElement>(null);
   const config = useSelector((state: IRootState) => state.config);
   const chatVisible: boolean = config.UI.chatBoxVisible;

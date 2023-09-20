@@ -35,6 +35,9 @@ const configSlice = createSlice({
     }),
     changeToolboxIsVisible: ((state, action)=>{
       state.UI.toolboxIsVisible=action.payload
+    }),
+    changeRemoteBoxIsVisible: ((state, action)=>{
+      state.UI.remoteBoxIsVisible=action.payload
     })
   }
 });
@@ -48,6 +51,7 @@ export const {
   changeSelectedTab,
   changeIsRecording,
   changeLeftOut,
-  changeToolboxIsVisible
+  changeToolboxIsVisible,
+  changeRemoteBoxIsVisible
 } = configSlice.actions;
 export default configSlice.reducer;

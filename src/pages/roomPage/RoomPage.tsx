@@ -10,6 +10,7 @@ import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
 import { useNavigate } from 'react-router-dom';
 import { IRootState } from '../../app/types';
+import { changeRemoteBoxIsVisible } from '../../app/store/configSlice';
 
 let firstLoad = true;
 const conference = new Conference();
@@ -20,6 +21,7 @@ const connection = async () => {
 };
 
 function RoomPage() {
+  const {remoteBoxIsVisible}= useSelector((state: IRootState)=>state.config.UI)
   const { audioStream, videoQuantity, leftOut } = useSelector((state: IRootState) => state.config.conference);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -115,12 +117,18 @@ function RoomPage() {
 
       function setStreamId(stream: RTCTrackEvent[]) {
         const id = stream[0].streams[0].id;
-        if (id.split('/')[1] !== undefined) dispatch(addStream(id.split('/')[1]));
+        if (id.split('/')[1] !== undefined) {
+          if (!remoteBoxIsVisible) openRemoteStream(true)
+          dispatch(addStream(id.split('/')[1]));
+        }
       }
 
       function deleteStreamId(stream: string) {
         delete glagol.currentStreams[stream[0]];
         dispatch(removeStream(stream[0]));
+        if (Object.keys(glagol.currentStreams).length===0) {
+          openRemoteStream(false)
+        }
       }
 
       function messageWasReceived(stanza: Element[]) {
@@ -139,6 +147,9 @@ function RoomPage() {
           );
         } catch (e) {
         }
+      }
+      function openRemoteStream(visible: boolean) {
+        dispatch(changeRemoteBoxIsVisible(visible))
       }
 
       conference.xmppRegistering();

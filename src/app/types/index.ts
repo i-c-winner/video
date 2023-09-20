@@ -25,7 +25,8 @@ interface IRootState {
       chatBoxVisible: boolean,
       disposition: string,
       tile: boolean,
-      toolboxIsVisible: boolean
+      toolboxIsVisible: boolean,
+      remoteBoxIsVisible: boolean
     },
     modal: {
       width: 'WIDTH_HEIGHT' | 'WIDTH_MIDDLE' | 'WIDTH_LOW',

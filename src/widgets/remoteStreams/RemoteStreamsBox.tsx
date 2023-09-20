@@ -5,19 +5,19 @@ import { useEffect, useState } from 'react';
 import { IRootState } from '../../app/types';
 
 function RemoteStreamsBox() {
-  const { disposition, tile } = useSelector((state: IRootState) => state.config.UI);
+  const { disposition, tile, toolboxIsVisible } = useSelector((state: IRootState) => state.config.UI);
   const streamsId = useSelector((state: IRootState) => {
     return state.streams.streamsId;
   });
-  const [ styles, setStyles ] = useState<{ [key: string]: string }>({
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    height: '100px',
-    flexGrow: '1'
-  });
+  const [ styles, setStyles ] = useState<{ [key: string]: string }>({});
+  const [heightRemoteBox, setHeightRemoteBox]= useState('calc(100vh - 65px)')
 
   useEffect(() => {
+    if (!toolboxIsVisible) {
+      setHeightRemoteBox('calc(100vh - 65px)')
+    } else {
+      setHeightRemoteBox('100vh')
+    }
     if (tile) {
       setStyles({
         display: 'none'
@@ -28,8 +28,11 @@ function RemoteStreamsBox() {
           position: 'absolute',
           top: '0',
           right: '0',
-          height: '100px',
-          flexGrow: '1'
+          height: '100vh',
+          flexGrow: '1',
+          backgroundColor:  'background.paper',
+          padding: '10px 10px 50px 10px',
+          boxSizing: 'border-box',
         });
       } else {
         setStyles({

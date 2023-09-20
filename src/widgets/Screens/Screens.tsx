@@ -1,10 +1,11 @@
-import { Header } from '../panels/Header';
-import { Toolbox } from '../panels/Toolbox';
+import {useSelector} from 'react-redux';
 import { Box } from '@mui/material';
 import { RemoteStreamsBox } from '../remoteStreams/RemoteStreamsBox';
 import { LocalStreamsBox } from '../localStreams/LocalStreamsBox';
+import { IRootState } from '../../app/types';
 
 function Screens() {
+  const {remoteBoxIsVisible} = useSelector((state: IRootState)=>state.config.UI)
   return (
     <Box sx={{
       display: 'flex',
@@ -13,7 +14,7 @@ function Screens() {
       overflowY: 'hidden'
     }}>
       <LocalStreamsBox />
-      <RemoteStreamsBox/>
+      {remoteBoxIsVisible?<RemoteStreamsBox/>: null}
     </Box>
   );
 }
