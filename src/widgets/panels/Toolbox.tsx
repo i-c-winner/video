@@ -32,17 +32,22 @@ function Toolbox() {
   const { t } = useTranslation();
   const refSettings = useRef(null);
   const dispatch = useDispatch();
-  const [toolboxVisible, setToolboxVisible]= useState(true)
+  const [ toolboxVisible, setToolboxVisible ] = useState(true);
   const { openModal, type } = useSelector((state: IRootState) => {
     return state.config.modal;
   });
   const { isRecording } = useSelector((state: IRootState) => state.config.functions);
   const { tile } = useSelector((state: IRootState) => state.config.UI);
-  const width= useSelector((state: IRootState) => state.config.modal.width);
-  const {toolboxIsVisible} = useSelector((state: IRootState)=>state.config.UI)
+  const width = useSelector((state: IRootState) => state.config.modal.width);
+  const { toolboxIsVisible } = useSelector((state: IRootState) => state.config.UI);
+  const [classes, setClasses]= useState('start')
+  const refToolbox= useRef<HTMLDivElement>(null)
+
   function startTiming() {
-    setToolboxVisible(true)
-    setTimeout(()=>{setToolboxVisible(false)},1500)
+    setToolboxVisible(true);
+    setTimeout(() => {
+      setToolboxVisible(false);
+    }, 1500);
   }
 
   const baseStyle = {
@@ -81,7 +86,7 @@ function Toolbox() {
   }
 
   function exit() {
-    dispatch(changeLeftOut())
+    dispatch(changeLeftOut());
   }
 
   function changingTile() {
@@ -106,19 +111,27 @@ function Toolbox() {
   }
 
   function recordClick() {
-    dispatch(changeIsRecording(!isRecording));``
+    dispatch(changeIsRecording(!isRecording));
+
   }
-  useEffect(()=>{
-    setToolboxVisible(toolboxIsVisible)
-    startTiming()
-  },[])
-  useEffect(()=>{
-    if (toolboxIsVisible) {
-      setToolboxVisible(true)
-    } else {
-      startTiming()
+
+  useEffect(() => {
+    if (refToolbox.current!==null) {
+      refToolbox.current.classList.add('is-visible')
+      refToolbox.current.classList.add('toolbox')
     }
-  }, [toolboxIsVisible])
+  },[]);
+  useEffect(() => {
+    console.log(toolboxVisible)
+    if (refToolbox.current!==null) {
+      if (!toolboxIsVisible) {
+        refToolbox.current.classList.add('is-visible')
+      } else {
+        refToolbox.current.classList.remove('is-visible')
+      }
+    }
+  }
+    , [ toolboxIsVisible ]);
   useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
@@ -127,8 +140,8 @@ function Toolbox() {
         rec.createListeners();
         rec.start();
         recording = rec;
-      }).catch((error)=>{
-       dispatch(changeIsRecording(false))
+      }).catch((error) => {
+        dispatch(changeIsRecording(false));
       });
     } else {
       if (recording !== null) {
@@ -137,7 +150,7 @@ function Toolbox() {
     }
   }, [ isRecording ]);
   return (
-    <Box sx={getStyleToolbox()}>
+    <Box ref={refToolbox}>
       <Tooltip title={t('buttons.labels.chat')}>
         <Button
           onClick={() => {

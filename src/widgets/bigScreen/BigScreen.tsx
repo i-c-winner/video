@@ -7,9 +7,11 @@ import { IRootState } from '../../app/types';
 import { useEffect, useRef, useState } from 'react';
 import { changeToolboxIsVisible } from '../../app/store/configSlice';
 import { useDispatch } from 'react-redux';
+import { TimeoutId } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/types';
 
 function BigScreen() {
   const dispatch = useDispatch();
+  const [ timeOutId, setTimeOutId ] = useState<null | TimeoutId>(null);
   const refScreen = useRef<HTMLDivElement>(null);
   const config = useSelector((state: IRootState) => state.config);
   const chatVisible: boolean = config.UI.chatBoxVisible;
@@ -18,10 +20,10 @@ function BigScreen() {
     if (refScreen.current !== null) {
       const screenY = refScreen.current.offsetHeight;
       refScreen.current.addEventListener('mousemove', (event: any) => {
-        if ((screenY-event.clientY)<50) {
-          dispatch(changeToolboxIsVisible(true))
+        if ((screenY - event.clientY) < 50) {
+          dispatch(changeToolboxIsVisible(true));
         } else {
-          dispatch(changeToolboxIsVisible(false))
+          dispatch(changeToolboxIsVisible(false));
         }
       });
     }

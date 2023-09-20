@@ -7,6 +7,7 @@
     max-width: 200px;
     margin: 10px;
   }
+
   &__localstream {
     width: 250px;
     height: 200px;
@@ -31,6 +32,7 @@
     }
   }
 }
+
 .modal_settings {
   margin: 100px auto;
   background-color: var(--background-paper);
@@ -43,3 +45,16 @@
   }
 }
 
+.toolbox {
+  background-color: var(--background-paper);
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  bottom: 0;
+  transition: linear bottom 0.3s;
+}
+.is-visible {
+  bottom: -250px;
+  transition-delay: 3s;
+}

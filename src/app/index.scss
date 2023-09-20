@@ -1,5 +1,7 @@
+$backgroundPaper: #202f33;
+$backgroundColor: #1D565C;
 body {
-  background-color: #1D565C;
+  background-color: $backgroundColor;
   margin: initial;
 }
 button {
@@ -8,5 +10,5 @@ button {
   }
 }
 :root {
- --background-paper: #202f33;
+ --background-paper: #{$backgroundPaper}
 }
