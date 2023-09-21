@@ -9,7 +9,8 @@ const config = {
     disposition: 'VERTICAL' as 'VERTICAL'|'HORIZONTAL',
     tile: false,
     toolboxIsVisible: true,
-    remoteBoxIsVisible: false
+    remoteBoxIsVisible: false,
+    widthRemoteBox: ''
   },
   modal: {
     width: 'WIDTH_MIDDLE',
