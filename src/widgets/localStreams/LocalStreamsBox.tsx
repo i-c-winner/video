@@ -8,7 +8,10 @@ import { useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
 import { IRootState } from '../../app/types';
 
-const qtyScreens=12
+
+const qtyRows = 3;
+const qtyColumns = 4;
+const qtyScreens = qtyColumns * qtyRows;
 const cells: number[] = [];
 for (let i = 0; i < qtyScreens; i++) {
   cells.push(i);
@@ -16,10 +19,10 @@ for (let i = 0; i < qtyScreens; i++) {
 
 function LocalStreamsBox() {
   const refVideo = useRef<HTMLVideoElement>(null);
-  const refVideoByTileMode=useRef<HTMLVideoElement>(null)
+  const refVideoByTileMode = useRef<HTMLVideoElement>(null);
   const { tile } = useSelector((state: IRootState) => state.config.UI);
   const { streamsId } = useSelector((state: IRootState) => state.streams);
-  const [ source, setSource ] = useState(streamsId.slice(0, (qtyScreens-1)));
+  const [ source, setSource ] = useState(streamsId.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
 
   function changePage(event: React.ChangeEvent<unknown>, page: number) {
@@ -38,7 +41,7 @@ function LocalStreamsBox() {
   }, [ streamsId ]);
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
-    if (refVideoByTileMode.current!==null) refVideoByTileMode.current.srcObject =glagol.localStream
+    if (refVideoByTileMode.current !== null) refVideoByTileMode.current.srcObject = glagol.localStream;
   }, [ tile ]);
   return (
     <Box sx={{
@@ -47,10 +50,10 @@ function LocalStreamsBox() {
     }}>
       <Header/>
       {tile ? <Box
-      sx={{
-        display: 'flex',
-        paddingTop: '100px'
-      }}>
+        sx={{
+          display: 'flex',
+          paddingTop: '100px'
+        }}>
         <video autoPlay={true} ref={refVideoByTileMode} className="video__localstream"/>
         <Box
           sx={{
@@ -61,8 +64,8 @@ function LocalStreamsBox() {
             right: '0',
             bottom: '110px',
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gridTemplateRows: 'repeat(3, 1fr)'
+            gridTemplateColumns: `repeat(${qtyColumns}, 1fr)`,
+            gridTemplateRows: `repeat(${qtyRows}, 1fr)`
           }}
         >
           {cells.map((index) => {
@@ -70,12 +73,12 @@ function LocalStreamsBox() {
             return <Box
               key={index}
             >
-              {value ? <RemoteStreams streamId={value}/> : null}
+              {value && <RemoteStreams streamId={value}/>}
             </Box>;
           })}
           {/*{source.map((id: string, index: number) => <RemoteStreams key={index} streamId={id}/>)}*/}
         </Box>
-        {getMaxPages() > 1 ? <Pagination
+        {getMaxPages() > 1 && <Pagination
           onChange={changePage}
           sx={
             {
@@ -87,7 +90,7 @@ function LocalStreamsBox() {
             }
           }
           showFirstButton={true} showLastButton={true} variant="outlined" count={getMaxPages()} hidePrevButton
-          hideNextButton/> : null}
+          hideNextButton/>}
       </Box> : <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>}
       <Toolbox/>
     </Box>
