@@ -26,7 +26,8 @@ interface IRootState {
       disposition: string,
       tile: boolean,
       toolboxIsVisible: boolean,
-      remoteBoxIsVisible: boolean
+      remoteBoxIsVisible: boolean,
+      sharingScreen: boolean
     },
     modal: {
       width: 'WIDTH_HEIGHT' | 'WIDTH_MIDDLE' | 'WIDTH_LOW',

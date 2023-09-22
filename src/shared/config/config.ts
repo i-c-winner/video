@@ -10,7 +10,8 @@ const config = {
     tile: false,
     toolboxIsVisible: true,
     remoteBoxIsVisible: false,
-    widthRemoteBox: ''
+    widthRemoteBox: '',
+    sharingScreen: false
   },
   modal: {
     width: 'WIDTH_MIDDLE',
