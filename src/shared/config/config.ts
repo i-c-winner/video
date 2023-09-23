@@ -26,7 +26,7 @@ const config = {
     }
   },
   functions: {
-    isRecording: false
+    isRecording: false,
   }
 };
 

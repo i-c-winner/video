@@ -63,6 +63,7 @@ function RoomPage() {
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
 
+
       function leaveRoom() {
         navigate('/exit');
       }

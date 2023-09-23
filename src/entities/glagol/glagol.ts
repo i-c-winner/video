@@ -8,6 +8,7 @@ const glagol: Glagol= {
   },
   localStream: null,
   localStreamForPeer: null,
+  sharingStream: null
 }
 
 export {glagol}
