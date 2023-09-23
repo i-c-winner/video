@@ -88,7 +88,7 @@ function LocalStreamsBox() {
   }, [ streamsId ]);
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
-  }, [ tile ]);
+  }, [ tile, sharingScreen ]);
   return (
     <Box sx={{
       flexGrow: '1',
