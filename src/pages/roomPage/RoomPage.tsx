@@ -21,7 +21,7 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const {remoteBoxIsVisible}= useSelector((state: IRootState)=>state.config.UI)
+  const { remoteBoxIsVisible, sharingScreen } = useSelector((state: IRootState) => state.config.UI);
   const { audioStream, videoQuantity, leftOut } = useSelector((state: IRootState) => state.config.conference);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,8 +50,20 @@ function RoomPage() {
     conference.changeAudio(audioStream);
   }, [ audioStream ]);
   useEffect(() => {
-   if (leftOut) conference.leaveRoom();
+    if (leftOut) conference.leaveRoom();
   }, [ leftOut ]);
+  useEffect(() => {
+    if (sharingScreen) {
+      const message = new Strophe.Builder('message', {
+        to: `${glagol.roomName}@conference.prosolen.net/focus`,
+        type: 'chat',
+        'xml:lang': 'en'
+      }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
+        .c('body', {}).t( "offer_dashboard").up()
+        .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
+      conference.send(message);
+    }
+  }, [ sharingScreen ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
@@ -62,6 +74,8 @@ function RoomPage() {
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
+
+      // conference.XmppOn('sharingOffer', sharingOffer);
 
 
       function leaveRoom() {
@@ -119,7 +133,7 @@ function RoomPage() {
       function setStreamId(stream: RTCTrackEvent[]) {
         const id = stream[0].streams[0].id;
         if (id.split('/')[1] !== undefined) {
-          if (!remoteBoxIsVisible) openRemoteStream(true)
+          if (!remoteBoxIsVisible) openRemoteStream(true);
           dispatch(addStream(id.split('/')[1]));
         }
       }
@@ -127,8 +141,8 @@ function RoomPage() {
       function deleteStreamId(stream: string) {
         delete glagol.currentStreams[stream[0]];
         dispatch(removeStream(stream[0]));
-        if (Object.keys(glagol.currentStreams).length===0) {
-          openRemoteStream(false)
+        if (Object.keys(glagol.currentStreams).length === 0) {
+          openRemoteStream(false);
         }
       }
 
@@ -149,8 +163,9 @@ function RoomPage() {
         } catch (e) {
         }
       }
+
       function openRemoteStream(visible: boolean) {
-        dispatch(changeRemoteBoxIsVisible(visible))
+        dispatch(changeRemoteBoxIsVisible(visible));
       }
 
       conference.xmppRegistering();

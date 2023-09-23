@@ -170,7 +170,7 @@ function Toolbox() {
           startIcon={<CreateSvgIcon sizes={{ viewBox: '15 15 30 30' }} styles={getColorForTileButton()}
                                     icon={iconTile}/>}></Button>
       </Tooltip>
-      <Tooltip title={t('buttons.labels.tile')}>
+      <Tooltip title={t('buttons.labels.sharing')}>
         <Button
           onClick={sharingScreenAction}
           classes={
@@ -178,7 +178,7 @@ function Toolbox() {
               startIcon: 'marginZero'
             }
           }
-          startIcon={<CreateSvgIcon sizes={{ viewBox: '0 0 32 32' }} styles={getColorForTileButton()}
+          startIcon={<CreateSvgIcon sizes={{ viewBox: '0 0 32 32' }} styles={{color: 'white'}}
                                     icon={iconSharing}/>}></Button>
       </Tooltip>
       <Tooltip title={t('buttons.labels.record')}>
