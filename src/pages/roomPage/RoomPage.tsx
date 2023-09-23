@@ -10,7 +10,7 @@ import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
 import { useNavigate } from 'react-router-dom';
 import { IRootState } from '../../app/types';
-import { changeRemoteBoxIsVisible } from '../../app/store/configSlice';
+import { changeItHasSharingStream, changeRemoteBoxIsVisible } from '../../app/store/configSlice';
 
 let firstLoad = true;
 const conference = new Conference();
@@ -59,9 +59,12 @@ function RoomPage() {
         type: 'chat',
         'xml:lang': 'en'
       }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
-        .c('body', {}).t( "offer_dashboard").up()
+        .c('body', {}).t("offer_dashboard").up()
         .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
       conference.send(message);
+    } else {
+      glagol.sharingStream=null
+      dispatch(changeItHasSharingStream(false))
     }
   }, [ sharingScreenIsOpen ]);
   if (isPending) return <>...isPending</>;
@@ -74,12 +77,20 @@ function RoomPage() {
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
-
-      // conference.XmppOn('sharingOffer', sharingOffer);
+      conference.XmppOn('startSharing', startSharing);
 
 
       function leaveRoom() {
         navigate('/exit');
+      }
+
+      function startSharing() {
+        navigator.mediaDevices.getDisplayMedia({
+          audio: true
+        }).then((stream) => {
+          glagol.sharingStream = stream;
+          dispatch(changeItHasSharingStream(true))
+        });
       }
 
       function createRoom() {

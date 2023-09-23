@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { config } from '../../shared/config/config';
 import { IRootState } from '../types';
+import { act } from 'react-dom/test-utils';
 
 const configSlice = createSlice({
   name: "config",
@@ -39,8 +40,11 @@ const configSlice = createSlice({
     changeRemoteBoxIsVisible: ((state, action)=>{
       state.UI.remoteBoxIsVisible=action.payload
     }),
-    changesharingScreenIsOpen: ((state, action)=>{
+    changeSharingScreenIsOpen: ((state, action)=>{
       state.UI.sharingScreenIsOpen=action.payload
+    }),
+    changeItHasSharingStream: ((state, action)=>{
+      state.functions.itHasSharingStream=action.payload
     })
   }
 });
@@ -56,6 +60,7 @@ export const {
   changeLeftOut,
   changeToolboxIsVisible,
   changeRemoteBoxIsVisible,
-  changesharingScreenIsOpen
+  changeSharingScreenIsOpen,
+  changeItHasSharingStream
 } = configSlice.actions;
 export default configSlice.reducer;

@@ -20,7 +20,9 @@ for (let i = 0; i < qtyScreens; i++) {
 
 function LocalStreamsBox() {
   const refVideo = useRef<HTMLVideoElement>(null);
+  const refSharingScreen=useRef<HTMLVideoElement>(null)
   const { tile , sharingScreenIsOpen} = useSelector((state: IRootState) => state.config.UI);
+  const {itHasSharingStream} = useSelector((state: IRootState)=>state.config.functions)
   const { streamsId } = useSelector((state: IRootState) => state.streams);
   const [ source, setSource ] = useState(streamsId.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
@@ -78,7 +80,7 @@ function LocalStreamsBox() {
         hideNextButton/>}
     </Box>,
     localVideo: <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>,
-    sharingScreenIsOpen: <p>sharing</p>
+    sharingScreenIsOpen: <video autoPlay={true} ref={refSharingScreen} className="video__bigscreen"/>,
 
   };
   useEffect(() => {
@@ -89,6 +91,11 @@ function LocalStreamsBox() {
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
   }, [ tile, sharingScreenIsOpen ]);
+  useEffect(()=>{
+    if (itHasSharingStream) {
+      if(refSharingScreen.current!==null) refSharingScreen.current.srcObject=glagol.sharingStream
+    }
+  },[itHasSharingStream])
   return (
     <Box sx={{
       flexGrow: '1',

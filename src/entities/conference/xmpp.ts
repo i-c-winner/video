@@ -121,7 +121,7 @@ class Xmpp {
         description: jimbleText
       });
     } else if(bodyText==='offer_dashboard') {
-      
+      this.emit('startSharing')
     }
     console.log(stanza, "Message");
     return true;

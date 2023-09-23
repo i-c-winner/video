@@ -42,7 +42,8 @@ interface IRootState {
       }
     },
     functions: {
-      isRecording: boolean
+      isRecording: boolean,
+      itHasSharingStream: null|MediaStream
     },
   },
   chat: TChats

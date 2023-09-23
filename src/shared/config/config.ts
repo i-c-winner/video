@@ -27,6 +27,7 @@ const config = {
   },
   functions: {
     isRecording: false,
+    itHasSharingStream: false
   }
 };
 

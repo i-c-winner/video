@@ -21,7 +21,7 @@ import {
   changeTile,
   setTypeModal,
   changeLeftOut,
-  changesharingScreenIsOpen
+  changeSharingScreenIsOpen
 } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
@@ -94,7 +94,7 @@ function Toolbox() {
   }
 
   function sharingScreenIsOpenAction() {
-    dispatch(changesharingScreenIsOpen(!sharingScreenIsOpen))
+    dispatch(changeSharingScreenIsOpen(!sharingScreenIsOpen))
   }
 
   useEffect(() => {

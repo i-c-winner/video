@@ -19,7 +19,7 @@ function BigScreen() {
     if (refScreen.current !== null) {
       const screenY = refScreen.current.offsetHeight;
       refScreen.current.addEventListener('mousemove', (event: any) => {
-        if ((screenY - event.clientY) < 50) {
+        if ((screenY - event.clientY) < 70) {
           dispatch(changeToolboxIsVisible(true));
         } else {
           dispatch(changeToolboxIsVisible(false));
