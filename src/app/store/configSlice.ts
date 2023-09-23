@@ -39,8 +39,8 @@ const configSlice = createSlice({
     changeRemoteBoxIsVisible: ((state, action)=>{
       state.UI.remoteBoxIsVisible=action.payload
     }),
-    changeSharingScreen: ((state, action)=>{
-      state.UI.sharingScreen=action.payload
+    changesharingScreenIsOpen: ((state, action)=>{
+      state.UI.sharingScreenIsOpen=action.payload
     })
   }
 });
@@ -56,6 +56,6 @@ export const {
   changeLeftOut,
   changeToolboxIsVisible,
   changeRemoteBoxIsVisible,
-  changeSharingScreen
+  changesharingScreenIsOpen
 } = configSlice.actions;
 export default configSlice.reducer;

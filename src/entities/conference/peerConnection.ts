@@ -2,11 +2,6 @@ import { glagol } from "../glagol/glagol";
 import { constants } from '../../shared/config/constants';
 
 type Callback = (...args: unknown[]) => void
-type Params = {
-  audio: number,
-  video: number,
-  description: string
-}
 
 class PeerConnection {
   private static instance: PeerConnection;

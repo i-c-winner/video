@@ -21,7 +21,7 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const { remoteBoxIsVisible, sharingScreen } = useSelector((state: IRootState) => state.config.UI);
+  const { remoteBoxIsVisible, sharingScreenIsOpen } = useSelector((state: IRootState) => state.config.UI);
   const { audioStream, videoQuantity, leftOut } = useSelector((state: IRootState) => state.config.conference);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ function RoomPage() {
     if (leftOut) conference.leaveRoom();
   }, [ leftOut ]);
   useEffect(() => {
-    if (sharingScreen) {
+    if (sharingScreenIsOpen) {
       const message = new Strophe.Builder('message', {
         to: `${glagol.roomName}@conference.prosolen.net/focus`,
         type: 'chat',
@@ -63,7 +63,7 @@ function RoomPage() {
         .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
       conference.send(message);
     }
-  }, [ sharingScreen ]);
+  }, [ sharingScreenIsOpen ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {

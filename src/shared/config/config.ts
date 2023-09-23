@@ -11,7 +11,7 @@ const config = {
     toolboxIsVisible: true,
     remoteBoxIsVisible: false,
     widthRemoteBox: '',
-    sharingScreen: false
+    sharingScreenIsOpen: false
   },
   modal: {
     width: 'WIDTH_MIDDLE',
