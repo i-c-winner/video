@@ -7,7 +7,6 @@ import { IRootState } from '../../app/types';
 import { useEffect, useRef, useState } from 'react';
 import { changeToolboxIsVisible } from '../../app/store/configSlice';
 import { useDispatch } from 'react-redux';
-import { TimeoutId } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/types';
 
 function BigScreen() {
   const dispatch = useDispatch();

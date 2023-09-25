@@ -15,7 +15,11 @@ class Conference {
   }
 
   getPeerConnection() {
-    return this.peerConnection;
+    return this.peerConnection.getPeerConnection();
+  }
+
+  changeTranciviers(params: { audio: number, video: number }) {
+    this.peerConnection.changeTranseivers(params);
   }
 
   initPeerConnection() {

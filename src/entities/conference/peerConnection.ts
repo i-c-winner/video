@@ -66,7 +66,9 @@ class PeerConnection {
   addTrack(track: MediaStreamTrack) {
     this.pc.addTrack(track);
   }
-
+getPeerConnection(){
+    return this.pc
+}
   changeTranseivers(params: { audio: number, video: number }) {
     this.currentTransceivers.audio += params.audio;
     this.currentTransceivers.video += params.video;
