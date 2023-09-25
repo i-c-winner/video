@@ -93,25 +93,25 @@ function RoomPage() {
           }
         }).then((stream) => {
           glagol.sharingStream = stream;
-          console.log(stream.getTracks()[0])
+          console.log(stream.getTracks()[0]);
           dispatch(changeItHasSharingStream(true));
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
               conference.addTrack(track);
             }
           });
-          conference.getPeerConnection().createOffer().then((offer) => {
-            const offer64 = btoa(JSON.stringify(offer));
-            const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
-              .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
-              .c('body', {}, 'send_dashboard')
-              .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
-            conference.send(message);
-          });
+          return conference.getPeerConnection().createOffer();
+        }).then((offer) => {
+          return conference.getPeerConnection().setLocalDescription(offer);
+        }).then((offer) => {
+          const offer64 =btoa(JSON.stringify({ offer:  conference.getPeerConnection().localDescription }));
+          const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
+            .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
+            .c('body').t('send_dashboard').up()
+            .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
+          conference.send(message);
         });
-
       }
-
       function createRoom() {
         const message = new Strophe.Builder('presence', {
           to: `${glagol.roomName}@conference.prosolen.net/${glagol.userNode}`,
@@ -141,7 +141,7 @@ function RoomPage() {
       function inviteRoom() {
         const invitation = {
           action: "INVITATION",
-          localTracks: {
+          tracks: {
             audio: true,
             video: true
           }
