@@ -93,7 +93,6 @@ function RoomPage() {
           }
         }).then((stream) => {
           glagol.sharingStream = stream;
-          console.log(stream.getTracks()[0]);
           dispatch(changeItHasSharingStream(true));
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {

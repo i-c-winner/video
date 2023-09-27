@@ -32,7 +32,7 @@ class PeerConnection {
     this.pc.ontrack = (event: RTCTrackEvent) => {
       const type = event.track.kind;
       const id = event.streams[0].id.split('/')[1];
-      if (!glagol.currentStreams[id]) {
+      if (!glagol.currentStreams[id] && type === 'video') {
         if (id !== undefined) {
           glagol.currentStreams[id] = {
             audio: null,
@@ -40,12 +40,8 @@ class PeerConnection {
             stream: event.streams[0]
           };
         }
+        this.emit("setStreamId", event);
       }
-      if (id !== undefined) {
-        if (type === "audio") glagol.currentStreams[id].audio = event.track;
-        if (type === "video") glagol.currentStreams[id].video = event.track;
-      }
-      this.emit("setStreamId", event);
     };
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
       if (event.candidate) {
@@ -66,9 +62,11 @@ class PeerConnection {
   addTrack(track: MediaStreamTrack) {
     this.pc.addTrack(track);
   }
-getPeerConnection(){
-    return this.pc
-}
+
+  getPeerConnection() {
+    return this.pc;
+  }
+
   changeTranseivers(params: { audio: number, video: number }) {
     this.currentTransceivers.audio += params.audio;
     this.currentTransceivers.video += params.video;
@@ -119,7 +117,7 @@ getPeerConnection(){
   changeAudio(state: boolean) {
     glagol.localStreamForPeer?.getTracks().forEach((track) => {
       if (track.kind === 'audio') {
-        track.enabled = state
+        track.enabled = state;
       }
     });
   }
