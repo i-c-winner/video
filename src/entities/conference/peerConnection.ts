@@ -31,8 +31,9 @@ class PeerConnection {
     });
     this.pc.ontrack = (event: RTCTrackEvent) => {
       const type = event.track.kind;
-      const id = event.streams[0].id.split('/')[1];
-      if (!glagol.currentStreams[id] && type === 'video') {
+      const id = event.streams[0].id;
+      console.log(id)
+      if ((!glagol.currentStreams[id]) && (type === 'video')) {
         if (id !== undefined) {
           glagol.currentStreams[id] = {
             audio: null,

@@ -103,7 +103,8 @@ class Xmpp {
     const jimbleText = Strophe.getText(jimble);
 
     switch (bodyText) {
-      case 'add_track': {
+      case 'add_track':
+      case 'add_dashboard': {
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         this.emit('addTrack', {
@@ -139,7 +140,7 @@ class Xmpp {
       }
       case 'add_dashboard': {
         console.log('add_dashboard')
-        this.emit('addDashboard', jimbleText)
+        // this.emit('addDashboard', jimbleText)
         break
       }
       default: {

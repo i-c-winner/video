@@ -167,9 +167,9 @@ function RoomPage() {
 
       function setStreamId(stream: RTCTrackEvent[]) {
         const id = stream[0].streams[0].id;
-        if (id.split('/')[1] !== undefined) {
+        if (id== undefined) {
           if (!remoteBoxIsVisible) openRemoteStream(true);
-          dispatch(addStream(id.split('/')[1]));
+          dispatch(addStream(id));
         }
       }
 

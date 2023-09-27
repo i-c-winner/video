@@ -80,7 +80,7 @@ function LocalStreamsBox() {
         hideNextButton/>}
     </Box>,
     localVideo: <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>,
-    sharingScreenIsOpen: <video autoPlay={true} ref={refSharingScreen} className="video__bigscreen"/>,
+    sharingScreenIsOpen: <video autoPlay={true} ref={refSharingScreen} className="video__bigscreen video__bigscreen_sharing"/>,
 
   };
   useEffect(() => {
@@ -89,8 +89,17 @@ function LocalStreamsBox() {
     });
   }, [ streamsId ]);
   useEffect(() => {
-    console.log(sharingScreenIsOpen, 'is SharingScreen')
+    console.log(sharingScreenIsOpen)
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
+    if(refSharingScreen.current!==null) {
+      glagol.sharingStream?.getTracks().forEach((track)=>{
+        console.log(track, 'TRACK')
+        if (track.kind==='video') {
+
+        }
+      })
+      refSharingScreen.current.srcObject=glagol.sharingStream
+    }
   }, [ tile, sharingScreenIsOpen ]);
   useEffect(()=>{
     if (itHasSharingStream) {
