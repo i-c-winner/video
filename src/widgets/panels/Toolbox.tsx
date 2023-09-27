@@ -27,6 +27,8 @@ import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
 import { Recording } from '../../functions/recording/recording';
 import { IRootState } from '../../app/types';
+import { glagol } from '../../entities/glagol/glagol';
+import { conference } from '../../functions/Conference';
 
 let recording: null | Recording = null;
 
@@ -95,6 +97,30 @@ function Toolbox() {
 
   function sharingScreenIsOpenAction() {
     dispatch(changeSharingScreenIsOpen(!sharingScreenIsOpen))
+    navigator.mediaDevices.getDisplayMedia({
+      video: {
+        width: 1200,
+        height: 800
+      }
+    }).then((stream) => {
+      glagol.sharingStream = stream;
+      // dispatch(changeItHasSharingStream(true));
+      stream.getTracks().forEach((track) => {
+        if (track.kind === 'video') {
+          conference.addTrack(track);
+        }
+      });
+      return conference.getPeerConnection().createOffer();
+    }).then((offer) => {
+      return conference.getPeerConnection().setLocalDescription(offer);
+    }).then((offer) => {
+      const offer64 =btoa(JSON.stringify({ offer:  conference.getPeerConnection().localDescription }));
+      const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
+        .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
+        .c('body').t('send_dashboard').up()
+        .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
+      conference.send(message);
+    });
   }
 
   useEffect(() => {

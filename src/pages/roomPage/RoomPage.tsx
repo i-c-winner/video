@@ -1,5 +1,5 @@
 import { glagol } from "../../entities/glagol/glagol";
-import { Conference } from "../../functions/Conference";
+import { conference } from "../../functions/Conference";
 import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
@@ -10,11 +10,15 @@ import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
 import { useNavigate } from 'react-router-dom';
 import { IRootState } from '../../app/types';
-import { changeItHasSharingStream, changeRemoteBoxIsVisible } from '../../app/store/configSlice';
-import { doSignaling } from '../../functions';
+import {
+  changeItHasSharingStream,
+  changeRemoteBoxIsVisible,
+  changeSharingScreenIsOpen
+} from '../../app/store/configSlice';
+import { PeerConnection } from '../../entities/conference/peerConnection';
 
 let firstLoad = true;
-const conference = new Conference();
+// const conference = new Conference();
 
 const connection = async () => {
   const data = conference.initPeerConnection();
@@ -54,19 +58,19 @@ function RoomPage() {
     if (leftOut) conference.leaveRoom();
   }, [ leftOut ]);
   useEffect(() => {
-    if (sharingScreenIsOpen) {
-      const message = new Strophe.Builder('message', {
-        to: `${glagol.roomName}@conference.prosolen.net/focus`,
-        type: 'chat',
-        'xml:lang': 'en'
-      }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
-        .c('body', {}).t("offer_dashboard").up()
-        .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
-      conference.send(message);
-    } else {
-      glagol.sharingStream = null;
-      dispatch(changeItHasSharingStream(false));
-    }
+    // if (sharingScreenIsOpen) {
+    //   const message = new Strophe.Builder('message', {
+    //     to: `${glagol.roomName}@conference.prosolen.net/focus`,
+    //     type: 'chat',
+    //     'xml:lang': 'en'
+    //   }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
+    //     .c('body', {}).t("offer_dashboard").up()
+    //     .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
+    //   conference.send(message);
+    // } else {
+    //   glagol.sharingStream = null;
+    //   dispatch(changeItHasSharingStream(false));
+    // }
   }, [ sharingScreenIsOpen ]);
   if (isPending) return <>...isPending</>;
   if (data) {
@@ -78,7 +82,8 @@ function RoomPage() {
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
-      conference.XmppOn('startSharing', startSharing);
+      conference.XmppOn('addDashboard', addDashboard);
+      conference.XmppOn('sendDashboard', sendDashboard);
 
 
       function leaveRoom() {
@@ -93,7 +98,7 @@ function RoomPage() {
           }
         }).then((stream) => {
           glagol.sharingStream = stream;
-          dispatch(changeItHasSharingStream(true));
+          // dispatch(changeItHasSharingStream(true));
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
               conference.addTrack(track);
@@ -103,7 +108,7 @@ function RoomPage() {
         }).then((offer) => {
           return conference.getPeerConnection().setLocalDescription(offer);
         }).then((offer) => {
-          const offer64 =btoa(JSON.stringify({ offer:  conference.getPeerConnection().localDescription }));
+          const offer64 = btoa(JSON.stringify({ offer: conference.getPeerConnection().localDescription }));
           const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
             .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
             .c('body').t('send_dashboard').up()
@@ -111,6 +116,7 @@ function RoomPage() {
           conference.send(message);
         });
       }
+
       function createRoom() {
         const message = new Strophe.Builder('presence', {
           to: `${glagol.roomName}@conference.prosolen.net/${glagol.userNode}`,
@@ -195,6 +201,23 @@ function RoomPage() {
 
       function openRemoteStream(visible: boolean) {
         dispatch(changeRemoteBoxIsVisible(visible));
+      }
+
+      function addDashboard(params: any[]) {
+        const peerConnection = new RTCPeerConnection();
+        peerConnection.ontrack = ((event) => {
+          if (event.track.id.includes('dashboard')) {
+            glagol.sharingStream = event.streams[0];
+          }
+        });
+        peerConnection.setRemoteDescription(JSON.parse(atob(params[0]))).then(()=>{
+          dispatch(changeSharingScreenIsOpen(true));
+        });
+      }
+
+      function sendDashboard() {
+        dispatch(changeItHasSharingStream(true));
+        console.log('sendDashboard');
       }
 
       conference.xmppRegistering();

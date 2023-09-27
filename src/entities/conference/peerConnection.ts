@@ -86,7 +86,7 @@ class PeerConnection {
     this.candidates.push(candidate);
   }
 
-  setRemoteDescripton(params: {
+   setRemoteDescripton(params: {
     audio: number,
     video: number,
     description: string

@@ -90,5 +90,5 @@ class Conference {
     this.peerConnection.on(name, callback);
   }
 }
-
-export { Conference };
+const conference= new Conference()
+export { conference };

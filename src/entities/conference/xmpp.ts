@@ -93,6 +93,7 @@ class Xmpp {
     if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
       this.emit('leaveRoom');
     }
+    console.log(stanza, 'STANZA')
     return true;
   };
 
@@ -100,28 +101,59 @@ class Xmpp {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
     const jimble = stanza.getElementsByTagName('jimble')[0];
     const jimbleText = Strophe.getText(jimble);
+
+    switch (bodyText) {
+      case 'add_track': {
+        const video: number = Number(jimble.getAttribute('video'));
+        const audio: number = Number(jimble.getAttribute('audio'));
+        this.emit('addTrack', {
+          audio: audio * (-1),
+          video: video * (-1),
+          description: jimbleText
+        });
+        break
+      }
+      case 'ice_candidate': {
+        this.emit("iceCandidate", jimbleText);
+        break
+      }
+      case 'remove_track': {
+        const video: number = Number(jimble.getAttribute('video'));
+        const audio: number = Number(jimble.getAttribute('audio'));
+        const id = jimble.getAttribute('id_remote') as string;
+        this.emit('deleteStreamId', id.split('/')[1]);
+        this.emit('removeTrack', {
+          audio,
+          video,
+          description: jimbleText
+        });
+        break
+      }
+      case 'offer_dashboard': {
+        // this.emit('startSharing')
+        break
+      }
+      case 'send_dashboard': {
+        this.emit('sendDashboard')
+        break
+      }
+      case 'add_dashboard': {
+        console.log('add_dashboard')
+        this.emit('addDashboard', jimbleText)
+        break
+      }
+      default: {
+        console.info('message with unknown action')
+      }
+    }
     if (bodyText === "add_track") {
-      const video: number = Number(jimble.getAttribute('video'));
-      const audio: number = Number(jimble.getAttribute('audio'));
-      this.emit('addTrack', {
-        audio: audio * (-1),
-        video: video * (-1),
-        description: jimbleText
-      });
+
     } else if (bodyText === "ice_candidate") {
-      this.emit("iceCandidate", jimbleText);
+
     } else if (bodyText === "remove_track") {
-      const video: number = Number(jimble.getAttribute('video'));
-      const audio: number = Number(jimble.getAttribute('audio'));
-      const id = jimble.getAttribute('id_remote') as string;
-      this.emit('deleteStreamId', id.split('/')[1]);
-      this.emit('removeTrack', {
-        audio,
-        video,
-        description: jimbleText
-      });
+
     } else if(bodyText==='offer_dashboard') {
-      this.emit('startSharing')
+
     }
     console.log(stanza, "Message");
     return true;

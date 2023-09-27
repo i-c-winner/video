@@ -89,6 +89,7 @@ function LocalStreamsBox() {
     });
   }, [ streamsId ]);
   useEffect(() => {
+    console.log(sharingScreenIsOpen, 'is SharingScreen')
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
   }, [ tile, sharingScreenIsOpen ]);
   useEffect(()=>{

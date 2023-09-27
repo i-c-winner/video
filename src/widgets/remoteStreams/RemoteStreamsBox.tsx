@@ -19,7 +19,6 @@ function RemoteStreamsBox() {
     setRemoteBoxVisible(!remoteBoxIsVisible)
   }
   function getPadding() {
-    console.log(remoteBoxIsVisible)
     if (remoteBoxIsVisible) {
       return '10px 10px 50px 10px'
     } return '0'
