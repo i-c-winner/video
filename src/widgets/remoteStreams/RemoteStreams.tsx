@@ -4,25 +4,24 @@ import { Card, CardMedia } from '@mui/material';
 
 function RemoteStreams(props: { streamId: string }) {
   const refVideo = useRef<HTMLVideoElement>(null);
+  function gaugeStream() {
+    return (props.streamId.includes('/')&&(props.streamId.includes('video')))
+  }
   useEffect(() => {
-    glagol.currentStreams[props.streamId].stream.getTracks().forEach((track)=>{
-      if (track.kind==='video') {
-       if (refVideo.current!==null) refVideo.current.srcObject=glagol.currentStreams[props.streamId].stream
-      }
-    })
-
-  }, [props.streamId]);
+    console.log(props, glagol);
+      const screen=glagol.currentStreams.filter(stream=>stream.id===props.streamId)[0]
+      if (refVideo.current!==null) refVideo.current.srcObject=screen
+  }, [ props.streamId ]);
   return (
-      <Card sx={
-        {
-          flexShrink: '0'
-        }
-      }>
-        <CardMedia sx={{
-        }}>
-          <video className='video__remoutstream' autoPlay={true} ref={refVideo}/>
-        </CardMedia>
-      </Card>
+    <Card sx={
+      {
+        flexShrink: '0'
+      }
+    }>
+      <CardMedia sx={{}}>
+        {gaugeStream()&& <video className="video__remoutstream" autoPlay={true} ref={refVideo}/>}
+      </CardMedia>
+    </Card>
   );
 }
 

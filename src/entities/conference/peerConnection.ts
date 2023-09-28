@@ -30,20 +30,11 @@ class PeerConnection {
       ]
     });
     this.pc.ontrack = (event: RTCTrackEvent) => {
-      const type = event.track.kind;
-      const id = event.streams[0].id;
-      console.log(id)
-      if ((!glagol.currentStreams[id]) && (type === 'video')) {
-        if (id !== undefined) {
-          glagol.currentStreams[id] = {
-            audio: null,
-            video: null,
-            stream: event.streams[0]
-          };
-        }
-        this.emit("setStreamId", event);
-      }
+      glagol.currentStreams.push(event.streams[0]);
+      this.emit("setStreamId", event.streams[0].id);
     };
+
+
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
       if (event.candidate) {
         const candidate64 = btoa(JSON.stringify({
@@ -68,7 +59,10 @@ class PeerConnection {
     return this.pc;
   }
 
-  changeTranseivers(params: { audio: number, video: number }) {
+  changeTranseivers(params: {
+    audio: number,
+    video: number;
+  }) {
     this.currentTransceivers.audio += params.audio;
     this.currentTransceivers.video += params.video;
     do {
@@ -87,10 +81,10 @@ class PeerConnection {
     this.candidates.push(candidate);
   }
 
-   setRemoteDescripton(params: {
+  setRemoteDescripton(params: {
     audio: number,
     video: number,
-    description: string
+    description: string;
   }) {
     this.changeTranseivers({ audio: params.audio, video: params.video });
     this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
@@ -152,7 +146,6 @@ class PeerConnection {
     } else {
       this.listeners[name].forEach((listener) => listener(args));
     }
-
   }
 }
 

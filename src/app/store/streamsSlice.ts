@@ -1,31 +1,23 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IRootState, IStreams } from "../types";
-const initialState: IRootState['streams']={
+const initialState: IRootState['streams'] = {
   streamsId: []
-}
-
-
-const streamsSlice=createSlice({
+};
+const streamsSlice = createSlice({
   name: 'streams',
   initialState,
   reducers: {
-    addStream: ((state, action)=>{
-      function hasId(id:string) {
-        return state.streamsId.includes(id)
-      }
-      const id=action.payload
-        if (!hasId(id)) {
-          state.streamsId.push(id)
-        }
+    addStream: ((state, action) => {
+      state.streamsId.push(action.payload);
     }),
-    removeStream: ((state: IStreams, action)=>{
-      state.streamsId=state.streamsId.filter((stream)=>{
-        return stream!==action.payload
-      })
+    removeStream: ((state: IStreams, action) => {
+      state.streamsId = state.streamsId.filter((stream) => {
+        return stream !== action.payload;
+      });
     })
   }
-})
+});
 
-export const {addStream, removeStream} =streamsSlice.actions
+export const { addStream, removeStream } = streamsSlice.actions;
 
-export default  streamsSlice.reducer
+export default streamsSlice.reducer;

@@ -92,14 +92,11 @@ function getArrowDirection() {
           styles={arrowStyles}
           icon={iconArrow}/>}/>
       <Box>
-        {remoteBoxIsVisible ? streamsId.map((streamId: string) => {
-          return <RemoteStreams key={streamId} streamId={streamId}/>;
-        }) : null}
+        {remoteBoxIsVisible && streamsId.map((streamId: string) => {
+          return  <RemoteStreams key={streamId} streamId={streamId}/>
+        })}
       </Box>
-
     </Box>
-
-
   );
 }
 

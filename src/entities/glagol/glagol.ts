@@ -4,8 +4,7 @@ const glagol: Glagol= {
   userNode: "",
   userDisplayName: "",
   roomName: "",
-  currentStreams: {
-  },
+  currentStreams: [],
   localStream: null,
   localStreamForPeer: null,
   sharingStream: null

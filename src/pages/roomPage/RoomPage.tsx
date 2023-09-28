@@ -165,18 +165,15 @@ function RoomPage() {
         conference.send(message);
       }
 
-      function setStreamId(stream: RTCTrackEvent[]) {
-        const id = stream[0].streams[0].id;
-        if (id== undefined) {
+      function setStreamId(id: string) {
           if (!remoteBoxIsVisible) openRemoteStream(true);
-          dispatch(addStream(id));
-        }
+          dispatch(addStream(id[0]));
       }
 
-      function deleteStreamId(stream: string) {
-        delete glagol.currentStreams[stream[0]];
-        dispatch(removeStream(stream[0]));
-        if (Object.keys(glagol.currentStreams).length === 0) {
+      function deleteStreamId(id: string) {
+        glagol.currentStreams = glagol.currentStreams.filter(currentId => currentId.id === id);
+        dispatch(removeStream(id));
+        if (glagol.currentStreams.length === 0) {
           openRemoteStream(false);
         }
       }
@@ -210,7 +207,7 @@ function RoomPage() {
             glagol.sharingStream = event.streams[0];
           }
         });
-        peerConnection.setRemoteDescription(JSON.parse(atob(params[0]))).then(()=>{
+        peerConnection.setRemoteDescription(JSON.parse(atob(params[0]))).then(() => {
           dispatch(changeSharingScreenIsOpen(true));
         });
       }
