@@ -12,7 +12,7 @@ const streamsSlice = createSlice({
     }),
     removeStream: ((state: IStreams, action) => {
       state.streamsId = state.streamsId.filter((stream) => {
-        return stream !== action.payload;
+        return !stream.includes(action.payload)
       });
     })
   }

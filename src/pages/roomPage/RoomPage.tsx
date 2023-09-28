@@ -171,8 +171,8 @@ function RoomPage() {
       }
 
       function deleteStreamId(id: string) {
-        glagol.currentStreams = glagol.currentStreams.filter(currentId => currentId.id === id);
-        dispatch(removeStream(id));
+        glagol.currentStreams = glagol.currentStreams.filter(currentId => !currentId.id.includes(id[0]));
+        dispatch(removeStream(id[0]));
         if (glagol.currentStreams.length === 0) {
           openRemoteStream(false);
         }

@@ -122,7 +122,7 @@ class Xmpp {
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         const id = jimble.getAttribute('id_remote') as string;
-        this.emit('deleteStreamId', id.split('/')[1]);
+        this.emit('deleteStreamId', id);
         this.emit('removeTrack', {
           audio,
           video,
