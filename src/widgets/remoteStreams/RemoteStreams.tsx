@@ -18,9 +18,9 @@ function RemoteStreams(props: { streamId: string }) {
         flexShrink: '0'
       }
     }>
-      <CardMedia sx={{}}>
-        {gaugeStream()&& <video className="video__remoutstream" autoPlay={true} ref={refVideo}/>}
-      </CardMedia>
+      {gaugeStream()&&  <CardMedia sx={{}}>
+        <video className="video__remoutstream" autoPlay={true} ref={refVideo}/>
+      </CardMedia>}
     </Card>
   );
 }

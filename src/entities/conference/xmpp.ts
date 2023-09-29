@@ -108,8 +108,8 @@ class Xmpp {
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         this.emit('addTrack', {
-          audio: audio * (-1),
-          video: video * (-1),
+          audio,
+          video,
           description: jimbleText
         });
         break
@@ -124,8 +124,8 @@ class Xmpp {
         const id = jimble.getAttribute('id_remote') as string;
         this.emit('deleteStreamId', id);
         this.emit('removeTrack', {
-          audio,
-          video,
+          audio: audio * (-1),
+          video: video * (-1),
           description: jimbleText
         });
         break
@@ -146,15 +146,6 @@ class Xmpp {
       default: {
         console.info('message with unknown action')
       }
-    }
-    if (bodyText === "add_track") {
-
-    } else if (bodyText === "ice_candidate") {
-
-    } else if (bodyText === "remove_track") {
-
-    } else if(bodyText==='offer_dashboard') {
-
     }
     console.log(stanza, "Message");
     return true;

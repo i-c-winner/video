@@ -65,16 +65,16 @@ class PeerConnection {
   }) {
     this.currentTransceivers.audio += params.audio;
     this.currentTransceivers.video += params.video;
-    do {
+    while (this.currentTransceivers.audio > 0) {
       this.pc.addTransceiver('audio', { direction: 'recvonly' });
       this.currentTransceivers.audio -= 1;
-    } while (this.currentTransceivers.audio > 0);
-    do {
-      this.pc.addTransceiver('audio', {
+    }
+    while (this.currentTransceivers.video > 0) {
+      this.pc.addTransceiver('video', {
         direction: 'recvonly'
       });
       this.currentTransceivers.video -= 1;
-    } while (this.currentTransceivers.video > 0);
+    }
   }
 
   pushCandidate(candidate: RTCIceCandidate) {
