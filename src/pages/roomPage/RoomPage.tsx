@@ -84,6 +84,7 @@ function RoomPage() {
       conference.peerConnectionOn('leaveRoom', leaveRoom);
       conference.XmppOn('addDashboard', addDashboard);
       conference.XmppOn('sendDashboard', sendDashboard);
+      conference.XmppOn('startSharing', startSharing);
 
 
       function leaveRoom() {
@@ -95,10 +96,10 @@ function RoomPage() {
           video: {
             width: 1200,
             height: 800
-          }
+          },
+          audio: false
         }).then((stream) => {
           glagol.sharingStream = stream;
-          // dispatch(changeItHasSharingStream(true));
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
               conference.addTrack(track);
@@ -166,8 +167,8 @@ function RoomPage() {
       }
 
       function setStreamId(id: string) {
-          if (!remoteBoxIsVisible) openRemoteStream(true);
-          dispatch(addStream(id[0]));
+        if (!remoteBoxIsVisible) openRemoteStream(true);
+        dispatch(addStream(id[0]));
       }
 
       function deleteStreamId(id: string) {
@@ -212,9 +213,8 @@ function RoomPage() {
         });
       }
 
-      function sendDashboard() {
-        dispatch(changeItHasSharingStream(true));
-        console.log('sendDashboard');
+      function sendDashboard(params: any[]) {
+        console.log(params[0]);
       }
 
       conference.xmppRegistering();

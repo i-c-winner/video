@@ -105,11 +105,12 @@ class Xmpp {
     switch (bodyText) {
       case 'add_track':
       case 'add_dashboard': {
+        console.log('add_dashboard')
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         this.emit('addTrack', {
           audio,
-          video,
+          video: bodyText==='add_track'?video: 1,
           description: jimbleText
         });
         break
@@ -131,18 +132,23 @@ class Xmpp {
         break
       }
       case 'offer_dashboard': {
-        // this.emit('startSharing')
+        console.log('offer_dashboard')
+        if (jimble.getAttribute('ready')) {
+          this.emit('startSharing')
+        }
+
         break
       }
       case 'send_dashboard': {
-        this.emit('sendDashboard')
+        console.log('send_dashbord')
+        this.emit('sendDashboard', jimbleText )
         break
       }
-      case 'add_dashboard': {
-        console.log('add_dashboard')
-        // this.emit('addDashboard', jimbleText)
-        break
-      }
+      // case 'add_dashboard': {
+      //   console.log('add_dashboard')
+      //   // this.emit('addDashboard', jimbleText)
+      //   break
+      // }
       default: {
         console.info('message with unknown action')
       }

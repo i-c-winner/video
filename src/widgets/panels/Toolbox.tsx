@@ -95,32 +95,42 @@ function Toolbox() {
     dispatch(changeIsRecording(!isRecording));
   }
 
-  function sharingScreenIsOpenAction() {
-    dispatch(changeSharingScreenIsOpen(!sharingScreenIsOpen))
-    navigator.mediaDevices.getDisplayMedia({
-      video: {
-        width: 1200,
-        height: 800
-      }
-    }).then((stream) => {
-      glagol.sharingStream = stream;
-      // dispatch(changeItHasSharingStream(true));
-      stream.getTracks().forEach((track) => {
-        if (track.kind === 'video') {
-          conference.addTrack(track);
-        }
-      });
-      return conference.getPeerConnection().createOffer();
-    }).then((offer) => {
-      return conference.getPeerConnection().setLocalDescription(offer);
-    }).then((offer) => {
-      const offer64 =btoa(JSON.stringify({ offer:  conference.getPeerConnection().localDescription }));
-      const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
-        .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
-        .c('body').t('send_dashboard').up()
-        .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
+  function sharingScreen() {
+
+    // dispatch(changeSharingScreenIsOpen(!sharingScreenIsOpen))
+    // navigator.mediaDevices.getDisplayMedia({
+    //   video: {
+    //     width: 1200,
+    //     height: 800
+    //   }
+    // }).then((stream) => {
+    //   glagol.sharingStream = stream;
+    //   // dispatch(changeItHasSharingStream(true));
+    //   stream.getTracks().forEach((track) => {
+    //     if (track.kind === 'video') {
+    //       conference.addTrack(track);
+    //     }
+    //   });
+    //   return conference.getPeerConnection().createOffer();
+    // }).then((offer) => {
+    //   return conference.getPeerConnection().setLocalDescription(offer);
+    // }).then((offer) => {
+    //   const offer64 =btoa(JSON.stringify({ offer:  conference.getPeerConnection().localDescription }));
+    //   const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
+    //     .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
+    //     .c('body').t('send_dashboard').up()
+    //     .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
+    //   conference.send(message);
+    // });
+
+      const message = new Strophe.Builder('message', {
+        to: `${glagol.roomName}@conference.prosolen.net/focus`,
+        type: 'chat',
+        'xml:lang': 'en'
+      }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
+        .c('body', {}).t("offer_dashboard").up()
+        .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
       conference.send(message);
-    });
   }
 
   useEffect(() => {
@@ -198,7 +208,7 @@ function Toolbox() {
       </Tooltip>
       <Tooltip title={t('buttons.labels.sharing')}>
         <Button
-          onClick={sharingScreenIsOpenAction}
+          onClick={sharingScreen}
           classes={
             {
               startIcon: 'marginZero'
