@@ -18,10 +18,6 @@ class Conference {
     return this.peerConnection.getPeerConnection();
   }
 
-  changeTranciviers(params: { audio: number, video: number }) {
-    this.peerConnection.changeTranseivers(params);
-  }
-
   initPeerConnection() {
     return new Promise<unknown>((resolve, reject) => {
       resolve(this.xmpp.init('https://xmpp.prosolen.net:5281/http-bind'));

@@ -89,14 +89,12 @@ class PeerConnection {
     description: string,
     type?: 'add_track' | 'add_dashboard'
   }) {
-    // this.changeTranseivers({ audio: params.audio, video: params.video });
-    // if (params.type==='add_dashboard') this.pc.addTransceiver('video')
     this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
       while (this.candidates.length > 0) {
         const candidate = this.candidates.shift();
         this.pc.addIceCandidate(candidate);
       }
-      // if (params.type==='add_dashboard') this.createAnswer()
+      if (params.type==='add_dashboard') this.createAnswer()
     });
    if (params.type==='add_track') this.createAnswer();
   }

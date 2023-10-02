@@ -56,21 +56,6 @@ function RoomPage() {
   useEffect(() => {
     if (leftOut) conference.leaveRoom();
   }, [ leftOut ]);
-  useEffect(() => {
-    // if (sharingScreenIsOpen) {
-    //   const message = new Strophe.Builder('message', {
-    //     to: `${glagol.roomName}@conference.prosolen.net/focus`,
-    //     type: 'chat',
-    //     'xml:lang': 'en'
-    //   }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user', ready: "true" }).up()
-    //     .c('body', {}).t("offer_dashboard").up()
-    //     .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' });
-    //   conference.send(message);
-    // } else {
-    //   glagol.sharingStream = null;
-    //   dispatch(changeItHasSharingStream(false));
-    // }
-  }, [ sharingScreenIsOpen ]);
   if (isPending) return <>...isPending</>;
   if (data) {
     if (firstLoad) {
@@ -104,9 +89,6 @@ function RoomPage() {
               if (glagol.localStreamForPeer !== null) conference.getPeerConnection().addTransceiver(track, {
                 direction: 'recvonly'
               });
-              // conference.getPeerConnection().addTransceiver(track, {
-              //   direction: 'sendrecv'
-              // });
             }
           });
           return conference.getPeerConnection().createOffer();
