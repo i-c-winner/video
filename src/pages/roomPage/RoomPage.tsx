@@ -15,7 +15,6 @@ import {
   changeRemoteBoxIsVisible,
   changeSharingScreenIsOpen
 } from '../../app/store/configSlice';
-import { PeerConnection } from '../../entities/conference/peerConnection';
 
 let firstLoad = true;
 // const conference = new Conference();
@@ -42,7 +41,7 @@ function RoomPage() {
         conference.changeAudio(audioStream);
         conference.changeQualityVideo(videoQuantity);
         stream.getTracks().forEach((track: MediaStreamTrack) => {
-          conference.addTrack(track);
+          conference.addTrack(track, stream);
           conference.changeQualityVideo(videoQuantity);
         });
       });
@@ -102,7 +101,12 @@ function RoomPage() {
           glagol.sharingStream = stream;
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
-              conference.addTrack(track);
+              if (glagol.localStreamForPeer !== null) conference.getPeerConnection().addTransceiver(track, {
+                direction: 'recvonly'
+              });
+              // conference.getPeerConnection().addTransceiver(track, {
+              //   direction: 'sendrecv'
+              // });
             }
           });
           return conference.getPeerConnection().createOffer();
@@ -115,7 +119,7 @@ function RoomPage() {
             .c('body').t('send_dashboard').up()
             .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
           conference.send(message);
-        });
+        }).catch((error: any) => console.log(`This is Error by sharing ${error}`));
       }
 
       function createRoom() {

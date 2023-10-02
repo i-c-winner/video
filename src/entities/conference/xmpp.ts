@@ -111,7 +111,8 @@ class Xmpp {
         this.emit('addTrack', {
           audio,
           video: bodyText==='add_track'?video: 1,
-          description: jimbleText
+          description: jimbleText,
+          type: bodyText
         });
         break
       }

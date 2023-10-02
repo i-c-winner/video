@@ -32,8 +32,8 @@ class Conference {
     this.xmpp.register(glagol.userNode);
   }
 
-  addTrack(track: MediaStreamTrack) {
-    this.peerConnection.addTrack(track);
+  addTrack(track: MediaStreamTrack, stream: MediaStream) {
+    this.peerConnection.getPeerConnection().addTrack(track, stream);
   }
 
   send(message: Strophe.Builder) {
@@ -52,7 +52,8 @@ class Conference {
     this.XmppOn('addTrack', (params: [ {
       audio: number,
       video: number,
-      description: string
+      description: string,
+      type: 'add_track' | 'add_dashboard'
     } ]) => {
       this.peerConnection.setRemoteDescripton(params[0]);
     });

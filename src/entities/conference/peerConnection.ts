@@ -29,6 +29,8 @@ class PeerConnection {
         }
       ]
     });
+    // @ts-ignore
+    window.peer = this.pc;
     this.pc.ontrack = (event: RTCTrackEvent) => {
       glagol.currentStreams.push(event.streams[0]);
       this.emit("setStreamId", event.streams[0].id);
@@ -51,8 +53,8 @@ class PeerConnection {
     return PeerConnection.instance;
   }
 
-  addTrack(track: MediaStreamTrack) {
-    this.pc.addTrack(track);
+  addTrack(track: MediaStreamTrack, stream: MediaStream) {
+    this.pc.addTrack(track, stream);
   }
 
   getPeerConnection() {
@@ -84,16 +86,19 @@ class PeerConnection {
   setRemoteDescripton(params: {
     audio: number,
     video: number,
-    description: string;
+    description: string,
+    type?: 'add_track' | 'add_dashboard'
   }) {
-    this.changeTranseivers({ audio: params.audio, video: params.video });
+    // this.changeTranseivers({ audio: params.audio, video: params.video });
+    // if (params.type==='add_dashboard') this.pc.addTransceiver('video')
     this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
       while (this.candidates.length > 0) {
         const candidate = this.candidates.shift();
         this.pc.addIceCandidate(candidate);
       }
+      // if (params.type==='add_dashboard') this.createAnswer()
     });
-    this.createAnswer();
+   if (params.type==='add_track') this.createAnswer();
   }
 
   changeConstraints(quality: "height" | "middle" | "low" | 'disabled') {
