@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IRootState, IStreams } from "../types";
-const initialState: IRootState['streams'] = {
-  streamsId: []
-};
+const initialState: IRootState['streams'] =  {
+  remoteStreams: []
+}
 const streamsSlice = createSlice({
   name: 'streams',
   initialState,
   reducers: {
     addStream: ((state, action) => {
-      state.streamsId.push(action.payload);
+      state.remoteStreams.push(action.payload);
     }),
-    removeStream: ((state: IStreams, action) => {
-      state.streamsId = state.streamsId.filter((stream) => {
-        return !stream.includes(action.payload)
+    removeStream: ((state, action)=>{
+      state.remoteStreams = state.remoteStreams.filter((stream) => {
+        return !stream!==action.payload
       });
     })
   }

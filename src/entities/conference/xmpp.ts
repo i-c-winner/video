@@ -105,7 +105,6 @@ class Xmpp {
     switch (bodyText) {
       case 'add_track':
       case 'add_dashboard': {
-        console.log('add_dashboard')
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         this.emit('addTrack', {
@@ -133,7 +132,6 @@ class Xmpp {
         break
       }
       case 'offer_dashboard': {
-        console.log('offer_dashboard')
         if (jimble.getAttribute('ready')) {
           this.emit('startSharing')
         }
@@ -141,7 +139,6 @@ class Xmpp {
         break
       }
       case 'send_dashboard': {
-        console.log('send_dashbord')
         this.emit('sendDashboard', jimbleText )
         break
       }

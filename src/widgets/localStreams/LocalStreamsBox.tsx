@@ -23,17 +23,17 @@ function LocalStreamsBox() {
   const refSharingScreen=useRef<HTMLVideoElement>(null)
   const { tile , sharingScreenIsOpen} = useSelector((state: IRootState) => state.config.UI);
   const {itHasSharingStream} = useSelector((state: IRootState)=>state.config.functions)
-  const { streamsId } = useSelector((state: IRootState) => state.streams);
-  const [ source, setSource ] = useState(streamsId.slice(0, (qtyScreens - 1)));
+  const {remoteStreams} = useSelector((state: IRootState)=>state.streams)
+  const [ source, setSource ] = useState(remoteStreams.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
 
   function changePage(event: React.ChangeEvent<unknown>, page: number) {
     setPage(page);
-    setSource(() => streamsId.slice(qtyScreens * (page - 1), (qtyScreens + page)));
+    setSource(() => remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page)));
   }
 
   function getMaxPages() {
-    return Math.ceil(streamsId.length / qtyScreens) || 1;
+    return Math.ceil(remoteStreams.length / qtyScreens) || 1;
   }
 
   const bigBoxChildrens = {
@@ -57,11 +57,11 @@ function LocalStreamsBox() {
         }}
       >
         {cells.map((index) => {
-          const value: string = source[index];
+          const value: MediaStream = source[index];
           return <Box
             key={index}
           >
-            {value && <RemoteStreams streamId={value}/>}
+            {value && <RemoteStreams streamId={value.id}/>}
           </Box>;
         })}
       </Box>
@@ -85,17 +85,14 @@ function LocalStreamsBox() {
   };
   useEffect(() => {
     setSource(() => {
-      return streamsId.slice(qtyScreens * (page - 1), (qtyScreens + page));
+      return remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
-  }, [ streamsId ]);
+  }, [ remoteStreams ]);
   useEffect(() => {
-    console.log(sharingScreenIsOpen)
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
     if(refSharingScreen.current!==null) {
       glagol.sharingStream?.getTracks().forEach((track)=>{
-        console.log(track, 'TRACK')
         if (track.kind==='video') {
-
         }
       })
       refSharingScreen.current.srcObject=glagol.sharingStream

@@ -8,7 +8,6 @@ function RemoteStreams(props: { streamId: string }) {
     return (props.streamId.includes('/')&&(props.streamId.includes('video')))
   }
   useEffect(() => {
-    console.log(props, glagol);
       const screen=glagol.currentStreams.filter(stream=>stream.id===props.streamId)[0]
       if (refVideo.current!==null) refVideo.current.srcObject=screen
   }, [ props.streamId ]);

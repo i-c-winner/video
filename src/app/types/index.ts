@@ -13,7 +13,7 @@ type  TChats = IChat[]
 
 interface IRootState {
   streams: {
-    streamsId: string[]
+    remoteStreams: MediaStream[]
   },
   config: {
     conference: {

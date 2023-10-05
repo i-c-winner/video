@@ -9,9 +9,6 @@ import { iconArrow } from '../../shared/img/svg';
 function RemoteStreamsBox() {
   const { disposition, tile } = useSelector((state: IRootState) => state.config.UI);
   const [ remoteBoxIsVisible, setRemoteBoxVisible ] = useState<boolean>(true);
-  const streamsId = useSelector((state: IRootState) => {
-    return state.streams.streamsId;
-  });
   const [ styles, setStyles ] = useState<{ [key: string]: string| (()=>string) }>({});
   const [ arrowStyles, setArrowStyles] = useState<{[key: string]: string}>({ } );
 
@@ -92,9 +89,9 @@ function getArrowDirection() {
           styles={arrowStyles}
           icon={iconArrow}/>}/>
       <Box>
-        {remoteBoxIsVisible && streamsId.map((streamId: string) => {
-          return  <RemoteStreams key={streamId} streamId={streamId}/>
-        })}
+        {/*{remoteBoxIsVisible && streamsId.map((streamId: string) => {*/}
+        {/*  return  <RemoteStreams key={streamId} streamId={streamId}/>*/}
+        {/*})}*/}
       </Box>
     </Box>
   );
