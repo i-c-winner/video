@@ -2,6 +2,7 @@ import { PeerConnection } from "../entities/conference/peerConnection";
 import { Xmpp } from "../entities/conference/xmpp";
 import { glagol } from "../entities/glagol/glagol";
 import { doSignaling } from "./index";
+import { Callback } from 'webpack-cli';
 
 
 class Conference {
@@ -85,6 +86,9 @@ class Conference {
 
   peerConnectionOn(name: string, callback: (...args: any[]) => void) {
     this.peerConnection.on(name, callback);
+  }
+  peerConnectionOff(name: string, callback: Callback<any>) {
+    this.peerConnection.off(name, callback)
   }
 }
 const conference= new Conference()

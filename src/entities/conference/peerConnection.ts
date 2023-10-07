@@ -34,6 +34,7 @@ class PeerConnection {
     this.pc.ontrack = (event: RTCTrackEvent) => {
       glagol.currentStreams.push(event.streams[0]);
       this.emit("setStreamId", event.streams[0].id);
+      this.emit('renderRemoteBox')
     };
 
 
@@ -72,7 +73,7 @@ class PeerConnection {
       this.currentTransceivers.audio -= 1;
     }
     while (this.currentTransceivers.video > 0) {
-      this.pc.addTransceiver('video', {
+       this.pc.addTransceiver('video', {
         direction: 'recvonly'
       });
       this.currentTransceivers.video -= 1;
@@ -141,6 +142,10 @@ class PeerConnection {
       this.listeners[name] = [];
     }
     this.listeners[name].push(callback);
+  }
+
+  off(name: string, callBack: Callback) {
+    this.listeners[name].filter((listener)=>listener===callBack)
   }
 
   emit(name: string, ...args: any[]) {

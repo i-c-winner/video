@@ -5,26 +5,35 @@ import { useEffect, useState } from 'react';
 import { IRootState } from '../../app/types';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { iconArrow } from '../../shared/img/svg';
+import { conference } from '../../functions/Conference';
 
+
+const startIndexRemoteStreams=2
 function RemoteStreamsBox() {
   const { disposition, tile } = useSelector((state: IRootState) => state.config.UI);
   const [ remoteBoxIsVisible, setRemoteBoxVisible ] = useState<boolean>(true);
-  const [ styles, setStyles ] = useState<{ [key: string]: string| (()=>string) }>({});
-  const [ arrowStyles, setArrowStyles] = useState<{[key: string]: string}>({ } );
+  const [ styles, setStyles ] = useState<{ [key: string]: string | (() => string) }>({});
+  const [ arrowStyles, setArrowStyles ] = useState<{ [key: string]: string }>({});
+  const [ source, setSource ] = useState<RTCRtpReceiver[]>([]);
 
   function togglingRemoteBoxIsVisible() {
-    setRemoteBoxVisible(!remoteBoxIsVisible)
+    setRemoteBoxVisible(!remoteBoxIsVisible);
   }
+
   function getPadding() {
     if (remoteBoxIsVisible) {
-      return '10px 10px 50px 10px'
-    } return '0'
+      return '10px 10px 50px 10px';
+    }
+    return '0';
   }
-function getArrowDirection() {
+
+  function getArrowDirection() {
     if (remoteBoxIsVisible) {
-      return 'rotate(90deg)'
-    } return 'rotate(270deg)'
-}
+      return 'rotate(90deg)';
+    }
+    return 'rotate(270deg)';
+  }
+
   useEffect(() => {
     if (tile) {
       setStyles({
@@ -66,10 +75,20 @@ function getArrowDirection() {
         });
       }
     }
-  }, [ disposition, tile, remoteBoxIsVisible]);
-  useEffect(()=>{
+  }, [ disposition, tile, remoteBoxIsVisible ]);
 
-  })
+  function render() {
+    const allReciveirs = conference.getPeerConnection().getReceivers().slice(startIndexRemoteStreams);
+    const reciveirs=allReciveirs.filter((reciveir)=>reciveir.track.kind==='video')
+    setSource(reciveirs);
+  }
+
+  useEffect(() => {
+    conference.peerConnectionOn('renderRemoteBox', render);
+    return () => {
+      conference.peerConnectionOff('renderRemoteBox', render);
+    };
+  });
   return (
     <Box sx={
       styles
@@ -89,9 +108,8 @@ function getArrowDirection() {
           styles={arrowStyles}
           icon={iconArrow}/>}/>
       <Box>
-        {/*{remoteBoxIsVisible && streamsId.map((streamId: string) => {*/}
-        {/*  return  <RemoteStreams key={streamId} streamId={streamId}/>*/}
-        {/*})}*/}
+        {remoteBoxIsVisible && source.map((reciveir, index) => {
+         return  <RemoteStreams key={index} reciveir={reciveir}/>})}
       </Box>
     </Box>
   );

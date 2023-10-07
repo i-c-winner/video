@@ -98,7 +98,7 @@ function RoomPage() {
           const offer64 = btoa(JSON.stringify({ offer: conference.getPeerConnection().localDescription }));
           const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
             .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
-            .c('body').t('send_dashboard').up()
+            .c('body').t('send_dashboard')
             .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
           conference.send(message);
         }).catch((error: any) => console.log(`This is Error by sharing ${error}`));

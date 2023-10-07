@@ -61,7 +61,7 @@ function LocalStreamsBox() {
           return <Box
             key={index}
           >
-            {value && <RemoteStreams streamId={value.id}/>}
+            {/*{value && <RemoteStreams streamId={value.id}/>}*/}
           </Box>;
         })}
       </Box>
@@ -88,6 +88,7 @@ function LocalStreamsBox() {
       return remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
   }, [ remoteStreams ]);
+
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
     if(refSharingScreen.current!==null) {

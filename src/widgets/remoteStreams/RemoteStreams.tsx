@@ -1,23 +1,27 @@
 import { useEffect, useRef } from "react";
 import { glagol } from "../../entities/glagol/glagol";
 import { Card, CardMedia } from '@mui/material';
+import { conference } from '../../functions/Conference';
 
-function RemoteStreams(props: { streamId: string }) {
+function RemoteStreams(props: { reciveir: RTCRtpReceiver }) {
   const refVideo = useRef<HTMLVideoElement>(null);
-  function gaugeStream() {
-    return (props.streamId.includes('/')&&(props.streamId.includes('video')))
-  }
+
   useEffect(() => {
-      const screen=glagol.currentStreams.filter(stream=>stream.id===props.streamId)[0]
-      if (refVideo.current!==null) refVideo.current.srcObject=screen
-  }, [ props.streamId ]);
+      const screen=props.reciveir.track
+    if (screen!==null) {
+        const stream= new MediaStream()
+        stream.addTrack(props.reciveir.track)
+        if (refVideo.current!==null) refVideo.current.srcObject=stream
+    }
+
+  }, [ props.reciveir]);
   return (
     <Card sx={
       {
         flexShrink: '0'
       }
     }>
-      {gaugeStream()&&  <CardMedia sx={{}}>
+      {<CardMedia sx={{}}>
         <video className="video__remoutstream" autoPlay={true} ref={refVideo}/>
       </CardMedia>}
     </Card>
