@@ -4,7 +4,6 @@ import { useAsync } from "react-async";
 import { startLocalStream } from "../../functions/startLocalStream";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addStream, removeStream } from "../../app/store/streamsSlice";
 import { Box } from "@mui/material";
 import { BigScreen } from "../../widgets/bigScreen/BigScreen";
 import { pushChat } from '../../app/store/chatSlice';
@@ -62,7 +61,6 @@ function RoomPage() {
       conference.XmppOn("createRoom", createRoom);
       conference.XmppOn("validateRoom", validateRoom);
       conference.XmppOn("inviteRoom", inviteRoom);
-      conference.peerConnectionOn('setStreamId', setStreamId);
       conference.XmppOn('deleteStreamId', deleteStreamId);
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
@@ -150,11 +148,6 @@ function RoomPage() {
           xmlns: 'http://jabber.org/protocol/nick'
         }).t(glagol.userDisplayName).up().c('jimble').t(inviteMessageB64);
         conference.send(message);
-      }
-
-      function setStreamId(id: string) {
-        if (!remoteBoxIsVisible) openRemoteStream(true);
-        dispatch(addStream(id[0]));
       }
 
       function deleteStreamId(id: string) {

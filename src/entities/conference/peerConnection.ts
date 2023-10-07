@@ -32,8 +32,6 @@ class PeerConnection {
     // @ts-ignore
     window.peer = this.pc;
     this.pc.ontrack = (event: RTCTrackEvent) => {
-      glagol.currentStreams.push(event.streams[0]);
-      this.emit("setStreamId", event.streams[0].id);
       this.emit('renderRemoteBox')
     };
 

@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
 import { IRootState } from '../../app/types';
 import { BigBox } from './BigBox';
+import { conference } from '../../functions/Conference';
 
 
 const qtyRows = 3;
@@ -23,7 +24,7 @@ function LocalStreamsBox() {
   const refSharingScreen=useRef<HTMLVideoElement>(null)
   const { tile , sharingScreenIsOpen} = useSelector((state: IRootState) => state.config.UI);
   const {itHasSharingStream} = useSelector((state: IRootState)=>state.config.functions)
-  const {remoteStreams} = useSelector((state: IRootState)=>state.streams)
+  const remoteStreams = conference.getPeerConnection().getReceivers().slice(2)
   const [ source, setSource ] = useState(remoteStreams.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
 
@@ -57,15 +58,15 @@ function LocalStreamsBox() {
         }}
       >
         {cells.map((index) => {
-          const value: MediaStream = source[index];
+          const value = source[index];
           return <Box
             key={index}
           >
-            {/*{value && <RemoteStreams streamId={value.id}/>}*/}
+            {value && <RemoteStreams reciveir={value}/>}
           </Box>;
         })}
       </Box>
-      {getMaxPages() > 1 && <Pagination
+      {getMaxPages() > 0 && <Pagination
         onChange={changePage}
         sx={
           {
@@ -87,7 +88,7 @@ function LocalStreamsBox() {
     setSource(() => {
       return remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
-  }, [ remoteStreams ]);
+  }, []);
 
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;

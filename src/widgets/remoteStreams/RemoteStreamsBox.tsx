@@ -1,20 +1,15 @@
 import { RemoteStreams } from "./RemoteStreams";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { IRootState } from '../../app/types';
 import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { iconArrow } from '../../shared/img/svg';
-import { conference } from '../../functions/Conference';
-
-
-const startIndexRemoteStreams=2
-function RemoteStreamsBox() {
+function RemoteStreamsBox(props: {source: RTCRtpReceiver[]}) {
   const { disposition, tile } = useSelector((state: IRootState) => state.config.UI);
   const [ remoteBoxIsVisible, setRemoteBoxVisible ] = useState<boolean>(true);
   const [ styles, setStyles ] = useState<{ [key: string]: string | (() => string) }>({});
   const [ arrowStyles, setArrowStyles ] = useState<{ [key: string]: string }>({});
-  const [ source, setSource ] = useState<RTCRtpReceiver[]>([]);
 
   function togglingRemoteBoxIsVisible() {
     setRemoteBoxVisible(!remoteBoxIsVisible);
@@ -77,18 +72,6 @@ function RemoteStreamsBox() {
     }
   }, [ disposition, tile, remoteBoxIsVisible ]);
 
-  function render() {
-    const allReciveirs = conference.getPeerConnection().getReceivers().slice(startIndexRemoteStreams);
-    const reciveirs=allReciveirs.filter((reciveir)=>reciveir.track.kind==='video')
-    setSource(reciveirs);
-  }
-
-  useEffect(() => {
-    conference.peerConnectionOn('renderRemoteBox', render);
-    return () => {
-      conference.peerConnectionOff('renderRemoteBox', render);
-    };
-  });
   return (
     <Box sx={
       styles
@@ -108,7 +91,7 @@ function RemoteStreamsBox() {
           styles={arrowStyles}
           icon={iconArrow}/>}/>
       <Box>
-        {remoteBoxIsVisible && source.map((reciveir, index) => {
+        {props.source.map((reciveir, index) => {
          return  <RemoteStreams key={index} reciveir={reciveir}/>})}
       </Box>
     </Box>
