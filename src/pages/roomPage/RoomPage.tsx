@@ -93,13 +93,13 @@ function RoomPage() {
           return conference.getPeerConnection().createOffer({iceRestart: false});
         }).then((offer) => {
           return conference.getPeerConnection().setLocalDescription(offer);
-        }).then((offer) => {
+        }).then(() => {
           const offer64 = btoa(JSON.stringify({ offer: conference.getPeerConnection().localDescription }));
           const message = $msg({ to: `${glagol.roomName}@conference.prosolen.net/focus`, type: 'chat' })
             .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
-            .c('body').t('send_dashboard')
+            .c('body').t('send_dashboard').up()
             .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
-          conference.send(message);
+           conference.send(message);
         }).catch((error: any) => console.log(`This is Error by sharing ${error}`));
       }
 
@@ -194,6 +194,7 @@ function RoomPage() {
       }
 
       function sendDashboard(params: any[]) {
+        debugger
         console.log(params[0]);
       }
 
