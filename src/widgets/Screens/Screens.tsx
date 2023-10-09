@@ -1,4 +1,4 @@
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 import { RemoteStreamsBox } from '../remoteStreams/RemoteStreamsBox';
 import { LocalStreamsBox } from '../localStreams/LocalStreamsBox';
@@ -7,36 +7,42 @@ import { useState, useEffect } from 'react';
 import { conference } from '../../functions/Conference';
 import { changeRemoteBoxIsVisible } from '../../app/store/configSlice';
 
-const startIndexRemoteStreams=2
+const startIndexRemoteStreams = 2;
+
 function Screens() {
-  const {remoteBoxIsVisible} = useSelector((state: IRootState)=>state.config.UI)
+  const { remoteBoxIsVisible } = useSelector((state: IRootState) => state.config.UI);
   const [ source, setSource ] = useState<RTCRtpReceiver[]>([]);
-  const dispatch=useDispatch()
-  const [visibleRemoteBox, setVisibleRemoteBox]=useState(false)
+  const dispatch = useDispatch();
+  const [ visibleRemoteBox, setVisibleRemoteBox ] = useState(false);
+
   function render() {
     const allReciveirs = conference.getPeerConnection().getReceivers().slice(startIndexRemoteStreams);
-    const reciveirs=allReciveirs.filter((reciveir)=>reciveir.track.kind==='video')
-    if (reciveirs.length>0) {
-      dispatch(changeRemoteBoxIsVisible(true))
+    const reciveirs = allReciveirs.filter((reciveir) => {
+      return reciveir.track !== null;
+      // return reciveir.track.kind === 'video'
+    });
+    if (reciveirs.length > 0) {
+      dispatch(changeRemoteBoxIsVisible(true));
     } else {
-      dispatch(changeRemoteBoxIsVisible(false))
+      dispatch(changeRemoteBoxIsVisible(false));
     }
-    setSource(reciveirs);
+    // setSource(reciveirs);
+    setSource(allReciveirs)
   }
 
   useEffect(() => {
-  conference.peerConnectionOn('renderRemoteBox', render);
-  return () => {
-    conference.peerConnectionOff('renderRemoteBox', render);
-  };
+    conference.peerConnectionOn('renderRemoteBox', render);
+    return () => {
+      conference.peerConnectionOff('renderRemoteBox', render);
+    };
   }, []);
-  useEffect(()=>{
-    if (conference.getPeerConnection().getReceivers().length>0) {
-     setVisibleRemoteBox(true)
+  useEffect(() => {
+    if (conference.getPeerConnection().getReceivers().length > 0) {
+      setVisibleRemoteBox(true);
     } else {
-      setVisibleRemoteBox(false)
+      setVisibleRemoteBox(false);
     }
-  })
+  });
 
   return (
     <Box sx={{
@@ -45,8 +51,8 @@ function Screens() {
       height: 'vh100',
       overflowY: 'hidden'
     }}>
-      <LocalStreamsBox />
-      {visibleRemoteBox?<RemoteStreamsBox source={source}/>: null}
+      <LocalStreamsBox/>
+      {visibleRemoteBox ? <RemoteStreamsBox source={source}/> : null}
     </Box>
   );
 }

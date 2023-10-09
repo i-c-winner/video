@@ -4,9 +4,14 @@
     width: 100%
   }
 
-  &__remoutstream {
+  &__remotestream {
     max-width: 200px;
     margin: 10px;
+    &_audio {
+    position: absolute;
+    z-index: -10;
+    opacity: 0;
+  }
   }
 
   &__localstream {

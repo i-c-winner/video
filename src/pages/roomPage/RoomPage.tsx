@@ -84,12 +84,13 @@ function RoomPage() {
           glagol.sharingStream = stream;
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
-              if (glagol.localStreamForPeer !== null) conference.getPeerConnection().addTransceiver(track, {
-                direction: 'recvonly'
-              });
+              conference.getPeerConnection().addTrack(track)
+              // if (glagol.localStreamForPeer !== null) conference.getPeerConnection().addTransceiver(track, {
+              //   direction: 'sendrecv'
+              // });
             }
           });
-          return conference.getPeerConnection().createOffer();
+          return conference.getPeerConnection().createOffer({iceRestart: false});
         }).then((offer) => {
           return conference.getPeerConnection().setLocalDescription(offer);
         }).then((offer) => {

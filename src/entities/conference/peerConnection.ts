@@ -32,9 +32,11 @@ class PeerConnection {
     // @ts-ignore
     window.peer = this.pc;
     this.pc.ontrack = (event: RTCTrackEvent) => {
-      this.emit('renderRemoteBox')
+      this.emit('renderRemoteBox');
     };
-
+// this.pc.onremovetrack=(evet: any)=>{
+//   console.log(evet)
+// }
 
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
       if (event.candidate) {
@@ -71,7 +73,7 @@ class PeerConnection {
       this.currentTransceivers.audio -= 1;
     }
     while (this.currentTransceivers.video > 0) {
-       this.pc.addTransceiver('video', {
+      this.pc.addTransceiver('video', {
         direction: 'recvonly'
       });
       this.currentTransceivers.video -= 1;
@@ -88,14 +90,15 @@ class PeerConnection {
     description: string,
     type?: 'add_track' | 'add_dashboard'
   }) {
+    // this.changeTranseivers({audio: params.audio, video:params.video})
     this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
       while (this.candidates.length > 0) {
         const candidate = this.candidates.shift();
         this.pc.addIceCandidate(candidate);
       }
-      if (params.type==='add_dashboard') this.createAnswer()
     });
-   if (params.type==='add_track') this.createAnswer();
+    this.createAnswer();
+    this.emit('renderRemoteBox');
   }
 
   changeConstraints(quality: "height" | "middle" | "low" | 'disabled') {
@@ -143,7 +146,7 @@ class PeerConnection {
   }
 
   off(name: string, callBack: Callback) {
-    this.listeners[name].filter((listener)=>listener===callBack)
+    this.listeners[name].filter((listener) => listener === callBack);
   }
 
   emit(name: string, ...args: any[]) {

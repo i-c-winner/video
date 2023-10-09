@@ -53,6 +53,10 @@ function Toolbox() {
     justifyContent: 'space-around',
   };
   function openSettings() {
+    conference.getPeerConnection().getSenders().forEach((sender)=>{
+      conference.getPeerConnection().removeTrack(sender)
+    })
+    debugger
     dispatch(changeModalVisible(true));
     dispatch(setTypeModal('settings'));
   }
@@ -96,6 +100,7 @@ function Toolbox() {
   }
 
   function sharingScreen() {
+
       const message = new Strophe.Builder('message', {
         to: `${glagol.roomName}@conference.prosolen.net/focus`,
         type: 'chat',

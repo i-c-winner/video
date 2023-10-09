@@ -92,7 +92,7 @@ function RemoteStreamsBox(props: {source: RTCRtpReceiver[]}) {
           icon={iconArrow}/>}/>
       <Box>
         {props.source.map((reciveir, index) => {
-         return  <RemoteStreams key={index} reciveir={reciveir}/>})}
+         return < RemoteStreams key={index} reciveir={reciveir}/>})}
       </Box>
     </Box>
   );
