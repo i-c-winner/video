@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
-import { glagol } from "../../entities/glagol/glagol";
 import { Card, CardMedia } from '@mui/material';
-import { conference } from '../../functions/Conference';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeItHasSharingStream} from '../../app/store/configSlice';
+import { IRootState } from '../../app/types';
 
 function RemoteStreams(props: { reciveir: RTCRtpReceiver }) {
   const refVideo = useRef<HTMLVideoElement>(null);
-
+  const {sharingScreenIsOpen} =useSelector((state: IRootState)=>state.config.UI)
+const dispatch=useDispatch()
   function getClassName() {
     return props.reciveir.track.kind === 'audio' ? 'video__remotestream video__remotestream_audio' : 'video__remotestream' +
       ' video__remotestream_video';
@@ -16,9 +18,8 @@ function RemoteStreams(props: { reciveir: RTCRtpReceiver }) {
     if (screen !== null) {
       const stream = new MediaStream();
       stream.addTrack(props.reciveir.track);
-      if (refVideo.current !== null) refVideo.current.srcObject = stream;
+        if (refVideo.current !== null) refVideo.current.srcObject = stream;
     }
-
   }, [ props.reciveir ]);
   return (
     <Card sx={
@@ -26,8 +27,8 @@ function RemoteStreams(props: { reciveir: RTCRtpReceiver }) {
         flexShrink: '0'
       }
     }>
-      {<CardMedia sx={{}}>
-        <video className={getClassName()} autoPlay={true} ref={refVideo}/>
+      {<CardMedia>
+        <video className={getClassName()} autoPlay={true} controls={true} ref={refVideo}/>
       </CardMedia>}
     </Card>
   );

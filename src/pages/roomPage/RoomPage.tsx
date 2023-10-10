@@ -40,7 +40,7 @@ function RoomPage() {
         conference.changeAudio(audioStream);
         conference.changeQualityVideo(videoQuantity);
         stream.getTracks().forEach((track: MediaStreamTrack) => {
-          conference.addTrack(track, stream);
+          conference.getPeerConnection().addTrack(track);
           conference.changeQualityVideo(videoQuantity);
         });
       });
@@ -83,10 +83,10 @@ function RoomPage() {
           glagol.sharingStream = stream;
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
-              conference.getPeerConnection().addTrack(track)
+              conference.getPeerConnection().addTrack(track);
             }
           });
-          return conference.getPeerConnection().createOffer({iceRestart: false});
+          return conference.getPeerConnection().createOffer({ iceRestart: false });
         }).then((offer) => {
           return conference.getPeerConnection().setLocalDescription(offer);
         }).then(() => {
@@ -95,7 +95,7 @@ function RoomPage() {
             .c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
             .c('body').t('send_dashboard').up()
             .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
-           conference.send(message);
+          conference.send(message);
         }).catch((error: any) => console.log(`This is Error by sharing ${error}`));
       }
 
@@ -177,15 +177,9 @@ function RoomPage() {
       }
 
       function addDashboard(params: any[]) {
-        const peerConnection = new RTCPeerConnection();
-        peerConnection.ontrack = ((event) => {
-          if (event.track.id.includes('dashboard')) {
-            glagol.sharingStream = event.streams[0];
-          }
-        });
-        peerConnection.setRemoteDescription(JSON.parse(atob(params[0]))).then(() => {
-          dispatch(changeSharingScreenIsOpen(true));
-        });
+        /**
+         *
+         */
       }
 
       conference.xmppRegistering();

@@ -34,9 +34,6 @@ class PeerConnection {
     this.pc.ontrack = (event: RTCTrackEvent) => {
       this.emit('renderRemoteBox');
     };
-// this.pc.onremovetrack=(evet: any)=>{
-//   console.log(evet)
-// }
 
     this.pc.onicecandidate = ((event: RTCPeerConnectionIceEvent) => {
       if (event.candidate) {
@@ -61,37 +58,12 @@ class PeerConnection {
   getPeerConnection() {
     return this.pc;
   }
-
-  changeTranseivers(params: {
-    audio: number,
-    video: number;
-  }) {
-    this.currentTransceivers.audio += params.audio;
-    this.currentTransceivers.video += params.video;
-    while (this.currentTransceivers.audio > 0) {
-      this.pc.addTransceiver('audio', { direction: 'recvonly' });
-      this.currentTransceivers.audio -= 1;
-    }
-    while (this.currentTransceivers.video > 0) {
-      this.pc.addTransceiver('video', {
-        direction: 'recvonly'
-      });
-      this.currentTransceivers.video -= 1;
-    }
-  }
-
   pushCandidate(candidate: RTCIceCandidate) {
     this.candidates.push(candidate);
   }
 
-  setRemoteDescripton(params: {
-    audio: number,
-    video: number,
-    description: string,
-    type?: 'add_track' | 'add_dashboard'
-  }) {
-    // this.changeTranseivers({audio: params.audio, video:params.video})
-    this.pc.setRemoteDescription(JSON.parse(atob(params.description))).then(() => {
+  setRemoteDescripton(description: string) {
+    this.pc.setRemoteDescription(JSON.parse(atob(description))).then(() => {
       while (this.candidates.length > 0) {
         const candidate = this.candidates.shift();
         this.pc.addIceCandidate(candidate);

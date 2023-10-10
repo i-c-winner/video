@@ -107,12 +107,7 @@ class Xmpp {
       case 'add_dashboard': {
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
-        this.emit('addTrack', {
-          audio,
-          video: bodyText==='add_track'?video: 1,
-          description: jimbleText,
-          type: bodyText
-        });
+        this.emit('addTrack', jimbleText);
         break
       }
       case 'ice_candidate': {

@@ -46,13 +46,8 @@ class Conference {
   }
 
   addCallbacks() {
-    this.XmppOn('addTrack', (params: [ {
-      audio: number,
-      video: number,
-      description: string,
-      type: 'add_track' | 'add_dashboard'
-    } ]) => {
-      this.peerConnection.setRemoteDescripton(params[0]);
+    this.XmppOn('addTrack', (description: [string]) => {
+      this.peerConnection.setRemoteDescripton(description[0]);
     });
     this.XmppOn('iceCandidate', (description: [ string ]) => {
       const candidate = JSON.parse(atob(description[0]));
@@ -65,14 +60,9 @@ class Conference {
     });
     this.peerConnectionOn("sendAnswer", (answer) => {
       this.send(doSignaling(answer[0]));
-      // doSignaling(answer[0])
     });
-    this.XmppOn('removeTrack', (params: [ {
-      audio: number,
-      video: number,
-      description: string
-    } ]) => {
-      this.peerConnection.setRemoteDescripton(params[0]);
+    this.XmppOn('removeTrack', (description: [string]) => {
+      this.peerConnection.setRemoteDescripton(description[0]);
     });
   }
 

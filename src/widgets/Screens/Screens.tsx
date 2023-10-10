@@ -14,7 +14,7 @@ function Screens() {
   const dispatch = useDispatch();
   const [ visibleRemoteBox, setVisibleRemoteBox ] = useState(false);
 
-  function render() {
+  function renderRemoteBox() {
     const reciveirs = conference.getPeerConnection().getReceivers().slice(startIndexRemoteStreams);
     if (reciveirs.length > 0) {
       dispatch(changeRemoteBoxIsVisible(true));
@@ -25,9 +25,9 @@ function Screens() {
   }
 
   useEffect(() => {
-    conference.peerConnectionOn('renderRemoteBox', render);
+    conference.peerConnectionOn('renderRemoteBox', renderRemoteBox);
     return () => {
-      conference.peerConnectionOff('renderRemoteBox', render);
+      conference.peerConnectionOff('renderRemoteBox', renderRemoteBox);
     };
   }, []);
   useEffect(() => {
