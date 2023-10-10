@@ -104,7 +104,11 @@ class Xmpp {
     const jimbleText = Strophe.getText(jimble);
 
     switch (bodyText) {
-      case 'add_dashboard':
+      case 'add_dashboard':{
+        this.emit('addTrack', jimbleText)
+
+        break
+      }
       case 'add_track': {
         this.emit('addTrack', jimbleText);
         break

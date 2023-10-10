@@ -11,7 +11,12 @@ const config = {
     toolboxIsVisible: true,
     remoteBoxIsVisible: false,
     widthRemoteBox: '',
-    modeSharingScreen: false
+    modeSharingScreen: false,
+    localComponentMode: {
+      sharingScreenMode: false,
+      singleStreamMode: true,
+      tileStreamMode: false
+    }
   },
   modal: {
     width: 'WIDTH_MIDDLE',

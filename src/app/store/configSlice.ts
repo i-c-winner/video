@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { config } from '../../shared/config/config';
 
 
@@ -18,29 +18,36 @@ const configSlice = createSlice({
     changeQuantityVideo: ((state, action) => {
       state.conference.videoQuantity = action.payload;
     }),
-    changeAudioStream: ((state, action)=>{
-      state.conference.audioStream=action.payload
+    changeAudioStream: ((state, action) => {
+      state.conference.audioStream = action.payload;
     }),
-    changeTile: ((state, action)=>{
-      state.UI.tile=action.payload
+    changeTile: ((state, action) => {
+      state.UI.tile = action.payload;
     }),
-    changeSelectedTab: ((state, action)=>{
-      state.modal.settings.selectedTab=action.payload
+    changeSelectedTab: ((state, action) => {
+      state.modal.settings.selectedTab = action.payload;
     }),
-    changeIsRecording: ((state, action)=>{
-      state.functions.isRecording=action.payload
+    changeIsRecording: ((state, action) => {
+      state.functions.isRecording = action.payload;
     }),
-    changeLeftOut: ((state)=>{
-      state.conference.leftOut=true
+    changeLeftOut: ((state) => {
+      state.conference.leftOut = true;
     }),
-    changeToolboxIsVisible: ((state, action)=>{
-      state.UI.toolboxIsVisible=action.payload
+    changeToolboxIsVisible: ((state, action) => {
+      state.UI.toolboxIsVisible = action.payload;
     }),
-    changeRemoteBoxIsVisible: ((state, action)=>{
-      state.UI.remoteBoxIsVisible=action.payload
+    changeRemoteBoxIsVisible: ((state, action) => {
+      state.UI.remoteBoxIsVisible = action.payload;
     }),
-    changeModeSharingScreen: ((state, action)=>{
-      state.UI.modeSharingScreen=action.payload
+    changeModeSharingScreen: ((state, action) => {
+      state.UI.modeSharingScreen = action.payload;
+    }),
+    changeLocalComponentMode: ((state, action: PayloadAction<{
+      type: 'sharingScreenMode'
+        | 'singleStreamMode' |
+        'tileStreamMode', value: boolean
+    }>) => {
+      state.UI.localComponentMode[action.payload.type] = action.payload.value;
     })
   }
 });

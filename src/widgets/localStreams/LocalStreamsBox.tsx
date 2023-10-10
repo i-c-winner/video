@@ -10,6 +10,7 @@ import { IRootState } from '../../app/types';
 import { BigBox } from './BigBox';
 import { conference } from '../../functions/Conference';
 import { changeModeSharingScreen } from '../../app/store/configSlice';
+import {SingleStreamMode} from './SingleStreamMode';
 
 
 const qtyRows = 3;
@@ -25,6 +26,7 @@ function LocalStreamsBox() {
   const refSharingScreen = useRef<HTMLVideoElement>(null);
   const { tile, modeSharingScreen } = useSelector((state: IRootState) => state.config.UI);
   const { itHasSharingStream } = useSelector((state: IRootState) => state.config.functions);
+  const {localComponentMode} = useSelector((state: IRootState)=> state.config.UI)
   const remoteStreams = conference.getPeerConnection().getReceivers().slice(2);
   const [ source, setSource ] = useState(remoteStreams.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
@@ -89,34 +91,43 @@ function LocalStreamsBox() {
   function renderSharingScreen() {
     dispatch(changeModeSharingScreen(true));
   }
-function getSharingSender() {
-  return conference.getPeerConnection().getSenders().filter((sender) => {
-    if (sender.track!==null) {
-      console.log(sender.track.contentHint, 'HINT')
-      return sender.track.contentHint==='detail'
-    }
-  });
-}
 
-function getSharingReciveir() {
-    return conference.getPeerConnection().getReceivers().filter((receiver)=>{
-      if (receiver.track!==null) {
-        return receiver.track.id.indexOf('dashboard')>=0
+  function getSharingSender() {
+    return conference.getPeerConnection().getSenders().filter((sender) => {
+      if (sender.track !== null) {
+        console.log(sender.track.contentHint, 'HINT');
+        return sender.track.contentHint === 'detail';
       }
-    })
+    });
+  }
+
+  function getSharingReciveir() {
+    return conference.getPeerConnection().getReceivers().filter((receiver) => {
+      if (receiver.track !== null) {
+        return receiver.track.id.indexOf('dashboard') >= 0;
+      }
+    });
+  }
+function getChildren(){
+    if (localComponentMode.singleStreamMode) return <SingleStreamMode />
 }
-  useEffect(()=>{
-    const source=getSharingSender()
+  useEffect(() => {
+    const source = getSharingSender().length > 0 ? getSharingSender() : getSharingReciveir();
     if (refSharingScreen.current !== null) {
       const stream = new MediaStream();
-      if (source[0].track!==null) {
-        stream.addTrack(source[0].track);
-        refSharingScreen.current.srcObject = stream;
+      try {
+        if (source[0].track !== null) {
+          stream.addTrack(source[0].track);
+          refSharingScreen.current.srcObject = stream;
+        }
+      } catch (e) {
+
       }
     }
-  }, [modeSharingScreen])
+  }, [ modeSharingScreen ]);
   useEffect(() => {
     conference.XmppOn('renderSharingScreen', renderSharingScreen);
+    conference.peerConnectionOn('renderSharingScreen', renderSharingScreen);
     setSource(() => {
       return remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
@@ -138,7 +149,8 @@ function getSharingReciveir() {
     }}>
       <Header/>
       <BigBox>
-        {modeSharingScreen ? bigBoxChildrens.sharingScreen : tile ? bigBoxChildrens.tileMode : bigBoxChildrens.localVideo}
+        {getChildren()}
+        {/*{modeSharingScreen ? bigBoxChildrens.sharingScreen : tile ? bigBoxChildrens.tileMode : bigBoxChildrens.localVideo}*/}
       </BigBox>
       <Toolbox/>
     </Box>

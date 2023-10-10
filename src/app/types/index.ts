@@ -27,7 +27,12 @@ interface IRootState {
       tile: boolean,
       toolboxIsVisible: boolean,
       remoteBoxIsVisible: boolean,
-      modeSharingScreen: boolean
+      modeSharingScreen: boolean,
+      localComponentMode: {
+        sharingScreenMode: boolean,
+        singleStreamMode:boolean,
+        tileStreamMode: boolean
+      }
     },
     modal: {
       width: 'WIDTH_HEIGHT' | 'WIDTH_MIDDLE' | 'WIDTH_LOW',
