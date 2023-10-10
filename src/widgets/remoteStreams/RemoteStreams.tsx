@@ -28,7 +28,7 @@ const dispatch=useDispatch()
       }
     }>
       {<CardMedia>
-        <video className={getClassName()} autoPlay={true} controls={true} ref={refVideo}/>
+        <video className={getClassName()} autoPlay={true} ref={refVideo}/>
       </CardMedia>}
     </Card>
   );

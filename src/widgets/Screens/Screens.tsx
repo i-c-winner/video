@@ -16,12 +16,16 @@ function Screens() {
 
   function renderRemoteBox() {
     const reciveirs = conference.getPeerConnection().getReceivers().slice(startIndexRemoteStreams);
-    if (reciveirs.length > 0) {
+
+    const filteredRecivers = reciveirs.filter((reciveir)=>{
+          return reciveir.track.id.indexOf('dashboard')===-1
+    })
+    if (filteredRecivers.length > 0) {
       dispatch(changeRemoteBoxIsVisible(true));
     } else {
       dispatch(changeRemoteBoxIsVisible(false));
     }
-    setSource(reciveirs)
+    setSource(filteredRecivers)
   }
 
   useEffect(() => {
