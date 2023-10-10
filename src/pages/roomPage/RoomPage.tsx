@@ -10,9 +10,7 @@ import { pushChat } from '../../app/store/chatSlice';
 import { useNavigate } from 'react-router-dom';
 import { IRootState } from '../../app/types';
 import {
-  changeItHasSharingStream,
   changeRemoteBoxIsVisible,
-  changeSharingScreenIsOpen
 } from '../../app/store/configSlice';
 
 let firstLoad = true;
@@ -24,7 +22,6 @@ const connection = async () => {
 };
 
 function RoomPage() {
-  const { remoteBoxIsVisible, sharingScreenIsOpen } = useSelector((state: IRootState) => state.config.UI);
   const { audioStream, videoQuantity, leftOut } = useSelector((state: IRootState) => state.config.conference);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,6 +80,8 @@ function RoomPage() {
           glagol.sharingStream = stream;
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
+              track.contentHint='detail'
+              console.log(track.contentHint, 'rrrHINT')
               conference.getPeerConnection().addTrack(track);
             }
           });

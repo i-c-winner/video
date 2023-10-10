@@ -4,11 +4,12 @@ import { Header } from '../panels/Header';
 import { Toolbox } from '../panels/Toolbox';
 import { useEffect, useRef } from 'react';
 import { glagol } from '../../entities/glagol/glagol';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
 import { IRootState } from '../../app/types';
 import { BigBox } from './BigBox';
 import { conference } from '../../functions/Conference';
+import { changeModeSharingScreen } from '../../app/store/configSlice';
 
 
 const qtyRows = 3;
@@ -21,12 +22,13 @@ for (let i = 0; i < qtyScreens; i++) {
 
 function LocalStreamsBox() {
   const refVideo = useRef<HTMLVideoElement>(null);
-  const refSharingScreen=useRef<HTMLVideoElement>(null)
-  const { tile , sharingScreenIsOpen} = useSelector((state: IRootState) => state.config.UI);
-  const {itHasSharingStream} = useSelector((state: IRootState)=>state.config.functions)
-  const remoteStreams = conference.getPeerConnection().getReceivers().slice(2)
+  const refSharingScreen = useRef<HTMLVideoElement>(null);
+  const { tile, modeSharingScreen } = useSelector((state: IRootState) => state.config.UI);
+  const { itHasSharingStream } = useSelector((state: IRootState) => state.config.functions);
+  const remoteStreams = conference.getPeerConnection().getReceivers().slice(2);
   const [ source, setSource ] = useState(remoteStreams.slice(0, (qtyScreens - 1)));
   const [ page, setPage ] = useState(1);
+  const dispatch = useDispatch();
 
   function changePage(event: React.ChangeEvent<unknown>, page: number) {
     setPage(page);
@@ -62,7 +64,7 @@ function LocalStreamsBox() {
           return <Box
             key={index}
           >
-            {value && <RemoteStreams reciveir={value}/>}
+            {value && <RemoteStreams receiver={value}/>}
           </Box>;
         })}
       </Box>
@@ -81,10 +83,40 @@ function LocalStreamsBox() {
         hideNextButton/>}
     </Box>,
     localVideo: <video autoPlay={true} ref={refVideo} className="video__bigscreen"/>,
-    sharingScreenIsOpen: <video autoPlay={true} ref={refSharingScreen} className="video__bigscreen video__bigscreen_sharing"/>,
-
+    sharingScreen: <video autoPlay={true} ref={refSharingScreen} className="video__bigscreen video__bigscreen_sharing"/>
   };
+
+  function renderSharingScreen() {
+    dispatch(changeModeSharingScreen(true));
+  }
+function getSharingSender() {
+  return conference.getPeerConnection().getSenders().filter((sender) => {
+    if (sender.track!==null) {
+      console.log(sender.track.contentHint, 'HINT')
+      return sender.track.contentHint==='detail'
+    }
+  });
+}
+
+function getSharingReciveir() {
+    return conference.getPeerConnection().getReceivers().filter((receiver)=>{
+      if (receiver.track!==null) {
+        return receiver.track.id.indexOf('dashboard')>=0
+      }
+    })
+}
+  useEffect(()=>{
+    const source=getSharingSender()
+    if (refSharingScreen.current !== null) {
+      const stream = new MediaStream();
+      if (source[0].track!==null) {
+        stream.addTrack(source[0].track);
+        refSharingScreen.current.srcObject = stream;
+      }
+    }
+  }, [modeSharingScreen])
   useEffect(() => {
+    conference.XmppOn('renderSharingScreen', renderSharingScreen);
     setSource(() => {
       return remoteStreams.slice(qtyScreens * (page - 1), (qtyScreens + page));
     });
@@ -92,19 +124,13 @@ function LocalStreamsBox() {
 
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = glagol.localStream;
-    if(refSharingScreen.current!==null) {
-      glagol.sharingStream?.getTracks().forEach((track)=>{
-        if (track.kind==='video') {
-        }
-      })
-      refSharingScreen.current.srcObject=glagol.sharingStream
-    }
-  }, [ tile, sharingScreenIsOpen ]);
-  useEffect(()=>{
+
+  }, [ tile, modeSharingScreen ]);
+  useEffect(() => {
     if (itHasSharingStream) {
-      if(refSharingScreen.current!==null) refSharingScreen.current.srcObject=glagol.sharingStream
+      if (refSharingScreen.current !== null) refSharingScreen.current.srcObject = glagol.sharingStream;
     }
-  },[itHasSharingStream])
+  }, [ itHasSharingStream ]);
   return (
     <Box sx={{
       flexGrow: '1',
@@ -112,7 +138,7 @@ function LocalStreamsBox() {
     }}>
       <Header/>
       <BigBox>
-        {sharingScreenIsOpen? bigBoxChildrens.sharingScreenIsOpen:tile? bigBoxChildrens.tileMode: bigBoxChildrens.localVideo}
+        {modeSharingScreen ? bigBoxChildrens.sharingScreen : tile ? bigBoxChildrens.tileMode : bigBoxChildrens.localVideo}
       </BigBox>
       <Toolbox/>
     </Box>

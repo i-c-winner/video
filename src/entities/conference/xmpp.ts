@@ -2,6 +2,7 @@ import * as strophe from "strophe.js";
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
 import { glagol } from '../glagol/glagol';
+import { conference } from '../../functions/Conference';
 
 const { Strophe }: any = strophe;
 setRegister(strophe);
@@ -103,10 +104,8 @@ class Xmpp {
     const jimbleText = Strophe.getText(jimble);
 
     switch (bodyText) {
-      case 'add_track':
-      case 'add_dashboard': {
-        const video: number = Number(jimble.getAttribute('video'));
-        const audio: number = Number(jimble.getAttribute('audio'));
+      case 'add_dashboard':
+      case 'add_track': {
         this.emit('addTrack', jimbleText);
         break
       }
@@ -134,7 +133,7 @@ class Xmpp {
         break
       }
       case 'send_dashboard': {
-
+        this.emit('renderSharingScreen')
         break
       }
 

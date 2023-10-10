@@ -21,7 +21,6 @@ import {
   changeTile,
   setTypeModal,
   changeLeftOut,
-  changeSharingScreenIsOpen
 } from '../../app/store/configSlice';
 import { Settings } from '../modal/settingsChildren/Settings';
 import { constants } from '../../shared/config/constants';
@@ -40,7 +39,7 @@ function Toolbox() {
     return state.config.modal;
   });
   const { isRecording } = useSelector((state: IRootState) => state.config.functions);
-  const { tile, sharingScreenIsOpen} = useSelector((state: IRootState) => state.config.UI);
+  const { tile } = useSelector((state: IRootState) => state.config.UI);
   const width = useSelector((state: IRootState) => state.config.modal.width);
   const { toolboxIsVisible } = useSelector((state: IRootState) => state.config.UI);
   const refToolbox = useRef<HTMLDivElement>(null);
