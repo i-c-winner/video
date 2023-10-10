@@ -139,14 +139,10 @@ class Xmpp {
         break
       }
       case 'send_dashboard': {
-        this.emit('sendDashboard', jimbleText )
+
         break
       }
-      // case 'add_dashboard': {
-      //   console.log('add_dashboard')
-      //   // this.emit('addDashboard', jimbleText)
-      //   break
-      // }
+
       default: {
         console.info('message with unknown action')
       }

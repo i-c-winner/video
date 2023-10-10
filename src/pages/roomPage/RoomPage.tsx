@@ -65,7 +65,6 @@ function RoomPage() {
       conference.XmppOn('messageWasReceived', messageWasReceived);
       conference.peerConnectionOn('leaveRoom', leaveRoom);
       conference.XmppOn('addDashboard', addDashboard);
-      conference.XmppOn('sendDashboard', sendDashboard);
       conference.XmppOn('startSharing', startSharing);
 
 
@@ -85,9 +84,6 @@ function RoomPage() {
           stream.getTracks().forEach((track) => {
             if (track.kind === 'video') {
               conference.getPeerConnection().addTrack(track)
-              // if (glagol.localStreamForPeer !== null) conference.getPeerConnection().addTransceiver(track, {
-              //   direction: 'sendrecv'
-              // });
             }
           });
           return conference.getPeerConnection().createOffer({iceRestart: false});
@@ -153,7 +149,6 @@ function RoomPage() {
 
       function deleteStreamId(id: string) {
         glagol.currentStreams = glagol.currentStreams.filter(currentId => !currentId.id.includes(id[0]));
-        // dispatch(removeStream(id[0]));
         if (glagol.currentStreams.length === 0) {
           openRemoteStream(false);
         }
@@ -191,11 +186,6 @@ function RoomPage() {
         peerConnection.setRemoteDescription(JSON.parse(atob(params[0]))).then(() => {
           dispatch(changeSharingScreenIsOpen(true));
         });
-      }
-
-      function sendDashboard(params: any[]) {
-        debugger
-        console.log(params[0]);
       }
 
       conference.xmppRegistering();
