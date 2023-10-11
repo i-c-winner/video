@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { config } from '../../shared/config/config';
 
-
+type TKeys= 'sharingScreenMode' | 'singleStreamMode' |'tileStreamMode'
 const configSlice = createSlice({
   name: "config",
   initialState: config,
@@ -39,15 +39,13 @@ const configSlice = createSlice({
     changeRemoteBoxIsVisible: ((state, action) => {
       state.UI.remoteBoxIsVisible = action.payload;
     }),
-    changeModeSharingScreen: ((state, action) => {
-      state.UI.modeSharingScreen = action.payload;
-    }),
     changeLocalComponentMode: ((state, action: PayloadAction<{
-      type: 'sharingScreenMode'
-        | 'singleStreamMode' |
-        'tileStreamMode', value: boolean
+
+      type: TKeys, value: boolean
     }>) => {
-      state.UI.localComponentMode[action.payload.type] = action.payload.value;
+      state.UI.localComponentMode= Object.fromEntries(
+        Object.entries(state.UI.localComponentMode).map(([key, value]:[any, boolean]) => [key, key===action.payload.type])
+      );
     })
   }
 });
@@ -63,7 +61,6 @@ export const {
   changeLeftOut,
   changeToolboxIsVisible,
   changeRemoteBoxIsVisible,
-  changeModeSharingScreen,
-changeLocalComponentMode
+  changeLocalComponentMode
 } = configSlice.actions;
 export default configSlice.reducer;

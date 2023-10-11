@@ -1,9 +1,7 @@
 import { Box, Pagination } from '@mui/material';
 import { RemoteStreams } from '../remoteStreams/RemoteStreams';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { conference } from '../../functions/Conference';
-import { useSelector } from 'react-redux';
-import { IRootState } from '../../app/types';
 
 const qtyRows = 3;
 const qtyColumns = 4;

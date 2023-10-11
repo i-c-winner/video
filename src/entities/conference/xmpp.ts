@@ -2,8 +2,6 @@ import * as strophe from "strophe.js";
 import { setRegister } from "../../shared/lib/setRegister";
 import { getRandomText } from "../../shared/lib/getRandomText";
 import { glagol } from '../glagol/glagol';
-import { conference } from '../../functions/Conference';
-
 const { Strophe }: any = strophe;
 setRegister(strophe);
 
@@ -104,9 +102,10 @@ class Xmpp {
     const jimbleText = Strophe.getText(jimble);
 
     switch (bodyText) {
-      case 'add_dashboard':{
-        this.emit('addTrack', jimbleText)
-
+      case 'add_dashboard': {
+        console.log("ADD_DASHBOARD")
+        this.emit('renderSharingScreen', bodyText)
+        this.emit('addTrack', jimbleText);
         break
       }
       case 'add_track': {
@@ -137,7 +136,8 @@ class Xmpp {
         break
       }
       case 'send_dashboard': {
-        this.emit('renderSharingScreen')
+        console.log('SEND DASHBOARD')
+        this.emit('renderSharingScreen', bodyText)
         break
       }
 

@@ -71,7 +71,6 @@ class PeerConnection {
     });
     this.createAnswer();
     this.emit('renderRemoteBox');
-    this.emit('renderSharingScreen')
   }
 
   changeConstraints(quality: "height" | "middle" | "low" | 'disabled') {
