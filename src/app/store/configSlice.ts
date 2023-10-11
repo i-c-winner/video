@@ -64,6 +64,6 @@ export const {
   changeToolboxIsVisible,
   changeRemoteBoxIsVisible,
   changeModeSharingScreen,
-
+changeLocalComponentMode
 } = configSlice.actions;
 export default configSlice.reducer;

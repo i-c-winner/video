@@ -13,6 +13,7 @@ import { CreateSvgIcon } from '../createSvgIcon/CreateSvgIcon';
 import { toolboxAction } from '../../functions/buttonActions/toolboxAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import {changeLocalComponentMode} from '../../app/store/configSlice';
 
 import {
   changeChatVisible,
@@ -39,7 +40,7 @@ function Toolbox() {
     return state.config.modal;
   });
   const { isRecording } = useSelector((state: IRootState) => state.config.functions);
-  const { tile } = useSelector((state: IRootState) => state.config.UI);
+  const { tileStreamMode} = useSelector((state: IRootState) => state.config.UI.localComponentMode);
   const width = useSelector((state: IRootState) => state.config.modal.width);
   const { toolboxIsVisible } = useSelector((state: IRootState) => state.config.UI);
   const refToolbox = useRef<HTMLDivElement>(null);
@@ -55,7 +56,6 @@ function Toolbox() {
     conference.getPeerConnection().getSenders().forEach((sender)=>{
       conference.getPeerConnection().removeTrack(sender)
     })
-    debugger
     dispatch(changeModalVisible(true));
     dispatch(setTypeModal('settings'));
   }
@@ -74,11 +74,11 @@ function Toolbox() {
   }
 
   function changingTile() {
-    dispatch(changeTile(!tile));
+    dispatch(changeLocalComponentMode({type: 'tileStreamMode', value: !tileStreamMode}));
   }
 
   function getColorForTileButton() {
-    return tile ? { color: 'green' } : { color: 'white' };
+    return tileStreamMode ? { color: 'green' } : { color: 'white' };
   }
 
   const SettingsRef = React.forwardRef<React.Ref<React.ComponentType>>((props, ref) => {
@@ -99,7 +99,6 @@ function Toolbox() {
   }
 
   function sharingScreen() {
-
       const message = new Strophe.Builder('message', {
         to: `${glagol.roomName}@conference.prosolen.net/focus`,
         type: 'chat',
