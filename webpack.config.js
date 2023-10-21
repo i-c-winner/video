@@ -8,7 +8,7 @@ const stylesHandler = 'style-loader';
 
 
 const config = {
-    entry: './src/app/main.js',
+    entry: './src/app/main.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
