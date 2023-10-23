@@ -42,6 +42,25 @@ class Room {
     this.xmpp.connection.send(message);
   }
   invite(){
+    const invitation = {
+      action: "INVITATION",
+      tracks: {
+        audio: true,
+        video: true
+      }
+    };
+    const inviteMessageB64 = btoa(JSON.stringify(invitation));
+    const message = new Strophe.Builder('message', {
+      to: 'focus@prosolen.net/focus',
+      type: 'chat',
+      xmlns: 'jabber:client'
+    }).c('x', {
+      xmlns: 'jabber:x:conference',
+      jid: `${roomName}@conference.prosolen.net`
+    }).up().c('nick', {
+      xmlns: 'http://jabber.org/protocol/nick'
+    }).t('rte').up().c('jimble').t(inviteMessageB64);
+    this.xmpp.connection.send(message);
     console.log('invite')
   }
 }
