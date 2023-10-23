@@ -44,6 +44,8 @@ class Xmpp {
         console.log('connected', this.connection);
         this.connection.addHandler(this.handlerPresence, null, 'presence');
         this.connection.addHandler(this.handlerMessage, null, 'message')
+        this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result")
+        this.connection.addHandler((stanza: Element)=>console.log(stanza, 'STANAAAAAA'))
         room.create();
         this.room=room
       } else {
@@ -52,9 +54,12 @@ class Xmpp {
     };
     this.connection.register.connect('prosolen.net', callback);
   }
-handlerMessage(stanza: Element) {
+handlerMessage=(stanza: Element)=> {
 console.log(stanza, 'Stanza Message')
 }
+  handlerIqTypeResult=(stanza: Element)=> {
+  this.room.invite()
+  }
   handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
     try {

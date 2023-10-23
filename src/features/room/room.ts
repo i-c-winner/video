@@ -18,7 +18,6 @@ class Room {
   }
 
   create() {
-    console.log(this)
     const message = new Strophe.Builder('presence', {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
@@ -40,8 +39,7 @@ class Room {
       xmlns: 'jabber:x:data',
       type: 'submit'
     });
-    this.xmpp.invite.send(message);
-    console.log('validate')
+    this.xmpp.connection.send(message);
   }
   invite(){
     console.log('invite')
