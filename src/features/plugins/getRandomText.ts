@@ -9,4 +9,4 @@ function getRandomText(number: number): string {
   return result.toLowerCase();
 }
 
-export default getRandomText
+export { getRandomText };
