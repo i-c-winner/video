@@ -13,6 +13,7 @@ class Room {
     }
     this.xmpp = xmpp;
     this.create = this.create.bind(this);
+    console.log(this, Room.instance)
     return Room.instance;
   }
 
@@ -26,6 +27,24 @@ class Room {
       action: "enter_to_room"
     });
     this.xmpp.connection.send(message);
+  }
+  validate() {
+    const message = new Strophe.Builder('iq', {
+      from: `${roomName}@prosolen.net/${userNode}`,
+      id: userNode,
+      to: `${roomName}@conference.prosolen.net`,
+      type: 'set'
+    }).c('query', {
+      xmlns: 'http://jabber.org/protocol/muc#owner'
+    }).c('x', {
+      xmlns: 'jabber:x:data',
+      type: 'submit'
+    });
+    this.xmpp.invite.send(message);
+    console.log('validate')
+  }
+  invite(){
+    console.log('invite')
   }
 }
 
