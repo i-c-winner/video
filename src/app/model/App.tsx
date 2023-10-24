@@ -1,19 +1,14 @@
-import { xmpp } from '../../features/conference/xmpp';
-import { Room } from '../../features/room/room';
-import {Provider} from 'react-redux';
-import { store } from '../store/store';
+
+import { useSelector } from 'react-redux';
 import { Loginin } from '../../page/model/Loginin';
-
-
-console.log('APp');
-const room = new Room(xmpp);
-xmpp.init(room);
+import { useState } from 'react';
+import { IConfig } from '../index';
 function App() {
-  console.log('APp 01');
+const loginin=useSelector((state: {config: IConfig})=>state.config.conference)
 
-  return <Provider store={store}>
-    <Loginin />
-  </Provider>;
-}
+console.log(loginin)
+    return !false? <Loginin />: <p>ddsf</p>
+
+   }
 
 export { App };

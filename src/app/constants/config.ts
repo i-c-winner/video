@@ -8,7 +8,8 @@ const config: IConfig = {
       userName: getRandomText(5),
       userNode: '',
       displayName: getRandomText(5)
-    }
+    },
+    loginin: false
   }
 };
 

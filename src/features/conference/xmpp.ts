@@ -18,7 +18,7 @@ class Xmpp {
     this.connection = new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind');
   }
 
-  init(room: any) {
+  init(room: any, roomName: string, displayName: string) {
     const callback = (status: number): void => {
       if (status === Strophe.Status.REGISTER) {
         // fill out the fields
@@ -45,8 +45,8 @@ class Xmpp {
         this.connection.addHandler(this.handlerPresence, null, 'presence');
         this.connection.addHandler(this.handlerMessage, null, 'message')
         this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result")
-        this.connection.addHandler((stanza: Element)=>console.log(stanza, 'STANAAAAAA'))
-        room.create();
+        this.connection.addHandler((stanza: Element)=>console.log(stanza, 'STANAAAAAA'), null, 'iq')
+        room.create(roomName, displayName);
         this.room=room
       } else {
         // Do other stuff

@@ -5,7 +5,8 @@ interface IConfig {
       userName: string,
       userNode: string,
       displayName: string
-    }
+    },
+    loginin: boolean
   }
 }
 

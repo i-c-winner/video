@@ -9,10 +9,13 @@ const configSlice=createSlice({
   reducers: {
     changeUser: ((state, action:PayloadAction<{key: TKeyUserAction, value: string}>)=>{
       state.conference.user[action.payload.key]=action.payload.value
+    }),
+    changeLogin:((state, action)=>{
+      state.conference.loginin=action.payload
     })
   }
 })
 
-export const {changeUser}=configSlice.actions
+export const {changeUser, changeLogin}=configSlice.actions
 
 export default configSlice.reducer
