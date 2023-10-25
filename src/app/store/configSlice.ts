@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {IConfig} from '../index';
+import {IConfig} from '../types';
 import {config} from '../constants/config';
 type TKeyUserAction=keyof IConfig['conference']['user']
 

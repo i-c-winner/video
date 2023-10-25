@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux';
 import { Loginin } from '../../page/model/Loginin';
 import { useState } from 'react';
-import { IConfig } from '../index';
+import { IConfig } from '../types';
 function App() {
 const loginin=useSelector((state: {config: IConfig})=>state.config.conference)
 

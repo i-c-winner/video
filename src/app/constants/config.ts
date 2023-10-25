@@ -1,5 +1,5 @@
 import { getRandomText } from '../../features/plugins/getRandomText';
-import { IConfig } from '../index';
+import { IConfig } from '../types';
 
 const config: IConfig = {
   conference: {

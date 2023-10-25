@@ -1,16 +1,42 @@
-import { getRandomText } from '../plugins/getRandomText';
+import { IParamsConference, TCallbackConference } from '../../app/types';
+import { xmpp } from './xmpp';
 
-const name = getRandomText(5);
-const roomName = getRandomText(5);
 
 class Conference {
-  private static instance: any;
+
+  private listeners: {
+    [key: string]: TCallbackConference[]
+  };
+  private roomName: string;
+  private userNode: string;
+  private displayName: string;
 
   constructor() {
-    if (!Conference.instance) {
-      Conference.instance = this;
-    }
-    return Conference.instance;
+    this.roomName = '';
+    this.userNode = '';
+    this.displayName = '';
+    this.listeners = {};
   }
 
+  inizialization(params: IParamsConference) {
+    this.roomName = params.roomName;
+    this.userNode = params.userNode;
+    this.displayName = params.displayName;
+  }
+
+  on(name: string, callback: TCallbackConference) {
+    if (!this.listeners[name]) {
+      this.listeners[name] = [];
+    }
+    this.listeners[name].push(callback);
+  }
+
+  emit(name: string) {
+    if (!this.listeners[name]) {
+      console.error(new Error(`Слушатель ${name} не существует`));
+    }
+
+  }
 }
+const conference= new Conference()
+export {conference}
