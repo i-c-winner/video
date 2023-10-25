@@ -2,6 +2,7 @@ import * as strophe from 'strophe.js';
 import { setRegister } from '../plugins/register';
 import { getRandomText } from '../plugins/getRandomText';
 import React from 'react';
+import { TCallbackConference } from '../../app/types';
 
 
 // @ts-ignore
@@ -13,12 +14,16 @@ const password = getRandomText(8);
 class Xmpp {
   public connection: any;
   private room: any;
+  private listeners: {
+    [key: string]: TCallbackConference[]
+  };
 
   constructor() {
     this.connection = new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind');
+    this.listeners = {};
   }
 
-  init(room: any, roomName: string, displayName: string) {
+  init(roomName: string, displayName: string) {
     const callback = (status: number): void => {
       if (status === Strophe.Status.REGISTER) {
         // fill out the fields
@@ -28,38 +33,38 @@ class Xmpp {
         this.connection.register.submit();
         //@ts-ignore
       } else if (status === Strophe.Status.REGISTERED) {
-        console.log("registered!");
+        console.info("registered!");
         // calling login will authenticate the registered JID.
         this.connection.authenticate();
         //@ts-ignore
       } else if (status === Strophe.Status.CONFLICT) {
-        console.log("Contact already existed!");
+        console.info("Contact already existed!");
         //@ts-ignore
       } else if (status === Strophe.Status.NOTACCEPTABLE) {
-        console.log("Registration form not properly filled out.");
+        console.info("Registration form not properly filled out.");
         //@ts-ignore
       } else if (status === Strophe.Status.REGIFAIL) {
         console.log("The Server does not support In-Band Registration");
       } else if (status === Strophe.Status.CONNECTED) {
-        console.log('connected', this.connection);
-        this.connection.addHandler(this.handlerPresence, null, 'presence');
-        this.connection.addHandler(this.handlerMessage, null, 'message')
-        this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result")
-        this.connection.addHandler((stanza: Element)=>console.log(stanza, 'STANAAAAAA'), null, 'iq')
-        room.create(roomName, displayName);
-        this.room=room
+        console.info('connected', this.connection);
+        // this.connection.addHandler(this.handlerPresence, null, 'presence');
+        // this.connection.addHandler(this.handlerMessage, null, 'message');
+        // this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
+        // this.connection.addHandler((stanza: Element) => console.log(stanza, 'STANAAAAAA'), null, 'iq');
+        this.emit('xmppConnected');
       } else {
         // Do other stuff
       }
     };
     this.connection.register.connect('prosolen.net', callback);
   }
-handlerMessage=(stanza: Element)=> {
-console.log(stanza, 'Stanza Message')
-}
-  handlerIqTypeResult=(stanza: Element)=> {
-  this.room.invite()
-  }
+
+  handlerMessage = (stanza: Element) => {
+    console.log(stanza, 'Stanza Message');
+  };
+  handlerIqTypeResult = (stanza: Element) => {
+    this.room.invite();
+  };
   handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
     try {
@@ -70,9 +75,9 @@ console.log(stanza, 'Stanza Message')
           if (statuses[0] !== null) {
             if (Number(statuses[0].getAttribute('code')) === 201) {
               // Xmpp.instance.emit("validateRoom");
-              this.room.validate()
+              this.room.validate();
             } else if (Number(statuses[0].getAttribute('code')) === 100) {
-              this.room.invite()
+              this.room.invite();
               // Xmpp.instance.emit("inviteRoom");
             }
           }
@@ -87,9 +92,31 @@ console.log(stanza, 'Stanza Message')
     // if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
     //   this.emit('leaveRoom');
     // }
-    console.log(stanza, 'STANZA')
+    console.log(stanza, 'STANZA');
     return true;
   };
+  sendMessage(message: Strophe.Builder) {
+    const message64=btoa(JSON.stringify(message))
+    this.connection.send(message)
+    console.log(message)
+  }
+
+  on(name: string, callback: TCallbackConference) {
+    if (!this.listeners[name]) {
+      this.listeners[name] = [];
+    }
+    this.listeners[name].push(callback);
+  }
+
+  emit(name: string, args?: TCallbackConference[]) {
+    if (!this.listeners[name]) {
+      console.error(new Error(`Слушатель ${name} не существует`));
+    } else {
+      this.listeners[name].forEach((listener) => {
+        listener(name, args);
+      });
+    }
+  }
 }
 
 const xmpp = new Xmpp();

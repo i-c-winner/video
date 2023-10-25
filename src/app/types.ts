@@ -10,7 +10,7 @@ interface IConfig {
   };
 }
 
-type TCallbackConference = (name: string) => void
+type TCallbackConference = (name: string, args?: any[]) => void
 interface IParamsConference {
   userNode: string,
   displayName: string,

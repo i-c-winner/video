@@ -1,5 +1,5 @@
 import { IParamsConference, TCallbackConference } from '../../app/types';
-import { xmpp } from './xmpp';
+import { peerConnection } from './peerConnection';
 
 
 class Conference {
@@ -16,14 +16,22 @@ class Conference {
     this.userNode = '';
     this.displayName = '';
     this.listeners = {};
+    peerConnection.on('localStreamDepended', this.localStreamDepended)
   }
 
   inizialization(params: IParamsConference) {
     this.roomName = params.roomName;
     this.userNode = params.userNode;
     this.displayName = params.displayName;
+    peerConnection.addHandlers();
+    this.createConnection()
   }
-
+createConnection() {
+    peerConnection.setLocalStream()
+}
+localStreamDepended=()=> {
+    this.emit('localStreamDepended')
+}
   on(name: string, callback: TCallbackConference) {
     if (!this.listeners[name]) {
       this.listeners[name] = [];
@@ -31,12 +39,16 @@ class Conference {
     this.listeners[name].push(callback);
   }
 
-  emit(name: string) {
+  emit(name: string, args?: TCallbackConference[]) {
     if (!this.listeners[name]) {
       console.error(new Error(`Слушатель ${name} не существует`));
+    }else {
+      this.listeners[name].forEach((listener)=>{
+        listener(name, args)
+      })
     }
-
   }
 }
-const conference= new Conference()
-export {conference}
+
+const conference = new Conference();
+export { conference };
