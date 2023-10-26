@@ -44,14 +44,16 @@ class Xmpp {
         console.info("Registration form not properly filled out.");
         //@ts-ignore
       } else if (status === Strophe.Status.REGIFAIL) {
-        console.log("The Server does not support In-Band Registration");
+        console.info("The Server does not support In-Band Registration");
       } else if (status === Strophe.Status.CONNECTED) {
         console.info('connected', this.connection);
         this.connection.addHandler(this.handlerPresence, null, 'presence');
         this.connection.addHandler(this.handlerMessage, null, 'message');
         this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
-        // this.connection.addHandler((stanza: Element) => console.log(stanza, 'STANAAAAAA'), null, 'iq');
-        this.emit('xmppConnected');
+        this.connection.addHandler((stanza: Element) => {
+          console.log(stanza, 'THIS IS STANZA!!!!!!!!!!!!!!!!!!!')
+        });
+        this.emit('xmppInit');
       } else {
         // Do other stuff
       }
@@ -63,50 +65,50 @@ class Xmpp {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
     const jimble = stanza.getElementsByTagName('jimble')[0];
     const jimbleText = Strophe.getText(jimble);
-
+    console.log(bodyText, 'BODY TEXT');
     switch (bodyText) {
       case 'add_dashboard': {
-        console.log("ADD_DASHBOARD")
-        this.emit('renderSharingScreen', bodyText)
+        console.log("ADD_DASHBOARD");
+        this.emit('renderSharingScreen', bodyText);
         this.emit('addTrack', jimbleText);
-        break
+        break;
       }
       case 'add_track': {
         this.emit('addTrack', jimbleText);
-        break
+        break;
       }
       case 'ice_candidate': {
         this.emit("iceCandidate", jimbleText);
-        break
+        break;
       }
       case 'remove_track': {
         const video: number = Number(jimble.getAttribute('video'));
         const audio: number = Number(jimble.getAttribute('audio'));
         const id = jimble.getAttribute('id_remote') as string;
-        break
+        break;
       }
       case 'offer_dashboard': {
         if (jimble.getAttribute('ready')) {
-          this.emit('startSharing')
+          this.emit('startSharing');
         }
 
-        break
+        break;
       }
       case 'send_dashboard': {
-        console.log('SEND DASHBOARD')
-        this.emit('renderSharingScreen', bodyText)
-        break
+        console.log('SEND DASHBOARD');
+        this.emit('renderSharingScreen', bodyText);
+        break;
       }
 
       default: {
-        console.info('message with unknown action')
+        console.info('message with unknown action');
       }
     }
-    console.log(stanza, "Message");
     return true;
   };
   handlerIqTypeResult = (stanza: Element) => {
-   this.emit('doInviteRoom')
+    console.log('DOINVITW', stanza);
+    this.emit('doInviteRoom');
   };
   handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
@@ -118,9 +120,9 @@ class Xmpp {
           if (statuses[0] !== null) {
             if (Number(statuses[0].getAttribute('code')) === 201) {
               // Xmpp.instance.emit("validateRoom");
-              this.emit('doValidateRoom')
+              this.emit('doValidateRoom');
             } else if (Number(statuses[0].getAttribute('code')) === 100) {
-              this.emit('doInviteRoom')
+              this.emit('doInviteRoom');
               // Xmpp.instance.emit("inviteRoom");
             }
           }
@@ -135,13 +137,12 @@ class Xmpp {
     // if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
     //   this.emit('leaveRoom');
     // }
-    console.log(stanza, 'STANZA');
     return true;
   };
+
   sendMessage(message: Strophe.Builder) {
-    const message64=btoa(JSON.stringify(message))
-    this.connection.send(message)
-    console.log(message)
+    const message64 = btoa(JSON.stringify(message));
+    this.connection.send(message);
   }
 
   on(name: string, callback: TCallbackConference) {

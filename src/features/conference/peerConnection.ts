@@ -19,6 +19,8 @@ class PeerConnection {
       ]
     });
     this.listeners = {};
+    // @ts-ignore
+    window.peer=this.peerConnection
     return PeerConnection.instance;
   }
 

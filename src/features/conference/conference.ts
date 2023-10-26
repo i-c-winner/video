@@ -16,7 +16,7 @@ class Conference {
     this.userNode = '';
     this.displayName = '';
     this.listeners = {};
-    peerConnection.on('localStreamDepended', this.localStreamDepended)
+    // peerConnection.on('localStreamDepended', this.localStreamDepended)
   }
 
   initialization(params: IParamsConference) {
@@ -24,14 +24,14 @@ class Conference {
     this.userNode = params.userNode;
     this.displayName = params.displayName;
     peerConnection.addHandlers();
-    this.createConnection()
+    // this.createConnection()
   }
-createConnection() {
-    peerConnection.setLocalStream()
-}
-localStreamDepended=()=> {
-    this.emit('localStreamDepended')
-}
+// createConnection() {
+//     peerConnection.setLocalStream()
+// }
+// localStreamDepended=()=> {
+//     this.emit('localStreamDepended')
+// }
   on(name: string, callback: TCallbackConference) {
     if (!this.listeners[name]) {
       this.listeners[name] = [];

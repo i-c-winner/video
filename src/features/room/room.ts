@@ -19,7 +19,6 @@ class Room {
     this.userNode=''
     this.displayName=''
     this.create = this.create.bind(this);
-    console.log(this, Room.instance)
     return Room.instance;
   }
 
@@ -28,12 +27,13 @@ class Room {
     this.displayName=displayName
     this.userNode=userNode
     const message = new Strophe.Builder('presence', {
-      to: `${roomName}@conference.prosolen.net/${this.userNode}`,
+      to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
       xmlns: 'http://jabber.org/protocol/muc'
     }).up().c('jingle', {
       action: "enter_to_room"
     });
+    console.log(message)
     this.emit('sendMessage', message)
   }
   validate() {
