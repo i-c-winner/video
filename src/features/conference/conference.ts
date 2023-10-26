@@ -23,7 +23,7 @@ class Conference {
     this.roomName = params.roomName;
     this.userNode = params.userNode;
     this.displayName = params.displayName;
-    peerConnection.addHandlers();
+    // peerConnection.addHandlers();
     // this.createConnection()
   }
 // createConnection() {

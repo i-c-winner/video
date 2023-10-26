@@ -21,23 +21,19 @@ const connection = (async () => {
 
 const App = () => {
   if (!loaded) {
-
-    console.log('APPPPPPPPPP')
-    xmpp.on('xmppInit', () => {
-      peerConnection.setLocalStream();
-    });
+    // xmpp.on('xmppInit', () => {
+    //   peerConnection.setLocalStream();
+    // });
 
     peerConnection.on('localStreamDepended', (() => {
-      console.log(params.roomName)
       room.create(params.roomName, params.displayName, params.userNode);
     }));
 
     room.on('sendMessage', (message: any) => {
-      console.log('sendMessage ');
       xmpp.sendMessage(message);
     });
     xmpp.on('doValidateRoom', (() => {
-      // room.validate();
+      room.validate();
     }));
     xmpp.on('doInviteRoom', (() => {
       room.invite();
@@ -52,6 +48,7 @@ const App = () => {
     return <p>...is Pending</p>;
   }
   if (data) {
+    peerConnection.setLocalStream();
     return <p>{glagol.roomName}</p>;
   }
 

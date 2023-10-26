@@ -21,6 +21,7 @@ class PeerConnection {
     this.listeners = {};
     // @ts-ignore
     window.peer=this.peerConnection
+    this.addHandlers()
     return PeerConnection.instance;
   }
 

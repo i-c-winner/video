@@ -49,6 +49,8 @@ class Room {
       type: 'submit'
     });
     this.emit('sendMessage', message)
+    console.log('validate')
+    debugger
   }
   invite(){
     const invitation = {

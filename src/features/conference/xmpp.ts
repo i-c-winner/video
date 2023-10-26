@@ -17,48 +17,54 @@ class Xmpp {
   private listeners: {
     [key: string]: TCallbackConference[]
   };
+  private roomName: string;
 
   constructor() {
+    this.roomName = '';
     this.connection = new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind');
     this.listeners = {};
+    this.connection.addHandler(this.handlerPresence, null, 'presence');
+    this.connection.addHandler(this.handlerMessage, null, 'message');
+    this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
+    this.connection.addHandler((stanza: Element) => {
+      console.log(stanza, 'THIS IS STANZA!!!!!!!!!!!!!!!!!!!');
+    });
   }
 
   init(roomName: string, displayName: string) {
-    const callback = (status: number): void => {
-      if (status === Strophe.Status.REGISTER) {
-        // fill out the fields
-        this.connection.register.fields.username = userNode;
-        this.connection.register.fields.password = password;
-        // calling submit will continue the registration process
-        this.connection.register.submit();
-        //@ts-ignore
-      } else if (status === Strophe.Status.REGISTERED) {
-        console.info("registered!");
-        // calling login will authenticate the registered JID.
-        this.connection.authenticate();
-        //@ts-ignore
-      } else if (status === Strophe.Status.CONFLICT) {
-        console.info("Contact already existed!");
-        //@ts-ignore
-      } else if (status === Strophe.Status.NOTACCEPTABLE) {
-        console.info("Registration form not properly filled out.");
-        //@ts-ignore
-      } else if (status === Strophe.Status.REGIFAIL) {
-        console.info("The Server does not support In-Band Registration");
-      } else if (status === Strophe.Status.CONNECTED) {
-        console.info('connected', this.connection);
-        this.connection.addHandler(this.handlerPresence, null, 'presence');
-        this.connection.addHandler(this.handlerMessage, null, 'message');
-        this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
-        this.connection.addHandler((stanza: Element) => {
-          console.log(stanza, 'THIS IS STANZA!!!!!!!!!!!!!!!!!!!')
-        });
-        this.emit('xmppInit');
-      } else {
-        // Do other stuff
-      }
-    };
-    this.connection.register.connect('prosolen.net', callback);
+    this.roomName = roomName;
+    return new Promise((resolve, reject) => {
+      const callback = (status: number): void => {
+        if (status === Strophe.Status.REGISTER) {
+          // fill out the fields
+          this.connection.register.fields.username = userNode;
+          this.connection.register.fields.password = password;
+          // calling submit will continue the registration process
+          this.connection.register.submit();
+          //@ts-ignore
+        } else if (status === Strophe.Status.REGISTERED) {
+          console.info("registered!");
+          // calling login will authenticate the registered JID.
+          this.connection.authenticate();
+          //@ts-ignore
+        } else if (status === Strophe.Status.CONFLICT) {
+          console.info("Contact already existed!");
+          //@ts-ignore
+        } else if (status === Strophe.Status.NOTACCEPTABLE) {
+          console.info("Registration form not properly filled out.");
+          //@ts-ignore
+        } else if (status === Strophe.Status.REGIFAIL) {
+          console.info("The Server does not support In-Band Registration");
+        } else if (status === Strophe.Status.CONNECTED) {
+          console.info('connected', this.connection);
+          resolve('connected');
+        } else {
+          // Do other stuff
+        }
+      };
+      this.connection.register.connect('prosolen.net', callback);
+    });
+
   }
 
   handlerMessage = (stanza: Element) => {
@@ -104,11 +110,16 @@ class Xmpp {
         console.info('message with unknown action');
       }
     }
+    console.log(stanza, 'message');
     return true;
   };
   handlerIqTypeResult = (stanza: Element) => {
-    console.log('DOINVITW', stanza);
-    this.emit('doInviteRoom');
+    const from = stanza.getAttribute('from');
+    if (from === `${this.roomName}@conference.prosolen.net`) {
+      console.log('DOINVITW', stanza);
+      this.emit('doInviteRoom');
+    }
+    return true;
   };
   handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
@@ -137,6 +148,7 @@ class Xmpp {
     // if ((type === 'unavailable') && (from.split('/')[1] === glagol.userNode)) {
     //   this.emit('leaveRoom');
     // }
+    console.log(stanza, 'PESENCE');
     return true;
   };
 

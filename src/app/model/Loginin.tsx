@@ -4,7 +4,6 @@ import { App } from './App';
 import { glagol } from '../constants/glagol';
 
 function Loginin() {
-  console.log('logonin')
   const refDisplayName= useRef<HTMLInputElement>()
   const refRoomName= useRef<HTMLInputElement>()
   const [ displayName, setDisplayName] = useState<string>(getRandomText(5));
