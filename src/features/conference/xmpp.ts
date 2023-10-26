@@ -47,9 +47,9 @@ class Xmpp {
         console.log("The Server does not support In-Band Registration");
       } else if (status === Strophe.Status.CONNECTED) {
         console.info('connected', this.connection);
-        // this.connection.addHandler(this.handlerPresence, null, 'presence');
-        // this.connection.addHandler(this.handlerMessage, null, 'message');
-        // this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
+        this.connection.addHandler(this.handlerPresence, null, 'presence');
+        this.connection.addHandler(this.handlerMessage, null, 'message');
+        this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
         // this.connection.addHandler((stanza: Element) => console.log(stanza, 'STANAAAAAA'), null, 'iq');
         this.emit('xmppConnected');
       } else {
@@ -60,10 +60,53 @@ class Xmpp {
   }
 
   handlerMessage = (stanza: Element) => {
-    console.log(stanza, 'Stanza Message');
+    const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
+    const jimble = stanza.getElementsByTagName('jimble')[0];
+    const jimbleText = Strophe.getText(jimble);
+
+    switch (bodyText) {
+      case 'add_dashboard': {
+        console.log("ADD_DASHBOARD")
+        this.emit('renderSharingScreen', bodyText)
+        this.emit('addTrack', jimbleText);
+        break
+      }
+      case 'add_track': {
+        this.emit('addTrack', jimbleText);
+        break
+      }
+      case 'ice_candidate': {
+        this.emit("iceCandidate", jimbleText);
+        break
+      }
+      case 'remove_track': {
+        const video: number = Number(jimble.getAttribute('video'));
+        const audio: number = Number(jimble.getAttribute('audio'));
+        const id = jimble.getAttribute('id_remote') as string;
+        break
+      }
+      case 'offer_dashboard': {
+        if (jimble.getAttribute('ready')) {
+          this.emit('startSharing')
+        }
+
+        break
+      }
+      case 'send_dashboard': {
+        console.log('SEND DASHBOARD')
+        this.emit('renderSharingScreen', bodyText)
+        break
+      }
+
+      default: {
+        console.info('message with unknown action')
+      }
+    }
+    console.log(stanza, "Message");
+    return true;
   };
   handlerIqTypeResult = (stanza: Element) => {
-    this.room.invite();
+   this.emit('doInviteRoom')
   };
   handlerPresence = (stanza: Element) => {
     const jingle = stanza.getElementsByTagName('jingle');
@@ -75,9 +118,9 @@ class Xmpp {
           if (statuses[0] !== null) {
             if (Number(statuses[0].getAttribute('code')) === 201) {
               // Xmpp.instance.emit("validateRoom");
-              this.room.validate();
+              this.emit('doValidateRoom')
             } else if (Number(statuses[0].getAttribute('code')) === 100) {
-              this.room.invite();
+              this.emit('doInviteRoom')
               // Xmpp.instance.emit("inviteRoom");
             }
           }

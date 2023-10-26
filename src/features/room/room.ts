@@ -34,7 +34,7 @@ class Room {
     }).up().c('jingle', {
       action: "enter_to_room"
     });
-    this.emit('roomCreated', message)
+    this.emit('sendMessage', message)
   }
   validate() {
     const message = new Strophe.Builder('iq', {
@@ -48,7 +48,7 @@ class Room {
       xmlns: 'jabber:x:data',
       type: 'submit'
     });
-   console.log(message, 'VALIDATe')
+    this.emit('sendMessage', message)
   }
   invite(){
     const invitation = {
@@ -69,8 +69,7 @@ class Room {
     }).up().c('nick', {
       xmlns: 'http://jabber.org/protocol/nick'
     }).t(this.displayName).up().c('jimble').t(inviteMessageB64);
-
-    console.log('invite', message)
+    this.emit('sendMessage', message)
   }
   on(name: string, callback: TCallbackConference) {
     if (!this.listeners[name]) {

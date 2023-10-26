@@ -19,7 +19,7 @@ class Conference {
     peerConnection.on('localStreamDepended', this.localStreamDepended)
   }
 
-  inizialization(params: IParamsConference) {
+  initialization(params: IParamsConference) {
     this.roomName = params.roomName;
     this.userNode = params.userNode;
     this.displayName = params.displayName;
