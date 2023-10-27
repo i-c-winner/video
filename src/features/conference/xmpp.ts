@@ -23,12 +23,6 @@ class Xmpp {
     this.roomName = '';
     this.connection = new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind');
     this.listeners = {};
-    this.connection.addHandler(this.handlerPresence, null, 'presence');
-    this.connection.addHandler(this.handlerMessage, null, 'message');
-    this.connection.addHandler(this.handlerIqTypeResult, null, "iq", "result");
-    this.connection.addHandler((stanza: Element) => {
-      console.log(stanza, 'THIS IS STANZA!!!!!!!!!!!!!!!!!!!');
-    });
   }
 
   init(roomName: string, displayName: string) {
@@ -57,7 +51,7 @@ class Xmpp {
           console.info("The Server does not support In-Band Registration");
         } else if (status === Strophe.Status.CONNECTED) {
           console.info('connected', this.connection);
-          resolve('connected');
+          resolve(this);
         } else {
           // Do other stuff
         }
@@ -65,6 +59,15 @@ class Xmpp {
       this.connection.register.connect('prosolen.net', callback);
     });
 
+  }
+  addHandlers=()=> {
+    console.log('add HANDLERS')
+    this.connection.addHandler(this.handlerMessage, null, 'message', )
+    this.connection.addHandler(this.handlerIqTypeResult, null, 'iq', 'result')
+    this.connection.addHandler(this.handlerPresence, null, 'presence')
+    this.connection.addHandler((stanza: Element) => {
+      console.log(stanza, 'THIS IS STANZA!!!!!!!!!!!!!!!!!!!');
+    });
   }
 
   handlerMessage = (stanza: Element) => {

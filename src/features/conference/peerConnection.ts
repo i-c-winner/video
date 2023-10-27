@@ -1,16 +1,19 @@
 import { TCallbackConference } from '../../app/types';
 
 class PeerConnection {
+  // @ts-ignore
   private peerConnection: RTCPeerConnection;
   private static instance: any;
+  // @ts-ignore
   private listeners: {
     [key: string]: TCallbackConference[]
   };
 
   constructor() {
-    if (!PeerConnection.instance) {
-      PeerConnection.instance = this;
+    if (PeerConnection.instance) {
+     return  PeerConnection.instance
     }
+    PeerConnection.instance=this
     this.peerConnection = new RTCPeerConnection({
       iceServers: [
         {
@@ -22,7 +25,6 @@ class PeerConnection {
     // @ts-ignore
     window.peer=this.peerConnection
     this.addHandlers()
-    return PeerConnection.instance;
   }
 
   addHandlers() {
@@ -42,8 +44,8 @@ class PeerConnection {
       stream.getTracks().forEach((track) => {
         this.peerConnection.addTrack(track);
       });
+      this.emit('localStreamDepended')
     });
-    this.emit('localStreamDepended')
   }
 
   on(name: string, callback: TCallbackConference) {

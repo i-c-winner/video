@@ -38,9 +38,13 @@ const App = () => {
     xmpp.on('doInviteRoom', (() => {
       room.invite();
     }));
+
     loaded=true
   }
-  const { data, error, isPending } = useAsync({
+  function getParticipaiant() {
+    room.getParticipiant()
+  }
+  const { data, error, isPending }: any = useAsync({
     promiseFn: connection
   });
   if (isPending) {
@@ -48,8 +52,12 @@ const App = () => {
     return <p>...is Pending</p>;
   }
   if (data) {
+   console.log(data, 'DATA')
+    data.addHandlers()
     peerConnection.setLocalStream();
-    return <p>{glagol.roomName}</p>;
+    return <p>{glagol.roomName}
+    <button onClick={getParticipaiant}>getParticipiant</button>
+    </p>;
   }
 
   function changeLogin(event: any) {
