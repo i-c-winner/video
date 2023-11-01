@@ -1,4 +1,5 @@
 import { TCallbackConference } from '../../app/types';
+import { IGlagol } from '../index';
 
 class Room {
   private static instance: any;
@@ -14,15 +15,15 @@ class Room {
     if (!Room.instance) {
       Room.instance = this;
     }
-    this.listeners={}
-    this.roomName=''
-    this.userNode=''
-    this.displayName=''
-    this.create = this.create.bind(this);
+    this.listeners = {};
+    this.roomName = '';
+
+    this.userNode = '';
+    this.displayName = '';
     return Room.instance;
   }
 
-  create(roomName: string, userNode: string) {
+  create(glagol: IGlagol, roomName: string, userNode: string) {
     const message = new Strophe.Builder('presence', {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
@@ -30,10 +31,11 @@ class Room {
     }).up().c('jingle', {
       action: "enter_to_room"
     });
-    console.log(message)
-    this.emit('sendMessage', message)
+    console.log('createEOom', glagol.sendMessage);
+    glagol.sendMessage(message);
   }
-  validate(roomName: string, userNode: string) {
+
+  validate(glagol: IGlagol, roomName: string, userNode: string) {
     const message = new Strophe.Builder('iq', {
       from: `${roomName}@prosolen.net/${userNode}`,
       id: this.userNode,
@@ -45,9 +47,11 @@ class Room {
       xmlns: 'jabber:x:data',
       type: 'submit'
     });
-    this.emit('sendMessage', message)
+    glagol.sendMessage(message);
+    console.log('validate', this);
   }
-  invite(roomName: string, displayName: string){
+
+  invite(glagol: IGlagol, roomName: string, displayName: string) {
     const invitation = {
       action: "INVITATION",
       tracks: {
@@ -66,8 +70,10 @@ class Room {
     }).up().c('nick', {
       xmlns: 'http://jabber.org/protocol/nick'
     }).t(displayName).up().c('jimble').t(inviteMessageB64);
-    this.emit('sendMessage', message)
+    glagol.sendMessage(message);
+    console.log('iNVITE');
   }
+
   getParticipiant() {
     // <iq from='crone1@shakespeare.lit/desktop'
     // id='member3'
@@ -77,7 +83,7 @@ class Room {
     // <item affiliation='member'/>
     //   </query>
     //   </iq
-    const message= new Strophe.Builder('iq', {
+    const message = new Strophe.Builder('iq', {
       from: `${this.roomName}@prosolonet.net/${this.userNode}`,
       to: 'focus@conference.prosolen.net',
       type: 'get'
@@ -85,9 +91,10 @@ class Room {
       xmlns: 'http://jabber.org/protocol/muc#admin'
     }).c('item', {
       affiliation: 'member'
-    })
-    this.emit('sendMessage', message)
+    });
+    this.emit('sendMessage', message);
   }
+
   on(name: string, callback: TCallbackConference) {
     if (!this.listeners[name]) {
       this.listeners[name] = [];
@@ -98,10 +105,10 @@ class Room {
   emit(name: string, ...args: any[]) {
     if (!this.listeners[name]) {
       console.error(new Error(`Слушатель ${name} не существует`));
-    }else {
-      this.listeners[name].forEach((listener)=>{
-        listener(args[0])
-      })
+    } else {
+      this.listeners[name].forEach((listener) => {
+        listener(args[0]);
+      });
     }
   }
 }

@@ -10,10 +10,11 @@ interface IGlagol {
   peerConnectionAddHandlers: ()=>void,
   createConference: ()=> Promise<any>,
   roomInstance: {
-    create: (params: { roomName?: string, userNode?: string }) => void,
-    validate: (params: { roomName?: string, userNode?: string })=>void,
-    invite:  (params: { roomName?: string, displayName?: string })=>void,
+    create: () => void
+    validate: ()=>void,
+    invite:  ()=>void,
   },
+  sendMessage:(message: Strophe.Builder)=>void
   setLocalStream: ()=>Promise<MediaStream>
 }
 

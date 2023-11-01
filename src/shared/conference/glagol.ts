@@ -105,10 +105,11 @@ const glagol: IGlagol = {
       return true;
     };
     const handlerIqTypeResult = (stanza: Element) => {
+      console.log('INVITE')
       const from = stanza.getAttribute('from');
-      if (from === `${glagol.params.roomName}@conference.prosolen.net`) {
-        console.log('DOINVITW', stanza);
-      }
+
+       glagol.roomInstance.invite()
+
       return true;
     };
     const handlerPresence = (stanza: Element) => {
@@ -120,8 +121,7 @@ const glagol: IGlagol = {
             const statuses: Element[] = Array.from(x[1].getElementsByTagName('status'));
             if (statuses[0] !== null) {
               if (Number(statuses[0].getAttribute('code')) === 201) {
-                console.log('Room WasCreated');
-
+                glagol.roomInstance.validate()
               } else if (Number(statuses[0].getAttribute('code')) === 100) {
 
               }
@@ -152,13 +152,13 @@ const glagol: IGlagol = {
   },
   roomInstance: {
     create: () => {
-      room.create(glagol.params.roomName, glagol.params.userNode);
+     return  room.create(glagol, glagol.params.roomName, glagol.params.userNode);
     },
     validate: () => {
-      room.validate(glagol.params.roomName, glagol.params.userNode);
+      room.validate(glagol, glagol.params.roomName, glagol.params.userNode);
     },
     invite: () => {
-      room.invite(glagol.params.roomName, glagol.params.displayName);
+      room.invite(glagol, glagol.params.roomName, glagol.params.displayName);
     }
   },
   setLocalStream: () => {
@@ -166,6 +166,9 @@ const glagol: IGlagol = {
       audio: true,
       video: true
     })
+  },
+  sendMessage: function (message) {
+    this.connection.send(message)
   }
 };
 export { glagol };
