@@ -10,27 +10,33 @@ setRegister(strophe);
 // @ts-ignore
 const { Strophe } = strophe;
 const glagol: IGlagol = {
-  peerConnection: null,
+  peerConnection:  new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: 'stun:stun.l.google.com:19302'
+      }
+    ]
+  }),
   params: {
     userNode: getRandomText(5),
     roomName: getRandomText(5),
     displayName: getRandomText(5)
   },
   connection: new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind'),
-  createConference: function () {
-    const connection = new Promise((resolve, reject) => {
+  createConference: ()=>{
+   const connection= new Promise<any>((resolve, reject) => {
       const callback = (status: number): void => {
         if (status === Strophe.Status.REGISTER) {
           // fill out the fields
-          this.connection.register.fields.username = this.params.userNode;
-          this.connection.register.fields.password = getRandomText(5);
+          glagol.connection.register.fields.username = glagol.params.userNode;
+          glagol.connection.register.fields.password = getRandomText(5);
           // calling submit will continue the registration process
-          this.connection.register.submit();
+          glagol.connection.register.submit();
           //@ts-ignore
         } else if (status === Strophe.Status.REGISTERED) {
           console.info("registered!");
           // calling login will authenticate the registered JID.
-          this.connection.authenticate();
+          glagol.connection.authenticate();
           //@ts-ignore
         } else if (status === Strophe.Status.CONFLICT) {
           console.info("Contact already existed!");
@@ -41,18 +47,17 @@ const glagol: IGlagol = {
         } else if (status === Strophe.Status.REGIFAIL) {
           console.info("The Server does not support In-Band Registration");
         } else if (status === Strophe.Status.CONNECTED) {
-          console.info('connected', this.connection);
-          this.connectionAddHandlers();
-          resolve(connection);
+          glagol.connectionAddHandlers();
+          resolve(glagol.connection);
         } else {
           // Do other stuff
         }
       };
-      this.connection.register.connect('prosolen.net', callback);
-
-
-    });
+      glagol.connection.register.connect('prosolen.net', callback);
+    })
+    return connection
   },
+
   connectionAddHandlers: () => {
     const handlerMessage = (stanza: Element) => {
       const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
@@ -135,17 +140,6 @@ const glagol: IGlagol = {
     glagol.connection.addHandler(handlerMessage, null, 'message',);
     glagol.connection.addHandler(handlerIqTypeResult, null, 'iq', 'result');
     glagol.connection.addHandler(handlerPresence, null, 'presence');
-  },
-  createPeerConnection: () => {
-    glagol.peerConnection = new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: 'stun:stun.l.google.com:19302'
-        }
-      ]
-    });
-    glagol.peerConnectionAddHandlers
-    return glagol.peerConnection;
   },
   peerConnectionAddHandlers() {
     const pc=glagol.peerConnection

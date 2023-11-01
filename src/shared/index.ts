@@ -8,8 +8,7 @@ interface IGlagol {
   connection: any,
   connectionAddHandlers: ()=>void,
   peerConnectionAddHandlers: ()=>void,
-  createConference: () => void,
-  createPeerConnection: ()=>RTCPeerConnection,
+  createConference: ()=> Promise<any>,
   roomInstance: {
     create: (params: { roomName?: string, userNode?: string }) => void,
     validate: (params: { roomName?: string, userNode?: string })=>void,
