@@ -23,7 +23,6 @@ class Room {
   }
 
   create(roomName: string, userNode: string) {
-
     const message = new Strophe.Builder('presence', {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
@@ -36,7 +35,7 @@ class Room {
   }
   validate(roomName: string, userNode: string) {
     const message = new Strophe.Builder('iq', {
-      from: `${roomName}@prosolen.net/${this.userNode}`,
+      from: `${roomName}@prosolen.net/${userNode}`,
       id: this.userNode,
       to: `${roomName}@conference.prosolen.net`,
       type: 'set'
@@ -63,7 +62,7 @@ class Room {
       xmlns: 'jabber:client'
     }).c('x', {
       xmlns: 'jabber:x:conference',
-      jid: `${this.roomName}@conference.prosolen.net`
+      jid: `${roomName}@conference.prosolen.net`
     }).up().c('nick', {
       xmlns: 'http://jabber.org/protocol/nick'
     }).t(displayName).up().c('jimble').t(inviteMessageB64);
