@@ -143,6 +143,8 @@ const glagol: IGlagol = {
   },
   peerConnectionAddHandlers() {
     const pc=glagol.peerConnection
+    // @ts-ignore
+    window.peer=pc
     pc.ontrack=(event)=>{
       console.log(event, 'ONTRACK')
     }

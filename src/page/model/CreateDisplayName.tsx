@@ -15,7 +15,6 @@ const  CreateDisplayName= React.forwardRef<HTMLInputElement>((props, ref) => {
 data.getTracks().forEach((track)=>{
   glagol.peerConnection.addTrack(track)
 })
-    glagol.peerConnection.setLocalDescription()
     glagol.peerConnectionAddHandlers()
     return <div>
       <input ref={ref} />

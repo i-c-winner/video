@@ -6,27 +6,36 @@ import { RoomPage } from '../../page/model/RoomPage';
 
 function App() {
   const [ state, setState ] = useState<any>('createRoomName');
-  const refDisplayName = useRef<string>('');
+  const refRoomName = useRef<HTMLInputElement>(null);
+  const refDisplayName = useRef<HTMLInputElement>(null);
 
   function getChildren() {
+
     switch (state) {
       case 'createUserName' :
-        return <CreateDisplayName/>;
+        return <CreateDisplayName ref={refDisplayName}/>;
       case 'createRoomName':
-        return <CreateRoomName/>;
+        return <CreateRoomName ref={refRoomName}/>;
       case 'roomPage':
-        return <RoomPage />;
+        return <RoomPage/>;
       default:
         return <p>unknown children</p>;
     }
   }
 
   function changeState() {
+    if (refRoomName.current !== null) {
+      glagol.params.roomName = refRoomName.current.value;
+    }
+    if (refDisplayName.current !== null) {
+      glagol.params.displayName = refDisplayName.current.value;
+    }
     if (state === 'createRoomName') {
       setState('createUserName');
     } else if (state === 'createUserName') {
       setState('roomPage');
     }
+
   }
 
   return <div>
