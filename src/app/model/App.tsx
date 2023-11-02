@@ -25,10 +25,10 @@ function App() {
 
   function changeState() {
     if (refRoomName.current !== null) {
-      glagol.params.roomName = refRoomName.current.value;
+      if (validate(refRoomName.current.value)) glagol.params.roomName = refRoomName.current.value;
     }
     if (refDisplayName.current !== null) {
-      glagol.params.displayName = refDisplayName.current.value;
+      if (validate(refDisplayName.current.value)) glagol.params.displayName = refDisplayName.current.value;
     }
     if (state === 'createRoomName') {
       setState('createUserName');
@@ -36,6 +36,9 @@ function App() {
       setState('roomPage');
     }
 
+    function validate(text: any): boolean {
+      return text !== '';
+    }
   }
 
   return <div>

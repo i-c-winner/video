@@ -1,3 +1,4 @@
+type TSendMessage= (message: Strophe.Builder)=>void
 interface IGlagol {
   params: {
     userNode: string,
@@ -18,4 +19,4 @@ interface IGlagol {
   setLocalStream: ()=>Promise<MediaStream>
 }
 
-export type { IGlagol };
+export type { IGlagol, TSendMessage };

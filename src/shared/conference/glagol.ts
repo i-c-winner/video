@@ -154,13 +154,13 @@ const glagol: IGlagol = {
   },
   roomInstance: {
     create: () => {
-     return  room.create(glagol, glagol.params.roomName, glagol.params.userNode);
+     return  room.create(glagol.sendMessage, glagol.params.roomName, glagol.params.userNode);
     },
     validate: () => {
-      room.validate(glagol, glagol.params.roomName, glagol.params.userNode);
+      room.validate(glagol.sendMessage, glagol.params.roomName, glagol.params.userNode);
     },
     invite: () => {
-      room.invite(glagol, glagol.params.roomName, glagol.params.displayName);
+      room.invite(glagol.sendMessage, glagol.params.roomName, glagol.params.displayName);
     }
   },
   setLocalStream: () => {
@@ -170,7 +170,7 @@ const glagol: IGlagol = {
     })
   },
   sendMessage: function (message) {
-    this.connection.send(message)
+    glagol.connection.send(message)
   }
 };
 export { glagol };

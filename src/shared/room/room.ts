@@ -1,5 +1,5 @@
 import { TCallbackConference } from '../../app/types';
-import { IGlagol } from '../index';
+import { IGlagol, TSendMessage } from '../index';
 
 class Room {
   private static instance: any;
@@ -23,7 +23,7 @@ class Room {
     return Room.instance;
   }
 
-  create(glagol: IGlagol, roomName: string, userNode: string) {
+  create(action: TSendMessage, roomName: string, userNode: string) {
     const message = new Strophe.Builder('presence', {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
@@ -31,11 +31,10 @@ class Room {
     }).up().c('jingle', {
       action: "enter_to_room"
     });
-    console.log('createEOom', glagol.sendMessage);
-    glagol.sendMessage(message);
+    action(message);
   }
 
-  validate(glagol: IGlagol, roomName: string, userNode: string) {
+  validate(action: TSendMessage, roomName: string, userNode: string) {
     const message = new Strophe.Builder('iq', {
       from: `${roomName}@prosolen.net/${userNode}`,
       id: this.userNode,
@@ -47,11 +46,11 @@ class Room {
       xmlns: 'jabber:x:data',
       type: 'submit'
     });
-    glagol.sendMessage(message);
+    action(message);
     console.log('validate', this);
   }
 
-  invite(glagol: IGlagol, roomName: string, displayName: string) {
+  invite(action: TSendMessage, roomName: string, displayName: string) {
     const invitation = {
       action: "INVITATION",
       tracks: {
@@ -70,7 +69,7 @@ class Room {
     }).up().c('nick', {
       xmlns: 'http://jabber.org/protocol/nick'
     }).t(displayName).up().c('jimble').t(inviteMessageB64);
-    glagol.sendMessage(message);
+    action(message);
     console.log('iNVITE');
   }
 
