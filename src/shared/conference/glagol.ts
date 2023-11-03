@@ -74,22 +74,6 @@ const glagol: IGlagol = {
           break;
         }
         case 'ice_candidate': {
-          // console.log(glagol.peerConnection.remoteDescription, 'XMPP')
-          // const iceCandidate = new RTCIceCandidate(JSON.parse(atob(jimbleText)));
-          // glagol.peerConnection.addIceCandidate(iceCandidate);
-          // console.log("////Ice Candidate////", iceCandidate)
-          // glagol.peerConnection.createAnswer({
-          //   iceRestart: true
-          // }).then((offer)=>{
-          //   glagol.peerConnection.setLocalDescription(offer)
-          // }).then(()=>{
-          //   const answer= btoa(JSON.stringify({answer: glagol.peerConnection.localDescription}))
-          //   const message=new Strophe.Builder('message', {
-          //     to: `${glagol.params.roomName}@conference.prosolen.net/focus`,
-          //     type: 'chat'
-          //   }).c('body').t(answer)
-          //   glagol.sendMessage(message)
-          // })
           break;
         }
         case 'remove_track': {
@@ -100,7 +84,6 @@ const glagol: IGlagol = {
         }
         case 'offer_dashboard': {
           if (jimble.getAttribute('ready')) {
-
           }
 
           break;
@@ -120,9 +103,7 @@ const glagol: IGlagol = {
     };
     const handlerIqTypeResult = (stanza: Element) => {
       const from = stanza.getAttribute('from');
-
       glagol.roomInstance.invite();
-
       return true;
     };
     const handlerPresence = (stanza: Element) => {
