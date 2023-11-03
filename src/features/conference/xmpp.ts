@@ -61,7 +61,6 @@ class Xmpp {
 
   }
   addHandlers=()=> {
-    console.log('add HANDLERS')
     this.connection.addHandler(this.handlerMessage, null, 'message', )
     this.connection.addHandler(this.handlerIqTypeResult, null, 'iq', 'result')
     this.connection.addHandler(this.handlerPresence, null, 'presence')
@@ -74,7 +73,6 @@ class Xmpp {
     const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
     const jimble = stanza.getElementsByTagName('jimble')[0];
     const jimbleText = Strophe.getText(jimble);
-    console.log(bodyText, 'BODY TEXT');
     switch (bodyText) {
       case 'add_dashboard': {
         console.log("ADD_DASHBOARD");
@@ -119,7 +117,6 @@ class Xmpp {
   handlerIqTypeResult = (stanza: Element) => {
     const from = stanza.getAttribute('from');
     if (from === `${this.roomName}@conference.prosolen.net`) {
-      console.log('DOINVITW', stanza);
       this.emit('doInviteRoom');
     }
     return true;

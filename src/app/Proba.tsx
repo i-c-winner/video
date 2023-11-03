@@ -4,32 +4,25 @@ import { getRandomText } from '../features/plugins/getRandomText';
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 
-console.log(React.createElement)
-
 setRegister(strophe);
 // @ts-ignore
 const { Strophe } = strophe;
 let roomName=getRandomText(5)
 const userNode=getRandomText(5)
 const displayName=getRandomText(5)
-console.log(roomName, 'start')
 
 function Proba(props: any) {
-  console.log(roomName, 'function')
   // const roomName=props.roomName
   const [start, setStart]= useState(false)
   const refInput = useRef<any>(null)
   // useEffect(()=>{
 
-
-    console.log(roomName, userNode, displayName)
     const connection = new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind');
 
     const handlerMessage = (stanza: Element) => {
       const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
       const jimble = stanza.getElementsByTagName('jimble')[0];
       const jimbleText = Strophe.getText(jimble);
-      console.log(bodyText, 'BODY TEXT');
       switch (bodyText) {
         case 'add_dashboard': {
           console.log("ADD_DASHBOARD");
@@ -100,8 +93,6 @@ function Proba(props: any) {
                   type: 'submit'
                 });
                 connection.send(message)
-                console.log('validate')
-
               } else if (Number(statuses[0].getAttribute('code')) === 100) {
 
                 // Xmpp.instance.emit("inviteRoom");
@@ -162,7 +153,6 @@ function Proba(props: any) {
           console.log(event, 'PEERCONECTION ONICE CANDIDATE');
         };
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-          console.log('getMedia')
           stream.getTracks().forEach((track) => {
             peerConnection.addTrack(track);
           });
@@ -173,7 +163,6 @@ function Proba(props: any) {
           }).up().c('jingle', {
             action: "enter_to_room"
           });
-          console.log('connected')
           connection.send(message)
 
         });
@@ -183,14 +172,12 @@ function Proba(props: any) {
       }
     };
     connection.register.connect('prosolen.net', callback);
-    console.log(connection);
   // }, [])
 
 
 
 
   function click(event: any){
-    console.log(refInput.current.value)
  setStart(true)
   }
   function chang(event: any) {

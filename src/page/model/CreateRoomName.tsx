@@ -11,7 +11,6 @@ const  CreateRoomName= React.forwardRef<HTMLInputElement>((props, ref) => {
     return <p>...Pending</p>
   }
   if (data) {
-    console.log(data, 'COnnectioN')
     return <div>
       <input ref={ref} />
     </div>

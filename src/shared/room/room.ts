@@ -4,17 +4,22 @@ import { IGlagol, TSendMessage } from '../index';
 class Room {
   private static instance: any;
   private xmpp: any;
+  // @ts-ignore
   private roomName: string;
+  // @ts-ignore
   private displayName: string;
+  // @ts-ignore
   private userNode: string;
+  // @ts-ignore
   private listeners: {
     [key: string]: TCallbackConference[]
   };
 
   constructor() {
-    if (!Room.instance) {
-      Room.instance = this;
+    if (Room.instance) {
+      return Room.instance
     }
+    Room.instance=this
     this.listeners = {};
     this.roomName = '';
 
@@ -47,7 +52,6 @@ class Room {
       type: 'submit'
     });
     action(message);
-    console.log('validate', this);
   }
 
   invite(action: TSendMessage, roomName: string, displayName: string) {
@@ -70,7 +74,6 @@ class Room {
       xmlns: 'http://jabber.org/protocol/nick'
     }).t(displayName).up().c('jimble').t(inviteMessageB64);
     action(message);
-    console.log('iNVITE');
   }
 
   getParticipiant() {

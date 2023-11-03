@@ -1,8 +1,6 @@
 import { Proba } from './Proba';
 import { useRef, useState } from 'react';
 import { getRandomText } from '../features/plugins/getRandomText';
-console.log(Proba)
-debugger
 
 function ProbaMain() {
   const [state, setState]= useState(false)

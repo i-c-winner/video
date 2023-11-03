@@ -31,7 +31,6 @@ class Room {
     }).up().c('jingle', {
       action: "enter_to_room"
     });
-    console.log(message)
     this.emit('sendMessage', message)
   }
   validate(roomName: string, userNode: string) {

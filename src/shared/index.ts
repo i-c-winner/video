@@ -15,6 +15,7 @@ interface IGlagol {
     validate: ()=>void,
     invite:  ()=>void,
   },
+  addTrack: (description: string)=>void,
   sendMessage:(message: Strophe.Builder)=>void
   setLocalStream: ()=>Promise<MediaStream>
 }
