@@ -66,7 +66,7 @@ const glagol: IGlagol = {
       switch (bodyText) {
         case 'add_dashboard': {
           console.log("ADD_DASHBOARD");
-
+          glagol.addTrack(jimbleText);
           break;
         }
         case 'add_track': {
@@ -77,15 +77,11 @@ const glagol: IGlagol = {
           break;
         }
         case 'remove_track': {
-          const video: number = Number(jimble.getAttribute('video'));
-          const audio: number = Number(jimble.getAttribute('audio'));
-          const id = jimble.getAttribute('id_remote') as string;
+          glagol.addTrack(jimbleText);
           break;
         }
         case 'offer_dashboard': {
-          if (jimble.getAttribute('ready')) {
-          }
-
+          console.log('OFFER DASHBOARD');
           break;
         }
         case 'send_dashboard': {
@@ -135,11 +131,11 @@ const glagol: IGlagol = {
     glagol.connection.addHandler(handlerMessage, null, 'message',);
     glagol.connection.addHandler(handlerIqTypeResult, null, 'iq', 'result');
     glagol.connection.addHandler(handlerPresence, null, 'presence');
-    const message=new Strophe.Builder('presence')
-    glagol.sendMessage(message)
+    const message = new Strophe.Builder('presence');
+    glagol.sendMessage(message);
   },
   addTrack(description) {
-    console.log("ADDDDTRACK")
+    console.log("ADDDDTRACK");
     this.peerConnection.setRemoteDescription(JSON.parse(atob(description))).then(() => {
       return this.peerConnection.createAnswer({
         iceRestart: true
@@ -161,7 +157,10 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
-
+      event.streams[0].onremovetrack = (event) => {
+        console.log('track', event, 'was deleted');
+      };
+      console.log(event, 'EMIT ADD TRACK');
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {

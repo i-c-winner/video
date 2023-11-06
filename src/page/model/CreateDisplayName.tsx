@@ -12,7 +12,7 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   }
   if (data) {
     data.getTracks().forEach((track) => {
-      glagol.peerConnection.addTrack(track);
+      glagol.peerConnection.addTrack(track)
     });
     glagol.peerConnectionAddHandlers();
     // glagol.peerConnection.createOffer().then((offer)=>{
