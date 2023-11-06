@@ -141,13 +141,14 @@ const glagol: IGlagol = {
       });
     }).then((answer) => {
       const answer64 = btoa(JSON.stringify({ answer }));
-      this.peerConnection.setLocalDescription(answer);
+      this.peerConnection.setLocalDescription(answer).then(()=>{
+        if  (this.renderingFunction!==undefined) this.renderingFunction()
+      });
       const message: Strophe.Builder = new Strophe.Builder('message', {
         to: `${this.params.roomName}@conference.prosolen.net/focus`,
         type: 'chat'
       }).c('body').t(answer64);
       this.sendMessage(message);
-      if  (this.renderingFunction!==undefined) this.renderingFunction()
     }).catch(() => {
       console.error(new Error('error'));
     });

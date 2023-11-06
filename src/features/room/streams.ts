@@ -7,10 +7,15 @@ function getLivesTransceivers() {
 
 }
 
-function getRemoteStreams() {
+function getRemoteTransceivers() {
   return getLivesTransceivers().filter((transceiver) => {
     return (transceiver.receiver.track.label.indexOf('audio') >= 0 || transceiver.receiver.track.label.indexOf('video') >= 0);
   });
 }
+function getSharingTransceiver() {
+  return getLivesTransceivers().filter((transceiver) => {
+    return transceiver.receiver.track.label.indexOf('dashboard') >= 0;
+  });
+}
 
-export { getRemoteStreams };
+export { getRemoteTransceivers, getSharingTransceiver};
