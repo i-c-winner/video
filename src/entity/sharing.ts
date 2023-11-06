@@ -13,7 +13,6 @@ const sharing: ISharing= {
       stream.getTracks().forEach((track) => {
         if (track.kind === 'video') {
           track.contentHint='detail'
-          console.log(track.contentHint, 'rrrHINT')
           glagol.peerConnection.addTrack(track);
         }
       });

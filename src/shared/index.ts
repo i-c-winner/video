@@ -1,4 +1,5 @@
 type TSendMessage= (message: Strophe.Builder)=>void
+type TRendering=()=>void
 interface IGlagol {
   params: {
     userNode: string,
@@ -15,9 +16,11 @@ interface IGlagol {
     validate: ()=>void,
     invite:  ()=>void,
   },
-  addTrack: (description: string)=>void,
+  streamsWasChanged: (description: string)=>void,
   sendMessage:(message: Strophe.Builder)=>void
   setLocalStream: ()=>Promise<MediaStream>
+  setRendering: (render: TRendering)=>void
+  renderingFunction?: TRendering
 }
 
 export type { IGlagol, TSendMessage };

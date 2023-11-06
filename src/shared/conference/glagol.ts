@@ -65,28 +65,28 @@ const glagol: IGlagol = {
       const jimbleText = Strophe.getText(jimble);
       switch (bodyText) {
         case 'add_dashboard': {
-          console.log("ADD_DASHBOARD");
-          glagol.addTrack(jimbleText);
+          glagol.streamsWasChanged(jimbleText);
           break;
         }
         case 'add_track': {
-          glagol.addTrack(jimbleText);
+          glagol.streamsWasChanged(jimbleText);
           break;
         }
         case 'ice_candidate': {
           break;
         }
         case 'remove_track': {
-          glagol.addTrack(jimbleText);
+          glagol.streamsWasChanged(jimbleText);
           break;
         }
         case 'offer_dashboard': {
-          console.log('OFFER DASHBOARD');
           break;
         }
         case 'send_dashboard': {
-          console.log('SEND DASHBOARD');
-
+          break;
+        }
+        case 'remove_dashboard': {
+          glagol.streamsWasChanged(jimbleText);
           break;
         }
 
@@ -134,8 +134,7 @@ const glagol: IGlagol = {
     const message = new Strophe.Builder('presence');
     glagol.sendMessage(message);
   },
-  addTrack(description) {
-    console.log("ADDDDTRACK");
+  streamsWasChanged(description) {
     this.peerConnection.setRemoteDescription(JSON.parse(atob(description))).then(() => {
       return this.peerConnection.createAnswer({
         iceRestart: true
@@ -148,9 +147,11 @@ const glagol: IGlagol = {
         type: 'chat'
       }).c('body').t(answer64);
       this.sendMessage(message);
+      if  (this.renderingFunction!==undefined) this.renderingFunction()
     }).catch(() => {
       console.error(new Error('error'));
     });
+
   },
   peerConnectionAddHandlers() {
     const pc = glagol.peerConnection;
@@ -158,9 +159,7 @@ const glagol: IGlagol = {
     window.peer = pc;
     pc.ontrack = (event) => {
       event.streams[0].onremovetrack = (event) => {
-        console.log('track', event, 'was deleted');
       };
-      console.log(event, 'EMIT ADD TRACK');
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {
@@ -192,6 +191,9 @@ const glagol: IGlagol = {
   },
   sendMessage: function (message) {
     glagol.connection.send(message);
+  },
+  setRendering: function (render) {
+    this.renderingFunction = render;
   }
 };
 export { glagol };
