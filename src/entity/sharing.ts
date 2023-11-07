@@ -58,23 +58,12 @@ const sharing: ISharing= {
     glagol.peerConnection.createOffer({iceRestart: false}).then((offer)=>{
      return glagol.peerConnection.setLocalDescription(offer)
    }).then(()=>{
+     debugger
      const offer64= btoa(JSON.stringify({offer: glagol.peerConnection.localDescription}))
      const message= $msg({to: glagol.params.roomName+'@'+'conference.prosolen.net'+'/'+"focus", type: 'chat'})
         .c('x',{xmlns:'http://jabber.org/protocol/muc#user'}).up()
         .c('body', {}, 'remove_dashboard')
-        .c('jimble', {xmlns:'urn:xmpp:jimble', ready: 'false'}).t(offer64)
-     // const message=new Strophe.Builder('message', {
-     //   // from: `${glagol.params.roomName}@conference.prosolen.net/${glagol.params.userNode}`,
-     //   // 'xml:lang': 'en',
-     //   type: 'chat',
-     //   xmlns: 'jabber:client',
-     //   to: `${glagol.params.roomName}@conference.prosolen.net/focus`
-     // }).c('x', {
-     //   xmlns: 'http://jabber.org/protocol/muc#user'
-     // }).up().c('body').t('remove_dashboard').up().c('jimble', {
-     //   xmlns: 'urn:xmpp:jimble',
-     //   ready: 'false'
-     // }).t(offer64)
+        .c('jimble', {xmlns:'urn:xmpp:jimble', ready: 'true'}).t(offer64)
      console.log('was remove sharing')
      glagol.sendMessage(message)
    })
