@@ -20,7 +20,7 @@ interface IGlagol {
   sendMessage:(message: Strophe.Builder)=>void
   setLocalStream: ()=>Promise<MediaStream>
   setRendering: (render: TRendering)=>void
-  renderingFunction?: TRendering
+  renderingFunction?: TRendering,
 }
 
 export type { IGlagol, TSendMessage };

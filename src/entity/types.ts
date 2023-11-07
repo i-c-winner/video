@@ -1,5 +1,6 @@
 interface ISharing {
-  start: ()=>void
+  start: ()=>void,
+  stop: ()=>void
 }
 
 export type {ISharing}

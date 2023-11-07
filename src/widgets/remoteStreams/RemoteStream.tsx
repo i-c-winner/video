@@ -1,4 +1,10 @@
 function RemoteStream(props: {transceiver: RTCRtpTransceiver}) {
-  return <p>{props.transceiver.receiver.track.label}</p>
+  return (
+    <div>
+      <p>{props.transceiver.receiver.track.label}</p>
+      <hr/>
+    </div>
+
+  )
 }
 export {RemoteStream}

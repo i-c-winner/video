@@ -65,6 +65,7 @@ const glagol: IGlagol = {
       const jimbleText = Strophe.getText(jimble);
       switch (bodyText) {
         case 'add_dashboard': {
+          console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
           break;
         }
@@ -76,6 +77,7 @@ const glagol: IGlagol = {
           break;
         }
         case 'remove_track': {
+          console.log('REMOVE TRACK', glagol.peerConnection);
           glagol.streamsWasChanged(jimbleText);
           break;
         }
@@ -83,9 +85,11 @@ const glagol: IGlagol = {
           break;
         }
         case 'send_dashboard': {
+          console.log('SEND DASHBOARD');
           break;
         }
         case 'remove_dashboard': {
+          console.log('REMOVE DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
           break;
         }
@@ -117,7 +121,6 @@ const glagol: IGlagol = {
                 glagol.roomInstance.invite();
               }
             }
-
           } catch (e) {
           }
         }
@@ -141,8 +144,9 @@ const glagol: IGlagol = {
       });
     }).then((answer) => {
       const answer64 = btoa(JSON.stringify({ answer }));
-      this.peerConnection.setLocalDescription(answer).then(()=>{
-        if  (this.renderingFunction!==undefined) this.renderingFunction()
+      this.peerConnection.setLocalDescription(answer).then(() => {
+        console.log('render')
+        if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
       });
       const message: Strophe.Builder = new Strophe.Builder('message', {
         to: `${this.params.roomName}@conference.prosolen.net/focus`,
@@ -152,7 +156,6 @@ const glagol: IGlagol = {
     }).catch(() => {
       console.error(new Error('error'));
     });
-
   },
   peerConnectionAddHandlers() {
     const pc = glagol.peerConnection;
@@ -161,6 +164,15 @@ const glagol: IGlagol = {
     pc.ontrack = (event) => {
       event.streams[0].onremovetrack = (event) => {
       };
+    };
+    pc.onnegotiationneeded = (event) => {
+      console.log(event, 'onnegotation');
+    };
+    pc.onsignalingstatechange = (event) => {
+      console.log(event, 'changeSignaling');
+    };
+    pc.onconnectionstatechange = (event) => {
+      console.log(event, 'ONCINNECTION STATE');
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {
@@ -194,7 +206,7 @@ const glagol: IGlagol = {
     glagol.connection.send(message);
   },
   setRendering: function (render) {
-    this.renderingFunction = render;
+    glagol.renderingFunction = render;
   }
 };
 export { glagol };

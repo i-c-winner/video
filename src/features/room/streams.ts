@@ -15,7 +15,7 @@ function getRemoteTransceivers() {
 function getSharingTransceiver() {
   return getLivesTransceivers().filter((transceiver) => {
     return transceiver.receiver.track.label.indexOf('dashboard') >= 0;
-  });
+  })[0];
 }
 
 export { getRemoteTransceivers, getSharingTransceiver};

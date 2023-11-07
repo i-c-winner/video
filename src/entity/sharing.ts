@@ -12,6 +12,7 @@ const sharing: ISharing= {
     }).then((stream) => {
       stream.getTracks().forEach((track) => {
         if (track.kind === 'video') {
+          track.applyConstraints({deviceId: 'mySharingScreen'})
           track.contentHint='detail'
           glagol.peerConnection.addTrack(track);
         }
@@ -27,6 +28,57 @@ const sharing: ISharing= {
         .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
       glagol.sendMessage(message);
     }).catch((error: any) => console.log(`This is Error by sharing ${error}`));
-}
+},
+  stop: function () {
+    glagol.peerConnection.getTransceivers().forEach((transceiver)=>{
+      console.log(transceiver)
+      if (transceiver.sender.track?.contentHint==='detail') {
+        glagol.peerConnection.removeTrack(transceiver.sender)
+        console.log("DELETE SHARING TRANSCEIVER")
+      }
+    })
+    // glagol.peerConnection.createOffer({iceRestart: false}).then(()=>{
+    //   const offer64= btoa(JSON.stringify({}))
+    // })
+    // <message from='firstroom@conference.prosolen.net/user2345'     //фром - не обязательно
+    // xml:lang='en'
+    // type='chat'
+    // xmlns='jabber:client'                                   // это тоже не обязательно - строфе сам добавит
+    // to='firstroom@conference.prosolen.net/focus'>
+    // <x xmlns='http://jabber.org/protocol/muc#user'/>
+    //   <body>
+    //     remove_dashboard
+    //   </body>
+    //   <jimble xmlns='urn:xmpp:jimble' ready='false' >   // здесь было бы логично audio= '0' video= '1', но бридж это не анализирует.
+    //   jimble_answer_B64
+    //   </jimble>
+    //   </message>
+
+
+    glagol.peerConnection.createOffer({iceRestart: false}).then((offer)=>{
+     return glagol.peerConnection.setLocalDescription(offer)
+   }).then(()=>{
+     const offer64= btoa(JSON.stringify({offer: glagol.peerConnection.localDescription}))
+     const message= $msg({to: glagol.params.roomName+'@'+'conference.prosolen.net'+'/'+"focus", type: 'chat'})
+        .c('x',{xmlns:'http://jabber.org/protocol/muc#user'}).up()
+        .c('body', {}, 'remove_dashboard')
+        .c('jimble', {xmlns:'urn:xmpp:jimble', ready: 'false'}).t(offer64)
+     // const message=new Strophe.Builder('message', {
+     //   // from: `${glagol.params.roomName}@conference.prosolen.net/${glagol.params.userNode}`,
+     //   // 'xml:lang': 'en',
+     //   type: 'chat',
+     //   xmlns: 'jabber:client',
+     //   to: `${glagol.params.roomName}@conference.prosolen.net/focus`
+     // }).c('x', {
+     //   xmlns: 'http://jabber.org/protocol/muc#user'
+     // }).up().c('body').t('remove_dashboard').up().c('jimble', {
+     //   xmlns: 'urn:xmpp:jimble',
+     //   ready: 'false'
+     // }).t(offer64)
+     console.log('was remove sharing')
+     glagol.sendMessage(message)
+   })
+
+  }
 }
 export {sharing}

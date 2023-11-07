@@ -5,7 +5,7 @@ import { RemoteStream } from './RemoteStream';
 function RemoteStreamsBox(props: {transceivers: RTCRtpTransceiver[]}) {
   return <div>
     {props.transceivers.map((transceiver)=>{
-      return <RemoteStream transceiver={transceiver} />
+      return <RemoteStream key={transceiver.receiver.track.label} transceiver={transceiver} />
     })}
   </div>
 }
