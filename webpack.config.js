@@ -15,6 +15,7 @@ const config = {
     devServer: {
         open: true,
         host: 'localhost',
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -24,6 +25,7 @@ const config = {
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
+    devtool: "source-map",
     module: {
         rules: [
             {
@@ -47,8 +49,12 @@ const config = {
                 use: [stylesHandler, 'css-loader', 'sass-loader'],
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+                test: /\.(eot|ttf|woff|woff2|png|jpg|gif)$/i,
                 type: 'asset',
+            },
+            {
+                test: /\.svg$/,
+                loader: 'svg-loader'
             },
 
             // Add your rules for custom modules here
@@ -56,7 +62,7 @@ const config = {
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '.svg'],
     },
 };
 
