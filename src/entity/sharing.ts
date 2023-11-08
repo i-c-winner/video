@@ -58,7 +58,6 @@ const sharing: ISharing= {
     glagol.peerConnection.createOffer({iceRestart: false}).then((offer)=>{
      return glagol.peerConnection.setLocalDescription(offer)
    }).then(()=>{
-     debugger
      const offer64= btoa(JSON.stringify({offer: glagol.peerConnection.localDescription}))
      const message= $msg({to: glagol.params.roomName+'@'+'conference.prosolen.net'+'/'+"focus", type: 'chat'})
         .c('x',{xmlns:'http://jabber.org/protocol/muc#user'}).up()

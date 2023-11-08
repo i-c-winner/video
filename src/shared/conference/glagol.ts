@@ -86,6 +86,7 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
+          glagol.streamsWasChanged(jimbleText)
           break;
         }
         case 'remove_dashboard': {
@@ -153,8 +154,8 @@ const glagol: IGlagol = {
         type: 'chat'
       }).c('body').t(answer64);
       this.sendMessage(message);
-    }).catch(() => {
-      console.error(new Error('error'));
+    }).catch((error) => {
+      console.error(new Error('error'), error);
     });
   },
   peerConnectionAddHandlers() {
