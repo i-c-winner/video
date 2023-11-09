@@ -1,7 +1,7 @@
 import {glagol} from '../../shared/conference/glagol';
 import { useEffect, useRef, useState } from 'react';
 import {sharing} from '../../entity/sharing';
-import '../styles/index.scss'
+import '../../widgets/styles/index.scss'
 import { RemoteStreamsBox } from '../../widgets/remoteStreams/RemoteStreamsBox';
 import { getRemoteTransceivers, getSharingTransceiver } from '../../features/room/streams';
 import { SharingStream } from '../../widgets/remoteStreams/SharingStream';

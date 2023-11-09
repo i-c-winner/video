@@ -1,0 +1,17 @@
+.video {
+  &_remote {
+    width: 98%;
+    padding: 3px;
+
+    &_audio {
+      display: none;
+    }
+
+  }
+
+  &_local {
+    height: 99vh;
+    width: 100%;
+  }
+
+}
