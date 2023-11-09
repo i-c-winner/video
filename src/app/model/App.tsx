@@ -3,6 +3,9 @@ import { glagol } from '../../shared/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
 import { RoomPage } from '../../page/model/RoomPage';
+import { Box } from '@mui/material';
+import { styles } from '../styles';
+
 
 function App() {
   const [ state, setState ] = useState<any>('createRoomName');
@@ -41,11 +44,14 @@ function App() {
     }
   }
 
-  return <div>
+  return <Box
+    sx={
+      styles.main
+    }>
     {state}
     {getChildren()}
     {state !== 'roomPage' && <button onClick={changeState}>click</button>}
-  </div>;
+  </Box>;
 }
 
 export { App };
