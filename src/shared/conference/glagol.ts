@@ -86,15 +86,20 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
-          glagol.streamsWasChanged(jimbleText)
+          glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)))
+          if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           break;
         }
         case 'remove_dashboard': {
           console.log('REMOVE DASHBOARD');
-          glagol.streamsWasChanged(jimbleText);
+          if (glagol.peerConnection.signalingState==='stable') {
+            glagol.streamsWasChanged(jimbleText);
+          } else {
+            glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)))
+            if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
+          }
           break;
         }
-
         default: {
           console.info('message with unknown action');
         }
@@ -210,4 +215,5 @@ const glagol: IGlagol = {
     glagol.renderingFunction = render;
   }
 };
+
 export { glagol };
