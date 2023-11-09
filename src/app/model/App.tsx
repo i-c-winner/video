@@ -48,7 +48,6 @@ function App() {
     sx={
       styles.main
     }>
-    {state}
     {getChildren()}
     {state !== 'roomPage' && <button onClick={changeState}>click</button>}
   </Box>;
