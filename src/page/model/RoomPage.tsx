@@ -1,11 +1,12 @@
 import { glagol } from '../../shared/conference/glagol';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { sharing } from '../../entity/sharing';
 import '../../widgets/styles/index.scss';
 import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';
 import { getRemoteTransceivers, getSharingTransceiver } from '../../features/room/streams';
 import { changeSharingStatus } from '../../widgets/function/changeSharingStatus';
 import { Box } from '@mui/material';
+import { LocalStream } from '../../widgets/layers/Localstream';
 
 function RoomPage() {
   const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
@@ -60,7 +61,7 @@ function RoomPage() {
   }, []);
 
   return <Box display="flex">
-    <video className="video video_local" ref={refVideo} autoPlay={true}/>
+<LocalStream ref={refVideo} />
     {/*<button onClick={sharingStart}>sharing</button>*/}
     {/*<button onClick={stopSharing}>stop sharing</button>*/}
     <RemoteStreamsBox transceivers={transceivers}/>

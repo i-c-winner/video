@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import { styles } from '../styles/styles';
+import { styles } from '../../widgets/styles/styles';
 import zIndex from '@mui/material/styles/zIndex';
 
 const { remoteStreamStyles } = styles;

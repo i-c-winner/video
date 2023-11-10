@@ -1,7 +1,7 @@
 import { glagol } from '../../shared/conference/glagol';
 import {getRemoteTransceivers} from '../../features/room/streams';
 import { useEffect, useState } from 'react';
-import { RemoteStream } from './RemoteStream';
+import { RemoteStream } from '../../entity/modele/RemoteStream';
 import { Box } from '@mui/material';
 import {styles} from '../styles/styles';
 
