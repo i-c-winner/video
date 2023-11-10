@@ -17,10 +17,29 @@ function RoomPage() {
   function render() {
     setTransceivers(getRemoteTransceivers());
     setSharingTransceiver(getSharingTransceiver());
-    const stream = new MediaStream();
-    console.log(changeSharingStatus.iWasSharing(), 'IWAS')
-    console.log(changeSharingStatus.someBodySharing(), 'somebody')
     console.log(changeSharingStatus.nobodySharing(), 'NOBODY')
+    const stream = new MediaStream();
+    if (refVideo.current !== null) {
+      if (changeSharingStatus.iWasSharing()) {
+        const track = changeSharingStatus.iWasSharing()?.sender.track as MediaStreamTrack;
+        stream.addTrack(track);
+        refVideo.current.srcObject = stream;
+      }
+      if (changeSharingStatus.someBodySharing()) {
+        const track = changeSharingStatus.someBodySharing()?.receiver.track as MediaStreamTrack;
+        stream.addTrack(track);
+        refVideo.current.srcObject = stream;
+      }
+      if (changeSharingStatus.nobodySharing()) {
+        glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+          if (transceiver.sender.track?.kind === 'video') {
+            stream.addTrack(transceiver.sender.track);
+          }
+        });
+        refVideo.current.srcObject = stream;
+      }
+    }
+
     // glagol.peerConnection.getTransceivers().forEach((transceiver) => {
     //   if (transceiver.currentDirection !== 'inactive' && transceiver.sender.track?.contentHint === 'detail') {
     //     setIWasSharing(true);

@@ -19,6 +19,7 @@ interface IGlagol {
   streamsWasChanged: (description: string)=>void,
   sendMessage:(message: Strophe.Builder)=>void
   setLocalStream: ()=>Promise<MediaStream>
+  currentLocalStream: MediaStream|null,
   setRendering: (render: TRendering)=>void
   renderingFunction?: TRendering,
 }

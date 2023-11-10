@@ -2,7 +2,6 @@ import { getRandomText } from '../../features/plugins/getRandomText';
 import * as strophe from 'strophe.js';
 import { setRegister } from '../../features/plugins/register';
 import { IGlagol } from '../index';
-// import { glagol } from '../../app/constants/glagol';
 import { Room } from '../room/room';
 
 const room = new Room();
@@ -211,6 +210,7 @@ const glagol: IGlagol = {
   sendMessage: function (message) {
     glagol.connection.send(message);
   },
+  currentLocalStream: null,
   setRendering: function (render) {
     glagol.renderingFunction = render;
   }
