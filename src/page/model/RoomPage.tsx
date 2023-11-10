@@ -2,7 +2,7 @@ import { glagol } from '../../shared/conference/glagol';
 import { useEffect, useRef, useState } from 'react';
 import { sharing } from '../../entity/sharing';
 import '../../widgets/styles/index.scss';
-import { RemoteStreamsBox } from '../../widgets/remoteStreams/RemoteStreamsBox';
+import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';
 import { getRemoteTransceivers, getSharingTransceiver } from '../../features/room/streams';
 import { changeSharingStatus } from '../../widgets/function/changeSharingStatus';
 import { Box } from '@mui/material';
