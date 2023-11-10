@@ -33,10 +33,10 @@ function getBoxClasses(kind: string) {
     }
 }
 
-return <div className={getBoxClasses(props.transceiver.receiver.track?.kind)}>
+return <Box className={getBoxClasses(props.transceiver.receiver.track?.kind)}>
   <p>{props.transceiver.receiver.track.label}</p>
   <video className={getClasses(props.transceiver.receiver.track?.kind)} autoPlay={true} ref={refVideo}/>
-</div>;
+</Box>;
 }
 
 export { RemoteStream };

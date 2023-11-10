@@ -1,7 +1,10 @@
+import { Box } from '@mui/material';
+import { styles } from '../styles/styles';
+
 function TopPanel() {
 
   return (
-    <div className="">TopPanel</div>
+    <Box sx={styles.topPanel} className="">TopPanel</Box>
   );
 }
 

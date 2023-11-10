@@ -7,6 +7,9 @@ import { getRemoteTransceivers, getSharingTransceiver } from '../../features/roo
 import { changeSharingStatus } from '../../widgets/function/changeSharingStatus';
 import { Box } from '@mui/material';
 import { LocalStream } from '../../widgets/layers/Localstream';
+import { Toolbox } from '../../widgets/layers/Toolbox';
+import { ChatsBox } from '../../widgets/layers/ChatsBox';
+import { TopPanel } from '../../widgets/layers/TopPanel';
 
 function RoomPage() {
   const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
@@ -14,7 +17,7 @@ function RoomPage() {
 
   function render() {
     setTransceivers(getRemoteTransceivers());
-    console.log(changeSharingStatus.nobodySharing(), 'NOBODY')
+    console.log(changeSharingStatus.nobodySharing(), 'NOBODY');
     const stream = new MediaStream();
     if (refVideo.current !== null) {
       if (changeSharingStatus.iWasSharing()) {
@@ -60,11 +63,22 @@ function RoomPage() {
     }
   }, []);
 
-  return <Box display="flex">
-<LocalStream ref={refVideo} />
+  return <Box sx={{
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    zIndex:10
+  }
+  } display="flex">
+    <TopPanel />
+    <LocalStream ref={refVideo}/>
     {/*<button onClick={sharingStart}>sharing</button>*/}
     {/*<button onClick={stopSharing}>stop sharing</button>*/}
     <RemoteStreamsBox transceivers={transceivers}/>
+    <ChatsBox/>
+    <Toolbox/>
   </Box>;
 }
 

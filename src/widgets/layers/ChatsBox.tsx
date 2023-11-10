@@ -1,7 +1,10 @@
+import { Box } from '@mui/material';
+import { styles } from '../styles/styles';
+
 function ChatsBox() {
 
   return (
-    <div className="">ChatsBox</div>
+    <Box sx={styles.chatsbox} className="">ChatsBox</Box>
   );
 }
 

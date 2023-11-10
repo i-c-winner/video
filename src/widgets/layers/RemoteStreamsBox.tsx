@@ -7,7 +7,9 @@ import {styles} from '../styles/styles';
 
 const {remoteBox}=styles
 function RemoteStreamsBox(props: {transceivers: RTCRtpTransceiver[]}) {
+
   return <Box sx={remoteBox}>
+    <p>RemoteStrea,</p>
     {props.transceivers.map((transceiver)=>{
       return <RemoteStream key={transceiver.receiver.track.label} transceiver={transceiver} />
     })}
