@@ -8,7 +8,7 @@ const styles={
     width: '350px',
     backgroundColor: 'rgba(23, 23, 23, .3)'
   },
-  remoteStream: {
+  remoteStreamStyles: {
     width: '90%',
     boxShadow: '0 0 5px 5px green',
     backgroundColor: 'yellow'

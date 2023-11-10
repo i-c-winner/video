@@ -9,6 +9,7 @@ function getLivesTransceivers() {
 
 function getRemoteTransceivers() {
   return getLivesTransceivers().filter((transceiver) => {
+
     return (transceiver.receiver.track.label.indexOf('audio') >= 0 || transceiver.receiver.track.label.indexOf('video') >= 0);
   });
 }

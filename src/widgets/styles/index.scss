@@ -1,8 +1,16 @@
+.remote-box{
+  background-color: yellow;
+  box-shadow: 0 0 5px 5px green;
+  &_audio {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+}
 .video {
   &_remote {
     width: 98%;
     padding: 3px;
-
     &_audio {
       display: none;
     }
@@ -13,5 +21,5 @@
     height: 99vh;
     width: 100%;
   }
-
 }
+

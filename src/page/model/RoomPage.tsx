@@ -9,8 +9,6 @@ import { changeSharingStatus } from '../../widgets/function/changeSharingStatus'
 
 function RoomPage() {
   const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
-  const [ iWasSharing, setIWasSharing ] = useState<boolean>(false);
-  const [ someBodyWasSharing, setSomeBodyWasSharing ] = useState<boolean>(false);
   const [ sharingTransceiver, setSharingTransceiver ] = useState<RTCRtpTransceiver>();
   const refVideo = useRef<HTMLVideoElement>(null);
 
