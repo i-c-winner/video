@@ -3,7 +3,7 @@ import { glagol } from '../../shared/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
 import { RoomPage } from '../../page/model/RoomPage';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { styles } from '../styles';
 
 
@@ -49,7 +49,10 @@ function App() {
       styles.main
     }>
     {getChildren()}
-    {state !== 'roomPage' && <button onClick={changeState}>click</button>}
+    {state !== 'roomPage' && <Button
+      variant="outlined"
+      color="secondary"
+      onClick={changeState}>click</Button>}
   </Box>;
 }
 

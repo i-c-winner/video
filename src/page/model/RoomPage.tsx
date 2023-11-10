@@ -4,17 +4,15 @@ import { sharing } from '../../entity/sharing';
 import '../../widgets/styles/index.scss';
 import { RemoteStreamsBox } from '../../widgets/remoteStreams/RemoteStreamsBox';
 import { getRemoteTransceivers, getSharingTransceiver } from '../../features/room/streams';
-import { SharingStream } from '../../widgets/remoteStreams/SharingStream';
 import { changeSharingStatus } from '../../widgets/function/changeSharingStatus';
+import { Box } from '@mui/material';
 
 function RoomPage() {
   const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
-  const [ sharingTransceiver, setSharingTransceiver ] = useState<RTCRtpTransceiver>();
   const refVideo = useRef<HTMLVideoElement>(null);
 
   function render() {
     setTransceivers(getRemoteTransceivers());
-    setSharingTransceiver(getSharingTransceiver());
     console.log(changeSharingStatus.nobodySharing(), 'NOBODY')
     const stream = new MediaStream();
     if (refVideo.current !== null) {
@@ -37,25 +35,6 @@ function RoomPage() {
         refVideo.current.srcObject = stream;
       }
     }
-
-    // glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-    //   if (transceiver.currentDirection !== 'inactive' && transceiver.sender.track?.contentHint === 'detail') {
-    //     setIWasSharing(true);
-    //   }
-    //   if (transceiver.receiver.track?.label.indexOf('dashboard') >= 0) {
-    //     setSomeBodyWasSharing(true);
-    //   }
-    //   if (refVideo.current !== null && transceiver.sender.track !== null && transceiver.sender.track?.contentHint === 'detail') {
-    //     if (iWasSharing) {
-    //       stream.addTrack(transceiver.sender.track);
-    //     } else if (someBodyWasSharing) {
-    //       stream.addTrack(transceiver.receiver.track);
-    //     } else if (transceiver.sender.track?.contentHint !== 'detail' && transceiver.sender.track.kind === 'video') {
-    //       stream.addTrack(transceiver.sender.track);
-    //     }
-    //   }
-    // });
-    // if (refVideo.current !== null) refVideo.current.srcObject = stream;
   }
 
   function sharingStart() {
@@ -80,13 +59,12 @@ function RoomPage() {
     }
   }, []);
 
-  return <div>
+  return <Box display="flex">
     <video className="video video_local" ref={refVideo} autoPlay={true}/>
-    <button onClick={sharingStart}>sharing</button>
-    <button onClick={stopSharing}>stop sharing</button>
+    {/*<button onClick={sharingStart}>sharing</button>*/}
+    {/*<button onClick={stopSharing}>stop sharing</button>*/}
     <RemoteStreamsBox transceivers={transceivers}/>
-    {/*<SharingStream sharingTransceiver={sharingTransceiver} />*/}
-  </div>;
+  </Box>;
 }
 
 export { RoomPage };

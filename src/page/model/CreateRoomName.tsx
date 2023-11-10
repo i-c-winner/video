@@ -1,6 +1,8 @@
 import React from 'react';
 import {useAsync} from 'react-async';
 import {glagol} from '../../shared/conference/glagol';
+import {Box} from '@mui/material';
+import { styles } from '../styles/styles.';
 const connection= async ()=>{
   return glagol.createConference()
 }
@@ -10,9 +12,9 @@ const  CreateRoomName= React.forwardRef<any>((props, ref) => {
     return <p>...Pending</p>
   }
   if (data) {
-    return <div>
+    return <Box sx={styles.wrapper}>
       <input ref={ref} />
-    </div>
+    </Box>
   }
   if (error) {
     return <p>error</p>
