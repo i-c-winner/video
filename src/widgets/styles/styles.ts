@@ -1,11 +1,12 @@
 const styles = {
-  topPanel: {
+  topPanelLayer: {
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
     zIndex: '-20',
+    pointerEvents: 'none'
   },
   remoteStreamLayer: {
     position: 'absolute',
@@ -39,14 +40,14 @@ const styles = {
     zIndex: '-40',
     bgcolor: 'background.paper'
   },
-  chatsbox: {
+  chatsboxLayer: {
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
     zIndex: '-10',
-    textAlign: 'left'
+    pointerEvents: 'none',
   },
   toolboxLayer: {
     pointerEvents: 'none',
