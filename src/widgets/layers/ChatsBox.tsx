@@ -4,7 +4,7 @@ import { styles } from '../styles/styles';
 function ChatsBox() {
 
   return (
-    <Box sx={styles.chatsbox} className="">ChatsBox</Box>
+    <Box sx={styles.chatsbox} onClick={()=>console.log('chatsBOX')} className="">ChatsBox</Box>
   );
 }
 

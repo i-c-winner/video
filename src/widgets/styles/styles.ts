@@ -7,19 +7,28 @@ const styles = {
     bottom: '0',
     zIndex: '-20',
   },
-  remoteBox: {
+  remoteStreamLayer: {
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
     zIndex: '-30',
-    textAlign: 'right'
+    display: 'flex',
+    flexFlow: 'row-reverse',
+    pointerEvents: 'none',
+    wrapper: {
+      backgroundColor: 'rgba(25, 25, 25, .3)',
+      boxShadow: '0 0 5px 5px green',
+      width: '350px',
+      height: '99vh'
+    }
   },
-  remoteStreamStyles: {
+  remoteStream: {
     width: '90%',
     boxShadow: '0 0 5px 5px green',
-    backgroundColor: 'yellow'
+    backgroundColor: 'yellow',
+
   },
   localeStyle: {
     position: 'absolute',
@@ -39,7 +48,8 @@ const styles = {
     zIndex: '-10',
     textAlign: 'left'
   },
-  toolbox: {
+  toolboxLayer: {
+    pointerEvents: 'none',
     display: 'flex',
     flexFlow: 'column-reverse',
     position: 'absolute',
@@ -47,7 +57,15 @@ const styles = {
     left: '0',
     right: '0',
     bottom: '0',
-    textAlign: 'bottom'
+    textAlign: 'bottom',
+    toolbox: {
+      pointerEvents: 'initial',
+      height: '40px',
+      padding: '5px 20px',
+      display: 'flex',
+      justifyContent: 'space-around',
+      backgroundColor: 'background.windows'
+    }
   }
 
 

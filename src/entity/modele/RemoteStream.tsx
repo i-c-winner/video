@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styles } from '../../widgets/styles/styles';
 import zIndex from '@mui/material/styles/zIndex';
 
-const { remoteStreamStyles } = styles;
+const { remoteStream } = styles;
 
 function RemoteStream(props: { transceiver: RTCRtpTransceiver }) {
   const refVideo = useRef<HTMLVideoElement>(null);
