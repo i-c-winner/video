@@ -1,5 +1,5 @@
 import { glagol } from '../../shared/conference/glagol';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../widgets/styles/index.scss';
 import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';
 import { Box } from '@mui/material';
@@ -26,7 +26,6 @@ function RoomPage() {
     glagol.on('removeSharingFromSource', removeSharingFromSource);
     glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
     glagol.on('renderMySharing', renderMySharing);
-    glagol.on('remoteMySharing', remoteMySharing);
     const stream = new MediaStream();
     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
       if (transceiver.sender.track?.kind === 'video') {
@@ -38,20 +37,26 @@ function RoomPage() {
     }
   }, []);
 
-  function addTrackToSource(id: string) {
-    dispatch(addRemoteTrack(id));
+  function addTrackToSource(id?: string) {
+    if (id) dispatch(addRemoteTrack(id));
   }
 
-  function addSharingToSource(id: string) {
-    dispatch(addSharing(id[0]));
+  function addSharingToSource(id?: string) {
+    if (id) {
+      dispatch(addSharing(id[0]));
+    }
   }
 
   function removeSharingFromSource() {
-    dispatch(removeSharing());
+    glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+      navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then((stream) => {
+        if (refVideo.current !== null) refVideo.current.srcObject = stream;
+      });
+    });
   }
 
-  function removeRemoteTrackFormSource(id: string) {
-    dispatch(removeRemoteTrack(id));
+  function removeRemoteTrackFormSource() {
+    dispatch(removeSharing());
   }
 
   function renderMySharing() {
@@ -62,9 +67,6 @@ function RoomPage() {
       }
       if (refVideo.current !== null) refVideo.current.srcObject = stream;
     });
-  }
-
-  function remoteMySharing() {
   }
 
   return <Box sx={{

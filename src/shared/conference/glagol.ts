@@ -86,12 +86,12 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
-          glagol.emit('renderMySharing')
+          glagol.emit('renderMySharing');
           glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
           break;
         }
         case 'remove_dashboard': {
-
+          glagol.emit('removeSharingFromSource');
           console.log('REMOVE DASHBOARD');
           if (glagol.peerConnection.signalingState === 'stable') {
             glagol.streamsWasChanged(jimbleText);
