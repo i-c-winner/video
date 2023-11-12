@@ -8,8 +8,7 @@ const changeSharingStatus= {
   },
   someBodySharing: function () {
     return glagol.peerConnection.getTransceivers().find((transceiver) => {
-      console.log(transceiver.receiver.track?.label, transceiver.receiver.track?.label?.indexOf('dashboard'))
-     return transceiver.receiver.track?.label?.indexOf('dashboard')>=0&&transceiver.currentDirection!=='inactive';
+     return transceiver.receiver.track?.id?.indexOf('dashboard')>=0&&transceiver.currentDirection!=='inactive';
     });
   },
   nobodySharing: function () {
