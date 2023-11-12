@@ -1,19 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { styles } from '../../widgets/styles/styles';
-import zIndex from '@mui/material/styles/zIndex';
+import { glagol } from '../../shared/conference/glagol';
 
-const { remoteStream } = styles;
 
-function RemoteStream(props: { transceiver: RTCRtpTransceiver }) {
+function RemoteStream(props: { id: string }) {
   const refVideo = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
-    if (refVideo.current !== null) {
-      const stream = new MediaStream();
-      stream.addTrack(props.transceiver.receiver.track);
-      refVideo.current.srcObject = stream;
+const [kind, setKind]=useState<string>('')
+useEffect(()=>{
+  const stream = new MediaStream();
+  glagol.peerConnection.getTransceivers().forEach((transceiver)=>{
+    if (transceiver.receiver.track.id===props.id)
+    {
+      stream.addTrack(transceiver.receiver.track);
+      if (refVideo.current !== null)  {
+        refVideo.current.srcObject = stream;
+        setKind(transceiver.receiver.track.kind)
+      }
     }
-  });
+  })
+}, [])
+
+
 
   function getClasses(type: string) {
     console.log(type);
@@ -33,9 +40,8 @@ function getBoxClasses(kind: string) {
     }
 }
 
-return <Box className={getBoxClasses(props.transceiver.receiver.track?.kind)}>
-  <p>{props.transceiver.receiver.track.label}</p>
-  <video className={getClasses(props.transceiver.receiver.track?.kind)} autoPlay={true} ref={refVideo}/>
+return <Box className={getBoxClasses(kind)}>
+  <video className={getClasses(kind)} autoPlay={true} ref={refVideo}/>
 </Box>;
 }
 

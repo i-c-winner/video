@@ -1,18 +1,16 @@
-import { glagol } from '../../shared/conference/glagol';
-import { getRemoteTransceivers } from '../../features/room/streams';
-import { useEffect, useState } from 'react';
 import { RemoteStream } from '../../entity/modele/RemoteStream';
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
+import {useSelector} from 'react-redux';
 
 const { remoteStreamLayer } = styles;
 
 function RemoteStreamsBox(props: { transceivers: RTCRtpTransceiver[] }) {
-
+const {remoteStreams}=useSelector((state: any)=>state.source)
   return <Box sx={remoteStreamLayer}>
     <Box sx={remoteStreamLayer.wrapper}>
-      {props.transceivers.map((transceiver) => {
-        return <RemoteStream key={transceiver.receiver.track.label} transceiver={transceiver}/>;
+      {remoteStreams.map((id:string) => {
+        return <RemoteStream key={id} id={id}/>;
       })}
     </Box>
   </Box>;

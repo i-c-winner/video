@@ -86,11 +86,13 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
+          glagol.emit('renderMySharing')
           glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
           if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           break;
         }
         case 'remove_dashboard': {
+
           console.log('REMOVE DASHBOARD');
           if (glagol.peerConnection.signalingState === 'stable') {
             glagol.streamsWasChanged(jimbleText);
@@ -168,9 +170,9 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
-      this.emit('addTrackToSource', event.receiver.track.id)
-      console.log(event, 'EVENT ADDTRACK');
+      this.emit('addTrackToSource', event.receiver.track.id);
       event.streams[0].onremovetrack = (event) => {
+        this.emit('removeRemoteTrackFormSource', event.track.id);
       };
     };
     pc.onnegotiationneeded = (event) => {
@@ -223,13 +225,13 @@ const glagol: IGlagol = {
     }
     this.listener[name].push(callback);
   },
-  emit: function (name, ...args) {
+  emit: function (name, id) {
     if (!this.listener[name]) {
       console.error((error: any) => new Error(error), `Слушатель ${name} не существует`);
     }
-   this.listener[name].forEach((listener)=>{
-     listener(args)
-   })
+    this.listener[name].forEach((listener) => {
+      listener(id);
+    });
   }
 };
 
