@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 
 const { remoteStreamLayer } = styles;
 
-function RemoteStreamsBox(props: { transceivers: RTCRtpTransceiver[] }) {
+function RemoteStreamsBox() {
 const {remoteStreams}=useSelector((state: any)=>state.source)
   return <Box sx={remoteStreamLayer}>
     <Box sx={remoteStreamLayer.wrapper}>

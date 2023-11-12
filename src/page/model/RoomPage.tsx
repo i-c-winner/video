@@ -2,8 +2,6 @@ import { glagol } from '../../shared/conference/glagol';
 import React, { useEffect, useRef, useState } from 'react';
 import '../../widgets/styles/index.scss';
 import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';
-import { getRemoteTransceivers } from '../../features/room/streams';
-import { changeSharingStatus } from '../../widgets/function/changeSharingStatus';
 import { Box } from '@mui/material';
 import { LocalStream } from '../../widgets/layers/Localstream';
 import { Toolbox } from '../../widgets/layers/Toolbox';
@@ -11,37 +9,13 @@ import { ChatsBox } from '../../widgets/layers/ChatsBox';
 import { TopPanel } from '../../widgets/layers/TopPanel';
 import { useDispatch } from 'react-redux';
 import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '../../app/store/sourceSlice';
-import { red } from '@mui/material/colors';
 
 function RoomPage() {
-  const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
   const refVideo = useRef<HTMLVideoElement>(null);
   const dispatch = useDispatch();
 
   function render() {
-    // setTransceivers(getRemoteTransceivers());
-    // console.log(changeSharingStatus.nobodySharing(), 'NOBODY');
-    // const stream = new MediaStream();
-    // if (refVideo.current !== null) {
-    //   if (changeSharingStatus.iWasSharing()) {
-    //     const track = changeSharingStatus.iWasSharing()?.sender.track as MediaStreamTrack;
-    //     stream.addTrack(track);
-    //     refVideo.current.srcObject = stream;
-    //   }
-    //   if (changeSharingStatus.someBodySharing()) {
-    //     const track = changeSharingStatus.someBodySharing()?.receiver.track as MediaStreamTrack;
-    //     stream.addTrack(track);
-    //     refVideo.current.srcObject = stream;
-    //   }
-    //   if (changeSharingStatus.nobodySharing()) {
-    //     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-    //       if (transceiver.sender.track?.kind === 'video') {
-    //         stream.addTrack(transceiver.sender.track);
-    //       }
-    //     });
-    //     refVideo.current.srcObject = stream;
-    //   }
-    // }
+
   }
 
 
@@ -52,8 +26,7 @@ function RoomPage() {
     glagol.on('removeSharingFromSource', removeSharingFromSource);
     glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
     glagol.on('renderMySharing', renderMySharing);
-    glagol.on('remoteMySharing', remoteMySharing)
-    glagol.setRendering(render);
+    glagol.on('remoteMySharing', remoteMySharing);
     const stream = new MediaStream();
     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
       if (transceiver.sender.track?.kind === 'video') {
@@ -90,6 +63,7 @@ function RoomPage() {
       if (refVideo.current !== null) refVideo.current.srcObject = stream;
     });
   }
+
   function remoteMySharing() {
   }
 
@@ -104,7 +78,7 @@ function RoomPage() {
   } display="flex">
     <TopPanel/>
     <LocalStream ref={refVideo}/>
-    <RemoteStreamsBox transceivers={transceivers}/>
+    <RemoteStreamsBox/>
     <ChatsBox/>
     <Toolbox/>
   </Box>;

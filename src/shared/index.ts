@@ -1,7 +1,6 @@
 import { TCallback } from './types';
 
 type TSendMessage = (message: Strophe.Builder) => void
-type TRendering = () => void
 
 interface IGlagol {
   listener: {
@@ -26,8 +25,6 @@ interface IGlagol {
   sendMessage: (message: Strophe.Builder) => void
   setLocalStream: () => Promise<MediaStream>
   currentLocalStream: MediaStream | null,
-  setRendering: (render: TRendering) => void
-  renderingFunction?: TRendering,
   on: (name: string, callback: TCallback) => void,
   emit: (name: string, args?: any) => void
 }

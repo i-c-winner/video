@@ -88,7 +88,6 @@ const glagol: IGlagol = {
           console.log('SEND DASHBOARD');
           glagol.emit('renderMySharing')
           glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
-          if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           break;
         }
         case 'remove_dashboard': {
@@ -98,7 +97,6 @@ const glagol: IGlagol = {
             glagol.streamsWasChanged(jimbleText);
           } else {
             glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
-            if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           }
           break;
         }
@@ -153,8 +151,6 @@ const glagol: IGlagol = {
     }).then((answer) => {
       const answer64 = btoa(JSON.stringify({ answer }));
       this.peerConnection.setLocalDescription(answer).then(() => {
-        console.log('render');
-        if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
       });
       const message: Strophe.Builder = new Strophe.Builder('message', {
         to: `${this.params.roomName}@conference.prosolen.net/focus`,
@@ -216,9 +212,6 @@ const glagol: IGlagol = {
     glagol.connection.send(message);
   },
   currentLocalStream: null,
-  setRendering: function (render) {
-    glagol.renderingFunction = render;
-  },
   on: function (name, callback) {
     if (!this.listener[name]) {
       this.listener[name] = [];

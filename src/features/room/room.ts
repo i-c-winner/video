@@ -68,26 +68,6 @@ class Room {
     }).t(displayName).up().c('jimble').t(inviteMessageB64);
     this.emit('sendMessage', message)
   }
-  getParticipiant() {
-    // <iq from='crone1@shakespeare.lit/desktop'
-    // id='member3'
-    // to='coven@chat.shakespeare.lit'
-    // type='get'>
-    // <query xmlns='http://jabber.org/protocol/muc#admin'>
-    // <item affiliation='member'/>
-    //   </query>
-    //   </iq
-    const message= new Strophe.Builder('iq', {
-      from: `${this.roomName}@prosolonet.net/${this.userNode}`,
-      to: 'focus@conference.prosolen.net',
-      type: 'get'
-    }).c('query', {
-      xmlns: 'http://jabber.org/protocol/muc#admin'
-    }).c('item', {
-      affiliation: 'member'
-    })
-    this.emit('sendMessage', message)
-  }
   on(name: string, callback: TCallbackConference) {
     if (!this.listeners[name]) {
       this.listeners[name] = [];
