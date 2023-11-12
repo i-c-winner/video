@@ -23,7 +23,6 @@ useEffect(()=>{
 
 
   function getClasses(type: string) {
-    console.log(type);
     if (type === 'audio') {
       return 'video_remote video_remote_audio';
     } else if (type === 'video') {

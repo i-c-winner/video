@@ -4,7 +4,6 @@ import { sharing } from '../../entity/sharing';
 
 function Toolbox() {
   function sharingStart() {
-    console.log('sharing')
     sharing.start();
   }
   function sharingStop() {

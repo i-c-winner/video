@@ -77,7 +77,6 @@ const glagol: IGlagol = {
           break;
         }
         case 'remove_track': {
-          console.log('REMOVE TRACK', glagol.peerConnection);
           glagol.streamsWasChanged(jimbleText);
           break;
         }

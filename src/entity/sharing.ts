@@ -31,10 +31,8 @@ const sharing: ISharing= {
 },
   stop: function () {
     glagol.peerConnection.getTransceivers().forEach((transceiver)=>{
-      console.log(transceiver)
       if (transceiver.sender.track?.contentHint==='detail') {
         glagol.peerConnection.removeTrack(transceiver.sender)
-        console.log("DELETE SHARING TRANSCEIVER")
       }
     })
     // glagol.peerConnection.createOffer({iceRestart: false}).then(()=>{
@@ -63,7 +61,6 @@ const sharing: ISharing= {
         .c('x',{xmlns:'http://jabber.org/protocol/muc#user'}).up()
         .c('body', {}, 'remove_dashboard')
         .c('jimble', {xmlns:'urn:xmpp:jimble', ready: 'true'}).t(offer64)
-     console.log('was remove sharing')
      glagol.sendMessage(message)
    })
 
