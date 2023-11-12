@@ -9,10 +9,13 @@ import { LocalStream } from '../../widgets/layers/Localstream';
 import { Toolbox } from '../../widgets/layers/Toolbox';
 import { ChatsBox } from '../../widgets/layers/ChatsBox';
 import { TopPanel } from '../../widgets/layers/TopPanel';
+import {useDispatch} from 'react-redux';
+import {addRemoteTrack} from '../../app/store/sourceSlice';
 
 function RoomPage() {
   const [ transceivers, setTransceivers ] = useState<RTCRtpTransceiver[]>([]);
   const refVideo = useRef<HTMLVideoElement>(null);
+  const dispatch=useDispatch()
 
   function render() {
     setTransceivers(getRemoteTransceivers());
@@ -44,6 +47,7 @@ function RoomPage() {
 
   useEffect(() => {
     glagol.roomInstance.create();
+    glagol.on('addTrackToSource', addTrackToSource)
     glagol.setRendering(render);
     const stream = new MediaStream();
     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
@@ -55,6 +59,9 @@ function RoomPage() {
       refVideo.current.srcObject = stream;
     }
   }, []);
+  function addTrackToSource(...args: any[]) {
+    dispatch(addRemoteTrack(args[0]))
+  }
 
   return <Box sx={{
     position: 'absolute',

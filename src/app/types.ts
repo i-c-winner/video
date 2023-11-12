@@ -15,7 +15,11 @@ interface IParamsConference {
   userNode: string,
   displayName: string,
   roomName: string,
-
 }
 
-export type { IConfig, TCallbackConference, IParamsConference };
+interface ISource {
+  sharing: undefined | string,
+  remoteStreams: string[]
+}
+
+export type { ISource, IConfig, TCallbackConference, IParamsConference };

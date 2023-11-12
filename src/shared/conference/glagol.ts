@@ -9,6 +9,7 @@ setRegister(strophe);
 // @ts-ignore
 const { Strophe } = strophe;
 const glagol: IGlagol = {
+  listener: {},
   peerConnection: new RTCPeerConnection({
     iceServers: [
       {
@@ -85,16 +86,16 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
-          glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)))
+          glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
           if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           break;
         }
         case 'remove_dashboard': {
           console.log('REMOVE DASHBOARD');
-          if (glagol.peerConnection.signalingState==='stable') {
+          if (glagol.peerConnection.signalingState === 'stable') {
             glagol.streamsWasChanged(jimbleText);
           } else {
-            glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)))
+            glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
             if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
           }
           break;
@@ -150,7 +151,7 @@ const glagol: IGlagol = {
     }).then((answer) => {
       const answer64 = btoa(JSON.stringify({ answer }));
       this.peerConnection.setLocalDescription(answer).then(() => {
-        console.log('render')
+        console.log('render');
         if (glagol.renderingFunction !== undefined) glagol.renderingFunction();
       });
       const message: Strophe.Builder = new Strophe.Builder('message', {
@@ -167,6 +168,8 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
+      this.emit('addTrackToSource', event.receiver.track.id)
+      console.log(event, 'EVENT ADDTRACK');
       event.streams[0].onremovetrack = (event) => {
       };
     };
@@ -213,6 +216,20 @@ const glagol: IGlagol = {
   currentLocalStream: null,
   setRendering: function (render) {
     glagol.renderingFunction = render;
+  },
+  on: function (name, callback) {
+    if (!this.listener[name]) {
+      this.listener[name] = [];
+    }
+    this.listener[name].push(callback);
+  },
+  emit: function (name, ...args) {
+    if (!this.listener[name]) {
+      console.error((error: any) => new Error(error), `Слушатель ${name} не существует`);
+    }
+   this.listener[name].forEach((listener)=>{
+     listener(args)
+   })
   }
 };
 
