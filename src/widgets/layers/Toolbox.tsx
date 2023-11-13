@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import {useDispatch} from 'react-redux';
 import {changeChatsBox} from '../../app/store/interfaceSlice';
+import {iconChat} from '../../shared/img/svg';
 
 function Toolbox() {
   const dispatch=useDispatch()
@@ -21,7 +22,7 @@ function Toolbox() {
   return <Box sx={styles.toolboxLayer}>
     <Box sx={styles.toolboxLayer.toolbox}>
       <Button
-        
+
         variant="contained" onClick={openChatsBox}>Chat</Button>
       <Button variant="contained" onClick={sharingStart}>sharing</Button>
       <Button variant="contained" onClick={sharingStop}>stop</Button>
