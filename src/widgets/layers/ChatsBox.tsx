@@ -1,22 +1,16 @@
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
-import {Chat} from '../../entity/model/Chat';
+import { Chat } from '../../entity/model/Chat';
 import { getRandomText } from '../../features/plugins/getRandomText';
-const list=[{
-  author: 'Ivanov'
-},
-  {
-    author: 'Petrov'
-  },
-  {
-    author: 'Sidorov'
-  }]
-function ChatsBox() {
+import { useSelector } from 'react-redux';
+import { IStore } from '../../app/types';
 
+function ChatsBox() {
+  const { chatsList } = useSelector((state: IStore) => state.chats);
   return (
-    <Box sx={styles.chatsboxLayer} onClick={()=>console.log('chatsBOX')} className="">
-      {list.map((chat: any)=>{
-      return  <Chat key={getRandomText(5)} author={chat.author} />
+    <Box sx={styles.chatsboxLayer} onClick={() => console.log('chatsBOX')} className="">
+      {chatsList.map((chat: any) => {
+        return <Chat key={getRandomText(5)} chat={chat}/>;
       })}
     </Box>
   );
