@@ -1,4 +1,4 @@
-import { RemoteStream } from '../../entity/modele/RemoteStream';
+import { RemoteStream } from '../../entity/model/RemoteStream';
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
 import {useSelector} from 'react-redux';

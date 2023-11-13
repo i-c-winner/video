@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
-import {Chat} from '../../entity/modele/Chat';
+import {Chat} from '../../entity/model/Chat';
 import { getRandomText } from '../../features/plugins/getRandomText';
 const list=[{
   author: 'Ivanov'

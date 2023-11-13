@@ -21,5 +21,13 @@ interface ISource {
   sharing: undefined | string,
   remoteStreams: string[]
 }
+type TChat= {
+  author: string,
+  id: string,
+  text: string
+}
+interface IChats {
+  chats:TChat[]
+}
 
-export type { ISource, IConfig, TCallbackConference, IParamsConference };
+export type {IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
