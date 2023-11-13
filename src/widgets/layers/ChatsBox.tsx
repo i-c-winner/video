@@ -6,10 +6,22 @@ import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 
 function ChatsBox() {
-  const  {chatsBoxVisible}  = useSelector((state: IStore) => state.interface);
+  const  {chatsBoxVisible, toolboxVisible}  = useSelector((state: IStore) => state.interface);
+  function getStyles() {
+    if (toolboxVisible) {
+     return {
+       ...styles.chatsboxLayer.chatsbox,
+       height: 'calc(100vh - 50px)'
+     }
+    }return {
+      ...styles.chatsboxLayer.chatsbox,
+      height: '100vh'
+    }
+  }
+
   const { chatsList } = useSelector((state: IStore) => state.chats);
   {return chatsBoxVisible && <Box sx={styles.chatsboxLayer}>
-    <Box sx={styles.chatsboxLayer.chatsbox}>
+    <Box sx={getStyles()}>
       {chatsList.map((chat: any) => {
         return <Chat key={getRandomText(5)} chat={chat}/>;
       })}

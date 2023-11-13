@@ -50,8 +50,8 @@ const styles = {
     pointerEvents: 'none',
     chatsbox: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
-      height: '100vh',
-      width: '300px'
+      width: '300px',
+      boxSizing: 'border-box'
     }
   },
 
