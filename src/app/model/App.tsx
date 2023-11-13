@@ -5,13 +5,14 @@ import { CreateDisplayName } from '../../page/model/CreateDisplayName';
 import { RoomPage } from '../../page/model/RoomPage';
 import { Box, Button } from '@mui/material';
 import { styles } from '../styles';
+import { useTranslation } from 'react-i18next';
 
 
 function App() {
+  const {t}=useTranslation()
   const [ state, setState ] = useState<any>('createRoomName');
   const refRoomName = useRef<HTMLInputElement>(null);
   const refDisplayName = useRef<HTMLInputElement>(null);
-
   function getChildren() {
 
     switch (state) {
@@ -27,6 +28,7 @@ function App() {
   }
 
   function changeState() {
+
     if (refRoomName.current !== null) {
       if (validate(refRoomName.current.value)) glagol.params.roomName = refRoomName.current.value;
     }
@@ -43,6 +45,11 @@ function App() {
       return text !== '';
     }
   }
+  function getButtonText(){
+    if (state==='createRoomName') {
+      return 'interface.buttons.createRoomName'
+    } return 'interface.buttons.createDisplayName'
+  }
 
   return <Box
     sx={
@@ -50,9 +57,9 @@ function App() {
     }>
     {getChildren()}
     {state !== 'roomPage' && <Button
-      variant="outlined"
+      variant="contained"
       color="secondary"
-      onClick={changeState}>click</Button>}
+      onClick={changeState}>{t(getButtonText())}</Button>}
   </Box>;
 }
 
