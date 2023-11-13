@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 
 function ChatsBox() {
-  const  chatsBoxVisible  = useSelector((state: IStore) => state.interface);
+  const  {chatsBoxVisible}  = useSelector((state: IStore) => state.interface);
   const { chatsList } = useSelector((state: IStore) => state.chats);
   {return chatsBoxVisible && <Box sx={styles.chatsboxLayer}>
     <Box sx={styles.chatsboxLayer.chatsbox}>
