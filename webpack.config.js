@@ -54,7 +54,7 @@ const config = {
             },
             {
                 test: /\.svg$/,
-                loader: 'svg'
+                loader: 'svg-loader'
             },
 
             // Add your rules for custom modules here
