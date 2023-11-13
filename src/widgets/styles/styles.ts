@@ -51,7 +51,16 @@ const styles = {
     chatsbox: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
       width: '300px',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexFlow: 'column',
+      justifyContent: 'space-between'
+    },
+    chatInputField: {
+      width: '100%',
+      height: '150px',
+      backgroundColor: 'rgba(98, 225, 25, .3)',
+      pointerEvents: 'initial'
     }
   },
 
