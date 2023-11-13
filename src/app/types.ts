@@ -33,9 +33,15 @@ interface IChats {
   chatsList: TChat[];
 }
 
-interface IStore {
-  source: ISource,
-  chats: IChats
+interface IInterface {
+  chatsBoxVisible: boolean,
+  toolboxVisible: boolean
 }
 
-export type { IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
+interface IStore {
+  source: ISource,
+  chats: IChats,
+  interface: IInterface
+}
+
+export type { IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };

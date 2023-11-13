@@ -48,7 +48,13 @@ const styles = {
     bottom: '0',
     zIndex: '-10',
     pointerEvents: 'none',
+    chatsbox: {
+      backgroundColor: 'rgba(25, 25, 25, .3)',
+      height: '100vh',
+      width: '300px'
+    }
   },
+
   toolboxLayer: {
     pointerEvents: 'none',
     display: 'flex',
