@@ -1,5 +1,5 @@
 interface ISharing {
-  start: ()=>void,
+  start: ()=>Promise<any>,
   stop: ()=>void
 }
 

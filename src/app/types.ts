@@ -11,7 +11,10 @@ interface IConfig {
 }
 
 type TCallbackConference = (name: string, args?: any[]) => void
-
+type TStream = {
+  id: string,
+  type: string
+}
 interface IParamsConference {
   userNode: string,
   displayName: string,
@@ -19,8 +22,8 @@ interface IParamsConference {
 }
 
 interface ISource {
-  sharing: undefined | string,
-  remoteStreams: {id: string, type: string}[]
+  sharing: undefined | TStream,
+  remoteStreams: TStream[]
 }
 
 type TChat = {
@@ -44,4 +47,4 @@ interface IStore {
   interface: IInterface
 }
 
-export type { IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
+export type {TStream, IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };

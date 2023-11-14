@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { changeChatsBox } from '../../app/store/interfaceSlice';
 import { iconChat, iconSharing } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
+import { addSharing, removeSharing } from '../../app/store/sourceSlice';
 
 
 function Toolbox() {
@@ -14,10 +15,16 @@ function Toolbox() {
   const { toolboxVisible, chatsBoxVisible } = useSelector((state: IStore) => state.interface);
 
   function sharingStart() {
-    sharing.start();
+    sharing.start().then((stream)=> {
+      dispatch(addSharing({
+        type: 'dashboard',
+        id: stream.id
+      }))
+    })
   }
 
   function sharingStop() {
+    // dispatch(removeSharing())
     sharing.stop();
   }
 

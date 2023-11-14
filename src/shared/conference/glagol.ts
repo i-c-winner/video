@@ -120,7 +120,6 @@ const glagol: IGlagol = {
         const id = jingle.getAttribute('id');
         const author = jingle.getAttribute('author');
         glagol.emit('messageReceived', {id, text, author })
-        console.log(text, id, author);
       } catch(e)
       {
 
@@ -182,13 +181,20 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
+      console.log('STRREAM', event.streams[0])
       const type=event.streams[0].id.split('-')[0]
       if (type==='audio'|| type==='video'){
         this.emit('addTrackToSource', {
           id: event.receiver.track.id,
           type
         });
+      } else if(type==='dashboard'){
+        this.emit('addSharingToSource', {
+          id: event.receiver.track.id,
+          type
+        })
       }
+
 
       event.streams[0].onremovetrack = (event) => {
         console.log(event, 'REMOVETRACK')
@@ -196,13 +202,10 @@ const glagol: IGlagol = {
       };
     };
     pc.onnegotiationneeded = (event) => {
-      console.log(event, 'onnegotation');
     };
     pc.onsignalingstatechange = (event) => {
-      console.log(event, 'changeSignaling');
     };
     pc.onconnectionstatechange = (event) => {
-      console.log(event, 'ONCINNECTION STATE');
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {

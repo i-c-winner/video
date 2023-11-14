@@ -12,7 +12,6 @@ class Chat {
       id: glagol.params.userNode,
       author: glagol.params.displayName,
     });
-    console.log(message)
     action(message)
   }
 }

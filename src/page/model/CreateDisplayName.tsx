@@ -11,7 +11,6 @@ const connection = async () => {
 const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const {t, i18n}=useTranslation()
-  console.log(t, i18n)
   if (isPending) {
     return <p>...Pending</p>;
   }
