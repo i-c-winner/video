@@ -10,8 +10,8 @@ function RemoteStreamsBox() {
 const {remoteStreams}=useSelector((state: any)=>state.source)
   return <Box sx={remoteStreamLayer}>
     <Box sx={remoteStreamLayer.wrapper}>
-      {remoteStreams.map((id:string) => {
-        return <RemoteStream key={getRandomText(5)} id={id}/>;
+      {remoteStreams.map((stream: {id: string, type: string}) => {
+        return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
       })}
     </Box>
   </Box>;

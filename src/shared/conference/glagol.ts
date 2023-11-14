@@ -182,8 +182,16 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
-      this.emit('addTrackToSource', event.receiver.track.id);
+      const type=event.streams[0].id.split('-')[0]
+      if (type==='audio'|| type==='video'){
+        this.emit('addTrackToSource', {
+          id: event.receiver.track.id,
+          type
+        });
+      }
+
       event.streams[0].onremovetrack = (event) => {
+        console.log(event, 'REMOVETRACK')
         this.emit('removeRemoteTrackFormSource', event.track.id);
       };
     };

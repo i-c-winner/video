@@ -15,12 +15,12 @@ const sourceSlice = createSlice({
     removeSharing: ((state) => {
       state.sharing = undefined;
     }),
-    addRemoteTrack: ((state, action: PayloadAction<string>) => {
+    addRemoteTrack: ((state, action: PayloadAction<{id: string, type: string}>) => {
       state.remoteStreams.push(action.payload);
     }),
     removeRemoteTrack: ((state, action: PayloadAction<string>) => {
-      state.remoteStreams = state.remoteStreams.filter((id: string) => {
-        return id !== action.payload;
+      state.remoteStreams = state.remoteStreams.filter((stream: {id: string, type: string}) => {
+        return stream.id !== action.payload;
       });
     })
   }

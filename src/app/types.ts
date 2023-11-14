@@ -20,7 +20,7 @@ interface IParamsConference {
 
 interface ISource {
   sharing: undefined | string,
-  remoteStreams: string[]
+  remoteStreams: {id: string, type: string}[]
 }
 
 type TChat = {

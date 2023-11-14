@@ -38,7 +38,8 @@ function RoomPage() {
   }, []);
 
   function addTrackToSource(args: any[]) {
-    if (typeof args[0]==='string') dispatch(addRemoteTrack(args[0]));
+    console.log(args)
+    if (typeof args[0]) dispatch(addRemoteTrack(args[0]));
   }
 
   function addSharingToSource(id?: string) {
@@ -55,8 +56,8 @@ function RoomPage() {
     });
   }
 
-  function removeRemoteTrackFormSource() {
-    dispatch(removeSharing());
+  function removeRemoteTrackFormSource(id: string[]) {
+    dispatch(removeRemoteTrack(id[0]));
   }
 
   function renderMySharing() {
