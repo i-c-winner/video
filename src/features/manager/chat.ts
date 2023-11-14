@@ -1,7 +1,8 @@
 import {glagol} from '../../shared/conference/glagol';
+import { TSendMessage } from '../../shared';
 
 class Chat {
-  sendMessage(text: string) {
+  sendMessage(action: TSendMessage,text: string) {
     const message = new Strophe.Builder('message', {
       from: `${glagol.params.userNode}@prosolen.net/${glagol.params.userNode}`,
       id: glagol.params.userNode,
@@ -9,8 +10,10 @@ class Chat {
       type: 'groupchat'
     }).c('body').t(text).up().c('jingle', {
       id: glagol.params.userNode,
-      authorName: glagol.params.displayName,
+      author: glagol.params.displayName,
     });
+    console.log(message)
+    action(message)
   }
 }
 const chat=new Chat()

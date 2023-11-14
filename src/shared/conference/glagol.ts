@@ -103,13 +103,29 @@ const glagol: IGlagol = {
           console.info('message with unknown action');
         }
       }
-      console.log(stanza, 'message');
+      console.log(stanza,'message');
       return true;
     };
     const handlerIqTypeResult = (stanza: Element) => {
       const from = stanza.getAttribute('from');
       glagol.roomInstance.invite();
       return true;
+    };
+    const handlerMessageGroupChat = (stanza: Element) => {
+      try{
+        console.log(stanza, 'MESSAGE TEXT');
+        const body= stanza.getElementsByTagName('body')[0];
+        const text=Strophe.getText(body)
+        const jingle = stanza.getElementsByTagName('jingle')[0];
+        const id = jingle.getAttribute('id');
+        const author = jingle.getAttribute('author');
+        glagol.emit('messageReceived', {id, text, author })
+        console.log(text, id, author);
+      } catch(e)
+      {
+
+      }
+      return true
     };
     const handlerPresence = (stanza: Element) => {
       const from = stanza.getAttribute('from') as string;
@@ -136,9 +152,10 @@ const glagol: IGlagol = {
       console.log(stanza, 'PESENCE');
       return true;
     };
-    glagol.connection.addHandler(handlerMessage, null, 'message',);
+    glagol.connection.addHandler(handlerMessage, null, 'message', 'chat');
     glagol.connection.addHandler(handlerIqTypeResult, null, 'iq', 'result');
     glagol.connection.addHandler(handlerPresence, null, 'presence');
+    glagol.connection.addHandler(handlerMessageGroupChat, null, 'message', 'groupchat');
     const message = new Strophe.Builder('presence');
     glagol.sendMessage(message);
   },
