@@ -1,4 +1,5 @@
 
-type TCallback = (id?: string)=>void
+type TCallback = (...args:any[])=>void
+
 
 export type {TCallback}

@@ -234,12 +234,12 @@ const glagol: IGlagol = {
     }
     this.listener[name].push(callback);
   },
-  emit: function (name, id) {
+  emit: function (name, ...args) {
     if (!this.listener[name]) {
       console.error((error: any) => new Error(error), `Слушатель ${name} не существует`);
     }
     this.listener[name].forEach((listener) => {
-      listener(id);
+      listener(args);
     });
   }
 };

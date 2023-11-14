@@ -37,8 +37,8 @@ function RoomPage() {
     }
   }, []);
 
-  function addTrackToSource(id?: string) {
-    if (id) dispatch(addRemoteTrack(id));
+  function addTrackToSource(args: any[]) {
+    if (typeof args[0]==='string') dispatch(addRemoteTrack(args[0]));
   }
 
   function addSharingToSource(id?: string) {

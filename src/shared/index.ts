@@ -25,7 +25,7 @@ interface IGlagol {
   sendMessage: (message: Strophe.Builder) => void
   setLocalStream: () => Promise<MediaStream>
   currentLocalStream: MediaStream | null,
-  on: (name: string, callback: any) => void,
+  on: (name: string, callback: TCallback) => void,
   emit: (name: string, args?: any) => void
 }
 
