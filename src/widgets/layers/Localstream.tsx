@@ -6,9 +6,9 @@ import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 
 const  LocalStream= React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>)=>{
 const sizes= {
-  width: '70px',
-  height: '70px',
-  viewBox: '0 0 40px 40px'
+  width: '100px',
+  height: '100px',
+  viewBox: '-4 0 40 40'
 }
   return <Box sx={
     styles.localeStyleLayer

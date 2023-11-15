@@ -15,12 +15,12 @@ function Toolbox() {
   const { toolboxVisible, chatsBoxVisible } = useSelector((state: IStore) => state.interface);
 
   function sharingStart() {
-    sharing.start().then((stream)=> {
+    sharing.start().then((stream) => {
       dispatch(addSharing({
         type: 'dashboard',
         id: stream.id
-      }))
-    })
+      }));
+    });
   }
 
   function sharingStop() {
@@ -33,29 +33,31 @@ function Toolbox() {
   }
 
   return <Box sx={styles.toolboxLayer}>
-    {toolboxVisible&&<Box sx={styles.toolboxLayer.toolbox}>
-        <Button
-          startIcon={<CreateSvgIcon icon={iconChat}/>}
-          classes={{
-            startIcon: 'margin_zero'
-          }
-          }
-          variant="contained" onClick={openChatsBox}/>
-        <Button
-          variant="contained" onClick={sharingStart}
-          classes={{
-            startIcon: 'margin_zero'
+    {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
+      <Button
+        startIcon={<CreateSvgIcon icon={iconChat}/>}
+        classes={{
+          startIcon: 'margin_zero'
+        }
+        }
+        variant="contained" onClick={openChatsBox}/>
+      <Button
+        variant="contained" onClick={sharingStart}
+        classes={{
+          startIcon: 'margin_zero'
+        }}
+        startIcon={<CreateSvgIcon
+          sizes={{
+            viewBox: '0 0 30 30'
           }}
-          startIcon={<CreateSvgIcon
-            sizes={{
-              viewBox: '0 0 30 30'
-            }}
-            icon={iconSharing}/>}
-        />
-        <Button variant="contained" onClick={sharingStop}>stop</Button>
-      </Box>
+          icon={iconSharing}/>}
+      />
+      <Button variant="contained" onClick={sharingStop}>stop</Button>
+      <Button
+        variant="contained" />
+    </Box>
     }
-    </Box>;
+  </Box>;
 }
 
 export { Toolbox };
