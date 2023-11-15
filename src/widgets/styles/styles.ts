@@ -41,14 +41,20 @@ const styles = {
     backgroundColor: 'yellow',
 
   },
-  localeStyle: {
+  localeStyleLayer: {
     position: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     bottom: '0',
     zIndex: '-40',
-    bgcolor: 'background.paper'
+    bgcolor: 'background.paper',
+    color: 'white',
+    logo: {
+      position: 'absolute',
+      top: '50px',
+      left: '50px'
+    }
   },
   chatsboxLayer: {
     position: 'absolute',
