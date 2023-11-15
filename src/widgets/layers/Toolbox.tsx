@@ -4,15 +4,17 @@ import { sharing } from '../../entity/sharing';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { useDispatch } from 'react-redux';
-import { changeChatsBox } from '../../app/store/interfaceSlice';
-import { iconChat, iconSharing } from '../../shared/img/svg';
+import { changeChatsBox, changeTypeModal } from '../../app/store/interfaceSlice';
+import { iconChat, iconSettings, iconSharing } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { addSharing, removeSharing } from '../../app/store/sourceSlice';
-
+import { openModal } from '../../app/store/interfaceSlice';
+import { ModalWindow } from '../modal/Modal';
+import { IInterface } from '../../app/types';
 
 function Toolbox() {
   const dispatch = useDispatch();
-  const { toolboxVisible, chatsBoxVisible } = useSelector((state: IStore) => state.interface);
+  const { toolboxVisible, chatsBoxVisible, modalIsOpen } = useSelector((state: IStore) => state.interface);
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -32,7 +34,13 @@ function Toolbox() {
     dispatch(changeChatsBox(!chatsBoxVisible));
   }
 
+  function openingModal(this: {type: IInterface['typeModal']}) {
+    dispatch(changeTypeModal(this.type));
+    dispatch(openModal(!modalIsOpen));
+  }
+
   return <Box sx={styles.toolboxLayer}>
+    <ModalWindow/>
     {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
       <Button
         startIcon={<CreateSvgIcon icon={iconChat}/>}
@@ -54,7 +62,13 @@ function Toolbox() {
       />
       <Button variant="contained" onClick={sharingStop}>stop</Button>
       <Button
-        variant="contained" />
+        classes={{
+          startIcon: 'margin_zero'
+        }}
+        startIcon={<CreateSvgIcon icon={iconSettings}/>}
+        variant="contained"
+        onClick={openingModal.bind({type: 'settings'})}
+      />
     </Box>
     }
   </Box>;

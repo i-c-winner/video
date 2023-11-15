@@ -1,6 +1,8 @@
 const config = {
   chatsBoxVisible: false,
-  toolboxVisible: true
+  toolboxVisible: true,
+  modalIsOpen: false,
+  typeModal: 'error'
 };
 const constants = {
   icon: {
@@ -10,6 +12,7 @@ const constants = {
       viewBox: '0 0 25 25'
     }
   },
+
   modal: {
     WIDTH_HEIGHT: '900px',
     WIDTH_MIDDLE: '700px',

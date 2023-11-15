@@ -15,6 +15,7 @@ type TStream = {
   id: string,
   type: string
 }
+
 interface IParamsConference {
   userNode: string,
   displayName: string,
@@ -38,7 +39,9 @@ interface IChats {
 
 interface IInterface {
   chatsBoxVisible: boolean,
-  toolboxVisible: boolean
+  toolboxVisible: boolean,
+  modalIsOpen: boolean,
+  typeModal: 'error' | 'settings'
 }
 
 interface IStore {
@@ -47,4 +50,4 @@ interface IStore {
   interface: IInterface
 }
 
-export type {TStream, IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
+export type { TStream, IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };

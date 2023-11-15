@@ -12,9 +12,15 @@ const interfaceSlice = createSlice({
     ),
     changeToolboxVisible: ((state, action: PayloadAction<boolean>)=>{
       state.toolboxVisible=action.payload
+    }),
+    openModal: ((state, action: PayloadAction<boolean>)=>{
+      state.modalIsOpen=action.payload
+    }),
+    changeTypeModal: ((state, action: PayloadAction<IInterface['typeModal']>)=>{
+      state.typeModal=action.payload
     })
   }
 });
 
-export const{changeChatsBox, changeToolboxVisible}=interfaceSlice.actions
+export const{changeChatsBox,changeTypeModal, changeToolboxVisible, openModal}=interfaceSlice.actions
 export default interfaceSlice.reducer
