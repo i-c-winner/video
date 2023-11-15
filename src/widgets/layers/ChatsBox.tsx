@@ -8,6 +8,7 @@ import { ChatInputField } from '../../entity/model/ChatInputField';
 
 function ChatsBox() {
   const  {chatsBoxVisible, toolboxVisible}  = useSelector((state: IStore) => state.interface);
+  const { chatsList } = useSelector((state: IStore) => state.chats);
   function getStyles() {
     if (toolboxVisible) {
      return {
@@ -20,7 +21,6 @@ function ChatsBox() {
     }
   }
 
-  const { chatsList } = useSelector((state: IStore) => state.chats);
   {return chatsBoxVisible && <Box sx={styles.chatsboxLayer}>
     <Box sx={getStyles()}>
       <div className='chats'>

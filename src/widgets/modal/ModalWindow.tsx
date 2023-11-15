@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import { openModal } from '../../app/store/interfaceSlice';
 import { Settings } from './Settings';
-import { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useRef } from 'react';
 import {Error} from './Error';
 
 const allChildren: {
   [key: string]: ReactElement
 } = {
-  settings: <Settings/>,
+  settings: <Settings />,
   error: <Error />
 };
 
@@ -22,9 +22,9 @@ function ModalWindow() {
   function handleClose() {
     dispatch(openModal(false));
   }
-function getChildren() {
-   return  allChildren[typeModal]?allChildren[typeModal]:allChildren.error
-}
+  function getChildren() {
+    return  allChildren[typeModal]?allChildren[typeModal]:allChildren.error
+  }
 
   return (
     <Modal

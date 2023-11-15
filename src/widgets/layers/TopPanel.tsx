@@ -5,7 +5,7 @@ import {glagol} from '../../shared/conference/glagol';
 function TopPanel() {
 
   return (
-    <Box sx={styles.topPanelLayer} >Room: {glagol.params.roomName}</Box>
+    <Box sx={styles.topPanelLayer}>Room: {glagol.params.roomName}</Box>
   );
 }
 

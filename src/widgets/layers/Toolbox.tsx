@@ -9,8 +9,9 @@ import { iconChat, iconSettings, iconSharing } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { addSharing, removeSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
-import { ModalWindow } from '../modal/Modal';
+import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
+import { useRef } from 'react';
 
 function Toolbox() {
   const dispatch = useDispatch();
@@ -34,13 +35,13 @@ function Toolbox() {
     dispatch(changeChatsBox(!chatsBoxVisible));
   }
 
-  function openingModal(this: {type: IInterface['typeModal']}) {
+  function openingModal(this: { type: IInterface['typeModal'] }) {
     dispatch(changeTypeModal(this.type));
     dispatch(openModal(!modalIsOpen));
   }
 
   return <Box sx={styles.toolboxLayer}>
-    <ModalWindow/>
+    <ModalWindow />
     {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
       <Button
         startIcon={<CreateSvgIcon icon={iconChat}/>}
@@ -67,7 +68,7 @@ function Toolbox() {
         }}
         startIcon={<CreateSvgIcon icon={iconSettings}/>}
         variant="contained"
-        onClick={openingModal.bind({type: 'settings'})}
+        onClick={openingModal.bind({ type: 'settings' })}
       />
     </Box>
     }

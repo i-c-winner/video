@@ -22,8 +22,8 @@ function ChatInputField() {
   function changeText(event: any) {
    setText(event.target.value)
   }
-  function messageReceived(message: IMessage) {
-    dispatch(addChat(message))
+  function messageReceived(message: [IMessage]) {
+    dispatch(addChat(message[0]))
   }
   useEffect(()=>{
     glagol.on('messageReceived', messageReceived)
