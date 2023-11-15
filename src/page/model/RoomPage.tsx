@@ -27,7 +27,6 @@ const {sharing}= useSelector((state: IStore)=>state.source)
     glagol.on('removeSharingFromSource', removeSharingFromSource);
     glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
     glagol.on('renderMySharing', renderMySharing);
-    // renderScreeStream();
   }, []);
 useEffect(()=>{
   const stream=new MediaStream()
@@ -49,7 +48,7 @@ useEffect(()=>{
     })
     if (refVideo.current!==null) refVideo.current.srcObject=stream
   } else {
-    renderScreeStream()
+    renderScreenStream()
   }
 }, [sharing])
 
@@ -62,7 +61,7 @@ useEffect(()=>{
   }
 
   const removeSharingFromSource = () => {
-    renderScreeStream();
+    renderScreenStream();
     dispatch(removeSharing());
   };
 
@@ -80,7 +79,7 @@ useEffect(()=>{
     });
   }
 
-  function renderScreeStream() {
+  function renderScreenStream() {
     const stream = new MediaStream();
     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
       if (transceiver.sender.track?.kind === 'video') {

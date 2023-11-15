@@ -22,7 +22,17 @@ const styles = {
       backgroundColor: 'rgba(25, 25, 25, .3)',
       boxShadow: '0 0 5px 5px green',
       width: '350px',
-      height: '99vh'
+      height: '99vh',
+      display: 'flex',
+      flexFlow: 'column',
+      justifyContent: 'space-between',
+      displayName: {
+        position: 'absolute',
+        bottom: '5px',
+        left: '5px',
+        padding: '2px',
+        backgroundColor: 'rgba(225, 225, 225, .5)'
+      }
     }
   },
   remoteStream: {
