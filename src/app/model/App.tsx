@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { glagol } from '../../shared/conference/glagol';
+import { glagol } from '../../entity/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
 import { RoomPage } from '../../page/model/RoomPage';

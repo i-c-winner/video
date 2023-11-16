@@ -1,4 +1,4 @@
-import { glagol } from '../../shared/conference/glagol';
+import { glagol } from '../../entity/conference/glagol';
 import React, { useEffect, useRef } from 'react';
 import '../../widgets/styles/index.scss';
 import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';

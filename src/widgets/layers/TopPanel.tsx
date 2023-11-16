@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
-import {glagol} from '../../shared/conference/glagol';
+import {glagol} from '../../entity/conference/glagol';
 
 function TopPanel() {
 

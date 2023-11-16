@@ -1,5 +1,5 @@
 import { ISharing } from './types';
-import { glagol } from '../shared/conference/glagol';
+import { glagol } from './conference/glagol';
 
 const sharing: ISharing = {
 

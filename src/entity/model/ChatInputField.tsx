@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import {useDispatch} from 'react-redux';
 import {addChat} from '../../app/store/chatsSlice';
 import {chat} from '../../features/manager/chat';
-import { glagol } from '../../shared/conference/glagol';
+import { glagol } from '../conference/glagol';
 
 interface IMessage {
   text: string,

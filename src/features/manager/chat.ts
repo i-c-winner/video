@@ -1,4 +1,4 @@
-import {glagol} from '../../shared/conference/glagol';
+import {glagol} from '../../entity/conference/glagol';
 import { TSendMessage } from '../../shared';
 
 class Chat {

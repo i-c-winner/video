@@ -1,8 +1,8 @@
 import { getRandomText } from '../../features/plugins/getRandomText';
 import * as strophe from 'strophe.js';
 import { setRegister } from '../../features/plugins/register';
-import { IGlagol } from '../index';
-import { Room } from '../room/room';
+import { IGlagol } from '../../shared';
+import { Room } from '../../shared/room/room';
 
 const room = new Room();
 setRegister(strophe);

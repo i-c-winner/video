@@ -4,7 +4,7 @@ import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { useEffect, useRef } from 'react';
-import { glagol } from '../../shared/conference/glagol';
+import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 
 const { remoteStreamLayer } = styles;
