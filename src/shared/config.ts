@@ -2,7 +2,13 @@ const config = {
   chatsBoxVisible: false,
   toolboxVisible: true,
   modalIsOpen: false,
-  typeModal: 'error'
+  typeModal: 'error',
+  conference: {
+    quality: {
+      video: 'middle',
+      audio: 'enabled'
+    }
+  }
 };
 const constants = {
   icon: {

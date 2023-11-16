@@ -7,10 +7,14 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {glagol} from '../../entity/conference/glagol';
+import { glagol } from '../../entity/conference/glagol';
 
 import { BaseSyntheticEvent, useState } from 'react';
 import { IVideiQty, IAudioQty } from '../type';
+import { useDispatch, useSelector } from 'react-redux';
+import { IStore } from '../../app/types';
+import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
+import { Dispatch } from '@reduxjs/toolkit';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -18,21 +22,16 @@ interface TabPanelProps {
   value: number;
 }
 
-const videoQty: Readonly<IVideiQty> ={
+const videoQty: Readonly<IVideiQty> = {
   disabled: 'disabled',
   low: 'low',
   middle: 'middle',
   height: 'height'
-}
+};
 const audioQty: Readonly<IAudioQty> = {
   disabled: 'disabled',
   enabled: 'enabled'
-}
-
-const state={
-  video: videoQty.middle,
-  audio: audioQty.enabled
-}
+};
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -68,37 +67,47 @@ function a11yProps(index: number) {
   };
 }
 
-function changeQty(event: BaseSyntheticEvent) {
-glagol.applyConstraints({type: 'video', value: event.target.value})
-  state.video=event.target.value
+function changeQty(this: {dispatch: Dispatch},event: BaseSyntheticEvent) {
+  const value: keyof IVideiQty = event.target.value;
+  glagol.applyConstraints({ type: 'video', value });
+  this.dispatch(changeVideo(value));
+
 }
-function changeAudio(event: BaseSyntheticEvent){
-  glagol.applyConstraints({type: 'audio', value: event.target.value})
-  state.audio=event.target.value
+
+function toggleAudio(this: {dispatch: Dispatch}, event: BaseSyntheticEvent) {
+  const value: keyof IAudioQty=event.target.value
+  glagol.applyConstraints({ type: 'audio', value});
+this.dispatch(changeAudio(value))
 }
+
 const Settings = React.forwardRef((props, ref) => {
+  const [audio]= useState(useSelector((state: IStore)=>state.interface.conference.quality.audio))
+  const [video]=useState(useSelector((state: IStore)=>state.interface.conference.quality.video))
+  const dispatch = useDispatch();
   const [ value, setValue ] = React.useState(0);
+
   function getvideo() {
-      return (
-        <FormControl>
-          <FormLabel id="demo-radio-buttons-group-label">Качество видео</FormLabel>
-          <RadioGroup
-            sx={{
-              pointerEvents: 'initial'
-            }}
-            onChange={changeQty}
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue={state.video}
-            name="radio-buttons-group"
-          >
-            <FormControlLabel value={videoQty.disabled} control={<Radio />} label={videoQty.disabled} />
-            <FormControlLabel value={videoQty.low} control={<Radio />} label={videoQty.low}/>
-            <FormControlLabel value={videoQty.middle} control={<Radio />} label={videoQty.middle}/>
-            <FormControlLabel value={videoQty.height} control={<Radio />} label={videoQty.height} />
-          </RadioGroup>
-        </FormControl>
-      );
+    return (
+      <FormControl>
+        <FormLabel id="demo-radio-buttons-group-label">Качество видео</FormLabel>
+        <RadioGroup
+          sx={{
+            pointerEvents: 'initial'
+          }}
+          onChange={changeQty.bind({dispatch})}
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue={video}
+          name="radio-buttons-group"
+        >
+          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={videoQty.disabled}/>
+          <FormControlLabel value={videoQty.low} control={<Radio/>} label={videoQty.low}/>
+          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={videoQty.middle}/>
+          <FormControlLabel value={videoQty.height} control={<Radio/>} label={videoQty.height}/>
+        </RadioGroup>
+      </FormControl>
+    );
   }
+
   function getAudio() {
     return (
       <FormControl>
@@ -107,17 +116,18 @@ const Settings = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={changeAudio}
+          onChange={toggleAudio.bind({dispatch})}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={state.audio}
+          defaultValue={audio}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={audioQty.enabled} control={<Radio />} label={audioQty.enabled}/>
-          <FormControlLabel value={audioQty.disabled} control={<Radio />} label={audioQty.disabled} />
+          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={audioQty.enabled}/>
+          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={audioQty.disabled}/>
         </RadioGroup>
       </FormControl>
     );
   }
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };

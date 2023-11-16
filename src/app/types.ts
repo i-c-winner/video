@@ -1,3 +1,5 @@
+import { IAudioQty, IVideiQty } from '../widgets/type';
+
 interface IConfig {
   conference: {
     user: {
@@ -41,7 +43,13 @@ interface IInterface {
   chatsBoxVisible: boolean,
   toolboxVisible: boolean,
   modalIsOpen: boolean,
-  typeModal: 'error' | 'settings'
+  typeModal: 'error' | 'settings',
+  conference: {
+    quality: {
+      audio: keyof IVideiQty,
+      video: keyof IAudioQty
+    }
+  }
 }
 
 interface IStore {

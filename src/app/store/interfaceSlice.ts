@@ -3,7 +3,7 @@ import { config } from '../../shared/config';
 import { IInterface } from '../types';
 
 const interfaceSlice = createSlice({
-  name: 'interfacSlice',
+  name: 'interfaceSlice',
   initialState: config as IInterface,
   reducers: {
     changeChatsBox: ((state, action: PayloadAction<boolean>) => {
@@ -18,9 +18,15 @@ const interfaceSlice = createSlice({
     }),
     changeTypeModal: ((state, action: PayloadAction<IInterface['typeModal']>)=>{
       state.typeModal=action.payload
+    }),
+    changeVideo:((state, action)=>{
+      state.conference.quality.video=action.payload
+    }),
+    changeAudio:((state, action)=>{
+      state.conference.quality.audio=action.payload
     })
   }
 });
 
-export const{changeChatsBox,changeTypeModal, changeToolboxVisible, openModal}=interfaceSlice.actions
+export const{changeChatsBox,changeTypeModal, changeToolboxVisible, changeAudio, changeVideo, openModal}=interfaceSlice.actions
 export default interfaceSlice.reducer
