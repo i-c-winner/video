@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { config } from '../../shared/interface';
+import { config } from '../../shared/config';
 import { IInterface } from '../types';
 
 const interfaceSlice = createSlice({

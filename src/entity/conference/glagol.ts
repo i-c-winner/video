@@ -3,7 +3,7 @@ import * as strophe from 'strophe.js';
 import { setRegister } from '../../features/plugins/register';
 import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
-import {constants} from '../../shared/interface';
+import {constants} from '../../shared/config';
 import { IAudioQty, IVideiQty } from '../../widgets/type';
 
 const room = new Room();

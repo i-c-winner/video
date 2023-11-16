@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import {constants} from '../shared/interface';
+import {constants} from '../shared/config';
 
 interface Props {
   icon:{
