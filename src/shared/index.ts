@@ -1,4 +1,5 @@
 import { TCallback } from './types';
+import { IAudioQty, IVideiQty } from '../widgets/type';
 
 type TSendMessage = (message: Strophe.Builder) => void
 
@@ -11,6 +12,10 @@ interface IGlagol {
     roomName: string,
     displayName: string
   },
+  applyConstraints: (data: {
+    type: 'audio'| 'video',
+    value:  keyof IAudioQty|keyof IVideiQty
+  })=>void,
   peerConnection: RTCPeerConnection,
   connection: any,
   connectionAddHandlers: () => void,

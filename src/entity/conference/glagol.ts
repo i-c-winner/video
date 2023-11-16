@@ -3,6 +3,8 @@ import * as strophe from 'strophe.js';
 import { setRegister } from '../../features/plugins/register';
 import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
+import {constants} from '../../shared/interface';
+import { IAudioQty, IVideiQty } from '../../widgets/type';
 
 const room = new Room();
 setRegister(strophe);
@@ -21,6 +23,27 @@ const glagol: IGlagol = {
     userNode: getRandomText(5),
     roomName: getRandomText(5),
     displayName: getRandomText(5)
+  },
+  applyConstraints: (data )=>{
+    if (data.type==='video') {
+      glagol.peerConnection.getSenders().forEach((sender)=>{
+
+        if (sender.track?.contentHint!=='detail'&&sender.track?.kind==='video') {
+          if (data.value==='disabled') {
+            sender.track.enabled=false
+          } else if (data.value!=='enabled') {
+            sender.track.enabled=true
+            console.log(data, 'CONSTRAINTS')
+            sender.track?.applyConstraints(constants.videoQuantity[data.value]).then((res)=>{
+              console.log(sender.track?.getConstraints())
+            })
+          }
+        }
+      })
+    } else if (data.type==='audio') {
+
+    }
+
   },
   connection: new Strophe.Connection('https://xmpp.prosolen.net:5281/http-bind'),
   createConference: () => {

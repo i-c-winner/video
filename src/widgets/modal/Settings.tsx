@@ -8,6 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import {glagol} from '../../entity/conference/glagol';
 
 import { BaseSyntheticEvent, useState } from 'react';
 import { IVideiQty, IAudioQty } from '../type';
@@ -67,6 +68,7 @@ function a11yProps(index: number) {
 }
 
 function changeQty(event: BaseSyntheticEvent) {
+glagol.applyConstraints({type: 'video', value: event.target.value})
   console.log(event.target.value)
 }
 function changeAudio(event: BaseSyntheticEvent){

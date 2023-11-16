@@ -20,8 +20,8 @@ const constants = {
   },
   videoQuantity: {
     height: {
-      video: 1200,
-      height: 640,
+      width: 800,
+      height: 520,
       frameRate: 60
     },
     middle: {
