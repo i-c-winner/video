@@ -33,9 +33,7 @@ const glagol: IGlagol = {
             sender.track.enabled=false
           } else if (data.value!=='enabled') {
             sender.track.enabled=true
-            console.log(data, 'CONSTRAINTS')
             sender.track?.applyConstraints(constants.videoQuantity[data.value]).then((res)=>{
-              console.log(sender.track?.getConstraints())
             })
           }
         }
@@ -204,7 +202,6 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
-      console.log('STRREAM', event.streams[0])
       const type=event.streams[0].id.split('-')[0]
       if (type==='audio'|| type==='video'){
         this.emit('addTrackToSource', {
@@ -220,7 +217,6 @@ const glagol: IGlagol = {
 
 
       event.streams[0].onremovetrack = (event) => {
-        console.log(event, 'REMOVETRACK')
         this.emit('removeRemoteTrackFormSource', event.track.id);
       };
     };

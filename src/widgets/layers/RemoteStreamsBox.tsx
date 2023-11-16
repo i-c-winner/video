@@ -24,7 +24,6 @@ function RemoteStreamsBox() {
 
   function getStyles() {
     const height = toolboxVisible ? 'calc(100vh - 50px)' : '100vh';
-    console.log(Object.assign(remoteStreamLayer.wrapper, { height }))
     return Object.assign(remoteStreamLayer.wrapper, { height });
   }
 

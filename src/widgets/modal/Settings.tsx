@@ -69,10 +69,8 @@ function a11yProps(index: number) {
 
 function changeQty(event: BaseSyntheticEvent) {
 glagol.applyConstraints({type: 'video', value: event.target.value})
-  console.log(event.target.value)
 }
 function changeAudio(event: BaseSyntheticEvent){
-  console.log(event.target.value)
 }
 const Settings = React.forwardRef((props, ref) => {
   const [ value, setValue ] = React.useState(0);
@@ -147,9 +145,6 @@ const Settings = React.forwardRef((props, ref) => {
       </Box>
       <CustomTabPanel value={value} index={0}>
         {getvideo()}
-        <Typography>
-
-        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         {getAudio()}

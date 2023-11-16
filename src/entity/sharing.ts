@@ -31,7 +31,7 @@ const sharing: ISharing = {
         .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
       glagol.sendMessage(message);
       return screenStream
-    }).catch((error: any) => console.log(`This is Error by sharing ${error}`));
+    }).catch((error: any) => console.error(`This is Error by sharing ${error}`));
   },
   stop: function () {
     glagol.peerConnection.getTransceivers().forEach((transceiver) => {
