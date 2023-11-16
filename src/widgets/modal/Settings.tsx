@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -30,8 +29,10 @@ const audioQty: Readonly<IAudioQty> = {
   enabled: 'enabled'
 }
 
-
-
+const state={
+  video: videoQty.middle,
+  audio: audioQty.enabled
+}
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -69,13 +70,14 @@ function a11yProps(index: number) {
 
 function changeQty(event: BaseSyntheticEvent) {
 glagol.applyConstraints({type: 'video', value: event.target.value})
+  state.video=event.target.value
 }
 function changeAudio(event: BaseSyntheticEvent){
+  glagol.applyConstraints({type: 'audio', value: event.target.value})
+  state.audio=event.target.value
 }
 const Settings = React.forwardRef((props, ref) => {
   const [ value, setValue ] = React.useState(0);
-  const [currentAudio, setCurrentAudio]= useState<keyof typeof audioQty>(audioQty.enabled)
-  const [currentVideoQty, setCurrentVideoQty]= useState<keyof typeof videoQty>(videoQty.middle)
   function getvideo() {
       return (
         <FormControl>
@@ -86,7 +88,7 @@ const Settings = React.forwardRef((props, ref) => {
             }}
             onChange={changeQty}
             aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue={currentVideoQty}
+            defaultValue={state.video}
             name="radio-buttons-group"
           >
             <FormControlLabel value={videoQty.disabled} control={<Radio />} label={videoQty.disabled} />
@@ -107,11 +109,11 @@ const Settings = React.forwardRef((props, ref) => {
           }}
           onChange={changeAudio}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={currentAudio}
+          defaultValue={state.audio}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={audioQty.disabled} control={<Radio />} label={audioQty.enabled}/>
-          <FormControlLabel value={audioQty.enabled} control={<Radio />} label={audioQty.disabled} />
+          <FormControlLabel value={audioQty.enabled} control={<Radio />} label={audioQty.enabled}/>
+          <FormControlLabel value={audioQty.disabled} control={<Radio />} label={audioQty.disabled} />
         </RadioGroup>
       </FormControl>
     );

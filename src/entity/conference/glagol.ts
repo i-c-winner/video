@@ -27,7 +27,6 @@ const glagol: IGlagol = {
   applyConstraints: (data )=>{
     if (data.type==='video') {
       glagol.peerConnection.getSenders().forEach((sender)=>{
-
         if (sender.track?.contentHint!=='detail'&&sender.track?.kind==='video') {
           if (data.value==='disabled') {
             sender.track.enabled=false
@@ -39,7 +38,13 @@ const glagol: IGlagol = {
         }
       })
     } else if (data.type==='audio') {
-
+      glagol.peerConnection.getSenders().forEach((sender)=>{
+        if (sender.track?.kind==='audio') {
+          console.log(sender)
+          console.log(data)
+           sender.track.enabled = data.value === 'enabled';
+        }
+      })
     }
 
   },
