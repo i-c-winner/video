@@ -60,11 +60,13 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     return <Box sx={styles.wrapper}>
       <input ref={ref}/>
       <CreateButtonWithIcon
+        buttonIsSwitcher={true}
         classes={buttonClasses}
         sizes={buttonSizes}
         variant="contained" startIcon={iconCamera} styles={videoButtonStyles}
         action={actions.videoChange}/>
       <CreateButtonWithIcon
+        buttonIsSwitcher={true}
         classes={buttonClasses}
         sizes={buttonSizes}
         variant="contained" startIcon={iconMicrophone} styles={videoButtonStyles}

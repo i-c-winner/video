@@ -1,15 +1,16 @@
-import { ButtonClasses, ButtonPropsVariantOverrides } from '@mui/material';
+import { ButtonClasses } from '@mui/material';
 
 type TKyes = keyof ButtonClasses
 
 interface IPropsButton {
+  buttonIsSwitcher?: boolean,
   name?: string,
-  variant:  "text" | "contained" | "outlined" | undefined ,
   sizes?: {
-    width?: number,
-    height?: number,
+    width?: string,
+    height?: string,
     viewBox?: string
   },
+  variant?: "text" | "contained" | "outlined"
   classes?: {
     [key: string]: string
   }
@@ -19,6 +20,9 @@ interface IPropsButton {
       [key: string]: string
     },
     wasNotToggled?: {
+      [key: string]: string
+    },
+    otherRules?: {
       [key: string]: string
     }
   }

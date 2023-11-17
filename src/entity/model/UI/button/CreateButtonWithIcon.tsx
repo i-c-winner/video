@@ -1,5 +1,5 @@
 import { IPropsButton } from '../../../types';
-import { Button, createSvgIcon } from '@mui/material';
+import { Button } from '@mui/material';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
 import { useState } from 'react';
 
@@ -22,21 +22,26 @@ function CreateButtonWithIcon(props: IProps) {
   const [ wasToggled, setWasToggled ] = useState<boolean>(false);
 
   function action() {
-  props.action(wasToggled)
+    props.action(wasToggled);
     setWasToggled(!wasToggled);
   }
+
   function getStyles() {
-
-    if (wasToggled) {
-      return props.styles?.wasToggled
-    } return props.styles?.wasNotToggled
+    if (props.buttonIsSwitcher) {
+      if (wasToggled) {
+        return props.styles?.wasToggled;
+      }
+      return props.styles?.wasNotToggled;
+    } else {
+      return props.styles?.otherRules
+    }
   }
-
+console.log('STYLES', props, getStyles())
   return (
     <Button
       classes={props.classes}
       variant={props.variant}
-      startIcon={<CreateSvgIcon styles={getStyles()} icon={props.startIcon}/>}
+      startIcon={<CreateSvgIcon sizes={props.sizes} styles={getStyles()} icon={props.startIcon}/>}
       onClick={action}
     >
     </Button>
