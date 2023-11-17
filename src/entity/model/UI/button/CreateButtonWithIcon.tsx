@@ -23,11 +23,7 @@ function CreateButtonWithIcon(props: IProps) {
   const [ wasToggled, setWasToggled ] = useState<boolean>(false);
 
   function action() {
-    if (!wasToggled) {
-      props.action({ type: 'video', value: 'disabled' });
-    } else {
-      props.action({ type: 'video', value: config.conference.quality.video });
-    }
+  props.action(wasToggled)
     setWasToggled(!wasToggled);
   }
   function getStyles() {
