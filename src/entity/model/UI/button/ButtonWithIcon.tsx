@@ -18,7 +18,7 @@ interface IProps extends IPropsButton {
   },
 }
 
-function CreateButtonWithIcon(props: IProps) {
+function ButtonWithIcon(props: IProps) {
   const [ wasToggled, setWasToggled ] = useState<boolean>(false);
 
   function action() {
@@ -48,4 +48,4 @@ console.log('STYLES', props, getStyles())
   );
 }
 
-export { CreateButtonWithIcon };
+export { ButtonWithIcon };

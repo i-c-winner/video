@@ -10,7 +10,7 @@ import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
-import { CreateButtonWithIcon } from '../../entity/model/UI/button/CreateButtonWithIcon';
+import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
 import { useState, useEffect } from 'react';
 
 function Toolbox() {
@@ -57,13 +57,13 @@ function Toolbox() {
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
     {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         variant="contained"
         classes={{
           startIcon: 'margin_zero'
         }}
         styles={{ otherRules: chatButtonStyle }} startIcon={iconChat} action={openChatsBox}/>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         variant="contained"
         sizes={{
           viewBox: '0 0 30 30',
@@ -73,7 +73,7 @@ function Toolbox() {
           startIcon: 'margin_zero'
         }}
         startIcon={iconSharing} action={sharingStart}/>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         sizes={{
           viewBox: '0 0 30 30',
         }
@@ -83,7 +83,7 @@ function Toolbox() {
           startIcon: 'margin_zero'
         }}
         styles={{ otherRules: chatButtonStyle }} startIcon={iconSharing} action={sharingStop}/>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         variant="contained"
         classes={{
           startIcon: 'margin_zero'

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeAudio, changeVideo } from '../../app/store/interfaceSlice';
 import { iconCamera, iconMicrophone } from '../../shared/img/svg';
 import { config } from '../../shared/config';
-import { CreateButtonWithIcon } from '../../entity/model/UI/button/CreateButtonWithIcon';
+import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
 
 
 const connection = async () => {
@@ -59,13 +59,13 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     glagol.peerConnectionAddHandlers();
     return <Box sx={styles.wrapper}>
       <input ref={ref}/>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         buttonIsSwitcher={true}
         classes={buttonClasses}
         sizes={buttonSizes}
         variant="contained" startIcon={iconCamera} styles={videoButtonStyles}
         action={actions.videoChange}/>
-      <CreateButtonWithIcon
+      <ButtonWithIcon
         buttonIsSwitcher={true}
         classes={buttonClasses}
         sizes={buttonSizes}
