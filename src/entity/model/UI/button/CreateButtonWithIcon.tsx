@@ -2,7 +2,6 @@ import { IPropsButton } from '../../../types';
 import { Button, createSvgIcon } from '@mui/material';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
 import { useState } from 'react';
-import { config } from '../../../../shared/config';
 
 interface IProps extends IPropsButton {
   startIcon: {
@@ -27,6 +26,7 @@ function CreateButtonWithIcon(props: IProps) {
     setWasToggled(!wasToggled);
   }
   function getStyles() {
+
     if (wasToggled) {
       return props.styles?.wasToggled
     } return props.styles?.wasNotToggled
@@ -34,6 +34,8 @@ function CreateButtonWithIcon(props: IProps) {
 
   return (
     <Button
+      classes={props.classes}
+      variant={props.variant}
       startIcon={<CreateSvgIcon styles={getStyles()} icon={props.startIcon}/>}
       onClick={action}
     >

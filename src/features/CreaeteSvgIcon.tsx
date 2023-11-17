@@ -16,7 +16,7 @@ interface Props {
   }
   styles?: {
     [key: string]: string | (()=>string)
-  }
+  },
 }
 
 
