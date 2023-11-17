@@ -67,22 +67,22 @@ function a11yProps(index: number) {
   };
 }
 
-function changeQty(this: {dispatch: Dispatch},event: BaseSyntheticEvent) {
+function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
   const value: keyof IVideiQty = event.target.value;
   glagol.applyConstraints({ type: 'video', value });
   this.dispatch(changeVideo(value));
 
 }
 
-function toggleAudio(this: {dispatch: Dispatch}, event: BaseSyntheticEvent) {
-  const value: keyof IAudioQty=event.target.value
-  glagol.applyConstraints({ type: 'audio', value});
-this.dispatch(changeAudio(value))
+function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
+  const value: keyof IAudioQty = event.target.value;
+  glagol.applyConstraints({ type: 'audio', value });
+  this.dispatch(changeAudio(value));
 }
 
 const Settings = React.forwardRef((props, ref) => {
-  const [audio]= useState(useSelector((state: IStore)=>state.interface.conference.quality.audio))
-  const [video]=useState(useSelector((state: IStore)=>state.interface.conference.quality.video))
+  const [ audio ] = useState(useSelector((state: IStore) => state.interface.conference.quality.audio));
+  const [ video ] = useState(useSelector((state: IStore) => state.interface.conference.quality.video));
   const dispatch = useDispatch();
   const [ value, setValue ] = React.useState(0);
 
@@ -94,7 +94,7 @@ const Settings = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={changeQty.bind({dispatch})}
+          onChange={changeQty.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={video}
           name="radio-buttons-group"
@@ -116,7 +116,7 @@ const Settings = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={toggleAudio.bind({dispatch})}
+          onChange={toggleAudio.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={audio}
           name="radio-buttons-group"
