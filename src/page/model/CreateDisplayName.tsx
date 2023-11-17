@@ -6,25 +6,31 @@ import { styles } from '../styles/styles.';
 import {useTranslation} from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {changeAudio, changeVideo} from '../../app/store/interfaceSlice';
-import { IStore } from '../../app/types';
+import {iconCamera} from '../../shared/img/svg';
 import {config} from '../../shared/config';
+import { CreateButtonWithIcon } from '../../entity/model/UI/button/CreateButtonWithIcon';
 
 const connection = async () => {
   return glagol.setLocalStream();
 };
 const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
-  const {quality}=config.conference
   const dispatch= useDispatch()
   const {t, i18n}=useTranslation()
-  function toggleVideo() {
-    if (quality.video!=='disabled') {
-      dispatch(changeVideo('disabled'))
+  function toggleQuality(...args: any[]) {
+    if (args[0].type==='video') {
+      dispatch(changeVideo(args[0].value))
     }
   }
-  function toggleAudio(){
-
+  const videoButtonStyles={
+    wasToggled: {
+      color: 'red'
+    },
+    wasNotToggled: {
+      color: 'green'
+    }
   }
+
   if (isPending) {
     return <p>...Pending</p>;
   }
@@ -35,8 +41,7 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     glagol.peerConnectionAddHandlers();
     return <Box sx={styles.wrapper}>
       <input ref={ref}/>
-      <button onClick={toggleVideo}>Video</button>
-      <button onClick={toggleAudio}>Audio</button>
+      <CreateButtonWithIcon startIcon={iconCamera} styles={videoButtonStyles} action={toggleQuality}/>
     </Box>;
   }
   if (error) {

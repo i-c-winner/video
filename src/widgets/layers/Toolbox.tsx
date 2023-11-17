@@ -7,12 +7,10 @@ import { useDispatch } from 'react-redux';
 import { changeChatsBox, changeTypeModal } from '../../app/store/interfaceSlice';
 import { iconChat, iconSettings, iconSharing } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
-import { addSharing, removeSharing } from '../../app/store/sourceSlice';
+import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
-import { useRef } from 'react';
-
 function Toolbox() {
   const dispatch = useDispatch();
   const { toolboxVisible, chatsBoxVisible, modalIsOpen } = useSelector((state: IStore) => state.interface);

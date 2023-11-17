@@ -1,6 +1,19 @@
-interface ISharing {
-  start: ()=>Promise<any>,
-  stop: ()=>void
+interface IPropsButton {
+  name?: string,
+  action: (...args: any[]) => void,
+  styles?: {
+    wasToggled?: {
+      [key: string]: string
+    },
+    wasNotToggled?: {
+      [key: string]: string
+    }
+  }
 }
 
-export type {ISharing}
+interface ISharing {
+  start: () => Promise<any>,
+  stop: () => void
+}
+
+export type { ISharing, IPropsButton };
