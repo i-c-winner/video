@@ -12,6 +12,7 @@ import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
 import { useState, useEffect } from 'react';
+import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
 
 function Toolbox() {
   const dispatch = useDispatch();
@@ -73,16 +74,7 @@ function Toolbox() {
           startIcon: 'margin_zero'
         }}
         startIcon={iconSharing} action={sharingStart}/>
-      <ButtonWithIcon
-        sizes={{
-          viewBox: '0 0 30 30',
-        }
-        }
-        variant="contained"
-        classes={{
-          startIcon: 'margin_zero'
-        }}
-        styles={{ otherRules: chatButtonStyle }} startIcon={iconSharing} action={sharingStop}/>
+      <ButtonWithText variant="contained" text={'stop'} action={sharingStop} />
       <ButtonWithIcon
         variant="contained"
         classes={{
