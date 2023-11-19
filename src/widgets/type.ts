@@ -10,5 +10,8 @@ interface IAudioQty {
   enabled: 'enabled',
   disabled: 'disabled'
 }
+interface IStyle {
+  [key: string]: string
+}
 
-export type {IVideiQty, IAudioQty}
+export type {IVideiQty, IAudioQty, IStyle}

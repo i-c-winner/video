@@ -1,23 +1,25 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import { changeChatsBox, changeTypeModal } from '../../app/store/interfaceSlice';
 import { iconChat, iconSettings, iconSharing } from '../../shared/img/svg';
-import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
+import { IStyle } from '../type';
+
 
 function Toolbox() {
+  const defaultButtonsStyle={}
   const dispatch = useDispatch();
-  const [ chatButtonStyle, setChatButtonStyle ] = useState<{ [key: string]: string }>({});
   const { toolboxVisible, chatsBoxVisible, modalIsOpen } = useSelector((state: IStore) => state.interface);
+  const [styleChatButton, setStyleChatButton]= useState<IStyle>(defaultButtonsStyle)
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -33,7 +35,6 @@ function Toolbox() {
   }
 
   function sharingStop() {
-    // dispatch(removeSharing())
     sharing.stop();
   }
 
@@ -45,20 +46,19 @@ function Toolbox() {
     dispatch(changeTypeModal(this.type));
     dispatch(openModal(!modalIsOpen));
   }
-
-  useEffect(() => {
+  useEffect(()=>{
     if (chatsBoxVisible) {
-      setChatButtonStyle({ color: 'red' });
+      setStyleChatButton({color: 'orange'})
     } else {
-      setChatButtonStyle({});
+      setStyleChatButton(defaultButtonsStyle)
     }
-
-  }, [ chatsBoxVisible ]);
+  }, [chatsBoxVisible])
 
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
     {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
       <ButtonWithIcon
+        styles={styleChatButton}
         variant="contained"
         classes={{
           startIcon: 'margin_zero'

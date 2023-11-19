@@ -19,9 +19,9 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  const initialStyle={color: 'green'}
-  const [styleButtonVideo, setStyleButtonVideo]=useState<typeof initialStyle>(initialStyle)
-  const [styleButtonAudio, setStyleButtonAudio] =useState<typeof initialStyle>(initialStyle)
+  const defaultButtonStyle={color: 'green'}
+  const [styleButtonVideo, setStyleButtonVideo]=useState<typeof defaultButtonStyle>(defaultButtonStyle)
+  const [styleButtonAudio, setStyleButtonAudio] =useState<typeof defaultButtonStyle>(defaultButtonStyle)
 
   const actions = {
     videoChange: (active: boolean) => {
@@ -30,7 +30,7 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
         setStyleButtonVideo({color: 'red'})
       } else {
         dispatch(changeVideo(config.conference.quality.video));
-        setStyleButtonVideo(initialStyle)
+        setStyleButtonVideo(defaultButtonStyle)
       }
     },
     audioChange: (active: boolean) => {
@@ -39,7 +39,7 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
         setStyleButtonAudio({color: 'red'})
       } else {
         dispatch(changeAudio('enabled'));
-        setStyleButtonAudio(initialStyle)
+        setStyleButtonAudio(defaultButtonStyle)
       }
     }
   };
