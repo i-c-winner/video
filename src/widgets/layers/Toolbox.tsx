@@ -3,8 +3,8 @@ import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
-import { changeChatsBox, changeTypeModal } from '../../app/store/interfaceSlice';
-import { iconChat, iconSettings, iconSharing } from '../../shared/img/svg';
+import { changeChatsBox, changeTypeModal, toggleTileMode } from '../../app/store/interfaceSlice';
+import { iconChat, iconSettings, iconSharing, iconTile } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
@@ -16,10 +16,10 @@ import { IStyle } from '../type';
 
 
 function Toolbox() {
-  const defaultButtonsStyle={}
+  const defaultButtonsStyle = {};
   const dispatch = useDispatch();
-  const { toolboxVisible, chatsBoxVisible, modalIsOpen } = useSelector((state: IStore) => state.interface);
-  const [styleChatButton, setStyleChatButton]= useState<IStyle>(defaultButtonsStyle)
+  const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
+  const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -46,13 +46,18 @@ function Toolbox() {
     dispatch(changeTypeModal(this.type));
     dispatch(openModal(!modalIsOpen));
   }
-  useEffect(()=>{
+
+  function changeTileMode() {
+    dispatch(toggleTileMode(!tileMode));
+  }
+
+  useEffect(() => {
     if (chatsBoxVisible) {
-      setStyleChatButton({color: 'orange'})
+      setStyleChatButton({ color: 'orange' });
     } else {
-      setStyleChatButton(defaultButtonsStyle)
+      setStyleChatButton(defaultButtonsStyle);
     }
-  }, [chatsBoxVisible])
+  }, [ chatsBoxVisible ]);
 
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
@@ -63,7 +68,7 @@ function Toolbox() {
         classes={{
           startIcon: 'margin_zero'
         }}
- startIcon={iconChat} action={openChatsBox}/>
+        startIcon={iconChat} action={openChatsBox}/>
       <ButtonWithIcon
         variant="contained"
         sizes={{
@@ -74,13 +79,18 @@ function Toolbox() {
           startIcon: 'margin_zero'
         }}
         startIcon={iconSharing} action={sharingStart}/>
-      <ButtonWithText variant="contained" text={'stop'} action={sharingStop} />
+      <ButtonWithText variant="contained" text={'stop'} action={sharingStop}/>
+      <ButtonWithIcon
+        classes={{
+          startIcon: 'margin_zero'
+        }}
+        variant="contained" sizes={{viewBox: '18 18 25 25'}} startIcon={iconTile} action={changeTileMode}/>
       <ButtonWithIcon
         variant="contained"
         classes={{
           startIcon: 'margin_zero'
         }}
-      startIcon={iconSettings} action={openingModal.bind({type: 'settings'})}/>
+        startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
     </Box>
     }
   </Box>;
