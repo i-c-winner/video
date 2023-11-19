@@ -63,7 +63,7 @@ function Toolbox() {
         classes={{
           startIcon: 'margin_zero'
         }}
-        styles={{ otherRules: chatButtonStyle }} startIcon={iconChat} action={openChatsBox}/>
+ startIcon={iconChat} action={openChatsBox}/>
       <ButtonWithIcon
         variant="contained"
         sizes={{
@@ -80,7 +80,7 @@ function Toolbox() {
         classes={{
           startIcon: 'margin_zero'
         }}
-        styles={{ otherRules: chatButtonStyle }} startIcon={iconSettings} action={openingModal}/>
+      startIcon={iconSettings} action={openingModal.bind({type: 'settings'})}/>
     </Box>
     }
   </Box>;

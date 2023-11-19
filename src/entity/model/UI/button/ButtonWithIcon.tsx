@@ -19,29 +19,18 @@ interface IProps extends IPropsButton {
 }
 
 function ButtonWithIcon(props: IProps) {
-  const [ wasToggled, setWasToggled ] = useState<boolean>(false);
+  const [ active, setActive ] = useState<boolean>(false);
 
   function action() {
-    props.action(wasToggled);
-    setWasToggled(!wasToggled);
+    props.action(active);
+    setActive(!active);
   }
 
-  function getStyles() {
-    if (props.buttonIsSwitcher) {
-      if (wasToggled) {
-        return props.styles?.wasToggled;
-      }
-      return props.styles?.wasNotToggled;
-    } else {
-      return props.styles?.otherRules
-    }
-  }
-console.log('STYLES', props, getStyles())
   return (
     <Button
       classes={props.classes}
       variant={props.variant}
-      startIcon={<CreateSvgIcon sizes={props.sizes} styles={getStyles()} icon={props.startIcon}/>}
+      startIcon={<CreateSvgIcon styles={props.styles} sizes={props.sizes}  icon={props.startIcon}/>}
       onClick={action}
     >
     </Button>

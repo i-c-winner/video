@@ -16,15 +16,7 @@ interface IPropsButton {
   }
   action: (...args: any[]) => void,
   styles?: {
-    wasToggled?: {
       [key: string]: string
-    },
-    wasNotToggled?: {
-      [key: string]: string
-    },
-    otherRules?: {
-      [key: string]: string
-    }
   }
 }
 

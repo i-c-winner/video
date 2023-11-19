@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useAsync } from 'react-async';
 import { glagol } from '../../entity/conference/glagol';
 import { Box } from '@mui/material';
@@ -19,27 +19,27 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  const videoButtonStyles = {
-    wasToggled: {
-      color: 'red',
-    },
-    wasNotToggled: {
-      color: 'white'
-    }
-  };
+  const initialStyle={color: 'green'}
+  const [styleButtonVideo, setStyleButtonVideo]=useState<typeof initialStyle>(initialStyle)
+  const [styleButtonAudio, setStyleButtonAudio] =useState<typeof initialStyle>(initialStyle)
+
   const actions = {
-    videoChange: (wasToggled: boolean) => {
-      if (!wasToggled) {
+    videoChange: (active: boolean) => {
+      if (!active) {
         dispatch(changeVideo('disabled'));
+        setStyleButtonVideo({color: 'red'})
       } else {
         dispatch(changeVideo(config.conference.quality.video));
+        setStyleButtonVideo(initialStyle)
       }
     },
-    audioChange: (wasToggled: boolean) => {
-      if (!wasToggled) {
+    audioChange: (active: boolean) => {
+      if (!active) {
         dispatch(changeAudio('disabled'));
+        setStyleButtonAudio({color: 'red'})
       } else {
         dispatch(changeAudio('enabled'));
+        setStyleButtonAudio(initialStyle)
       }
     }
   };
@@ -54,22 +54,27 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   }
   if (data) {
     data.getTracks().forEach((track) => {
-      glagol.peerConnection.addTrack(track);
+      try {
+        glagol.peerConnection.addTrack(track);
+      } catch (e) {
+
+      }
+
     });
     glagol.peerConnectionAddHandlers();
     return <Box sx={styles.wrapper}>
       <input ref={ref}/>
       <ButtonWithIcon
-        buttonIsSwitcher={true}
+        styles={styleButtonVideo}
         classes={buttonClasses}
         sizes={buttonSizes}
-        variant="contained" startIcon={iconCamera} styles={videoButtonStyles}
+        variant="contained" startIcon={iconCamera}
         action={actions.videoChange}/>
       <ButtonWithIcon
-        buttonIsSwitcher={true}
+        styles={styleButtonAudio}
         classes={buttonClasses}
         sizes={buttonSizes}
-        variant="contained" startIcon={iconMicrophone} styles={videoButtonStyles}
+        variant="contained" startIcon={iconMicrophone}
         action={actions.audioChange}/>
     </Box>;
   }
