@@ -43,6 +43,7 @@ interface IInterface {
   chatsBoxVisible: boolean,
   toolboxVisible: boolean,
   modalIsOpen: boolean,
+  tileMode: boolean,
   typeModal: 'error' | 'settings',
   conference: {
     quality: {

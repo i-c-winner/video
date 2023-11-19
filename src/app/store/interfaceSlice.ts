@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { config } from '../../shared/config';
 import { IInterface } from '../types';
+import { act } from 'react-dom/test-utils';
 
 const interfaceSlice = createSlice({
   name: 'interfaceSlice',
@@ -24,9 +25,12 @@ const interfaceSlice = createSlice({
     }),
     changeAudio:((state, action)=>{
       state.conference.quality.audio=action.payload
+    }),
+    toggleTileMode: ((state, action:PayloadAction<boolean>)=>{
+      state.tileMode=action.payload
     })
   }
 });
 
-export const{changeChatsBox,changeTypeModal, changeToolboxVisible, changeAudio, changeVideo, openModal}=interfaceSlice.actions
+export const{changeChatsBox,changeTypeModal, changeToolboxVisible, toggleTileMode, changeAudio, changeVideo, openModal}=interfaceSlice.actions
 export default interfaceSlice.reducer

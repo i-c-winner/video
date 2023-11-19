@@ -3,6 +3,7 @@ const config = {
   toolboxVisible: true,
   modalIsOpen: false,
   typeModal: 'error',
+  tileMode: false,
   conference: {
     quality: {
       video: 'middle',
