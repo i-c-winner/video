@@ -20,6 +20,7 @@ function Toolbox() {
   const dispatch = useDispatch();
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
+  const [styleTileButton, setStyleTileButton]=useState<IStyle>(defaultButtonsStyle)
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -52,12 +53,9 @@ function Toolbox() {
   }
 
   useEffect(() => {
-    if (chatsBoxVisible) {
-      setStyleChatButton({ color: 'orange' });
-    } else {
-      setStyleChatButton(defaultButtonsStyle);
-    }
-  }, [ chatsBoxVisible ]);
+    setStyleChatButton(chatsBoxVisible?{color: 'orange'}: defaultButtonsStyle)
+   setStyleTileButton(tileMode?{color: 'green'}: defaultButtonsStyle)
+  }, [ chatsBoxVisible, tileMode ]);
 
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
@@ -84,6 +82,7 @@ function Toolbox() {
         classes={{
           startIcon: 'margin_zero'
         }}
+        styles={styleTileButton}
         variant="contained" sizes={{viewBox: '18 18 25 25'}} startIcon={iconTile} action={changeTileMode}/>
       <ButtonWithIcon
         variant="contained"
