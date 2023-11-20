@@ -40,8 +40,6 @@ const glagol: IGlagol = {
     } else if (data.type==='audio') {
       glagol.peerConnection.getSenders().forEach((sender)=>{
         if (sender.track?.kind==='audio') {
-          console.log(sender)
-          console.log(data)
            sender.track.enabled = data.value === 'enabled';
         }
       })

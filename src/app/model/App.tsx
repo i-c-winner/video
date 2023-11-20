@@ -58,7 +58,6 @@ function App() {
     {getChildren()}
     {state !== 'roomPage' && <Button
       variant="contained"
-      color="secondary"
       onClick={changeState}>{t(getButtonText())}</Button>}
   </Box>;
 }
