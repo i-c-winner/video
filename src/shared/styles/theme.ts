@@ -1,7 +1,7 @@
 const theme ={
  palette: {
    background: {
-     paper: '#87bfff',
+     paper: '#1f2f33',
      windows: '#232323'
    },
  },

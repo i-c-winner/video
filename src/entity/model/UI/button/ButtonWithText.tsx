@@ -1,5 +1,6 @@
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { IPropsButton } from '../../../types';
+import { getStyles } from '../../../../features/UI/buttons/getStyles';
 interface IProps extends IPropsButton {
   text: string
 }
@@ -7,7 +8,10 @@ interface IProps extends IPropsButton {
 function ButtonWithText(props: IProps) {
 
   return (
-<Button variant={props.variant} >{props.text}</Button>
+    <Box sx={getStyles(props.wrapperStyles)}>
+      <Button variant={props.variant} >{props.text}</Button>
+    </Box>
+
   );
 }
 

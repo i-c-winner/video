@@ -17,6 +17,9 @@ interface IPropsButton {
   action: (...args: any[]) => void,
   styles?: {
       [key: string]: string
+  },
+  wrapperStyles?: {
+    [key: string]: string
   }
 }
 

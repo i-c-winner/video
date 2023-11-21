@@ -60,36 +60,53 @@ function Toolbox() {
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
     {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
-      <ButtonWithIcon
-        styles={styleChatButton}
-        variant="contained"
-        classes={{
-          startIcon: 'margin_zero'
-        }}
-        startIcon={iconChat} action={openChatsBox}/>
-      <ButtonWithIcon
-        variant="contained"
-        sizes={{
-          viewBox: '0 0 30 30',
-        }
-        }
-        classes={{
-          startIcon: 'margin_zero'
-        }}
-        startIcon={iconSharing} action={sharingStart}/>
-      <ButtonWithText variant="contained" text={'stop'} action={sharingStop}/>
-      <ButtonWithIcon
-        classes={{
-          startIcon: 'margin_zero'
-        }}
-        styles={styleTileButton}
-        variant="contained" sizes={{viewBox: '18 18 25 25'}} startIcon={iconTile} action={changeTileMode}/>
-      <ButtonWithIcon
-        variant="contained"
-        classes={{
-          startIcon: 'margin_zero'
-        }}
-        startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
+
+      <Box>
+        <ButtonWithIcon
+          wrapperStyles={{margin: '5px 10px'}}
+          styles={styleChatButton}
+          variant="outlined"
+          classes={{
+            startIcon: 'margin_zero'
+          }}
+          startIcon={iconChat} action={openChatsBox}/>
+      </Box>
+      <Box sx={{
+        flexGrow: '1',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+
+          <ButtonWithIcon
+            wrapperStyles={{margin: '5px 10px'}}
+            variant="outlined"
+            sizes={{
+              viewBox: '0 0 30 30',
+            }
+            }
+            classes={{
+              startIcon: 'margin_zero'
+            }}
+            startIcon={iconSharing} action={sharingStart}/>
+          <ButtonWithText wrapperStyles={{margin: '5px 10px'}} variant="outlined" text={'stop'} action={sharingStop}/>
+          <ButtonWithIcon
+            wrapperStyles={{margin: '5px 10px'}}
+            classes={{
+              startIcon: 'margin_zero'
+            }}
+            styles={styleTileButton}
+            variant="outlined" sizes={{viewBox: '18 18 25 25'}} startIcon={iconTile} action={changeTileMode}/>
+          <ButtonWithIcon
+            wrapperStyles={{margin: '5px 10px'}}
+            variant="outlined"
+            classes={{
+              startIcon: 'margin_zero'
+            }}
+            startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
+
+
+      </Box>
+
     </Box>
     }
   </Box>;

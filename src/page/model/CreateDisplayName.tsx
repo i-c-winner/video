@@ -62,20 +62,23 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
 
     });
     glagol.peerConnectionAddHandlers();
-    return <Box sx={styles.wrapper}>
+    return <Box  sx={styles.wrapper}>
       <input ref={ref}/>
-      <ButtonWithIcon
-        styles={styleButtonVideo}
-        classes={buttonClasses}
-        sizes={buttonSizes}
-        variant="contained" startIcon={iconCamera}
-        action={actions.videoChange}/>
-      <ButtonWithIcon
-        styles={styleButtonAudio}
-        classes={buttonClasses}
-        sizes={buttonSizes}
-        variant="contained" startIcon={iconMicrophone}
-        action={actions.audioChange}/>
+      <Box sx={{display: 'flex', justifyContent: 'center'}}>
+        <ButtonWithIcon
+          styles={styleButtonVideo}
+          classes={buttonClasses}
+          sizes={buttonSizes}
+          variant="contained" startIcon={iconCamera}
+          action={actions.videoChange}/>
+        <ButtonWithIcon
+          styles={styleButtonAudio}
+          classes={buttonClasses}
+          sizes={buttonSizes}
+          variant="contained" startIcon={iconMicrophone}
+          action={actions.audioChange}/>
+      </Box>
+
     </Box>;
   }
   if (error) {
