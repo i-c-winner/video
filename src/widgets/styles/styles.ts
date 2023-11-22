@@ -99,7 +99,7 @@ const styles = {
       padding: '5px 20px',
       display: 'flex',
       justifyContent: 'space-around',
-      backgroundColor: 'background.windows'
+      backgroundColor: '#4b4b4b'
     }
   }
 

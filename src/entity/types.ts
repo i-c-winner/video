@@ -1,12 +1,14 @@
 import { ButtonClasses } from '@mui/material';
 
 type TKyes = keyof ButtonClasses
+
 interface ICandidates {
   list: RTCIceCandidate[],
-  pushCandidate: (candidate: RTCIceCandidate)=>void,
-  getList: ()=>RTCIceCandidate[],
-  reset: ()=>void
+  pushCandidate: (candidate: RTCIceCandidate) => void,
+  getList: () => RTCIceCandidate[],
+  reset: () => void
 }
+
 interface IPropsButton {
   buttonIsSwitcher?: boolean,
   name?: string,
@@ -21,16 +23,22 @@ interface IPropsButton {
   }
   action: (...args: any[]) => void,
   styles?: {
-      [key: string]: string
+    [key: string]: string
   },
   wrapperStyles?: {
     [key: string]: string
-  }
+  },
 }
 
 interface ISharing {
   start: () => Promise<any>,
   stop: () => void
 }
+interface ISubmenu {
+  style?: {
+    [key: string]: string
+  }
+}
 
-export type { ISharing, IPropsButton, ICandidates };
+
+export type { ISharing, IPropsButton, ICandidates, ISubmenu };

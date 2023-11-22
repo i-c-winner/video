@@ -4,7 +4,7 @@ import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
 import { useState } from 'react';
 import { getStyles } from '../../../../features/UI/buttons/getStyles';
 
-interface IProps extends IPropsButton {
+interface IProps extends IPropsButton{
   startIcon: {
     attributes: {
       [key: string]: string
