@@ -12,10 +12,10 @@ const config = {
   },
   boxes: {
     remoteStreamBox:{
-      width: 300,
+      width: '300px',
     },
     chatsbox: {
-      width: 300
+      width: '300px'
     }
   }
 };

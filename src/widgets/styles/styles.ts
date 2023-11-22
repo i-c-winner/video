@@ -52,6 +52,7 @@ const styles = {
     zIndex: '-40',
     bgcolor: 'background.paper',
     color: 'white',
+    display: 'flex',
     logo: {
       position: 'absolute',
       top: '50px',

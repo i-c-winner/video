@@ -20,7 +20,9 @@
   }
 
   &_local {
-    height: 99vh;
+    height: 97vh;
+    width: 100%;
+    overflow: hidden;
   }
   &_my-video {
     width: 100%;
