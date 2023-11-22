@@ -6,7 +6,7 @@ const config = {
   tileMode: false,
   conference: {
     quality: {
-      video: 'middle',
+      video: 'low',
       audio: 'enabled'
     }
   },

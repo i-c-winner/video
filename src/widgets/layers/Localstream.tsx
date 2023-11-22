@@ -12,8 +12,6 @@ import { getRandomText } from '../../features/plugins/getRandomText';
 const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>) => {
   const {chatsBoxVisible, tileMode}=useSelector((state: IStore)=>state.interface)
   const {remoteStreams}=useSelector((state:IStore)=>state.source)
-  const [ styleLeftBox, setStyleLeftBox ] = useState<{width: string, height: string}>({width: '300px', height: '150px'});
-  const [ styleRightBox, setStyleRightBox ] = useState<{width: string, height: string}>({width: '0px', height: '150px'});
   const { quality } = useSelector((state: IStore) => state.interface.conference);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
@@ -23,21 +21,6 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     viewBox: '-4 0 40 40'
   };
 
-useEffect(()=>{
-  if (chatsBoxVisible) {
-    console.log('chats changed')
-    setStyleLeftBox({ width: config.boxes.chatsbox.width, height: '150px' })
-  } else {
-    setStyleLeftBox({width:'0px', height: '150px'})
-  }
-}, [chatsBoxVisible])
-  useEffect(()=>{
-    if (remoteStreams.length>0){
-      setStyleRightBox({width: config.boxes.remoteStreamBox.width, height: '150px'})
-    } else {
-      setStyleRightBox({width: '0px', height: '150px'})
-    }
-  }, [remoteStreams])
   return <Box sx={
     styles.localeStyleLayer
   }>
