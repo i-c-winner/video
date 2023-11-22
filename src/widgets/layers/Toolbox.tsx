@@ -3,8 +3,8 @@ import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
-import { changeChatsBox, changeTypeModal, toggleTileMode } from '../../app/store/interfaceSlice';
-import { iconChat, iconSettings, iconSharing, iconTile, iconCamera } from '../../shared/img/svg';
+import { changeChatsBox, changeTypeModal, changeVideo, toggleTileMode } from '../../app/store/interfaceSlice';
+import { iconChat, iconSettings, iconSharing, iconTile, iconCamera, iconCameradisabled } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
@@ -15,16 +15,26 @@ import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
 import { IStyle } from '../type';
 import { ButtonWithSubmenu } from '../../entity/model/UI/button/ButtonWithSubmenu';
 import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera';
+import { config } from '../../shared/config';
+import { getRandomText } from '../../features/plugins/getRandomText';
 
 
 function Toolbox() {
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
+  const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
+  const [ currentIconCamera, setCurrentIconCamera ] = useState<{
+    attributes: {
+      [key: string]: string
+    },
+    content: string,
+
+  }>(iconCamera);
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -56,10 +66,30 @@ function Toolbox() {
     dispatch(toggleTileMode(!tileMode));
   }
 
-  function changeCameraSource() {
-    setSubmenuForCaMeraOpen(!submenuForCameraOpen)
-  }
+  function toggledCamera() {
 
+    if (qualityVideo !== 'disabled') {
+      dispatch(changeVideo('disabled'));
+    } else {
+      dispatch(changeVideo(config.conference.quality.video));
+    }
+  }
+  function openingSubmenu() {
+    setSubmenuForCaMeraOpen(!submenuForCameraOpen);
+  }
+  function getViewBox() {
+     if (qualityVideo==='disabled') {
+     return {viewBox: '17 18 25 25'}
+  } return {viewBox: '0 0 22 22'}
+}
+
+  useEffect(() => {
+    if (qualityVideo !== 'disabled') {
+      setCurrentIconCamera(iconCamera);
+    } else {
+      setCurrentIconCamera(iconCameradisabled);
+    }
+  }, [ qualityVideo ]);
   useEffect(() => {
     setStyleChatButton(chatsBoxVisible ? { color: 'green' } : defaultButtonsStyle);
     setStyleTileButton(tileMode ? { color: 'green' } : defaultButtonsStyle);
@@ -72,7 +102,7 @@ function Toolbox() {
         <ButtonWithIcon
           wrapperStyles={{ margin: '5px 10px' }}
           styles={styleChatButton}
-          variant="outlined"
+          variant="text"
           classes={{
             startIcon: 'margin_zero'
           }}
@@ -87,7 +117,7 @@ function Toolbox() {
         <ButtonWithIcon
           styles={styleSharingButton}
           wrapperStyles={{ margin: '5px 10px' }}
-          variant="outlined"
+          variant="text"
           sizes={{
             viewBox: '0 0 30 30',
           }
@@ -96,29 +126,30 @@ function Toolbox() {
             startIcon: 'margin_zero'
           }}
           startIcon={iconSharing} action={sharingStart}/>
-        <ButtonWithText wrapperStyles={{ margin: '5px 10px' }} variant="outlined" text={'stop'} action={sharingStop}/>
         <ButtonWithIcon
           wrapperStyles={{ margin: '5px 10px' }}
           classes={{
             startIcon: 'margin_zero'
           }}
           styles={styleTileButton}
-          variant="outlined" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}/>
+          variant="text" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}/>
         <ButtonWithSubmenu
-          
+          styles={defaultButtonsStyle}
+          openSubmenu={openingSubmenu}
+          key={getRandomText(5)}
           wrapperStyles={{ margin: '5px 10px' }}
-          sizes={{viewBox: '0 0 23 23'}}
+          sizes={getViewBox()}
           classes={{
             startIcon: 'margin_zero'
           }
           }
-          variant="outlined" startIcon={iconCamera} action={changeCameraSource}>
+          variant="text" startIcon={currentIconCamera} action={toggledCamera}>
           {submenuForCameraOpen && <SubmenuForCamera/>}
         </ButtonWithSubmenu>
         <ButtonWithIcon
           styles={defaultButtonsStyle}
           wrapperStyles={{ margin: '5px 10px' }}
-          variant="outlined"
+          variant="text"
           classes={{
             startIcon: 'margin_zero'
           }}
