@@ -11,46 +11,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '../../app/store/sourceSlice';
 import { IStore, TStream } from '../../app/types';
 
+
 function RoomPage() {
   const refVideo = useRef<HTMLVideoElement>(null);
   const dispatch = useDispatch();
-const {sharing}= useSelector((state: IStore)=>state.source)
-  function render() {
+  const { sharing } = useSelector((state: IStore) => state.source);
 
-  }
-
-
-  useEffect(() => {
-    glagol.roomInstance.create();
-    glagol.on('addTrackToSource', addTrackToSource);
-    glagol.on('addSharingToSource', addSharingToSource);
-    glagol.on('removeSharingFromSource', removeSharingFromSource);
-    glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
-    glagol.on('renderMySharing', renderMySharing);
-  }, []);
-useEffect(()=>{
-  const stream=new MediaStream()
-  if (Array.isArray(sharing)) {
-    glagol.peerConnection.getTransceivers().forEach((transceiver)=>{
-      if (transceiver.receiver.track?.id===sharing[0].id) {
-       if (transceiver.receiver.track) stream.addTrack(transceiver.receiver.track)
-      }
-    })
-    if (refVideo.current!==null) refVideo.current.srcObject=stream
-  } else if (sharing!==undefined) {
-    glagol.peerConnection.getTransceivers().forEach((transceiver)=>{
-      if(sharing) {
-        if (transceiver.receiver.track?.id===sharing.id) {
-         if (transceiver.sender.track) stream.addTrack(transceiver.sender.track)
-        }
-      }
-
-    })
-    if (refVideo.current!==null) refVideo.current.srcObject=stream
-  } else {
-    renderScreenStream()
-  }
-}, [sharing])
 
   function addTrackToSource(args: any[]) {
     if (typeof args[0]) dispatch(addRemoteTrack(args[0]));
@@ -90,6 +56,38 @@ useEffect(()=>{
       refVideo.current.srcObject = stream;
     }
   }
+
+  useEffect(() => {
+    glagol.roomInstance.create();
+    glagol.on('addTrackToSource', addTrackToSource);
+    glagol.on('addSharingToSource', addSharingToSource);
+    glagol.on('removeSharingFromSource', removeSharingFromSource);
+    glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
+    glagol.on('renderMySharing', renderMySharing);
+  }, []);
+  useEffect(() => {
+    const stream = new MediaStream();
+    if (Array.isArray(sharing)) {
+      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+        if (transceiver.receiver.track?.id === sharing[0].id) {
+          if (transceiver.receiver.track) stream.addTrack(transceiver.receiver.track);
+        }
+      });
+      if (refVideo.current !== null) refVideo.current.srcObject = stream;
+    } else if (sharing !== undefined) {
+      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+        if (sharing) {
+          if (transceiver.receiver.track?.id === sharing.id) {
+            if (transceiver.sender.track) stream.addTrack(transceiver.sender.track);
+          }
+        }
+
+      });
+      if (refVideo.current !== null) refVideo.current.srcObject = stream;
+    } else {
+      renderScreenStream();
+    }
+  }, [ sharing ]);
 
   return <Box sx={{
     position: 'absolute',

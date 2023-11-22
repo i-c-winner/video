@@ -20,7 +20,9 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     styles.localeStyleLayer
   }>
     <CreateSvgIcon sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>
+    {/*<Box sx={getLeftBoxStyle()}></Box>*/}
     <video className="video video_local" ref={ref} autoPlay={true}/>
+    {/*<Box*/}
   </Box>;
 
 });

@@ -9,6 +9,14 @@ const config = {
       video: 'middle',
       audio: 'enabled'
     }
+  },
+  boxes: {
+    remoteStreamBox:{
+      width: 300,
+    },
+    chatsbox: {
+      width: 300
+    }
   }
 };
 const constants = {

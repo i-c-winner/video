@@ -4,7 +4,7 @@ import { setRegister } from '../../features/plugins/register';
 import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
 import {constants} from '../../shared/config';
-import { IAudioQty, IVideiQty } from '../../widgets/type';
+import { candidates } from '../candidates';
 
 const room = new Room();
 setRegister(strophe);
@@ -88,16 +88,24 @@ const glagol: IGlagol = {
       const jimble = stanza.getElementsByTagName('jimble')[0];
       const jimbleText = Strophe.getText(jimble);
       switch (bodyText) {
-        case 'add_dashboard': {
+        case '' +
+        'add_dashboard': {
           console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
           break;
         }
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
+          console.log('ADD TRACK')
           break;
         }
         case 'ice_candidate': {
+          const candidate= new RTCIceCandidate(JSON.parse(atob(jimbleText)))
+          if (glagol.peerConnection.remoteDescription) {
+            glagol.peerConnection.addIceCandidate(candidate)
+          } else {
+            candidates.pushCandidate(candidate)
+          }
           break;
         }
         case 'remove_track': {
@@ -184,6 +192,7 @@ const glagol: IGlagol = {
   },
   streamsWasChanged(description) {
     this.peerConnection.setRemoteDescription(JSON.parse(atob(description))).then(() => {
+      candidates.getList().forEach((candidate)=>glagol.peerConnection.addIceCandidate(candidate))
       return this.peerConnection.createAnswer({
         iceRestart: true
       });

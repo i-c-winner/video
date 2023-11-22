@@ -1,7 +1,12 @@
 import { ButtonClasses } from '@mui/material';
 
 type TKyes = keyof ButtonClasses
-
+interface ICandidates {
+  list: RTCIceCandidate[],
+  pushCandidate: (candidate: RTCIceCandidate)=>void,
+  getList: ()=>RTCIceCandidate[],
+  reset: ()=>void
+}
 interface IPropsButton {
   buttonIsSwitcher?: boolean,
   name?: string,
@@ -28,4 +33,4 @@ interface ISharing {
   stop: () => void
 }
 
-export type { ISharing, IPropsButton };
+export type { ISharing, IPropsButton, ICandidates };

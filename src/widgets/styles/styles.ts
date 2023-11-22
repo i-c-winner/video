@@ -1,3 +1,5 @@
+import { config } from '../../shared/config'
+
 const styles = {
   topPanelLayer: {
     position: 'absolute',
@@ -21,8 +23,8 @@ const styles = {
     wrapper: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
       boxShadow: '0 0 5px 5px green',
-      width: '350px',
-      height: '99vh',
+      width: config.boxes.remoteStreamBox.width,
+      height: '100vh',
       display: 'flex',
       flexFlow: 'column',
       justifyContent: 'space-between',
@@ -66,7 +68,7 @@ const styles = {
     pointerEvents: 'none',
     chatsbox: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
-      width: '300px',
+      width: config.boxes.chatsbox.width,
       boxSizing: 'border-box',
       display: 'flex',
       flexFlow: 'column',
