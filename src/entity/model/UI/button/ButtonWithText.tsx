@@ -9,7 +9,7 @@ function ButtonWithText(props: IProps) {
 
   return (
     <Box sx={getStyles(props.wrapperStyles)}>
-      <Button variant={props.variant} >{props.text}</Button>
+      <Button onClick={props.action} variant={props.variant} >{props.text}</Button>
     </Box>
 
   );

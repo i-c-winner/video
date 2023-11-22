@@ -70,6 +70,7 @@ const sharing: ISharing = {
         .c('body', {}, 'remove_dashboard')
         .c('jimble', { xmlns: 'urn:xmpp:jimble', ready: 'true' }).t(offer64);
       glagol.sendMessage(message);
+      console.log(message, "SEND MESSAGE")
     });
 
   }
