@@ -4,14 +4,13 @@ import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import { changeChatsBox, changeTypeModal, changeVideo, toggleTileMode } from '../../app/store/interfaceSlice';
-import { iconChat, iconSettings, iconSharing, iconTile, iconCamera, iconCameradisabled } from '../../shared/img/svg';
+import { iconChat, iconSettings, iconSharing, iconTile, iconCamera, iconCameradisabled, iconMicrophone } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
 import { useEffect, useState } from 'react';
-import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
 import { IStyle } from '../type';
 import { ButtonWithSubmenu } from '../../entity/model/UI/button/ButtonWithSubmenu';
 import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera';
@@ -28,6 +27,13 @@ function Toolbox() {
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
+  const [currentIconMicrophone, setCurrentIconMicrophone]= useState<{
+    attributes: {
+      [key: string]: string
+    },
+    content: string,
+
+  }>(iconMicrophone)
   const [ currentIconCamera, setCurrentIconCamera ] = useState<{
     attributes: {
       [key: string]: string
@@ -144,6 +150,19 @@ function Toolbox() {
           }
           }
           variant="text" startIcon={currentIconCamera} action={toggledCamera}>
+          {submenuForCameraOpen && <SubmenuForCamera/>}
+        </ButtonWithSubmenu>
+        <ButtonWithSubmenu
+          styles={defaultButtonsStyle}
+          openSubmenu={openingSubmenu}
+          key={getRandomText(5)}
+          wrapperStyles={{ margin: '5px 10px' }}
+          sizes={getViewBox()}
+          classes={{
+            startIcon: 'margin_zero'
+          }
+          }
+          variant="text" startIcon={currentIconMicrophone} action={toggledCamera}>
           {submenuForCameraOpen && <SubmenuForCamera/>}
         </ButtonWithSubmenu>
         <ButtonWithIcon
