@@ -1,39 +1,21 @@
 import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { glagol } from '../../entity/conference/glagol';
-
-import { BaseSyntheticEvent, useState } from 'react';
-import { IVideiQty, IAudioQty } from '../type';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
-import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
-import { Dispatch } from '@reduxjs/toolkit';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { Typography } from '@mui/material';
 
-interface TabPanelProps {
+const width = '600px';
+
+interface ITabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-const videoQty: Readonly<IVideiQty> = {
-  disabled: 'disabled',
-  low: 'low',
-  middle: 'middle',
-  height: 'height'
-};
-const audioQty: Readonly<IAudioQty> = {
-  disabled: 'disabled',
-  enabled: 'enabled'
-};
-
-function CustomTabPanel(props: TabPanelProps) {
+function CustomTabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
   return (
     <div
@@ -47,7 +29,7 @@ function CustomTabPanel(props: TabPanelProps) {
         <Box sx={{
           p: 3,
           bgcolor: 'background.paper',
-          width: '50%',
+          width,
           margin: '0 auto',
           height: '25vh',
           paddingTop: '15px',
@@ -60,24 +42,25 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
+function a11yProps(index: number, value: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
+    sx: () => {
+      const defaultStyle = {
+        marginBottom: '10px'
+      };
+      if (index === value) {
+        return {
+          ...defaultStyle,
+          background: '#87bfff',
+          borderRadius: '7px',
+          color: 'black'
+        };
+      }
+      return { defaultStyle };
+    }
   };
-}
-
-function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IVideiQty = event.target.value;
-  glagol.applyConstraints({ type: 'video', value });
-  this.dispatch(changeVideo(value));
-
-}
-
-function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IAudioQty = event.target.value;
-  glagol.applyConstraints({ type: 'audio', value });
-  this.dispatch(changeAudio(value));
 }
 
 const Settings = React.forwardRef((props, ref) => {
@@ -87,45 +70,11 @@ const Settings = React.forwardRef((props, ref) => {
   const [ value, setValue ] = React.useState(0);
 
   function getvideo() {
-    return (
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Качество видео</FormLabel>
-        <RadioGroup
-          sx={{
-            pointerEvents: 'initial'
-          }}
-          onChange={changeQty.bind({ dispatch })}
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={video}
-          name="radio-buttons-group"
-        >
-          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={videoQty.disabled}/>
-          <FormControlLabel value={videoQty.low} control={<Radio/>} label={videoQty.low}/>
-          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={videoQty.middle}/>
-          <FormControlLabel value={videoQty.height} control={<Radio/>} label={videoQty.height}/>
-        </RadioGroup>
-      </FormControl>
-    );
+    return <p>video</p>;
   }
 
   function getAudio() {
-    return (
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Отключение аудио</FormLabel>
-        <RadioGroup
-          sx={{
-            pointerEvents: 'initial'
-          }}
-          onChange={toggleAudio.bind({ dispatch })}
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={audio}
-          name="radio-buttons-group"
-        >
-          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={audioQty.enabled}/>
-          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={audioQty.disabled}/>
-        </RadioGroup>
-      </FormControl>
-    );
+    return <p>audio</p>;
   }
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -145,14 +94,21 @@ const Settings = React.forwardRef((props, ref) => {
         margin: '0 auto',
         bgcolor: 'background.paper',
         padding: '10px 20px',
-        width: '50%',
+        width,
         boxSizing: 'border-box',
-        textAlign: 'center'
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        color: 'white'
       }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Video" {...a11yProps(0)} />
-          <Tab label="Audio" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <Typography color="white">Настройки</Typography>
+        <Tabs TabIndicatorProps={{sx:{display: 'none'}}} textColor="inherit" value={value} onChange={handleChange}
+              aria-label="basic tabs example">
+          <Tab component="p" label="Устройства" {...a11yProps(0, value)} />
+          <Tab component="p" label="Профиль" {...a11yProps(1, value)} />
+          <Tab component="p" label="Календарь" {...a11yProps(2, value)} />
+          <Tab component="p" label="Больше" {...a11yProps(3, value)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -167,5 +123,4 @@ const Settings = React.forwardRef((props, ref) => {
     </Box>
   );
 });
-
 export { Settings };
