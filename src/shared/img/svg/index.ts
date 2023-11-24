@@ -11,3 +11,4 @@ export { default as iconRecordStop } from "./recordStop.svg";
 export { default as iconArrow } from "./arrow.svg";
 export { default as iconSharing } from "./sharing.svg";
 export {default as iconCameradisabled} from './cameraDisabled.svg'
+export {default as iconArrowSend} from './arrow-send.svg'

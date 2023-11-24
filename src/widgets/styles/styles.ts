@@ -74,9 +74,11 @@ const styles = {
     },
     chatInputField: {
       width: '100%',
-      height: '150px',
-      backgroundColor: 'rgba(98, 225, 25, .3)',
-      pointerEvents: 'initial'
+      height: '210px',
+      pointerEvents: 'initial',
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexFlow: 'column'
     }
   },
 

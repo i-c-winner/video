@@ -1,10 +1,12 @@
 import { Box, Button, TextField } from '@mui/material';
-import {styles} from '../../widgets/styles/styles';
+import { styles } from '../../widgets/styles/styles';
 import { useEffect, useRef, useState } from 'react';
-import {useDispatch} from 'react-redux';
-import {addChat} from '../../app/store/chatsSlice';
-import {chat} from '../../features/manager/chat';
+import { useDispatch } from 'react-redux';
+import { addChat } from '../../app/store/chatsSlice';
+import { chat } from '../../features/manager/chat';
 import { glagol } from '../conference/glagol';
+import { iconArrowSend } from '../../shared/img/svg';
+import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 
 interface IMessage {
   text: string,
@@ -13,38 +15,46 @@ interface IMessage {
 }
 
 function ChatInputField() {
-  const [text, setText]= useState<string>('')
-  const dispatch= useDispatch()
+  const [ text, setText ] = useState<string>('');
+  const dispatch = useDispatch();
+
   function sendMessage() {
-    setText('')
-    if (refInput.current?.value) chat.sendMessage(glagol.sendMessage, refInput.current?.value)
+    setText('');
+    if (refInput.current?.value) chat.sendMessage(glagol.sendMessage, refInput.current?.value);
   }
+
   function changeText(event: any) {
-   setText(event.target.value)
+    setText(event.target.value);
   }
-  function messageReceived(message: [IMessage]) {
-    dispatch(addChat(message[0]))
+
+  function messageReceived(message: [ IMessage ]) {
+    dispatch(addChat(message[0]));
   }
-  useEffect(()=>{
-    glagol.on('messageReceived', messageReceived)
-  },[])
-const refInput=useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    glagol.on('messageReceived', messageReceived);
+  }, []);
+  const refInput = useRef<HTMLTextAreaElement>(null);
   return (
     <Box sx={styles.chatsboxLayer.chatInputField}>
-      <Box component='form'>
+      <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" p={3} width="100%">
         <TextField
           onChange={changeText}
           value={text}
           inputRef={refInput}
           id="standard-multiline-flexible"
-          label="Multiline"
+          label="Ваше сообщение"
           multiline
           maxRows={4}
           variant="standard"
         />
+        <Button startIcon={<CreateSvgIcon sizes={{ height: '50px', width: '50px', viewBox: '0 0 20 20' }}
+                                          icon={iconArrowSend}/>} onClick={sendMessage} variant="text"/>
+      </Box>
+      <Box paddingBottom={2}>
+        <Button onClick={sendMessage} variant="contained">Save</Button>
       </Box>
 
-      <Button onClick={sendMessage} variant="contained">Send</Button>
     </Box>
   );
 }
