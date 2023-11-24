@@ -22,7 +22,6 @@ const styles = {
     pointerEvents: 'none',
     wrapper: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
-      boxShadow: '0 0 5px 5px green',
       width: config.boxes.remoteStreamBox.width,
       height: '100vh',
       display: 'flex',
@@ -39,8 +38,6 @@ const styles = {
   },
   remoteStream: {
     width: '90%',
-    boxShadow: '0 0 5px 5px green',
-    backgroundColor: 'yellow',
 
   },
   localeStyleLayer: {

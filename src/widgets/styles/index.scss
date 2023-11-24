@@ -1,6 +1,4 @@
 .remote-box {
-  background-color: yellow;
-  box-shadow: 0 0 5px 5px green;
 
   &_audio {
     position: absolute;
@@ -25,7 +23,8 @@
     overflow: hidden;
   }
   &_my-video {
-    width: 100%;
+    width: 85%;
+
   }
 
 }
