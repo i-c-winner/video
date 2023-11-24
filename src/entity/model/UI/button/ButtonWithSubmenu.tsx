@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material';
 import { ButtonWithIcon } from './ButtonWithIcon';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import {iconArrow} from '../../../../shared/img/svg';
+import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
 
 
 interface IProps extends IPropsButton {
@@ -36,12 +37,15 @@ function ButtonWithSubmenu(props: IProps) {
         {props.children}
       </Box>}
       <ButtonWithIcon {...props}/>
-      <ButtonWithIcon
-        styles={{
+      <Button
+        sx={{
           position: 'absolute',
-          bottom: '32px',
-          left: '43px'
-        }} startIcon={iconArrow} action={props.openSubmenu}/>
+          left: '37px',
+          top: '0'
+        }}
+        onClick={props.openSubmenu}>
+        <CreateSvgIcon icon={iconArrow} />
+      </Button>
     </Box>
   );
 }
