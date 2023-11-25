@@ -19,8 +19,11 @@ function ChatInputField() {
   const dispatch = useDispatch();
 
   function sendMessage() {
+
     setText('');
-    if (refInput.current?.value) chat.sendMessage(glagol.sendMessage, refInput.current?.value);
+    if (refInput.current?.value) {
+      chat.sendMessage(glagol.sendMessage, refInput.current?.value);
+    }
   }
 
   function changeText(event: any) {
@@ -39,12 +42,16 @@ function ChatInputField() {
     <Box sx={styles.chatsboxLayer.chatInputField}>
       <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" p={3} width="100%">
         <TextField
+          classes={{
+            root: 'input-field'
+          }}
           onChange={changeText}
           value={text}
           inputRef={refInput}
           id="standard-multiline-flexible"
           label="Ваше сообщение"
           multiline
+          color="primary"
           maxRows={4}
           variant="standard"
         />
