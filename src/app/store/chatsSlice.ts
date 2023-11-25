@@ -2,11 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IChats, TChat } from '../types';
 
 const initialState: IChats = {
-  chatsList: [ {
-    author: 'start',
-    id: 'ddd',
-    text: 'start text'
-  }
+  chatsList: [
   ]
 };
 const chatsSlice = createSlice({

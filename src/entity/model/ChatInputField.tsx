@@ -1,12 +1,13 @@
 import { Box, Button, TextField } from '@mui/material';
 import { styles } from '../../widgets/styles/styles';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addChat } from '../../app/store/chatsSlice';
 import { chat } from '../../features/manager/chat';
 import { glagol } from '../conference/glagol';
 import { iconArrowSend } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
+import { IStore } from '../../app/types';
 
 interface IMessage {
   text: string,
@@ -17,7 +18,7 @@ interface IMessage {
 function ChatInputField() {
   const [ text, setText ] = useState<string>('');
   const dispatch = useDispatch();
-
+const {chatsList}=useSelector((state: IStore)=>state.chats)
   function sendMessage() {
 
     setText('');
@@ -33,7 +34,9 @@ function ChatInputField() {
   function messageReceived(message: [ IMessage ]) {
     dispatch(addChat(message[0]));
   }
-
+function saveMessages() {
+  console.log(chatsList)
+}
   useEffect(() => {
     glagol.on('messageReceived', messageReceived);
   }, []);
@@ -59,7 +62,7 @@ function ChatInputField() {
                                           icon={iconArrowSend}/>} onClick={sendMessage} variant="text"/>
       </Box>
       <Box paddingBottom={2}>
-        <Button onClick={sendMessage} variant="contained">Save</Button>
+        <Button onClick={saveMessages} variant="contained">Save</Button>
       </Box>
 
     </Box>
