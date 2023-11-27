@@ -2,10 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { Typography } from '@mui/material';
+import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
 import {Devices} from '../../entity/modal/Devices';
 
 const width = '600px';
@@ -121,7 +118,21 @@ const Settings = React.forwardRef((props, ref) => {
       <CustomTabPanel value={value} index={2}>
         Item Three
       </CustomTabPanel>
+      <Box sx={{
+        margin: '0 auto',
+        width,
+        bgcolor: 'background.paper',
+        textAlign: 'right',
+        padding: '10px',
+        boxSizing: 'border-box',
+        pointerEvents: 'initial'
+
+      }}>
+        <Button>close</Button>
+        <Button variant="outlined">Сохранить и закрыть</Button>
+      </Box>
     </Box>
+
   );
 });
 export { Settings };

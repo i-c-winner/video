@@ -45,7 +45,7 @@ function Devices() {
           classes={{
             root: 'input_devices'
           }}
-          sx={{ color: 'red' }} {...params} label="video"/>} options={videoDevices}/>
+         {...params} label="video"/>} options={videoDevices}/>
         <Autocomplete sx={styleInput} renderInput={(params) => <TextField
           classes={{
             root: 'input_devices'
