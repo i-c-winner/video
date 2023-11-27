@@ -8,6 +8,7 @@ import { glagol } from '../conference/glagol';
 import { iconArrowSend } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { IStore } from '../../app/types';
+import {saveChat} from '../../features/chats/saveChat';
 
 interface IMessage {
   text: string,
@@ -20,7 +21,6 @@ function ChatInputField() {
   const dispatch = useDispatch();
 const {chatsList}=useSelector((state: IStore)=>state.chats)
   function sendMessage() {
-
     setText('');
     if (refInput.current?.value) {
       chat.sendMessage(glagol.sendMessage, refInput.current?.value);
@@ -35,7 +35,7 @@ const {chatsList}=useSelector((state: IStore)=>state.chats)
     dispatch(addChat(message[0]));
   }
 function saveMessages() {
-  console.log(chatsList)
+ saveChat(chatsList)
 }
   useEffect(() => {
     glagol.on('messageReceived', messageReceived);
