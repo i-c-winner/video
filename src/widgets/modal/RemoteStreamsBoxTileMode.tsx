@@ -31,4 +31,4 @@ function RemoteStreamsBoxTileMode() {
         }
         }
 
-        export {RemoteStreamsBoxTileMode};;
+        export {RemoteStreamsBoxTileMode};
