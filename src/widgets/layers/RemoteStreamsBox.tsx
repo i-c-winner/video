@@ -6,7 +6,7 @@ import { getRandomText } from '../../features/plugins/getRandomText';
 import { useEffect, useRef } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
-import { RemoteStreamsBoxTileMode } from '../modal/RemoteStreamsBoxTileMode';
+import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
 
 const { remoteStreamLayer } = styles;
 

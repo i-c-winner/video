@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { IStore } from '../../app/types';
-import { RemoteStream } from '../../entity/model/RemoteStream';
+import { IStore } from '../app/types';
+import { RemoteStream } from '../entity/model/RemoteStream';
 import React from 'react';
-import { getRandomText } from '../../features/plugins/getRandomText';
+import { getRandomText } from '../features/plugins/getRandomText';
 
 function RemoteStreamsBoxTileMode() {
   const { tileMode } = useSelector((state: IStore) => state.interface);
