@@ -10,7 +10,16 @@ import {
   changeVideo,
   toggleTileMode
 } from '../../app/store/interfaceSlice';
-import { iconChat, iconSettings, iconSharing, iconTile, iconCamera, iconCameradisabled, iconMicrophone } from '../../shared/img/svg';
+import {
+  iconChat,
+  iconSettings,
+  iconSharing,
+  iconTile,
+  iconCamera,
+  iconCameradisabled,
+  iconMicrophone,
+  iconRecordStart, iconRecordStop
+} from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
@@ -25,31 +34,28 @@ import { getRandomText } from '../../features/plugins/getRandomText';
 import {Recording} from '../../features/manager/record';
 
 let recording: null|Recording=null
+interface IIcon {
+  attributes: {
+    [key: string]: string
+  },
+  content: string,
+
+}
 
 function Toolbox() {
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
   const {isRecording}=useSelector((state: IStore)=>state.interface)
+  const [currentIconRecord, setCurrentIconRecord]= useState<IIcon>(iconRecordStart)
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
+  const[styleRecordButton, setStyleRecordButton]=useState<IStyle>(defaultButtonsStyle)
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
-  const [currentIconMicrophone, setCurrentIconMicrophone]= useState<{
-    attributes: {
-      [key: string]: string
-    },
-    content: string,
-
-  }>(iconMicrophone)
-  const [ currentIconCamera, setCurrentIconCamera ] = useState<{
-    attributes: {
-      [key: string]: string
-    },
-    content: string,
-
-  }>(iconCamera);
+  const [currentIconMicrophone, setCurrentIconMicrophone]= useState<IIcon>(iconMicrophone)
+  const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -116,6 +122,13 @@ function actionRecording() {
   }, [ chatsBoxVisible, tileMode ]);
   useEffect(() => {
     if (isRecording) {
+      setStyleRecordButton(()=>{
+        return {
+          ...defaultButtonsStyle,
+          color: 'red'
+        }
+      })
+      setCurrentIconRecord(iconRecordStop)
       const rec = new Recording();
       rec.init().then((result) => {
         rec.createRecorder(result);
@@ -126,6 +139,8 @@ function actionRecording() {
         dispatch(changeIsRecording(false));
       });
     } else {
+      setStyleRecordButton(defaultButtonsStyle)
+      setCurrentIconRecord(iconRecordStart)
       if (recording !== null) {
         recording.stop();
       }
@@ -206,13 +221,14 @@ function actionRecording() {
           }}
           startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
         <ButtonWithIcon
-          styles={defaultButtonsStyle}
+          key={getRandomText(5)}
+          styles={styleRecordButton}
           wrapperStyles={{ margin: '5px 10px' }}
           variant="text"
           classes={{
             startIcon: 'margin_zero'
           }}
-          startIcon={iconSettings} action={actionRecording}/>
+          startIcon={currentIconRecord} action={actionRecording}/>
 
       </Box>
 

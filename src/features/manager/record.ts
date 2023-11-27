@@ -49,6 +49,9 @@ class Recording {
 
   stop() {
     this.mediaRecorder?.stop();
+    this.mediaRecorder?.stream.getTracks().forEach((track)=>{
+      track.stop()
+    })
   }
 }
 
