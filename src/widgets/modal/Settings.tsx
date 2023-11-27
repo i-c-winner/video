@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
 import {Devices} from '../../entity/modal/Devices';
+import { Profile } from '../../entity/modal/Profile';
 
 const width = '600px';
 
@@ -62,18 +63,7 @@ function a11yProps(index: number, value: number) {
 }
 
 const Settings = React.forwardRef((props, ref) => {
-  const [ audio ] = useState(useSelector((state: IStore) => state.interface.conference.quality.audio));
-  const [ video ] = useState(useSelector((state: IStore) => state.interface.conference.quality.video));
-  const dispatch = useDispatch();
   const [ value, setValue ] = React.useState(0);
-
-  function getDevices() {
-    return <p>video</p>;
-  }
-
-  function getAudio() {
-    return <p>audio</p>;
-  }
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -113,7 +103,7 @@ const Settings = React.forwardRef((props, ref) => {
         <Devices />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        {getAudio()}
+        <Profile />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Item Three
@@ -128,8 +118,8 @@ const Settings = React.forwardRef((props, ref) => {
         pointerEvents: 'initial'
 
       }}>
-        <Button>close</Button>
-        <Button variant="outlined">Сохранить и закрыть</Button>
+        {/*<Button>close</Button>*/}
+        {/*<Button disabled={!wasChanged} variant="outlined">Сохранить и закрыть</Button>*/}
       </Box>
     </Box>
 

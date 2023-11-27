@@ -12,14 +12,16 @@
       background-color: #100f60;
       color: white;
     }
+
     &_other {
       background-color: green;
       align-self: flex-end;
     }
   }
 }
+
 .input-field {
-  textarea{
+  textarea {
     color: white
   }
 }
@@ -28,7 +30,12 @@
   input, label {
     color: white
   }
+}
 
+.input_profile {
+  input, label {
+    color: white
+  }
 }
 
 

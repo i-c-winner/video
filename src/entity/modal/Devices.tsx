@@ -9,6 +9,7 @@ const styleInput = {
 };
 
 function Devices() {
+
   const [ videoDevices, setVideoDevices ] = useState<{ label: string }[]>([]);
   const [ audioDevices, setAudioDevices ] = useState<{ label: string }[]>([]);
   const [ microphoneDevices, setMicrophoneDevices ] = useState<{ label: string }[]>([]);
@@ -46,7 +47,7 @@ function Devices() {
             root: 'input_devices'
           }}
          {...params} label="video"/>} options={videoDevices}/>
-        <Autocomplete sx={styleInput} renderInput={(params) => <TextField
+        <Autocomplete  sx={styleInput} renderInput={(params) => <TextField
           classes={{
             root: 'input_devices'
           }}{...params} label="audio"/>}
