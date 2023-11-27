@@ -45,6 +45,7 @@ interface IInterface {
   modalIsOpen: boolean,
   tileMode: boolean,
   typeModal: 'error' | 'settings',
+  isRecording: false,
   conference: {
     quality: {
       audio: keyof IVideiQty,

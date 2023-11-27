@@ -3,7 +3,13 @@ import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
-import { changeChatsBox, changeTypeModal, changeVideo, toggleTileMode } from '../../app/store/interfaceSlice';
+import {
+  changeChatsBox,
+  changeIsRecording,
+  changeTypeModal,
+  changeVideo,
+  toggleTileMode
+} from '../../app/store/interfaceSlice';
 import { iconChat, iconSettings, iconSharing, iconTile, iconCamera, iconCameradisabled, iconMicrophone } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
@@ -16,12 +22,15 @@ import { ButtonWithSubmenu } from '../../entity/model/UI/button/ButtonWithSubmen
 import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera';
 import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
+import {Recording} from '../../features/manager/record';
 
+let recording: null|Recording=null
 
 function Toolbox() {
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
+  const {isRecording}=useSelector((state: IStore)=>state.interface)
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
@@ -89,6 +98,11 @@ function Toolbox() {
   } return {viewBox: '0 0 22 22'}
 }
 
+function actionRecording() {
+    dispatch(changeIsRecording(!isRecording))
+  }
+
+
   useEffect(() => {
     if (qualityVideo !== 'disabled') {
       setCurrentIconCamera(iconCamera);
@@ -100,6 +114,24 @@ function Toolbox() {
     setStyleChatButton(chatsBoxVisible ? { color: 'green' } : defaultButtonsStyle);
     setStyleTileButton(tileMode ? { color: 'green' } : defaultButtonsStyle);
   }, [ chatsBoxVisible, tileMode ]);
+  useEffect(() => {
+    if (isRecording) {
+      const rec = new Recording();
+      rec.init().then((result) => {
+        rec.createRecorder(result);
+        rec.createListeners();
+        rec.start();
+        recording = rec;
+      }).catch((error) => {
+        dispatch(changeIsRecording(false));
+      });
+    } else {
+      if (recording !== null) {
+        recording.stop();
+      }
+    }
+  }, [ isRecording ]);
+
 
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
@@ -173,7 +205,14 @@ function Toolbox() {
             startIcon: 'margin_zero'
           }}
           startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
-
+        <ButtonWithIcon
+          styles={defaultButtonsStyle}
+          wrapperStyles={{ margin: '5px 10px' }}
+          variant="text"
+          classes={{
+            startIcon: 'margin_zero'
+          }}
+          startIcon={iconSettings} action={actionRecording}/>
 
       </Box>
 

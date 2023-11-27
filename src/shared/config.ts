@@ -4,6 +4,7 @@ const config = {
   modalIsOpen: false,
   typeModal: 'error',
   tileMode: false,
+  isRecording: false,
   conference: {
     quality: {
       video: 'low',
