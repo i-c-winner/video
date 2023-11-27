@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Typography } from '@mui/material';
+import {Devices} from '../../entity/modal/Devices';
 
 const width = '600px';
 
@@ -69,7 +70,7 @@ const Settings = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const [ value, setValue ] = React.useState(0);
 
-  function getvideo() {
+  function getDevices() {
     return <p>video</p>;
   }
 
@@ -112,7 +113,7 @@ const Settings = React.forwardRef((props, ref) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        {getvideo()}
+        <Devices />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         {getAudio()}

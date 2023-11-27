@@ -22,16 +22,21 @@
     width: 100%;
     overflow: hidden;
   }
+
   &_my-video {
     width: 85%;
 
   }
 
+  &_settings {
+    width: 250px;
+  }
 }
 
 .margin_zero {
   margin: 0 !important;
 }
+
 .icon-submenu_toolbox {
   position: absolute;
 }
