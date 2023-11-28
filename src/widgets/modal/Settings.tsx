@@ -118,8 +118,6 @@ const Settings = React.forwardRef((props, ref) => {
         pointerEvents: 'initial'
 
       }}>
-        {/*<Button>close</Button>*/}
-        {/*<Button disabled={!wasChanged} variant="outlined">Сохранить и закрыть</Button>*/}
       </Box>
     </Box>
 
