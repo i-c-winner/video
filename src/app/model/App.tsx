@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
@@ -28,7 +28,6 @@ function App() {
   }
 
   function changeState() {
-
     if (refRoomName.current !== null) {
       if (validate(refRoomName.current.value)) glagol.params.roomName = refRoomName.current.value;
     }
@@ -45,6 +44,17 @@ function App() {
       return text !== '';
     }
   }
+  function creating(target: KeyboardEvent)  {
+    if (target.key==='Enter') {
+      changeState()
+    }
+  }
+  useEffect (()=>{
+    document.addEventListener('keydown', creating)
+    return ()=>{
+      document.removeEventListener('keydown', creating)
+    }
+  })
   function getButtonText(){
     if (state==='createRoomName') {
       return 'interface.buttons.createRoomName'
