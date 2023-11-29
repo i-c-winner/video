@@ -5,6 +5,8 @@ import { IStore } from '../../app/types';
 import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
 import {Devices} from '../../entity/modal/Devices';
 import { Profile } from '../../entity/modal/Profile';
+import { Calendar } from '../../entity/modal/Calendar';
+import { More } from '../../entity/modal/More';
 
 const width = '600px';
 
@@ -106,7 +108,9 @@ const Settings = React.forwardRef((props, ref) => {
         <Profile />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <Calendar />
+      </CustomTabPanel>   <CustomTabPanel value={value} index={3}>
+        <More/>
       </CustomTabPanel>
       <Box sx={{
         margin: '0 auto',

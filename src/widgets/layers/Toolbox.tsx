@@ -56,7 +56,22 @@ function Toolbox() {
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
   const [currentIconMicrophone, setCurrentIconMicrophone]= useState<IIcon>(iconMicrophone)
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
+  const [sharingState, setSharingState]=useState<boolean>(false)
 
+  function sharingAction() {
+    if (sharingState) {
+      sharingStop()
+      setStyleSharingButton(defaultButtonsStyle)
+      setSharingState(false)
+    } else {
+      sharingStart()
+    setSharingState(true)
+      setStyleSharingButton({
+        ...defaultButtonsStyle,
+        color: 'red'
+      })
+    }
+  }
   function sharingStart() {
     sharing.start().then((stream) => {
       if (stream) {
@@ -178,7 +193,7 @@ function actionRecording() {
           classes={{
             startIcon: 'margin_zero'
           }}
-          startIcon={iconSharing} action={sharingStart}/>
+          startIcon={iconSharing} action={sharingAction}/>
         <ButtonWithIcon
           wrapperStyles={{ margin: '5px 10px' }}
           classes={{
