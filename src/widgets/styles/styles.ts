@@ -1,4 +1,4 @@
-import { config } from '../../shared/config'
+import { config } from '../../shared/config';
 
 const styles = {
   topPanelLayer: {
@@ -8,7 +8,14 @@ const styles = {
     right: '0',
     bottom: '0',
     zIndex: '-20',
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    panel: {
+      height: '50px',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '30px'
+    }
   },
   remoteStreamLayer: {
     position: 'absolute',
