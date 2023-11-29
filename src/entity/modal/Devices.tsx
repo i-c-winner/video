@@ -1,6 +1,7 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { glagol } from '../conference/glagol';
+import { useTranslation } from 'react-i18next';
 
 const styleInput = {
   color: 'white',
@@ -9,7 +10,7 @@ const styleInput = {
 };
 
 function Devices() {
-
+  const { t } = useTranslation();
   const [ videoDevices, setVideoDevices ] = useState<{ label: string }[]>([]);
   const [ audioDevices, setAudioDevices ] = useState<{ label: string }[]>([]);
   const [ microphoneDevices, setMicrophoneDevices ] = useState<{ label: string }[]>([]);
@@ -46,16 +47,16 @@ function Devices() {
           classes={{
             root: 'input_devices'
           }}
-         {...params} label="video"/>} options={videoDevices}/>
-        <Autocomplete  sx={styleInput} renderInput={(params) => <TextField
+          {...params} label={t('modal.settings.video')}/>} options={videoDevices}/>
+        <Autocomplete sx={styleInput} renderInput={(params) => <TextField
           classes={{
             root: 'input_devices'
-          }}{...params} label="audio"/>}
+          }}{...params} label={t('modal.settings.audio')}/>}
                       options={audioDevices}/>
         <Autocomplete sx={styleInput} renderInput={(params) => <TextField
           classes={{
             root: 'input_devices'
-          }}{...params} label="microphone"/>}
+          }}{...params} label={t('modal.settings.microphone')}/>}
                       options={microphoneDevices}/>
       </Box>
 

@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { IStore } from '../../app/types';
+import {useTranslation} from 'react-i18next';
 import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
 import {Devices} from '../../entity/modal/Devices';
 import { Profile } from '../../entity/modal/Profile';
@@ -66,7 +64,7 @@ function a11yProps(index: number, value: number) {
 
 const Settings = React.forwardRef((props, ref) => {
   const [ value, setValue ] = React.useState(0);
-
+  const {t}=useTranslation()
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -92,13 +90,13 @@ const Settings = React.forwardRef((props, ref) => {
         alignItems: 'center',
         color: 'white'
       }}>
-        <Typography color="white">Настройки</Typography>
+        <Typography color="white">{t('modal.settings.settings')}</Typography>
         <Tabs TabIndicatorProps={{sx:{display: 'none'}}} textColor="inherit" value={value} onChange={handleChange}
               aria-label="basic tabs example">
-          <Tab component="p" label="Устройства" {...a11yProps(0, value)} />
-          <Tab component="p" label="Профиль" {...a11yProps(1, value)} />
-          <Tab component="p" label="Календарь" {...a11yProps(2, value)} />
-          <Tab component="p" label="Больше" {...a11yProps(3, value)} />
+          <Tab component="p" label={t('modal.settings.devices')} {...a11yProps(0, value)} />
+          <Tab component="p" label={t('modal.settings.profile')} {...a11yProps(1, value)} />
+          <Tab component="p" label={t('modal.settings.calendar')}{...a11yProps(2, value)} />
+          <Tab component="p" label={t('modal.settings.more')}{...a11yProps(3, value)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

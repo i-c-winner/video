@@ -1,6 +1,7 @@
 import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react';
 import { styleButton } from '../styles/styles';
+import {useTranslation} from 'react-i18next';
 
 const styleInput = {
   color: 'white',
@@ -9,7 +10,7 @@ const styleInput = {
 };
 
 function Profile() {
-
+const {t}=useTranslation()
   return (
     <Box sx={{
       display: 'flex',
@@ -26,17 +27,17 @@ function Profile() {
       }}>
         <TextField sx={styleInput} classes={{
           root: 'input_profile'
-        }} label="Ваше имя"/>
+        }} label= {t("modal.settings.yourName")}/>
         <TextField sx={styleInput} classes={{
           root: 'input_profile'
-        }} label="Ваша почта"/>
+        }} label={t('modal.settings.yourEmail')}/>
       </Box>
       <Box sx={{
         display: 'flex',
         justifyContent: 'flex-end',
       }}>
-        <Button sx = {styleButton}>close</Button>
-        <Button sx = {styleButton} variant="outlined">Сохранить и закрыть</Button>
+        <Button sx = {styleButton}>{t('interface.buttons.close')}</Button>
+        <Button sx = {styleButton} variant="outlined">{t('interface.buttons.saveAndClose')}</Button>
       </Box>
     </Box>
 
