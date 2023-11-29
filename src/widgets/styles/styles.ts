@@ -70,7 +70,7 @@ const styles = {
       boxSizing: 'border-box',
       display: 'flex',
       flexFlow: 'column',
-      justifyContent: 'space-between'
+      justifyContent: 'flex-end'
     },
     chatInputField: {
       width: '100%',

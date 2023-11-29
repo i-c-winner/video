@@ -1,21 +1,25 @@
 .chats {
   display: flex;
   flex-flow: column;
+  overflow-y: auto;
+  pointer-events: initial;
 
   .chat {
-    width: 250px;
+    width: 50%;
     margin: 0 5px 10px;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 
     &_my {
       background-color: #100f60;
       color: white;
+      border-top-right-radius: 0 ;
     }
 
     &_other {
       background-color: green;
       align-self: flex-end;
+      border-top-left-radius: 0;
     }
   }
 }
