@@ -9,6 +9,7 @@ import { iconArrowSend } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { IStore } from '../../app/types';
 import {saveChat} from '../../features/chats/saveChat';
+import { styleButton } from '../styles/styles';
 
 interface IMessage {
   text: string,
@@ -43,7 +44,10 @@ function saveMessages() {
   const refInput = useRef<HTMLTextAreaElement>(null);
   return (
     <Box sx={styles.chatsboxLayer.chatInputField}>
-      <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" p={3} width="100%">
+      <Box>
+        <Button sx={styleButton} onClick={saveMessages} variant="outlined">Save</Button>
+      </Box>
+      <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" width="100%">
         <TextField
           classes={{
             root: 'input-field'
@@ -58,12 +62,10 @@ function saveMessages() {
           maxRows={4}
           variant="standard"
         />
-        <Button startIcon={<CreateSvgIcon sizes={{ height: '50px', width: '50px', viewBox: '0 0 20 20' }}
+        <Button startIcon={<CreateSvgIcon sizes={{ height: '35px', width: '35px', viewBox: '0 -3 20 20' }}
                                           icon={iconArrowSend}/>} onClick={sendMessage} variant="text"/>
       </Box>
-      <Box paddingBottom={2}>
-        <Button onClick={saveMessages} variant="contained">Save</Button>
-      </Box>
+
 
     </Box>
   );

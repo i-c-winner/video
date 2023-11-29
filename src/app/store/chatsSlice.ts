@@ -3,6 +3,11 @@ import { IChats, TChat } from '../types';
 
 const initialState: IChats = {
   chatsList: [
+    {
+      id: '56',
+      author: 'MY',
+      text: 'oooo'
+    }
   ]
 };
 const chatsSlice = createSlice({

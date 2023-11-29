@@ -1,5 +1,6 @@
 import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react';
+import { styleButton } from '../styles/styles';
 
 const styleInput = {
   color: 'white',
@@ -34,8 +35,8 @@ function Profile() {
         display: 'flex',
         justifyContent: 'flex-end',
       }}>
-        <Button>close</Button>
-        <Button variant="outlined">Сохранить и закрыть</Button>
+        <Button sx = {styleButton}>close</Button>
+        <Button sx = {styleButton} variant="outlined">Сохранить и закрыть</Button>
       </Box>
     </Box>
 

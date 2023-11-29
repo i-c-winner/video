@@ -74,7 +74,9 @@ const styles = {
     },
     chatInputField: {
       width: '100%',
-      height: '210px',
+      boxSizing: 'border-box',
+      padding: '5px',
+      backgroundColor: 'black',
       pointerEvents: 'initial',
       display: 'flex',
       justifyContent: 'space-between',
