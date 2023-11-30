@@ -7,8 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
-import { iconArrow, iconCamera } from '../../shared/img/svg';
-import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
+import { iconArrow } from '../../shared/img/svg';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
 import { changeRemoteStreamsBox } from '../../app/store/interfaceSlice';
 
