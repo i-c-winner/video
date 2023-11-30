@@ -5,6 +5,7 @@ const config = {
   typeModal: 'error',
   tileMode: false,
   isRecording: false,
+  remoteBoxVisible: false,
   conference: {
     quality: {
       video: 'low',

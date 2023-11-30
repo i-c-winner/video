@@ -10,8 +10,9 @@ import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
 
 const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>) => {
-  const {chatsBoxVisible, tileMode}=useSelector((state: IStore)=>state.interface)
+  const {chatsBoxVisible, tileMode, remoteBoxVisible}=useSelector((state: IStore)=>state.interface)
   const {remoteStreams}=useSelector((state:IStore)=>state.source)
+  const [plugForRemoteBox, setPlugRemoteBox]=useState<boolean>(remoteBoxVisible)
   const { quality } = useSelector((state: IStore) => state.interface.conference);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
@@ -21,13 +22,16 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     viewBox: '-4 0 40 40'
   };
 
+  useEffect(()=>{
+    setPlugRemoteBox(remoteBoxVisible)
+  },[remoteBoxVisible])
   return <Box sx={
     styles.localeStyleLayer
   }>
     <CreateSvgIcon sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>
     {chatsBoxVisible&&<Box key={getRandomText(5)} sx={{minWidth: config.boxes.chatsbox.width}}></Box>}
     <video className="video video_local" ref={ref} autoPlay={true}/>
-    {remoteStreams.length>0&& !tileMode&& <Box key={getRandomText(5)} sx={{minWidth: config.boxes.remoteStreamBox.width}}/>}
+    {remoteBoxVisible&& !tileMode&& <Box key={getRandomText(5)} sx={{minWidth: config.boxes.remoteStreamBox.width}}/>}
   </Box>;
 
 });

@@ -27,6 +27,9 @@ const interfaceSlice = createSlice({
     }),
     changeIsRecording: ((state, action) => {
       state.isRecording = action.payload;
+    }),
+    changeRemoteStreamsBox: ((state, action)=>{
+      state.remoteBoxVisible=action.payload
     })
   }
 });
@@ -38,6 +41,7 @@ export const {
   changeAudio,
   changeVideo,
   openModal,
-  changeIsRecording
+  changeIsRecording,
+  changeRemoteStreamsBox
 } = interfaceSlice.actions;
 export default interfaceSlice.reducer;
