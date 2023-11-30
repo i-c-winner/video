@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 const styleInput = {
   color: 'white',
   borderRadius: '8px',
-  background: '#181818'
+  background: '#181818',
 };
 
 function Profile() {
@@ -16,7 +16,7 @@ const {t}=useTranslation()
       display: 'flex',
       flexFlow: 'column',
       justifyContent: 'space-between',
-      height: '220px'
+      height: '220px',
     }
     }>
       <Box sx={{

@@ -1,5 +1,6 @@
 const styleButton= {
-  borderRadius: 'initial'
+  borderRadius: 'initial',
+  pointerEvents: 'initial'
 }
 
 export {styleButton}
