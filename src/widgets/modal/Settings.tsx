@@ -4,7 +4,7 @@ import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
 import {Devices} from '../../entity/modal/Devices';
 import { Profile } from '../../entity/modal/Profile';
 import { Calendar } from '../../entity/modal/Calendar';
-import { More } from '../../entity/modal/More';
+import { More } from './More';
 
 const width = '600px';
 

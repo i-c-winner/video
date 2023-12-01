@@ -39,7 +39,6 @@ interface IIcon {
     [key: string]: string
   },
   content: string,
-
 }
 
 function Toolbox() {

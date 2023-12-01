@@ -5,12 +5,14 @@ import { openModal } from '../../app/store/interfaceSlice';
 import { Settings } from './Settings';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 import {Error} from './Error';
+import { More } from './More';
 
 const allChildren: {
   [key: string]: ReactElement
 } = {
   settings: <Settings />,
-  error: <Error />
+  error: <Error />,
+  more: <More />
 };
 
 function ModalWindow() {

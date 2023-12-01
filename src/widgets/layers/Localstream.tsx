@@ -1,18 +1,19 @@
 import React, { ForwardedRef, useState, useEffect } from 'react';
-import { iconLogo } from '../../shared/img/svg';
+import { iconLogo, iconMenu } from '../../shared/img/svg';
 import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import { glagol } from '../../entity/conference/glagol';
 import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
+import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
+import {changeTypeModal, openModal} from '../../app/store/interfaceSlice';
 
 const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>) => {
-  const {chatsBoxVisible, tileMode, remoteBoxVisible}=useSelector((state: IStore)=>state.interface)
-  const {remoteStreams}=useSelector((state:IStore)=>state.source)
-  const [plugForRemoteBox, setPlugRemoteBox]=useState<boolean>(remoteBoxVisible)
+  const dispatch=useDispatch()
+  const { chatsBoxVisible, tileMode, remoteBoxVisible } = useSelector((state: IStore) => state.interface);
   const { quality } = useSelector((state: IStore) => state.interface.conference);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
@@ -22,16 +23,30 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     viewBox: '-4 0 40 40'
   };
 
-  useEffect(()=>{
-    setPlugRemoteBox(remoteBoxVisible)
-  },[remoteBoxVisible])
+  function openMenu() {
+    dispatch(changeTypeModal('more'))
+    dispatch(openModal(true))
+    console.log('open');
+  }
+
+
   return <Box sx={
     styles.localeStyleLayer
   }>
-    <CreateSvgIcon sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>
-    {chatsBoxVisible&&<Box key={getRandomText(5)} sx={{minWidth: config.boxes.chatsbox.width}}></Box>}
-    <video className="video video_local" ref={ref} autoPlay={true}/>
-    {remoteBoxVisible&& !tileMode&& <Box key={getRandomText(5)} sx={{minWidth: config.boxes.remoteStreamBox.width}}/>}
+    <CreateSvgIcon  sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>
+    {chatsBoxVisible && <Box key={getRandomText(5)} sx={{ minWidth: config.boxes.chatsbox.width }}></Box>}
+    <video onClick={()=>console.log('click')} className="video video_local" ref={ref} autoPlay={true}/>
+    <ButtonWithIcon startIcon={iconMenu} sizes={{ viewBox: '9 9 25 25' }}
+                    wrapperStyles={{
+                      position: 'absolute',
+                      right: '50px',
+                      top: '50px',
+                      pointerEvents: 'initial'
+                    }}
+                    styles={styles.localeStyleLayer.menu}
+                    action={openMenu}/>
+    {remoteBoxVisible && !tileMode &&
+      <Box key={getRandomText(5)} sx={{ minWidth: config.boxes.remoteStreamBox.width }}/>}
   </Box>;
 
 });

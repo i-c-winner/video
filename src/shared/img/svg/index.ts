@@ -13,3 +13,6 @@ export { default as iconSharing } from "./sharing.svg";
 export { default as iconCameradisabled } from './cameraDisabled.svg';
 export { default as iconArrowSend } from './arrow-send.svg';
 export { default as iconMenu } from './menu.svg';
+export {default as iconFullscreen} from './fullscreen.svg'
+export {default as iconVideoQty} from './videoqty.svg'
+export {default as iconMuteAll} from './muteall.svg'

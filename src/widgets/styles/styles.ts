@@ -60,7 +60,13 @@ const styles = {
     logo: {
       position: 'absolute',
       top: '50px',
-      left: '50px'
+      left: '50px',
+    },
+    menu: {
+      color: '#4b4b4b',
+      backgroundColor: 'rgba(255, 255, 255, .5)',
+      padding: '6px',
+      border: '1px solid #4b4b4b',
     }
   },
   chatsboxLayer: {

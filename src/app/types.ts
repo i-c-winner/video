@@ -44,7 +44,7 @@ interface IInterface {
   toolboxVisible: boolean,
   modalIsOpen: boolean,
   tileMode: boolean,
-  typeModal: 'error' | 'settings',
+  typeModal: 'error' | 'settings' | 'more',
   isRecording: boolean,
   remoteBoxVisible: boolean,
   conference: {
