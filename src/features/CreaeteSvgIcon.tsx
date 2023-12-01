@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import {constants} from '../shared/config';
 
 interface Props {
-  icon:{
+  icon?:{
     attributes: {
       [key: string]: string
     },
@@ -25,11 +25,11 @@ function CreateSvgIcon(props: Props) {
   const refIcon = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (refIcon.current!==null) refIcon.current.insertAdjacentHTML("afterbegin", props.icon.content);
+    if (refIcon.current!==null&&props.icon) refIcon.current.insertAdjacentHTML("afterbegin", props.icon.content);
   }, []);
   return (
-    <svg style={props.styles} fill="currentColor" ref={refIcon} id={props.icon.attributes.id} version={props.icon.attributes.version}
-  xmlns={props.icon.attributes.xmlns}
+    <svg style={props.styles} fill="currentColor" ref={refIcon} id={props.icon?.attributes.id} version={props.icon?.attributes.version}
+  xmlns={props.icon?.attributes.xmlns}
   viewBox={props.sizes?.viewBox? props.sizes.viewBox: viewBox}
   width={props.sizes?.width ? props.sizes?.width : width}
   height={props.sizes?.height ? props.sizes?.height : height}
