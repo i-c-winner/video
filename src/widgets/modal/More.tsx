@@ -13,7 +13,7 @@ interface IIcon {
 
 const buttons: [ string, IIcon ][] = [ [ 'settings', iconSettings ], [ 'changeQty', iconVideoQty ], [ 'fullScreen', iconFullscreen ], [ 'allMute', iconMuteAll ] ];
 const styleBox = {
-  bgcolor: 'background.paper',
+  bgcolor: 'background.windows',
   margin: '10px 150px auto auto',
   width: 'auto'
 };

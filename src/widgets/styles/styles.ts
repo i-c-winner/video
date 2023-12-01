@@ -67,6 +67,7 @@ const styles = {
       backgroundColor: 'rgba(255, 255, 255, .5)',
       padding: '6px',
       border: '1px solid #4b4b4b',
+      margin: '0'
     }
   },
   chatsboxLayer: {

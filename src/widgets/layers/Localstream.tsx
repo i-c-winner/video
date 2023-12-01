@@ -41,7 +41,10 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
                       position: 'absolute',
                       right: '50px',
                       top: '50px',
-                      pointerEvents: 'initial'
+                      pointerEvents: 'initial',
+                    }}
+                    classes={{
+                      root: 'margin_zero button_more'
                     }}
                     styles={styles.localeStyleLayer.menu}
                     action={openMenu}/>
