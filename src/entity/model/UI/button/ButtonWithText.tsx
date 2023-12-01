@@ -23,6 +23,7 @@ function ButtonWithText(props: IProps) {
   return (
     <Box sx={getStyles(props.wrapperStyles)}>
       <Button
+        classes={props.classes}
         style={props.styles}
         startIcon={<CreateSvgIcon sizes={props.sizes} icon={props.startIcon} />}
         onClick={props.action} variant={props.variant} >{props.text}</Button>

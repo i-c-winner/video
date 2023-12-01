@@ -40,3 +40,26 @@
 .icon-submenu_toolbox {
   position: absolute;
 }
+.my-modal {
+  display: flex;
+}
+.list{
+  .list-more {
+    &__listitem {
+     padding: 0 15px;
+      .button_zero {
+        padding: 0;
+      }
+
+      &:hover {
+        background-color: #87bfff;
+      }
+
+    }
+}
+
+  .margin_zero{
+
+  }
+}
+

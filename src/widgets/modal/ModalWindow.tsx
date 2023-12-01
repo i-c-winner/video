@@ -36,6 +36,10 @@ function ModalWindow() {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      classes={{
+        root: 'my-modal'
+      }}
+
     >
     </Modal>
   );
