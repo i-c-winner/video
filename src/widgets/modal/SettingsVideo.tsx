@@ -10,7 +10,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, useState } from 'react';
-import { IVideiQty, IAudioQty } from '../type';
+import { IVideoQty, IAudioQty } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
@@ -24,7 +24,7 @@ interface TabPanelProps {
   value: number;
 }
 
-const videoQty: Readonly<IVideiQty> = {
+const videoQty: Readonly<IVideoQty> = {
   disabled: 'disabled',
   low: 'low',
   middle: 'middle',
@@ -70,7 +70,7 @@ function a11yProps(index: number) {
 }
 
 function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IVideiQty = event.target.value;
+  const value: keyof IVideoQty = event.target.value;
   glagol.applyConstraints({ type: 'video', value });
   this.dispatch(changeVideo(value));
 

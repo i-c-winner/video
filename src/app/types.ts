@@ -1,4 +1,4 @@
-import { IAudioQty, IVideiQty } from '../widgets/type';
+import { IAudioQty, IVideoQty } from '../widgets/type';
 
 interface IConfig {
   conference: {
@@ -49,8 +49,8 @@ interface IInterface {
   remoteBoxVisible: boolean,
   conference: {
     quality: {
-      audio: keyof IVideiQty,
-      video: keyof IAudioQty
+      audio: keyof IAudioQty,
+      video: keyof IVideoQty
     }
   }
 }

@@ -4,6 +4,7 @@ import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import {
+  changeAudio,
   changeChatsBox,
   changeIsRecording,
   changeTypeModal,
@@ -18,7 +19,7 @@ import {
   iconCamera,
   iconCameradisabled,
   iconMicrophone,
-  iconRecordStart, iconRecordStop
+  iconRecordStart, iconRecordStop, iconMicOff
 } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
@@ -31,9 +32,10 @@ import { ButtonWithSubmenu } from '../../entity/model/UI/button/ButtonWithSubmen
 import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera';
 import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
-import {Recording} from '../../features/manager/record';
+import { Recording } from '../../features/manager/record';
 
-let recording: null|Recording=null
+let recording: null | Recording = null;
+
 interface IIcon {
   attributes: {
     [key: string]: string
@@ -45,32 +47,35 @@ function Toolbox() {
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
-  const {isRecording}=useSelector((state: IStore)=>state.interface)
-  const [currentIconRecord, setCurrentIconRecord]= useState<IIcon>(iconRecordStart)
+  const qualityAudio = useSelector((state: IStore) => state.interface.conference.quality.audio);
+
+  const { isRecording } = useSelector((state: IStore) => state.interface);
+  const [ currentIconRecord, setCurrentIconRecord ] = useState<IIcon>(iconRecordStart);
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
-  const[styleRecordButton, setStyleRecordButton]=useState<IStyle>(defaultButtonsStyle)
+  const [ styleRecordButton, setStyleRecordButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
-  const [currentIconMicrophone, setCurrentIconMicrophone]= useState<IIcon>(iconMicrophone)
+  const [ currentIconMicrophone, setCurrentIconMicrophone ] = useState<IIcon>(iconMicrophone);
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
-  const [sharingState, setSharingState]=useState<boolean>(false)
+  const [ sharingState, setSharingState ] = useState<boolean>(false);
 
   function sharingAction() {
     if (sharingState) {
-      sharingStop()
-      setStyleSharingButton(defaultButtonsStyle)
-      setSharingState(false)
+      sharingStop();
+      setStyleSharingButton(defaultButtonsStyle);
+      setSharingState(false);
     } else {
-      sharingStart()
-    setSharingState(true)
+      sharingStart();
+      setSharingState(true);
       setStyleSharingButton({
         ...defaultButtonsStyle,
         color: 'red'
-      })
+      });
     }
   }
+
   function sharingStart() {
     sharing.start().then((stream) => {
       if (stream) {
@@ -102,26 +107,42 @@ function Toolbox() {
   }
 
   function toggledCamera() {
-
     if (qualityVideo !== 'disabled') {
       dispatch(changeVideo('disabled'));
     } else {
       dispatch(changeVideo(config.conference.quality.video));
     }
   }
+
   function openingSubmenu() {
     setSubmenuForCaMeraOpen(!submenuForCameraOpen);
   }
-  function getViewBox() {
-     if (qualityVideo==='disabled') {
-     return {viewBox: '17 18 25 25'}
-  } return {viewBox: '0 0 22 22'}
-}
 
-function actionRecording() {
-    dispatch(changeIsRecording(!isRecording))
+  function getViewBoxForVideoIcon() {
+    if (qualityVideo === 'disabled') {
+      return {
+        viewBox: '17 18 25 25',
+      };
+    }
+    return { viewBox: '0 0 22 22' };
+  }
+  function getViewBoxForAudioIcon() {
+    return { viewBox: '0 0 22 22' };
   }
 
+  function actionRecording() {
+    dispatch(changeIsRecording(!isRecording));
+  }
+
+  function toggledMicrophone() {
+    if (qualityAudio === 'enabled') {
+      dispatch(changeAudio('disabled'));
+      setCurrentIconMicrophone(iconMicOff);
+    } else {
+      dispatch(changeAudio('enabled'));
+      setCurrentIconMicrophone(iconMicrophone);
+    }
+  }
 
   useEffect(() => {
     if (qualityVideo !== 'disabled') {
@@ -136,13 +157,13 @@ function actionRecording() {
   }, [ chatsBoxVisible, tileMode ]);
   useEffect(() => {
     if (isRecording) {
-      setStyleRecordButton(()=>{
+      setStyleRecordButton(() => {
         return {
           ...defaultButtonsStyle,
           color: 'red'
-        }
-      })
-      setCurrentIconRecord(iconRecordStop)
+        };
+      });
+      setCurrentIconRecord(iconRecordStop);
       const rec = new Recording();
       rec.init().then((result) => {
         rec.createRecorder(result);
@@ -153,8 +174,8 @@ function actionRecording() {
         dispatch(changeIsRecording(false));
       });
     } else {
-      setStyleRecordButton(defaultButtonsStyle)
-      setCurrentIconRecord(iconRecordStart)
+      setStyleRecordButton(defaultButtonsStyle);
+      setCurrentIconRecord(iconRecordStart);
       if (recording !== null) {
         recording.stop();
       }
@@ -205,7 +226,7 @@ function actionRecording() {
           openSubmenu={openingSubmenu}
           key={getRandomText(5)}
           wrapperStyles={{ margin: '5px 10px' }}
-          sizes={getViewBox()}
+          sizes={getViewBoxForVideoIcon()}
           classes={{
             startIcon: 'margin_zero'
           }
@@ -218,12 +239,12 @@ function actionRecording() {
           openSubmenu={openingSubmenu}
           key={getRandomText(5)}
           wrapperStyles={{ margin: '5px 10px' }}
-          sizes={getViewBox()}
+          sizes={getViewBoxForAudioIcon()}
           classes={{
             startIcon: 'margin_zero'
           }
           }
-          variant="text" startIcon={currentIconMicrophone} action={toggledCamera}>
+          variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}>
           {submenuForCameraOpen && <SubmenuForCamera/>}
         </ButtonWithSubmenu>
         <ButtonWithIcon

@@ -44,7 +44,11 @@ function ButtonWithSubmenu(props: IProps) {
           top: '0'
         }}
         onClick={props.openSubmenu}>
-        <CreateSvgIcon icon={iconArrow} />
+        <CreateSvgIcon sizes={{
+          width: '15px',
+          height: '10px',
+          viewBox: '3 0 10 10'
+        }} icon={iconArrow} />
       </Button>
     </Box>
   );
