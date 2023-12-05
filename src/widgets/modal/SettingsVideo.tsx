@@ -8,14 +8,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { glagol } from '../../entity/conference/glagol';
-
+import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, useState } from 'react';
 import { IVideiQty, IAudioQty } from '../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
 import { Dispatch } from '@reduxjs/toolkit';
-const width='600px'
+
+const width = '600px';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -81,6 +83,7 @@ function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
 }
 
 const SettingsVideo = React.forwardRef((props, ref) => {
+  const { t } = useTranslation();
   const [ audio ] = useState(useSelector((state: IStore) => state.interface.conference.quality.audio));
   const [ video ] = useState(useSelector((state: IStore) => state.interface.conference.quality.video));
   const dispatch = useDispatch();
@@ -88,8 +91,8 @@ const SettingsVideo = React.forwardRef((props, ref) => {
 
   function getvideo() {
     return (
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Качество видео</FormLabel>
+      <FormControl sx={{textAlign: 'center'}}>
+        <FormLabel id="demo-radio-buttons-group-label">{t('modal.more.videoQty')}</FormLabel>
         <RadioGroup
           sx={{
             pointerEvents: 'initial'
@@ -99,10 +102,10 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           defaultValue={video}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={videoQty.disabled}/>
-          <FormControlLabel value={videoQty.low} control={<Radio/>} label={videoQty.low}/>
-          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={videoQty.middle}/>
-          <FormControlLabel value={videoQty.height} control={<Radio/>} label={videoQty.height}/>
+          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={t('modal.settings.disabled')}/>
+          <FormControlLabel value={videoQty.low} control={<Radio/>} label={t('modal.settings.low')}/>
+          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={t('modal.settings.middle')}/>
+          <FormControlLabel value={videoQty.height} control={<Radio/>} label={t('modal.settings.high')}/>
         </RadioGroup>
       </FormControl>
     );
@@ -111,7 +114,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
   function getAudio() {
     return (
       <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Отключение аудио</FormLabel>
+        <FormLabel id="demo-radio-buttons-group-label">{t('modal.more.mute')}</FormLabel>
         <RadioGroup
           sx={{
             pointerEvents: 'initial'
@@ -121,8 +124,8 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           defaultValue={audio}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={audioQty.enabled}/>
-          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={audioQty.disabled}/>
+          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={ t('modal.settings.enabled')}/>
+          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={t('modal.settings.disabled')}/>
         </RadioGroup>
       </FormControl>
     );
@@ -136,7 +139,9 @@ const SettingsVideo = React.forwardRef((props, ref) => {
     <Box sx={{
       width: '100%',
       paddingTop: '20vh',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      textAlign: 'center',
+      color: 'white'
     }}>
       <Box sx={{
         pointerEvents: 'initial',
@@ -150,9 +155,8 @@ const SettingsVideo = React.forwardRef((props, ref) => {
         textAlign: 'center'
       }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Video" {...a11yProps(0)} />
-          <Tab label="Audio" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label={t('modal.settings.video')} {...a11yProps(0)} />
+          <Tab label={t('modal.settings.audio')} {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -160,9 +164,6 @@ const SettingsVideo = React.forwardRef((props, ref) => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         {getAudio()}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
       </CustomTabPanel>
     </Box>
   );

@@ -21,13 +21,20 @@ const ru = {
       yourEmail: 'Ваша почта',
       video: 'видео',
       audio: 'аудио',
-      microphone: 'микрофон'
+      microphone: 'микрофон',
+      enabled: 'Включено',
+      disabled: 'Выключено',
+      low: 'Низкое',
+      middle: 'Среднее',
+      high: 'Высокое'
     },
     more: {
+      settingsVideo: 'Настройки качества',
       settings: 'Настройки',
       fullScreen: 'Полный экран',
       allMute: 'Выключить всех',
-      changeQty: 'Качесвто видео'
+      videoQty: 'Качество видео',
+      mute: 'Отключить звук'
     }
   }
 };
