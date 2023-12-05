@@ -6,10 +6,12 @@ import { Settings } from './Settings';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 import {Error} from './Error';
 import { More } from './More';
+import { SettingsVideo } from './SettingsVideo';
 
 const allChildren: {
   [key: string]: ReactElement
 } = {
+  settingsVideo: <SettingsVideo />,
   settings: <Settings />,
   error: <Error />,
   more: <More />

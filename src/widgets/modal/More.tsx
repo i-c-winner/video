@@ -3,6 +3,9 @@ import React from 'react';
 import { iconSettings, iconFullscreen, iconVideoQty, iconMuteAll } from '../../shared/img/svg';
 import { useTranslation } from 'react-i18next';
 import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
+import {useDispatch} from 'react-redux';
+import {changeTypeModal, openModal} from '../../app/store/interfaceSlice';
+import {IInterface} from '../../app/types';
 
 interface IIcon {
   attributes: {
@@ -10,19 +13,24 @@ interface IIcon {
   },
   content: string,
 }
+type TTypeModal = Partial<IInterface['typeModal']>
 
-const buttons: [ string, IIcon ][] = [ [ 'settings', iconSettings ], [ 'changeQty', iconVideoQty ], [ 'fullScreen', iconFullscreen ], [ 'allMute', iconMuteAll ] ];
+const buttons: [ TTypeModal, IIcon ][] = [ [ 'settings', iconSettings ], [ 'settingsVideo', iconVideoQty ], [ 'fullScreen', iconFullscreen ], [ 'allMute', iconMuteAll ] ];
 const styleBox = {
   bgcolor: 'background.windows',
   margin: '10px 150px auto auto',
   width: 'auto'
 };
 
-function actionClick(this: { type: string }) {
-  console.log(this.type);
-}
+
 
 const More = React.forwardRef((props, ref) => {
+  const dispatch=useDispatch()
+  function actionClick(this: { type:  TTypeModal}) {
+    dispatch(changeTypeModal(this.type))
+    dispatch(openModal(true))
+    console.log(this.type);
+  }
   const { t } = useTranslation();
   return <Box sx={styleBox}>
     <nav>
