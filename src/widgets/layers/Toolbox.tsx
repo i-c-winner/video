@@ -69,10 +69,6 @@ function Toolbox() {
     } else {
       sharingStart();
       setSharingState(true);
-      setStyleSharingButton({
-        ...defaultButtonsStyle,
-        color: 'red'
-      });
     }
   }
 
@@ -83,6 +79,10 @@ function Toolbox() {
           type: 'dashboard',
           id: stream.id
         }));
+        setStyleSharingButton({
+          ...defaultButtonsStyle,
+          color: 'red'
+        });
       } else {
         console.info('Sharing is aborting');
       }
