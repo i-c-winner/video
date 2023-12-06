@@ -53,9 +53,9 @@ function RemoteStreamsBox() {
   useEffect(() => {
     if (remoteStreams.length > 0) {
       setStreamsBoxVisible(true);
-      dispatch(changeRemoteStreamsBox(true))
+      dispatch(changeRemoteStreamsBox(true));
     }
-  }, [remoteStreams]);
+  }, [ remoteStreams ]);
 
   function getChildren() {
     if (!tileMode) {
@@ -67,7 +67,7 @@ function RemoteStreamsBox() {
                 <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
                 <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
               </Box>
-              <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2}</Typography>
+              <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
               <hr/>
               {remoteStreams.map((stream: { id: string, type: string }) => {
                 return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
