@@ -60,13 +60,20 @@ function App() {
       return 'interface.buttons.createRoomName'
     } return 'interface.buttons.createDisplayName'
   }
-
+function getStyleButton() {
+    return {
+      width: '80%',
+      fontSize: '2em',
+      height: '60px'
+    }
+}
   return <Box
     sx={
       styles.main
     }>
     {getChildren()}
     {state !== 'roomPage' && <Button
+      sx={getStyleButton()}
       variant="contained"
       onClick={changeState}>{t(getButtonText())}</Button>}
   </Box>;

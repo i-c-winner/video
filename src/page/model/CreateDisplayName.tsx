@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useAsync } from 'react-async';
 import { glagol } from '../../entity/conference/glagol';
-import { Box } from '@mui/material';
+import { Box, Input } from '@mui/material';
 import { styles } from '../styles/styles.';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { changeAudio, changeVideo } from '../../app/store/interfaceSlice';
 import { iconCamera, iconMicrophone } from '../../shared/img/svg';
 import { config } from '../../shared/config';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
+import { getInputStyles } from '../../features/styles/getInputStyles';
 
 
 const connection = async () => {
@@ -47,8 +48,21 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     startIcon: 'margin_zero'
   };
   const buttonSizes = {
-    viewBox: '0 0 30 30'
+
   };
+  function getButtonSizes() {
+    if (window.screen.width>720) {
+      return {
+        viewBox: '0 0 30 30'
+      }
+    } else {
+      return {
+        viewBox: '0 0 25 25',
+        width: '100px',
+        height: '100px'
+      }
+    }
+  }
   if (isPending) {
     return <p>...Pending</p>;
   }
@@ -63,20 +77,20 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     });
     glagol.peerConnectionAddHandlers();
     return <Box  sx={styles.wrapper}>
-      <input ref={ref}/>
+      <Input sx={getInputStyles()} ref={ref}/>
       <Box sx={{display: 'flex', justifyContent: 'center',
       marginTop: '10px'
       }}>
         <ButtonWithIcon
           styles={styleButtonVideo}
           classes={buttonClasses}
-          sizes={buttonSizes}
+          sizes={getButtonSizes()}
           variant="outlined" startIcon={iconCamera}
           action={actions.videoChange}/>
         <ButtonWithIcon
           styles={styleButtonAudio}
           classes={buttonClasses}
-          sizes={buttonSizes}
+          sizes={getButtonSizes()}
           variant="outlined" startIcon={iconMicrophone}
           action={actions.audioChange}/>
       </Box>
