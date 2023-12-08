@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
@@ -17,31 +17,29 @@ function App() {
 
     switch (state) {
       case 'createUserName' :
-        return <CreateDisplayName ref={refDisplayName}/>;
+        return <CreateDisplayName changeDisplayName = {changingInput} ref={refDisplayName}/>;
       case 'createRoomName':
-        return <CreateRoomName ref={refRoomName}/>;
+        return <CreateRoomName changeRoomName={changingInput} ref={refRoomName}/>;
       case 'roomPage':
         return <RoomPage/>;
       default:
         return <p>unknown children</p>;
     }
   }
+  function changingInput(event: BaseSyntheticEvent,  type: string) {
+    console.log(event)
+    if (type==='roomName') {
+      glagol.params.roomName=event.target.value
+    } else {
+      glagol.params.displayName=event.target.value
+    }
+  }
 
   function changeState() {
-    if (refRoomName.current !== null) {
-      if (validate(refRoomName.current.value)) glagol.params.roomName = refRoomName.current.value;
-    }
-    if (refDisplayName.current !== null) {
-      if (validate(refDisplayName.current.value)) glagol.params.displayName = refDisplayName.current.value;
-    }
     if (state === 'createRoomName') {
       setState('createUserName');
     } else if (state === 'createUserName') {
       setState('roomPage');
-    }
-
-    function validate(text: any): boolean {
-      return text !== '';
     }
   }
   function creating(target: KeyboardEvent)  {
@@ -61,11 +59,16 @@ function App() {
     } return 'interface.buttons.createDisplayName'
   }
 function getStyleButton() {
-    return {
-      width: '80%',
-      fontSize: '2em',
-      height: '60px'
+    if (window.screen.width>720) {
+      return {}
+    } else {
+      return {
+        width: '80%',
+        fontSize: '2em',
+        height: '60px'
+      }
     }
+
 }
   return <Box
     sx={

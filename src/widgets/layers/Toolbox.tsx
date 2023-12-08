@@ -66,6 +66,7 @@ function Toolbox() {
 
   const centerButtons = {
     sharing: <ButtonWithIcon
+      key='sharing'
       styles={styleSharingButton}
       wrapperStyles={{ margin: '5px 10px' }}
       variant="text"
@@ -78,6 +79,7 @@ function Toolbox() {
       }}
       startIcon={iconSharing} action={sharingAction}/>,
     tileMode: <ButtonWithIcon
+      key='tileMode'
       wrapperStyles={{ margin: '5px 10px' }}
       classes={{
         startIcon: 'margin_zero'
@@ -111,6 +113,7 @@ function Toolbox() {
       {submenuForCameraOpen && <SubmenuForCamera/>}
     </ButtonWithSubmenu>,
     settings: <ButtonWithIcon
+      key={getRandomText(5)}
       styles={defaultButtonsStyle}
       wrapperStyles={{ margin: '5px 10px' }}
       variant="text"

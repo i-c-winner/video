@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { useAsync } from 'react-async';
 import { glagol } from '../../entity/conference/glagol';
 import { Box, Input } from '@mui/material';
@@ -15,7 +15,7 @@ import { getInputStyles } from '../../features/styles/getInputStyles';
 const connection = async () => {
   return glagol.setLocalStream();
 };
-const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
+const CreateDisplayName = React.forwardRef((props: {changeDisplayName: (event: any, type: string)=>void}, ref) => {
 
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const dispatch = useDispatch();
@@ -47,9 +47,9 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
   const buttonClasses = {
     startIcon: 'margin_zero'
   };
-  const buttonSizes = {
-
-  };
+  function action(event: SyntheticEvent) {
+    props.changeDisplayName(event, 'displayName')
+  }
   function getButtonSizes() {
     if (window.screen.width>720) {
       return {
@@ -77,7 +77,7 @@ const CreateDisplayName = React.forwardRef<HTMLInputElement>((props, ref) => {
     });
     glagol.peerConnectionAddHandlers();
     return <Box  sx={styles.wrapper}>
-      <Input sx={getInputStyles()} ref={ref}/>
+      <Input onChange={action} sx={getInputStyles()} ref={ref}/>
       <Box sx={{display: 'flex', justifyContent: 'center',
       marginTop: '10px'
       }}>
