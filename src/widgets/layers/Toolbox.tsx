@@ -36,6 +36,7 @@ import { Recording } from '../../features/manager/record';
 
 let recording: null | Recording = null;
 
+
 interface IIcon {
   attributes: {
     [key: string]: string
@@ -43,7 +44,9 @@ interface IIcon {
   content: string,
 }
 
+
 function Toolbox() {
+
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
@@ -60,6 +63,71 @@ function Toolbox() {
   const [ currentIconMicrophone, setCurrentIconMicrophone ] = useState<IIcon>(iconMicrophone);
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
   const [ sharingState, setSharingState ] = useState<boolean>(false);
+
+  const centerButtons = {
+    sharing: <ButtonWithIcon
+      styles={styleSharingButton}
+      wrapperStyles={{ margin: '5px 10px' }}
+      variant="text"
+      // sizes={{
+      //   viewBox: '0 0 30 30',
+      // }
+      // }
+      classes={{
+        startIcon: 'margin_zero'
+      }}
+      startIcon={iconSharing} action={sharingAction}/>,
+    tileMode: <ButtonWithIcon
+      wrapperStyles={{ margin: '5px 10px' }}
+      classes={{
+        startIcon: 'margin_zero'
+      }}
+      styles={styleTileButton}
+      variant="text" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}/>,
+    camera: <ButtonWithSubmenu
+      styles={defaultButtonsStyle}
+      openSubmenu={openingSubmenu}
+      key={getRandomText(5)}
+      wrapperStyles={{ margin: '5px 10px' }}
+      // sizes={getViewBoxForVideoIcon()}
+      classes={{
+        startIcon: 'margin_zero'
+      }
+      }
+      variant="text" startIcon={currentIconCamera} action={toggledCamera}>
+      {submenuForCameraOpen && <SubmenuForCamera/>}
+    </ButtonWithSubmenu>,
+    microphone: <ButtonWithSubmenu
+      styles={defaultButtonsStyle}
+      openSubmenu={openingSubmenu}
+      key={getRandomText(5)}
+      wrapperStyles={{ margin: '5px 10px' }}
+      // sizes={getViewBoxForAudioIcon()}
+      classes={{
+        startIcon: 'margin_zero'
+      }
+      }
+      variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}>
+      {submenuForCameraOpen && <SubmenuForCamera/>}
+    </ButtonWithSubmenu>,
+    settings: <ButtonWithIcon
+      styles={defaultButtonsStyle}
+      wrapperStyles={{ margin: '5px 10px' }}
+      variant="text"
+      classes={{
+        startIcon: 'margin_zero'
+      }}
+      startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>,
+    record: <ButtonWithIcon
+      key={getRandomText(5)}
+      styles={styleRecordButton}
+      wrapperStyles={{ margin: '5px 10px' }}
+      variant="text"
+      classes={{
+        startIcon: 'margin_zero'
+      }}
+      startIcon={currentIconRecord} action={actionRecording}/>
+  };
 
   function sharingAction() {
     if (sharingState) {
@@ -126,6 +194,7 @@ function Toolbox() {
     }
     return { viewBox: '0 0 22 22' };
   }
+
   function getViewBoxForAudioIcon() {
     return { viewBox: '0 0 22 22' };
   }
@@ -143,7 +212,19 @@ function Toolbox() {
       setCurrentIconMicrophone(iconMicrophone);
     }
   }
-
+function getHeightToolbox() {
+    if (window.screen.width>720) {
+      return {
+        ...styles.toolboxLayer.toolbox,
+        height: '40px'
+      }
+    } else {
+      return {
+        ...styles.toolboxLayer.toolbox,
+        height: '70px'
+      }
+    }
+}
   useEffect(() => {
     if (qualityVideo !== 'disabled') {
       setCurrentIconCamera(iconCamera);
@@ -185,7 +266,7 @@ function Toolbox() {
 
   return <Box sx={styles.toolboxLayer}>
     <ModalWindow/>
-    {toolboxVisible && <Box sx={styles.toolboxLayer.toolbox}>
+    {toolboxVisible && <Box sx={getHeightToolbox()}>
       <Box>
         <ButtonWithIcon
           wrapperStyles={{ margin: '5px 10px' }}
@@ -201,69 +282,9 @@ function Toolbox() {
         display: 'flex',
         justifyContent: 'center'
       }}>
-
-        <ButtonWithIcon
-          styles={styleSharingButton}
-          wrapperStyles={{ margin: '5px 10px' }}
-          variant="text"
-          sizes={{
-            viewBox: '0 0 30 30',
-          }
-          }
-          classes={{
-            startIcon: 'margin_zero'
-          }}
-          startIcon={iconSharing} action={sharingAction}/>
-        <ButtonWithIcon
-          wrapperStyles={{ margin: '5px 10px' }}
-          classes={{
-            startIcon: 'margin_zero'
-          }}
-          styles={styleTileButton}
-          variant="text" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}/>
-        <ButtonWithSubmenu
-          styles={defaultButtonsStyle}
-          openSubmenu={openingSubmenu}
-          key={getRandomText(5)}
-          wrapperStyles={{ margin: '5px 10px' }}
-          sizes={getViewBoxForVideoIcon()}
-          classes={{
-            startIcon: 'margin_zero'
-          }
-          }
-          variant="text" startIcon={currentIconCamera} action={toggledCamera}>
-          {submenuForCameraOpen && <SubmenuForCamera/>}
-        </ButtonWithSubmenu>
-        <ButtonWithSubmenu
-          styles={defaultButtonsStyle}
-          openSubmenu={openingSubmenu}
-          key={getRandomText(5)}
-          wrapperStyles={{ margin: '5px 10px' }}
-          sizes={getViewBoxForAudioIcon()}
-          classes={{
-            startIcon: 'margin_zero'
-          }
-          }
-          variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}>
-          {submenuForCameraOpen && <SubmenuForCamera/>}
-        </ButtonWithSubmenu>
-        <ButtonWithIcon
-          styles={defaultButtonsStyle}
-          wrapperStyles={{ margin: '5px 10px' }}
-          variant="text"
-          classes={{
-            startIcon: 'margin_zero'
-          }}
-          startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>
-        <ButtonWithIcon
-          key={getRandomText(5)}
-          styles={styleRecordButton}
-          wrapperStyles={{ margin: '5px 10px' }}
-          variant="text"
-          classes={{
-            startIcon: 'margin_zero'
-          }}
-          startIcon={currentIconRecord} action={actionRecording}/>
+        {Object.values(centerButtons).map((button)=>{
+          return button
+        })}
 
       </Box>
 

@@ -110,7 +110,6 @@ const styles = {
     textAlign: 'bottom',
     toolbox: {
       pointerEvents: 'initial',
-      height: '40px',
       padding: '5px 20px',
       display: 'flex',
       justifyContent: 'space-around',
