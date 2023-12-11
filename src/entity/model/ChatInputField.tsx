@@ -8,19 +8,15 @@ import { glagol } from '../conference/glagol';
 import { iconArrowSend } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
 import { IStore } from '../../app/types';
-import {saveChat} from '../../features/chats/saveChat';
+import { saveChat } from '../../features/chats/saveChat';
 import { styleButton } from '../styles/styles';
 
-interface IMessage {
-  text: string,
-  id: string,
-  author: string
-}
 
 function ChatInputField() {
   const [ text, setText ] = useState<string>('');
   const dispatch = useDispatch();
-const {chatsList}=useSelector((state: IStore)=>state.chats)
+  const { chatsList } = useSelector((state: IStore) => state.chats);
+
   function sendMessage() {
     setText('');
     if (refInput.current?.value) {
@@ -32,15 +28,10 @@ const {chatsList}=useSelector((state: IStore)=>state.chats)
     setText(event.target.value);
   }
 
-  function messageReceived(message: [ IMessage ]) {
-    dispatch(addChat(message[0]));
+  function saveMessages() {
+    saveChat(chatsList);
   }
-function saveMessages() {
- saveChat(chatsList)
-}
-  useEffect(() => {
-    glagol.on('messageReceived', messageReceived);
-  }, []);
+
   const refInput = useRef<HTMLTextAreaElement>(null);
   return (
     <Box sx={styles.chatsboxLayer.chatInputField}>

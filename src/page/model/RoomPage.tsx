@@ -10,6 +10,13 @@ import { TopPanel } from '../../widgets/layers/TopPanel';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '../../app/store/sourceSlice';
 import { IStore, TStream } from '../../app/types';
+import { addChat } from '../../app/store/chatsSlice';
+
+interface IMessage {
+  text: string,
+  id: string,
+  author: string
+}
 
 
 function RoomPage() {
@@ -57,6 +64,10 @@ function RoomPage() {
     }
   }
 
+  function messageReceived(message: [ IMessage ]) {
+    dispatch(addChat(message[0]));
+  }
+
   useEffect(() => {
     glagol.roomInstance.create();
     glagol.on('addTrackToSource', addTrackToSource);
@@ -64,6 +75,7 @@ function RoomPage() {
     glagol.on('removeSharingFromSource', removeSharingFromSource);
     glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
     glagol.on('renderMySharing', renderMySharing);
+    glagol.on('messageReceived', messageReceived);
   }, []);
   useEffect(() => {
     const stream = new MediaStream();
