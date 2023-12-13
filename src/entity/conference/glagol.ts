@@ -3,8 +3,9 @@ import * as strophe from 'strophe.js';
 import { setRegister } from '../../features/plugins/register';
 import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
-import {constants} from '../../shared/config';
+import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
+import { Chanel } from './Chanel';
 
 const room = new Room();
 setRegister(strophe);
@@ -24,25 +25,25 @@ const glagol: IGlagol = {
     roomName: getRandomText(5),
     displayName: getRandomText(5)
   },
-  applyConstraints: (data )=>{
-    if (data.type==='video') {
-      glagol.peerConnection.getSenders().forEach((sender)=>{
-        if (sender.track?.contentHint!=='detail'&&sender.track?.kind==='video') {
-          if (data.value==='disabled') {
-            sender.track.enabled=false
-          } else if (data.value!=='enabled') {
-            sender.track.enabled=true
-            sender.track?.applyConstraints(constants.videoQuantity[data.value]).then((res)=>{
-            })
+  applyConstraints: (data) => {
+    if (data.type === 'video') {
+      glagol.peerConnection.getSenders().forEach((sender) => {
+        if (sender.track?.contentHint !== 'detail' && sender.track?.kind === 'video') {
+          if (data.value === 'disabled') {
+            sender.track.enabled = false;
+          } else if (data.value !== 'enabled') {
+            sender.track.enabled = true;
+            sender.track?.applyConstraints(constants.videoQuantity[data.value]).then((res) => {
+            });
           }
         }
-      })
-    } else if (data.type==='audio') {
-      glagol.peerConnection.getSenders().forEach((sender)=>{
-        if (sender.track?.kind==='audio') {
-           sender.track.enabled = data.value === 'enabled';
+      });
+    } else if (data.type === 'audio') {
+      glagol.peerConnection.getSenders().forEach((sender) => {
+        if (sender.track?.kind === 'audio') {
+          sender.track.enabled = data.value === 'enabled';
         }
-      })
+      });
     }
 
   },
@@ -96,15 +97,15 @@ const glagol: IGlagol = {
         }
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
-          console.log('ADD TRACK')
+          console.log('ADD TRACK');
           break;
         }
         case 'ice_candidate': {
-          const candidate= new RTCIceCandidate(JSON.parse(atob(jimbleText)))
+          const candidate = new RTCIceCandidate(JSON.parse(atob(jimbleText)));
           if (glagol.peerConnection.remoteDescription) {
-            glagol.peerConnection.addIceCandidate(candidate)
+            glagol.peerConnection.addIceCandidate(candidate);
           } else {
-            candidates.pushCandidate(candidate)
+            candidates.pushCandidate(candidate);
           }
           break;
         }
@@ -135,7 +136,7 @@ const glagol: IGlagol = {
           console.info('message with unknown action');
         }
       }
-      console.log(stanza,'message');
+      console.log(stanza, 'message');
       return true;
     };
     const handlerIqTypeResult = (stanza: Element) => {
@@ -144,19 +145,18 @@ const glagol: IGlagol = {
       return true;
     };
     const handlerMessageGroupChat = (stanza: Element) => {
-      try{
+      try {
         console.log(stanza, 'MESSAGE TEXT');
-        const body= stanza.getElementsByTagName('body')[0];
-        const text=Strophe.getText(body)
+        const body = stanza.getElementsByTagName('body')[0];
+        const text = Strophe.getText(body);
         const jingle = stanza.getElementsByTagName('jingle')[0];
         const id = jingle.getAttribute('id');
         const author = jingle.getAttribute('author');
-        glagol.emit('messageReceived', {id, text, author })
-      } catch(e)
-      {
+        glagol.emit('messageReceived', { id, text, author });
+      } catch (e) {
 
       }
-      return true
+      return true;
     };
     const handlerPresence = (stanza: Element) => {
       const from = stanza.getAttribute('from') as string;
@@ -192,7 +192,7 @@ const glagol: IGlagol = {
   },
   streamsWasChanged(description) {
     this.peerConnection.setRemoteDescription(JSON.parse(atob(description))).then(() => {
-      candidates.getList().forEach((candidate)=>glagol.peerConnection.addIceCandidate(candidate))
+      candidates.getList().forEach((candidate) => glagol.peerConnection.addIceCandidate(candidate));
       return this.peerConnection.createAnswer({
         iceRestart: true
       });
@@ -214,23 +214,26 @@ const glagol: IGlagol = {
     // @ts-ignore
     window.peer = pc;
     pc.ontrack = (event) => {
-      const type=event.streams[0].id.split('-')[0]
-      if (type==='audio'|| type==='video'){
+      const type = event.streams[0].id.split('-')[0];
+      if (type === 'audio' || type === 'video') {
         this.emit('addTrackToSource', {
           id: event.receiver.track.id,
           type
         });
-      } else if(type==='dashboard'){
+      } else if (type === 'dashboard') {
         this.emit('addSharingToSource', {
           id: event.receiver.track.id,
           type
-        })
+        });
       }
 
 
       event.streams[0].onremovetrack = (event) => {
         this.emit('removeRemoteTrackFormSource', event.track.id);
       };
+    };
+    pc.ondatachannel = (event) => {
+      new Chanel(event.channel);
     };
     pc.onnegotiationneeded = (event) => {
     };

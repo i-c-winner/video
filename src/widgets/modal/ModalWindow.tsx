@@ -7,14 +7,17 @@ import React, { ReactElement, ReactNode, useRef } from 'react';
 import {Error} from './Error';
 import { More } from './More';
 import { SettingsVideo } from './SettingsVideo';
+import {File} from './FIle';
 
 const allChildren: {
   [key: string]: ReactElement
 } = {
   settingsVideo: <SettingsVideo />,
   settings: <Settings />,
+  more: <More />,
+  file: <File />,
   error: <Error />,
-  more: <More />
+
 };
 
 function ModalWindow() {

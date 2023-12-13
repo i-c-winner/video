@@ -16,6 +16,7 @@ import {
   iconSettings,
   iconSharing,
   iconTile,
+  iconFile,
   iconCamera,
   iconCameradisabled,
   iconMicrophone,
@@ -65,15 +66,28 @@ function Toolbox() {
   const [ sharingState, setSharingState ] = useState<boolean>(false);
 
   const centerButtons = {
+    file: <ButtonWithIcon
+      key={getRandomText(5)}
+      styles={defaultButtonsStyle}
+      wrapperStyles={{ margin: '5px 10px' }}
+      variant="text"
+      sizes={{
+        // viewBox: '0 0 30 30',
+      }
+      }
+      classes={{
+        startIcon: 'margin_zero'
+      }}
+      startIcon={iconFile} action={openingModal.bind({type: 'file'})}/>,
     sharing: <ButtonWithIcon
       key='sharing'
       styles={styleSharingButton}
       wrapperStyles={{ margin: '5px 10px' }}
       variant="text"
-      // sizes={{
-      //   viewBox: '0 0 30 30',
-      // }
-      // }
+      sizes={{
+        viewBox: '0 0 30 30',
+      }
+      }
       classes={{
         startIcon: 'margin_zero'
       }}
@@ -91,7 +105,7 @@ function Toolbox() {
       openSubmenu={openingSubmenu}
       key={getRandomText(5)}
       wrapperStyles={{ margin: '5px 10px' }}
-      // sizes={getViewBoxForVideoIcon()}
+      sizes={getViewBoxForVideoIcon()}
       classes={{
         startIcon: 'margin_zero'
       }
@@ -104,7 +118,7 @@ function Toolbox() {
       openSubmenu={openingSubmenu}
       key={getRandomText(5)}
       wrapperStyles={{ margin: '5px 10px' }}
-      // sizes={getViewBoxForAudioIcon()}
+      sizes={getViewBoxForAudioIcon()}
       classes={{
         startIcon: 'margin_zero'
       }
