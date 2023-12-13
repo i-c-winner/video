@@ -5,7 +5,7 @@ import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
 import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
-import { Chanel } from './Chanel';
+import { chanel } from './chanel';
 
 const room = new Room();
 setRegister(strophe);
@@ -233,7 +233,7 @@ const glagol: IGlagol = {
       };
     };
     pc.ondatachannel = (event) => {
-      new Chanel(event.channel);
+      chanel.init(event.channel);
     };
     pc.onnegotiationneeded = (event) => {
     };

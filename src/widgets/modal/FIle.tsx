@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Button, List, ListItem, ListItemButton, ListItemText, styled, Typography } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { getRandomText } from '../../features/plugins/getRandomText';
+import {chanel} from '../../entity/conference/chanel';
 
 const File = React.forwardRef((props, ref) => {
   const { files } = useSelector((state: IStore) => state.files);
@@ -21,7 +22,23 @@ const File = React.forwardRef((props, ref) => {
   function clickButton(this: {type: string}) {
     console.log(this.type)
   }
-  return <Box
+  function sendFile(event: any) {
+    console.log(event.target.files[0].name)
+    const params={
+      file_name: event.target.files[0].name,
+      file_size: event.target.files[0].size,
+      timestamp: new Date().toString()
+    }
+    chanel.createFileDescriotion(params)
+    console.log(chanel)
+
+
+    // chanel.createFileDescriotion({
+    //   file_name: event.target.value.target.split
+    // })
+
+  }
+   return <Box
     sx={
       {
         margin: '25vh auto auto',
@@ -34,7 +51,7 @@ const File = React.forwardRef((props, ref) => {
       <Typography>Выберите файл</Typography>
       <Button component="label" variant="contained" startIcon={<CloudUpload/>}>
         Upload file
-        <VisuallyHiddenInput type="file"/>
+        <VisuallyHiddenInput onChange={sendFile} type="file"/>
       </Button>
     </Box>
     <Box>
