@@ -38,6 +38,13 @@ type TChat = {
 interface IChats {
   chatsList: TChat[];
 }
+interface IFiles {
+  files: {
+    idRemote: string,
+    file: string
+  }[]
+  }
+
 
 interface IInterface {
   chatsBoxVisible: boolean,
@@ -58,7 +65,9 @@ interface IInterface {
 interface IStore {
   source: ISource,
   chats: IChats,
-  interface: IInterface
+  interface: IInterface,
+  files: IFiles
+
 }
 
 export type { TStream, IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
