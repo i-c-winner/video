@@ -41,7 +41,7 @@ interface IChats {
 interface IFiles {
   files: {
     idRemote: string,
-    file: string
+    text: string
   }[]
   }
 

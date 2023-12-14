@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { IStore } from '../types';
 const initialState: IStore['files']={
-  files: [{idRemote: 'ddd', file: 'ddd'},{idRemote: 'dddd', file: 'dddddd'}]
+  files: []
 }
 
 const filesSlice= createSlice({

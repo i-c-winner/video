@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '../../app/store/sourceSlice';
 import { IStore, TStream } from '../../app/types';
 import { addChat } from '../../app/store/chatsSlice';
+import { addFile } from '../../app/store/filesSlice';
 
 interface IMessage {
   text: string,
@@ -68,6 +69,11 @@ function RoomPage() {
     dispatch(addChat(message[0]));
   }
 
+  function addFileForSaving(params: any) {
+    dispatch(addFile(params[0]));
+    console.log(params);
+  }
+
   useEffect(() => {
     glagol.roomInstance.create();
     glagol.on('addTrackToSource', addTrackToSource);
@@ -76,6 +82,7 @@ function RoomPage() {
     glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
     glagol.on('renderMySharing', renderMySharing);
     glagol.on('messageReceived', messageReceived);
+    glagol.on('addFileForSaving', addFileForSaving);
   }, []);
   useEffect(() => {
     const stream = new MediaStream();

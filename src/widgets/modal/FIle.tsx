@@ -53,9 +53,11 @@ const File = React.forwardRef((props, ref) => {
     <Box>
       <List>
         {files.map((element) => {
+          console.log(element)
+          const file=JSON.parse(atob(element.text))
           return <ListItem key={getRandomText(5)} component="div" disablePadding>
-            <ListItemButton onClick={clickButton.bind({type: element.file})}>
-              <ListItemText primary={`Item`}>{element.file}</ListItemText>
+            <ListItemButton onClick={clickButton.bind({type: element.idRemote})}>
+              <ListItemText primary={file.file_name} />
             </ListItemButton>;
           </ListItem>;
         })}

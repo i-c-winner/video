@@ -30,12 +30,10 @@ class Chanel {
       if (this._instance) {
           this.send(this._fileReader.result);
       }
-      console.log(this._currentChunkStart, this._currentChunkStop)
       if (this._currentChunkStop < this._file.size) {
         this._currentChunkStart = this._currentChunkStop;
         this._currentChunkStop = this._currentChunkStop + Chanel.chunkSize;
         this.readBuffer()
-        console.log('load')
       } else {
         this._currentChunkStart=0
         this._currentChunkStop=Chanel.chunkSize

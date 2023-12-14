@@ -89,8 +89,7 @@ const glagol: IGlagol = {
       const jimble = stanza.getElementsByTagName('jimble')[0];
       const jimbleText = Strophe.getText(jimble);
       switch (bodyText) {
-        case '' +
-        'add_dashboard': {
+        case 'add_dashboard': {
           console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
           break;
@@ -130,6 +129,15 @@ const glagol: IGlagol = {
           } else {
             glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
           }
+          break;
+        }
+        case 'offer_download': {
+          console.log('Offer dashboard', stanza);
+          const idRemote = jimble.getAttribute('id_remote');
+          glagol.emit('addFileForSaving', {
+            text: jimbleText,
+            idRemote
+          });
           break;
         }
         default: {
@@ -179,7 +187,6 @@ const glagol: IGlagol = {
       } catch (e) {
       }
       const type = stanza.getAttribute('type');
-
       console.log(stanza, 'PESENCE');
       return true;
     };
@@ -209,6 +216,7 @@ const glagol: IGlagol = {
       console.error(new Error('error'), error);
     });
   },
+
   peerConnectionAddHandlers() {
     const pc = glagol.peerConnection;
     // @ts-ignore
@@ -234,6 +242,13 @@ const glagol: IGlagol = {
     };
     pc.ondatachannel = (event) => {
       chanel.init(event.channel);
+      createListeners(event.channel);
+
+      function createListeners(chanel: RTCDataChannel) {
+        chanel.onmessage = (message) => {
+          console.log(message, "MEssage Event");
+        };
+      }
     };
     pc.onnegotiationneeded = (event) => {
     };
