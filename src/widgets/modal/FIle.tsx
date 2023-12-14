@@ -30,13 +30,9 @@ const File = React.forwardRef((props, ref) => {
       timestamp: new Date().toString()
     }
     chanel.createFileDescriotion(params)
+    chanel.send(JSON.stringify(params));
     console.log(chanel)
-
-
-    // chanel.createFileDescriotion({
-    //   file_name: event.target.value.target.split
-    // })
-
+    chanel.setCurrentFile(event.target.files[0])
   }
    return <Box
     sx={
