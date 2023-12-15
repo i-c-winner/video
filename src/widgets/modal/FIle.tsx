@@ -4,7 +4,8 @@ import { CloudUpload } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { getRandomText } from '../../features/plugins/getRandomText';
-import {chanel} from '../../entity/conference/chanel';
+import { channel } from '../../entity/conference/channel';
+import { glagol } from '../../entity/conference/glagol';
 
 const File = React.forwardRef((props, ref) => {
   const { files } = useSelector((state: IStore) => state.files);
@@ -19,22 +20,39 @@ const File = React.forwardRef((props, ref) => {
     whiteSpace: 'nowrap',
     width: 1,
   });
-  function clickButton(this: {type: string}) {
-    console.log(this.type)
+
+  function clickButton(this: { idRemote: string, text: string }) {
+   const filteredFiles=  files.filter((file) => file.text === this.text);
+    const message = new Strophe.Builder('message', {
+      to: `${glagol.params.roomName}@conference.prosolen.net/focus`,
+      type: 'chat'
+    }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
+      .c('body', {}, "start_download")
+      .c('jimble', {
+        xmlns: 'urn:xmpp:jimble',
+        ready: 'true'
+      }).t(filteredFiles[0].text);
+    const params = {
+      file_name: JSON.parse(atob(filteredFiles[0].text)).file_name,
+      file_size: JSON.parse(atob(filteredFiles[0].text)).file_size,
+      timestamp: JSON.parse(atob(filteredFiles[0].text)).timestamp
+    };
+    channel.createFileDescriotion(params)
+    glagol.sendMessage(message);
   }
+
   function sendFile(event: any) {
-    console.log(event.target.files[0].name)
-    const params={
+    const params = {
       file_name: event.target.files[0].name,
       file_size: event.target.files[0].size,
       timestamp: new Date().toString()
-    }
-    chanel.createFileDescriotion(params)
-    chanel.send(JSON.stringify(params));
-    console.log(chanel)
-    chanel.setCurrentFile(event.target.files[0])
+    };
+    channel.createFileDescriotion(params);
+    channel.send(JSON.stringify(params));
+    channel.setCurrentFile(event.target.files[0]);
   }
-   return <Box
+
+  return <Box
     sx={
       {
         margin: '25vh auto auto',
@@ -53,11 +71,10 @@ const File = React.forwardRef((props, ref) => {
     <Box>
       <List>
         {files.map((element) => {
-          console.log(element)
-          const file=JSON.parse(atob(element.text))
+          const file = JSON.parse(atob(element.text));
           return <ListItem key={getRandomText(5)} component="div" disablePadding>
-            <ListItemButton onClick={clickButton.bind({type: element.idRemote})}>
-              <ListItemText primary={file.file_name} />
+            <ListItemButton onClick={clickButton.bind(element)}>
+              <ListItemText primary={file.file_name}/>
             </ListItemButton>;
           </ListItem>;
         })}

@@ -5,7 +5,7 @@ import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
 import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
-import { chanel } from './chanel';
+import { channel } from './channel';
 
 const room = new Room();
 setRegister(strophe);
@@ -241,12 +241,14 @@ const glagol: IGlagol = {
       };
     };
     pc.ondatachannel = (event) => {
-      chanel.init(event.channel);
       createListeners(event.channel);
+      channel.init(event.channel);
 
-      function createListeners(chanel: RTCDataChannel) {
-        chanel.onmessage = (message) => {
-          console.log(message, "MEssage Event");
+      function createListeners(chanelInstance: RTCDataChannel) {
+        chanelInstance.onopen = () => console.log('ONOPEN');
+        chanelInstance.onclose = () => console.log('ONCLOSE');
+        chanelInstance.onmessage = (message) => {
+          channel.putChunks(message)
         };
       }
     };

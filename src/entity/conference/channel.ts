@@ -1,23 +1,29 @@
-class Chanel {
+class Channel {
   private _currentChunkStop: number;
   private _currentChunkStart: number;
   private _instance: RTCDataChannel | null;
   private _fileDescription: { file_name: string; file_size: number; timestamp: string };
   private _file: any;
-  private static chunkSize: number=16384;
+  private static chunkSize: number = 16384;
   private _fileReader: FileReader;
+  private _chunks: BlobPart[];
+  private _currentSizeChunks: number;
+  private _startComplitChunks: boolean;
 
 
   constructor() {
     this._fileReader = new FileReader();
+    this._currentSizeChunks = 0;
     this._instance = null;
+    this._startComplitChunks = false;
     this._fileDescription = {
       file_name: '',
       file_size: 0,
       timestamp: ''
     };
+    this._chunks = [];
     this._currentChunkStart = 0;
-    this._currentChunkStop = Chanel.chunkSize;
+    this._currentChunkStop = Channel.chunkSize;
     this._listeners();
   }
 
@@ -28,20 +34,20 @@ class Chanel {
   _listeners = () => {
     this._fileReader.onload = () => {
       if (this._instance) {
-          this.send(this._fileReader.result);
+        this.send(this._fileReader.result);
       }
       if (this._currentChunkStop < this._file.size) {
         this._currentChunkStart = this._currentChunkStop;
-        this._currentChunkStop = this._currentChunkStop + Chanel.chunkSize;
-        this.readBuffer()
+        this._currentChunkStop = this._currentChunkStop + Channel.chunkSize;
+        this.readBuffer();
       } else {
-        this._currentChunkStart=0
-        this._currentChunkStop=Chanel.chunkSize
+        this._currentChunkStart = 0;
+        this._currentChunkStop = Channel.chunkSize;
       }
     };
-    this._fileReader.onloadend= ()=>{
-      console.log('END')
-    }
+    this._fileReader.onloadend = () => {
+      console.log('END');
+    };
   };
 
   getInstance() {
@@ -70,7 +76,23 @@ class Chanel {
       this._currentChunkStop));
   }
 
+  putChunks(message: MessageEvent) {
+    this._chunks.push(message.data);
+    if (this._chunks.length > 1 && message.data.byteLength < Channel.chunkSize) {
+        const blob = new Blob(this._chunks.slice(1), { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = this._fileDescription.file_name;
+        link.click();
+        this._chunks = [];
+    }
+  }
+
+  saveFile() {
+
+  }
 }
 
-const chanel = new Chanel();
-export { chanel };
+const channel = new Channel();
+export { channel };
