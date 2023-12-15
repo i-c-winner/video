@@ -13,6 +13,7 @@ import {
 } from '../../app/store/interfaceSlice';
 import {
   iconChat,
+  iconPlus,
   iconSettings,
   iconSharing,
   iconTile,
@@ -52,7 +53,7 @@ function Toolbox() {
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
   const qualityAudio = useSelector((state: IStore) => state.interface.conference.quality.audio);
-
+  const { files } = useSelector((state: IStore) => state.files);
   const { isRecording } = useSelector((state: IStore) => state.interface);
   const [ currentIconRecord, setCurrentIconRecord ] = useState<IIcon>(iconRecordStart);
   const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
@@ -60,6 +61,7 @@ function Toolbox() {
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleRecordButton, setStyleRecordButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
+  const [ stylesFilesButton, setStylesFilesButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
   const [ currentIconMicrophone, setCurrentIconMicrophone ] = useState<IIcon>(iconMicrophone);
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
@@ -68,7 +70,7 @@ function Toolbox() {
   const centerButtons = {
     file: <ButtonWithIcon
       key={getRandomText(5)}
-      styles={defaultButtonsStyle}
+      styles={stylesFilesButton}
       wrapperStyles={{ margin: '5px 10px' }}
       variant="text"
       sizes={{
@@ -78,9 +80,9 @@ function Toolbox() {
       classes={{
         startIcon: 'margin_zero'
       }}
-      startIcon={iconFile} action={openingModal.bind({type: 'file'})}/>,
+      startIcon={iconPlus} action={openingModal.bind({ type: 'file' })}/>,
     sharing: <ButtonWithIcon
-      key='sharing'
+      key="sharing"
       styles={styleSharingButton}
       wrapperStyles={{ margin: '5px 10px' }}
       variant="text"
@@ -93,7 +95,7 @@ function Toolbox() {
       }}
       startIcon={iconSharing} action={sharingAction}/>,
     tileMode: <ButtonWithIcon
-      key='tileMode'
+      key="tileMode"
       wrapperStyles={{ margin: '5px 10px' }}
       classes={{
         startIcon: 'margin_zero'
@@ -229,19 +231,21 @@ function Toolbox() {
       setCurrentIconMicrophone(iconMicrophone);
     }
   }
-function getHeightToolbox() {
-    if (window.screen.width>720) {
+
+  function getHeightToolbox() {
+    if (window.screen.width > 720) {
       return {
         ...styles.toolboxLayer.toolbox,
         height: '40px'
-      }
+      };
     } else {
       return {
         ...styles.toolboxLayer.toolbox,
         height: '70px'
-      }
+      };
     }
-}
+  }
+
   useEffect(() => {
     if (qualityVideo !== 'disabled') {
       setCurrentIconCamera(iconCamera);
@@ -252,7 +256,8 @@ function getHeightToolbox() {
   useEffect(() => {
     setStyleChatButton(chatsBoxVisible ? { color: 'green' } : defaultButtonsStyle);
     setStyleTileButton(tileMode ? { color: 'green' } : defaultButtonsStyle);
-  }, [ chatsBoxVisible, tileMode ]);
+    setStylesFilesButton(files.length > 0 ? { color: 'red' } : defaultButtonsStyle);
+  }, [ chatsBoxVisible, tileMode, files ]);
   useEffect(() => {
     if (isRecording) {
       setStyleRecordButton(() => {
@@ -299,8 +304,8 @@ function getHeightToolbox() {
         display: 'flex',
         justifyContent: 'center'
       }}>
-        {Object.values(centerButtons).map((button)=>{
-          return button
+        {Object.values(centerButtons).map((button) => {
+          return button;
         })}
 
       </Box>

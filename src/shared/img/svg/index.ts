@@ -18,3 +18,4 @@ export { default as iconVideoQty } from './videoqty.svg';
 export { default as iconMuteAll } from './muteall.svg';
 export { default as iconMicOff } from './micOff.svg';
 export { default as iconFile} from './file.svg'
+export { default as iconPlus} from './plus.svg'
