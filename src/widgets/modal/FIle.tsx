@@ -6,9 +6,15 @@ import { IStore } from '../../app/types';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { channel } from '../../entity/conference/channel';
 import { glagol } from '../../entity/conference/glagol';
+import {useDispatch} from 'react-redux';
+import {openModal} from '../../app/store/interfaceSlice';
+import {removeFile} from '../../app/store/filesSlice';
+import {useTranslation} from 'react-i18next';
 
 const File = React.forwardRef((props, ref) => {
+  const dispatch=useDispatch()
   const { files } = useSelector((state: IStore) => state.files);
+  const {t}= useTranslation()
   const VisuallyHiddenInput = styled('input')({
     // clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -39,6 +45,7 @@ const File = React.forwardRef((props, ref) => {
     };
     channel.createFileDescriotion(params)
     glagol.sendMessage(message);
+    dispatch(removeFile(this.text))
   }
 
   function sendFile(event: any) {
@@ -50,6 +57,7 @@ const File = React.forwardRef((props, ref) => {
     channel.createFileDescriotion(params);
     channel.send(JSON.stringify(params));
     channel.setCurrentFile(event.target.files[0]);
+    dispatch(openModal(false))
   }
 
   return <Box
@@ -67,7 +75,7 @@ const File = React.forwardRef((props, ref) => {
     <Box sx={{
       borderBottom: '2px solid white',
     }}>
-      <Typography>Выберите файл для загрузки</Typography>
+      <Typography>{t('modal.files.load')}</Typography>
       <Button
         sx={{
           margin: '20px auto 30px'
@@ -77,8 +85,12 @@ const File = React.forwardRef((props, ref) => {
         <VisuallyHiddenInput onChange={sendFile} type="file"/>
       </Button>
     </Box>
-    <Box>
-      <Typography>Выберите файл для сохранения</Typography>
+    <Box
+    sx={{
+      paddingTop: '10px'
+    }}
+    >
+      <Typography>{t('modal.files.save')}</Typography>
       <List>
         {files.map((element) => {
           const file = JSON.parse(atob(element.text))

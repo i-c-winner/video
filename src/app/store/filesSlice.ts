@@ -13,7 +13,7 @@ const filesSlice= createSlice({
     }),
     removeFile: ((state, action)=>{
      state.files= state.files.filter((file)=>{
-        return file.idRemote!==action.payload
+        return file.text!==action.payload
       })
     }),
     clearFiles: ((state)=>{
