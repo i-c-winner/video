@@ -58,30 +58,50 @@ const File = React.forwardRef((props, ref) => {
         margin: '25vh auto auto',
         bgcolor: 'background.paper',
         minWidth: '500px',
+        padding: '20px',
+        textAlign: 'center',
+        color: 'white'
 
       }
     }>
-    <Box>
-      <Typography>Выберите файл</Typography>
-      <Button component="label" variant="contained" startIcon={<CloudUpload/>}>
+    <Box sx={{
+      borderBottom: '2px solid white',
+    }}>
+      <Typography>Выберите файл для загрузки</Typography>
+      <Button
+        sx={{
+          margin: '20px auto 30px'
+        }}
+        component="label" variant="contained" startIcon={<CloudUpload/>}>
         Upload file
         <VisuallyHiddenInput onChange={sendFile} type="file"/>
       </Button>
     </Box>
     <Box>
+      <Typography>Выберите файл для сохранения</Typography>
       <List>
         {files.map((element) => {
-          const file = JSON.parse(atob(element.text));
-          return <ListItem key={getRandomText(5)} component="div" disablePadding>
+          const file = JSON.parse(atob(element.text))
+          return <ListItem
+            sx={{
+              width: 'initial',
+              boxSizing: 'border-box',
+              bgcolor: 'black',
+              margin: '10px',
+              '&:hover': {
+                width: 'initial',
+                color: 'black',
+                bgcolor: 'white'
+              }
+            }}
+            key={getRandomText(5)} component="div" disablePadding>
             <ListItemButton onClick={clickButton.bind(element)}>
               <ListItemText primary={file.file_name}/>
-            </ListItemButton>;
-          </ListItem>;
+            </ListItemButton>
+          </ListItem>
         })}
       </List>
-    </Box>;
+    </Box>
   </Box>
-    ;
 });
 export { File };
-;
