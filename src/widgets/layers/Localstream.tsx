@@ -29,6 +29,12 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     console.log('open');
   }
 
+  function getMarginForMenuButton() {
+    if (remoteBoxVisible) {
+      return '300px';
+    }
+    return '50px';
+  }
 
   return <Box sx={
     styles.localeStyleLayer
@@ -39,7 +45,7 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     <ButtonWithIcon startIcon={iconMenu} sizes={{ viewBox: '9 9 25 25' }}
                     wrapperStyles={{
                       position: 'absolute',
-                      right: '50px',
+                      right: getMarginForMenuButton(),
                       top: '50px',
                       pointerEvents: 'initial',
                     }}
