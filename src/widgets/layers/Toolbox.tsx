@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
@@ -80,7 +80,10 @@ function Toolbox() {
       classes={{
         startIcon: 'margin_zero'
       }}
-      startIcon={iconPlus} action={openingModal.bind({ type: 'file' })}/>,
+      startIcon={iconPlus}
+      tooltipKey="file"
+      action={openingModal.bind({ type: 'file' })}
+    />,
     sharing: <ButtonWithIcon
       key="sharing"
       styles={styleSharingButton}
@@ -93,7 +96,9 @@ function Toolbox() {
       classes={{
         startIcon: 'margin_zero'
       }}
-      startIcon={iconSharing} action={sharingAction}/>,
+      startIcon={iconSharing} action={sharingAction}
+      tooltipKey="sharing"
+    />,
     tileMode: <ButtonWithIcon
       key="tileMode"
       wrapperStyles={{ margin: '5px 10px' }}
@@ -101,7 +106,9 @@ function Toolbox() {
         startIcon: 'margin_zero'
       }}
       styles={styleTileButton}
-      variant="text" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}/>,
+      variant="text" sizes={{ viewBox: '18 18 25 25' }} startIcon={iconTile} action={changeTileMode}
+      tooltipKey="tile"
+    />,
     camera: <ButtonWithSubmenu
       styles={defaultButtonsStyle}
       openSubmenu={openingSubmenu}
@@ -112,7 +119,9 @@ function Toolbox() {
         startIcon: 'margin_zero'
       }
       }
-      variant="text" startIcon={currentIconCamera} action={toggledCamera}>
+      variant="text" startIcon={currentIconCamera} action={toggledCamera}
+      tooltipKey="camera"
+    >
       {submenuForCameraOpen && <SubmenuForCamera/>}
     </ButtonWithSubmenu>,
     microphone: <ButtonWithSubmenu
@@ -125,7 +134,9 @@ function Toolbox() {
         startIcon: 'margin_zero'
       }
       }
-      variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}>
+      variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}
+      tooltipKey="microphone"
+    >
       {submenuForCameraOpen && <SubmenuForCamera/>}
     </ButtonWithSubmenu>,
     settings: <ButtonWithIcon
@@ -136,7 +147,9 @@ function Toolbox() {
       classes={{
         startIcon: 'margin_zero'
       }}
-      startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}/>,
+      startIcon={iconSettings} action={openingModal.bind({ type: 'settings' })}
+      tooltipKey="settings"
+    />,
     record: <ButtonWithIcon
       key={getRandomText(5)}
       styles={styleRecordButton}
@@ -145,7 +158,9 @@ function Toolbox() {
       classes={{
         startIcon: 'margin_zero'
       }}
-      startIcon={currentIconRecord} action={actionRecording}/>
+      startIcon={currentIconRecord} action={actionRecording}
+      tooltipKey="record"
+    />
   };
 
   function sharingAction() {
@@ -297,7 +312,9 @@ function Toolbox() {
           classes={{
             startIcon: 'margin_zero'
           }}
-          startIcon={iconChat} action={openChatsBox}/>
+          startIcon={iconChat} action={openChatsBox}
+          tooltipKey="chat"
+        />;
       </Box>
       <Box sx={{
         flexGrow: '1',
@@ -305,14 +322,13 @@ function Toolbox() {
         justifyContent: 'center'
       }}>
         {Object.values(centerButtons).map((button) => {
-          return button;
+          return (button);
         })}
-
-      </Box>
-
+      </Box>;
     </Box>
     }
-  </Box>;
+  </Box>
+    ;
 }
 
 export { Toolbox };

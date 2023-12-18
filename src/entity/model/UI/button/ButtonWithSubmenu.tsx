@@ -2,7 +2,7 @@ import { IPropsButton } from '../../../types';
 import { Box, Button } from '@mui/material';
 import { ButtonWithIcon } from './ButtonWithIcon';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import {iconArrow} from '../../../../shared/img/svg';
+import { iconArrow } from '../../../../shared/img/svg';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
 
 
@@ -20,7 +20,7 @@ interface IProps extends IPropsButton {
     content: string,
   },
   children: ReactJSXElement | false,
-  openSubmenu: ()=>void
+  openSubmenu: () => void
 
 }
 
@@ -48,7 +48,8 @@ function ButtonWithSubmenu(props: IProps) {
           width: '15px',
           height: '10px',
           viewBox: '3 0 10 10'
-        }} icon={iconArrow} />
+        }} icon={iconArrow}
+        />
       </Button>
     </Box>
   );

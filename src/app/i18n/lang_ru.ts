@@ -8,6 +8,17 @@ const ru = {
       close: 'Закрыть',
       saveAndClose: 'Сохранить и закрыть'
     },
+    icons: {
+      record:'Запись',
+      sharing: 'Показать экран',
+      tile: 'Плиточный режим',
+      camera: 'Камера',
+      microphone: 'Микрофон',
+      settings: 'Настройки',
+      chat: 'Чат',
+      file: 'Отправка файлов',
+      menu: 'Меню'
+    },
     room: 'Комната',
   },
   modal: {

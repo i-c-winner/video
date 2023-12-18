@@ -28,6 +28,7 @@ interface IPropsButton {
   wrapperStyles?: {
     [key: string]: string
   },
+  tooltipKey?: string
 }
 
 interface ISharing {
