@@ -78,7 +78,8 @@ class Channel {
 
   putChunks(message: MessageEvent) {
     this._chunks.push(message.data);
-    if (this._chunks.length > 1 && message.data.byteLength < Channel.chunkSize) {
+    if (this._chunks.length > 1 && (message.data.size??message.data.byteLength) < Channel.chunkSize) {
+      try {
         const blob = new Blob(this._chunks.slice(1), { type: 'application/octet-stream' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -86,6 +87,10 @@ class Channel {
         link.download = this._fileDescription.file_name;
         link.click();
         this._chunks = [];
+      } catch (e) {
+        console.error(e)
+      }
+
     }
   }
 
