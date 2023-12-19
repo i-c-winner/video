@@ -69,9 +69,18 @@ function RemoteStreamsBox() {
               </Box>
               <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
               <hr/>
-              {remoteStreams.map((stream: { id: string, type: string }) => {
-                return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
-              })}
+              <Box sx={
+                {
+                  height: '75vh',
+                  overflowY: 'auto',
+                  pointerEvents: 'initial'
+                }
+              }>
+                {remoteStreams.map((stream: { id: string, type: string }) => {
+                  return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
+                })}
+              </Box>
+
             </Box>
             <ButtonWithIcon
               classes={{

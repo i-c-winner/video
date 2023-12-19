@@ -1,7 +1,7 @@
 const ru = {
   interface: {
     buttons: {
-      createRoomName: 'Создать комнату',
+      createRoomName: 'Войти в комнату',
       createDisplayName: 'Задайте имя',
       send: 'Отправить',
       save: 'Cохранить',

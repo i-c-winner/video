@@ -13,6 +13,18 @@ const connection = async () => {
 const CreateRoomName = React.forwardRef((props: { changeRoomName: (event: any, type: string) => void }, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const [ timeOuting, setTimeOuting ] = useState<TimeoutId | null>(null);
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      const roomName = window.location.pathname.split('/')[1];
+      if (roomName !== '') props.changeRoomName(roomName, 'roomNameFromUrl');
+    }, 0);
+    setTimeOuting(timeId);
+    return () => {
+      if (data) {
+        if (timeOuting) clearTimeout(timeOuting);
+      }
+    };
+  }, [ data ]);
 
   function action(event: BaseSyntheticEvent) {
     props.changeRoomName(event, 'roomName');
@@ -22,11 +34,6 @@ const CreateRoomName = React.forwardRef((props: { changeRoomName: (event: any, t
     return <p>...Pending</p>;
   }
   if (data) {
-    setTimeout(() => {
-      const roomName = window.location.pathname.split('/')[1];
-      props.changeRoomName(roomName, 'roomNameFromUrl');
-    }, 0);
-
     return <Box sx={styles.wrapper}>
       <Input onChange={action} sx={getInputStyles()} inputRef={ref}/>
     </Box>;
