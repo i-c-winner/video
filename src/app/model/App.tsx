@@ -26,17 +26,29 @@ function App() {
         return <p>unknown children</p>;
     }
   }
-  function changingInput(event: BaseSyntheticEvent,  type: string) {
+  function changingInput(event: (BaseSyntheticEvent| string),  type: string) {
     console.log(event)
     if (type==='roomName') {
-      glagol.params.roomName=event.target.value
-    } else {
-      glagol.params.displayName=event.target.value
+     if (typeof event!=="string") glagol.params.roomName=event.target.value
+    } else  if (type==='displayName'){
+      if (typeof event!=="string")glagol.params.displayName=event.target.value
+    } else if (type==='roomNameFromUrl') {
+      if (typeof event==="string")  {
+        if (refRoomName.current!==null) {
+          refRoomName.current.value = event;
+        }
+        glagol.params.roomName=event
+      }
+
     }
   }
 
   function changeState() {
     if (state === 'createRoomName') {
+      const path= window.location.pathname
+      if (path.split('/')[1]===''){
+       if (refRoomName.current) history.replaceState(null, '', path+refRoomName.current.value)
+      }
       setState('createUserName');
     } else if (state === 'createUserName') {
       setState('roomPage');
