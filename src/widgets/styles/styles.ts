@@ -34,6 +34,7 @@ const styles = {
       display: 'flex',
       flexFlow: 'column',
       justifyContent: 'space-between',
+      position: 'relative',
       displayName: {
         position: 'absolute',
         bottom: '5px',

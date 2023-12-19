@@ -21,7 +21,7 @@ const defaultButtonStyles = {
 };
 const buttonStyleByOpen = {
   ...defaultButtonStyles,
-  top: '-32px',
+  top: '90vh',
   left: '-180px',
   rotate: '90deg',
 };
@@ -65,7 +65,7 @@ function RemoteStreamsBox() {
             <Box sx={{
               position: 'absolute',
               top: '0',
-              bottom: '50px',
+              bottom: '0',
               display: 'flex',
               flexFlow: 'column'
             }}>

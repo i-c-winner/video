@@ -1,4 +1,9 @@
 body {
+  scrollbar-color: #6969dd #e0e0e0;
+  scrollbar-width: thin;
+}
+
+body {
   position: absolute;
   top: 0;
   left: 0;
@@ -17,4 +22,30 @@ body {
 :root {
   --width-remote-box: 300px;
   --width-chat-box: 300px
+}
+::-webkit-scrollbar { /* 1 - скроллбар */
+  width: 16px;
+  height: 4px;
+  background-color: #2a2929;
+}
+
+::-webkit-scrollbar-button { /* 2 - кнопка */
+
+}
+
+::-webkit-scrollbar-track { /* 3 - трек */
+}
+
+::-webkit-scrollbar-track-piece { /* 4 - видимая часть трека */
+}
+
+::-webkit-scrollbar-thumb { /* 5 - ползунок */
+  border-radius: 8px;
+  background-color: #1976d2;
+}
+
+::-webkit-scrollbar-corner { /* 6 - уголок */
+}
+
+::-webkit-resizer { /* 7 - изменение размеров */
 }
