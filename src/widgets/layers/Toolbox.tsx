@@ -314,7 +314,7 @@ function Toolbox() {
           }}
           startIcon={iconChat} action={openChatsBox}
           tooltipKey="chat"
-        />;
+        />
       </Box>
       <Box sx={{
         flexGrow: '1',
@@ -324,11 +324,10 @@ function Toolbox() {
         {Object.values(centerButtons).map((button) => {
           return (button);
         })}
-      </Box>;
+      </Box>
     </Box>
     }
   </Box>
-    ;
 }
 
 export { Toolbox };

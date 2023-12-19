@@ -71,9 +71,7 @@ function RemoteStreamsBox() {
               <hr/>
               <Box sx={
                 {
-                  height: '75vh',
-                  overflowY: 'auto',
-                  pointerEvents: 'initial'
+
                 }
               }>
                 {remoteStreams.map((stream: { id: string, type: string }) => {
