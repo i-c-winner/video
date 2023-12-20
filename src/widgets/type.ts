@@ -13,5 +13,11 @@ interface IAudioQty {
 interface IStyle {
   [key: string]: string;
 }
+interface IIcon {
+  attributes: {
+    [key: string]: string
+  },
+  content: string,
+}
 
-export type { IVideoQty, IAudioQty, IStyle };
+export type { IVideoQty, IAudioQty, IStyle, IIcon };

@@ -1,6 +1,8 @@
-function selectingButtons(where: any[], what: any[]) {
-  return where.filter((button, index) => {
-    return what.indexOf(button[0]) >= 0;
+import { IInterface } from '../../app/types';
+
+function selectingButtons(where: string[], what: string[]) {
+  return where.filter((button) => {
+    return what.indexOf(button) >= 0;
   });
 }
 

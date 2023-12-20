@@ -35,17 +35,10 @@ import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera'
 import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { Recording } from '../../features/manager/record';
+import { selectingButtons } from '../../features/utils/selectingButtons';
+import {IIcon} from '../type';
 
 let recording: null | Recording = null;
-
-
-interface IIcon {
-  attributes: {
-    [key: string]: string
-  },
-  content: string,
-}
-
 
 function Toolbox() {
 
@@ -161,7 +154,12 @@ function Toolbox() {
       startIcon={currentIconRecord} action={actionRecording}
       tooltipKey="record"
     />
-  };
+  }
+
+  type TButtons= keyof typeof centerButtons
+  const keysByCenterButtons=Object.keys(centerButtons) as TButtons[]
+  const activeCenterButtons: TButtons[] = ['settings','file', 'record', 'tileMode', 'sharing', 'camera', 'microphone' ]
+  const currentCenterButtons= selectingButtons(keysByCenterButtons, activeCenterButtons) as TButtons[]
 
   function sharingAction() {
     if (sharingState) {
@@ -321,8 +319,8 @@ function Toolbox() {
         display: 'flex',
         justifyContent: 'center'
       }}>
-        {Object.values(centerButtons).map((button) => {
-          return (button);
+        {currentCenterButtons.map((button) => {
+          return centerButtons[button]
         })}
       </Box>
     </Box>
