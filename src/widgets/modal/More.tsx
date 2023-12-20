@@ -6,6 +6,7 @@ import { ButtonWithText } from '../../entity/model/UI/button/ButtonWithText';
 import {useDispatch} from 'react-redux';
 import {changeTypeModal, openModal} from '../../app/store/interfaceSlice';
 import {IInterface} from '../../app/types';
+import { selectingButtons } from '../../features/utils/selectingButtons';
 
 interface IIcon {
   attributes: {
@@ -16,6 +17,8 @@ interface IIcon {
 type TTypeModal = Partial<IInterface['typeModal']>
 
 const buttons: [ TTypeModal, IIcon ][] = [ [ 'settings', iconSettings ], [ 'settingsVideo', iconVideoQty ], [ 'fullScreen', iconFullscreen ], [ 'allMute', iconMuteAll ] ];
+const currentButtons=['settings', 'settingsVideo']
+const filteredButtons=selectingButtons(buttons, currentButtons)
 const styleBox = {
   bgcolor: 'background.windows',
   margin: '10px 150px auto auto',
@@ -37,7 +40,7 @@ const More = React.forwardRef((props, ref) => {
       <List classes={{
         root: 'list'
       }}>
-        {buttons.map((button) => {
+        {filteredButtons.map((button) => {
           return <ListItem
             classes={{
               root: 'list-more list-more__listitem'
