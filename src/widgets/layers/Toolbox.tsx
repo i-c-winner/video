@@ -40,11 +40,11 @@ import { Recording } from '../../features/manager/record';
 import { selectingButtons } from '../../features/utils/selectingButtons';
 import { IIcon } from '../type';
 import { glagol } from '../../entity/conference/glagol';
+import { useNavigate } from 'react-router-dom';
 
 let recording: null | Recording = null;
 
 function Toolbox() {
-
   const defaultButtonsStyle = { color: 'white' };
   const dispatch = useDispatch();
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
@@ -62,6 +62,7 @@ function Toolbox() {
   const [ currentIconMicrophone, setCurrentIconMicrophone ] = useState<IIcon>(iconMicrophone);
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
   const [ sharingState, setSharingState ] = useState<boolean>(false);
+  const navigate=useNavigate();
 
   const centerButtons = {
     file: <ButtonWithIcon
@@ -264,6 +265,8 @@ function Toolbox() {
 
   function exit() {
     glagol.peerConnection.close();
+    navigate('/exit')
+
   }
 
   useEffect(() => {
