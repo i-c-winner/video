@@ -349,7 +349,7 @@ function Toolbox() {
           startIcon={iconExit}
           tooltipKey="exit"
           action={exit}
-        />,
+        />
       </Box>
     </Box>
     }
