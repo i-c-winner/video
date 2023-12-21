@@ -17,11 +17,13 @@ import {
   iconSettings,
   iconSharing,
   iconTile,
-  iconFile,
+  iconExit,
   iconCamera,
   iconCameradisabled,
   iconMicrophone,
-  iconRecordStart, iconRecordStop, iconMicOff
+  iconRecordStart,
+  iconRecordStop,
+  iconMicOff
 } from '../../shared/img/svg';
 import { addSharing } from '../../app/store/sourceSlice';
 import { openModal } from '../../app/store/interfaceSlice';
@@ -36,7 +38,8 @@ import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { Recording } from '../../features/manager/record';
 import { selectingButtons } from '../../features/utils/selectingButtons';
-import {IIcon} from '../type';
+import { IIcon } from '../type';
+import { glagol } from '../../entity/conference/glagol';
 
 let recording: null | Recording = null;
 
@@ -154,12 +157,12 @@ function Toolbox() {
       startIcon={currentIconRecord} action={actionRecording}
       tooltipKey="record"
     />
-  }
+  };
 
-  type TButtons= keyof typeof centerButtons
-  const keysByCenterButtons=Object.keys(centerButtons) as TButtons[]
-  const activeCenterButtons: TButtons[] = ['settings','file', 'record', 'tileMode', 'sharing', 'camera', 'microphone' ]
-  const currentCenterButtons= selectingButtons(keysByCenterButtons, activeCenterButtons) as TButtons[]
+  type TButtons = keyof typeof centerButtons
+  const keysByCenterButtons = Object.keys(centerButtons) as TButtons[];
+  const activeCenterButtons: TButtons[] = [ 'settings', 'file', 'record', 'tileMode', 'sharing', 'camera', 'microphone' ];
+  const currentCenterButtons = selectingButtons(keysByCenterButtons, activeCenterButtons) as TButtons[];
 
   function sharingAction() {
     if (sharingState) {
@@ -259,6 +262,10 @@ function Toolbox() {
     }
   }
 
+  function exit() {
+    glagol.peerConnection.close();
+  }
+
   useEffect(() => {
     if (qualityVideo !== 'disabled') {
       setCurrentIconCamera(iconCamera);
@@ -320,12 +327,30 @@ function Toolbox() {
         justifyContent: 'center'
       }}>
         {currentCenterButtons.map((button) => {
-          return centerButtons[button]
+          return centerButtons[button];
         })}
+      </Box>
+      <Box>
+        <ButtonWithIcon
+          key={getRandomText(5)}
+          variant="text"
+          sizes={{
+            viewBox: '0 0 80 25',
+            width: '80px',
+            height: '25px'
+          }
+          }
+          classes={{
+            startIcon: 'margin_zero'
+          }}
+          startIcon={iconExit}
+          tooltipKey="exit"
+          action={exit}
+        />,
       </Box>
     </Box>
     }
-  </Box>
+  </Box>;
 }
 
 export { Toolbox };
