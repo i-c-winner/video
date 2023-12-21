@@ -15,7 +15,10 @@ import { getInputStyles } from '../../features/styles/getInputStyles';
 const connection = async () => {
   return glagol.setLocalStream();
 };
-const CreateDisplayName = React.forwardRef((props: {changeDisplayName: (event: any, type: string)=>void}, ref) => {
+const CreateDisplayName = React.forwardRef((props: {
+  changeDisplayName: (event: any, type: string)=>void
+wasLoaded: ()=>void
+}, ref) => {
 
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const dispatch = useDispatch();
@@ -67,6 +70,7 @@ const CreateDisplayName = React.forwardRef((props: {changeDisplayName: (event: a
     return <p>...Pending</p>;
   }
   if (data) {
+    props.wasLoaded()
     data.getTracks().forEach((track) => {
       try {
         glagol.peerConnection.addTrack(track);

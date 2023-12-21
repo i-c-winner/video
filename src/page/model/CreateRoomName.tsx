@@ -4,13 +4,15 @@ import { glagol } from '../../entity/conference/glagol';
 import { Box, Input } from '@mui/material';
 import { styles } from '../styles/styles.';
 import { getInputStyles } from '../../features/styles/getInputStyles';
-import { SyntheticEventData } from 'react-dom/test-utils';
 import { TimeoutId } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/types';
 
 const connection = async () => {
   return glagol.createConference();
 };
-const CreateRoomName = React.forwardRef((props: { changeRoomName: (event: any, type: string) => void }, ref) => {
+const CreateRoomName = React.forwardRef((props: {
+  changeRoomName: (event: any, type: string) => void,
+  wasLoaded: ()=>void
+}, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const [ timeOuting, setTimeOuting ] = useState<TimeoutId | null>(null);
   useEffect(() => {
@@ -34,6 +36,7 @@ const CreateRoomName = React.forwardRef((props: { changeRoomName: (event: any, t
     return <p>...Pending</p>;
   }
   if (data) {
+    props.wasLoaded()
     return <Box sx={styles.wrapper}>
       <Input onChange={action} sx={getInputStyles()} inputRef={ref}/>
     </Box>;

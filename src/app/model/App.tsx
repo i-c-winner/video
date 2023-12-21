@@ -13,14 +13,14 @@ function App() {
   const [ state, setState ] = useState<any>('createRoomName');
   const refRoomName = useRef<HTMLInputElement>(null);
   const refDisplayName = useRef<HTMLInputElement>(null);
+  const [revirced, setReciverd]= useState(false)
 
   function getChildren() {
-
     switch (state) {
       case 'createUserName' :
-        return <CreateDisplayName changeDisplayName={changingInput} ref={refDisplayName}/>;
+        return <CreateDisplayName wasLoaded={changingRevirced} changeDisplayName={changingInput} ref={refDisplayName}/>;
       case 'createRoomName':
-        return <CreateRoomName changeRoomName={changingInput} ref={refRoomName}/>;
+        return <CreateRoomName  wasLoaded={changingRevirced} changeRoomName={changingInput} ref={refRoomName}/>;
       case 'roomPage':
         return <RoomPage/>;
       default:
@@ -51,6 +51,9 @@ function App() {
     } else if (state === 'createUserName') {
       setState('roomPage');
     }
+  }
+  function changingRevirced() {
+    setReciverd(true)
   }
 
   function creating(target: KeyboardEvent) {
@@ -92,6 +95,7 @@ function App() {
     }>
     {getChildren()}
     {state !== 'roomPage' && <Button
+      disabled={!revirced}
       sx={getStyleButton()}
       variant="contained"
       onClick={changeState}>{t(getButtonText())}</Button>}
