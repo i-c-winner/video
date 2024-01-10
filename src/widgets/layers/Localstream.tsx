@@ -41,7 +41,7 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
   }>
     <CreateSvgIcon sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>
     {chatsBoxVisible && <Box key={getRandomText(5)} sx={{ minWidth: config.boxes.chatsbox.width }}></Box>}
-    <video onClick={() => console.log('click')} className="video video_local" ref={ref} autoPlay={true}/>
+    <video className="video video_local" ref={ref} autoPlay={true}/>
     <ButtonWithIcon startIcon={iconMenu} sizes={{ viewBox: '9 9 25 25' }}
                     wrapperStyles={{
                       position: 'absolute',

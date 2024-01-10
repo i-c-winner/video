@@ -1,4 +1,4 @@
-import { Box, Tooltip } from '@mui/material';
+import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
 import { sharing } from '../../entity/sharing';
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,10 +30,11 @@ import { openModal } from '../../app/store/interfaceSlice';
 import { ModalWindow } from '../modal/ModalWindow';
 import { IInterface } from '../../app/types';
 import { ButtonWithIcon } from '../../entity/model/UI/button/ButtonWithIcon';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IStyle } from '../type';
 import { ButtonWithSubmenu } from '../../entity/model/UI/button/ButtonWithSubmenu';
 import { SubmenuForCamera } from '../../entity/model/UI/button/submenuForCamera';
+import {SubmenuForMicrophone} from '../../entity/model/UI/button/SubMenuForMicrophone';
 import { config } from '../../shared/config';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { Recording } from '../../features/manager/record';
@@ -50,15 +51,13 @@ function Toolbox() {
   const qualityVideo = useSelector((state: IStore) => state.interface.conference.quality.video);
   const qualityAudio = useSelector((state: IStore) => state.interface.conference.quality.audio);
   const { files } = useSelector((state: IStore) => state.files);
-  const { isRecording } = useSelector((state: IStore) => state.interface);
   const [ currentIconRecord, setCurrentIconRecord ] = useState<IIcon>(iconRecordStart);
-  const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode } = useSelector((state: IStore) => state.interface);
+  const { toolboxVisible, chatsBoxVisible, modalIsOpen, tileMode, isRecording } = useSelector((state: IStore) => state.interface);
   const [ styleChatButton, setStyleChatButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleTileButton, setStyleTileButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleRecordButton, setStyleRecordButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ styleSharingButton, setStyleSharingButton ] = useState<IStyle>(defaultButtonsStyle);
   const [ stylesFilesButton, setStylesFilesButton ] = useState<IStyle>(defaultButtonsStyle);
-  const [ submenuForCameraOpen, setSubmenuForCaMeraOpen ] = useState<boolean>(false);
   const [ currentIconMicrophone, setCurrentIconMicrophone ] = useState<IIcon>(iconMicrophone);
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
   const [ sharingState, setSharingState ] = useState<boolean>(false);
@@ -108,7 +107,7 @@ function Toolbox() {
     />,
     camera: <ButtonWithSubmenu
       styles={defaultButtonsStyle}
-      openSubmenu={openingSubmenu}
+      openSubmenu={openingSubmenuForCamera}
       key={getRandomText(5)}
       wrapperStyles={{ margin: '5px 10px' }}
       sizes={getViewBoxForVideoIcon()}
@@ -119,11 +118,11 @@ function Toolbox() {
       variant="text" startIcon={currentIconCamera} action={toggledCamera}
       tooltipKey="camera"
     >
-      {submenuForCameraOpen && <SubmenuForCamera/>}
+      { <SubmenuForCamera/>}
     </ButtonWithSubmenu>,
     microphone: <ButtonWithSubmenu
       styles={defaultButtonsStyle}
-      openSubmenu={openingSubmenu}
+      openSubmenu={openenigSubMenuForMicrophone}
       key={getRandomText(5)}
       wrapperStyles={{ margin: '5px 10px' }}
       sizes={getViewBoxForAudioIcon()}
@@ -134,7 +133,7 @@ function Toolbox() {
       variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}
       tooltipKey="microphone"
     >
-      {submenuForCameraOpen && <SubmenuForCamera/>}
+      { <SubmenuForMicrophone/>}
     </ButtonWithSubmenu>,
     settings: <ButtonWithIcon
       key={getRandomText(5)}
@@ -218,8 +217,12 @@ function Toolbox() {
     }
   }
 
-  function openingSubmenu() {
-    setSubmenuForCaMeraOpen(!submenuForCameraOpen);
+  function openingSubmenuForCamera() {
+
+  }
+
+  function openenigSubMenuForMicrophone() {
+
   }
 
   function getViewBoxForVideoIcon() {

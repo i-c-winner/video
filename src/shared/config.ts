@@ -13,13 +13,13 @@ const config = {
     }
   },
   boxes: {
-    remoteStreamBox:{
+    remoteStreamBox: {
       width: '300px',
     },
     chatsbox: {
       width: '300px'
     }
-  }
+  },
 };
 const constants = {
   icon: {

@@ -30,7 +30,7 @@ const interfaceSlice = createSlice({
     }),
     changeRemoteStreamsBox: ((state, action)=>{
       state.remoteBoxVisible=action.payload
-    })
+    }),
   }
 });
 
@@ -42,6 +42,6 @@ export const {
   changeVideo,
   openModal,
   changeIsRecording,
-  changeRemoteStreamsBox
+  changeRemoteStreamsBox,
 } = interfaceSlice.actions;
 export default interfaceSlice.reducer;

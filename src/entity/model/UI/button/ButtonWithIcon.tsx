@@ -1,7 +1,7 @@
 import { IPropsButton } from '../../../types';
 import { Box, Button, Tooltip } from '@mui/material';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getStyles } from '../../../../features/UI/buttons/getStyles';
 
 interface IProps extends IPropsButton{
@@ -28,7 +28,8 @@ function ButtonWithIcon(props: IProps) {
   }
 
   return (
-    <Box sx={getStyles(props.wrapperStyles)}>
+    <Box
+      sx={getStyles(props.wrapperStyles)}>
       <Button
         classes={props.classes}
         variant={props.variant}

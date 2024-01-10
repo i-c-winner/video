@@ -16,61 +16,64 @@ const connection = async () => {
   return glagol.setLocalStream();
 };
 const CreateDisplayName = React.forwardRef((props: {
-  changeDisplayName: (event: any, type: string)=>void
-wasLoaded: ()=>void
+  changeDisplayName: (event: any, type: string) => void
+  wasLoaded: () => void
 }, ref) => {
 
   const { data, error, isPending } = useAsync({ promiseFn: connection });
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  const defaultButtonStyle={color: 'green'}
-  const [styleButtonVideo, setStyleButtonVideo]=useState<typeof defaultButtonStyle>(defaultButtonStyle)
-  const [styleButtonAudio, setStyleButtonAudio] =useState<typeof defaultButtonStyle>(defaultButtonStyle)
+  const defaultButtonStyle = { color: 'green' };
+  const [ styleButtonVideo, setStyleButtonVideo ] = useState<typeof defaultButtonStyle>(defaultButtonStyle);
+  const [ styleButtonAudio, setStyleButtonAudio ] = useState<typeof defaultButtonStyle>(defaultButtonStyle);
 
   const actions = {
     videoChange: (active: boolean) => {
       if (!active) {
         dispatch(changeVideo('disabled'));
-        setStyleButtonVideo({color: 'red'})
+        setStyleButtonVideo({ color: 'red' });
       } else {
         dispatch(changeVideo(config.conference.quality.video));
-        setStyleButtonVideo(defaultButtonStyle)
+        setStyleButtonVideo(defaultButtonStyle);
       }
     },
     audioChange: (active: boolean) => {
       if (!active) {
         dispatch(changeAudio('disabled'));
-        setStyleButtonAudio({color: 'red'})
+        setStyleButtonAudio({ color: 'red' });
       } else {
         dispatch(changeAudio('enabled'));
-        setStyleButtonAudio(defaultButtonStyle)
+        setStyleButtonAudio(defaultButtonStyle);
       }
     }
   };
   const buttonClasses = {
     startIcon: 'margin_zero'
   };
+
   function action(event: SyntheticEvent) {
-    props.changeDisplayName(event, 'displayName')
+    props.changeDisplayName(event, 'displayName');
   }
+
   function getButtonSizes() {
-    if (window.screen.width>720) {
+    if (window.screen.width > 720) {
       return {
         viewBox: '0 0 30 30'
-      }
+      };
     } else {
       return {
         viewBox: '0 0 25 25',
         width: '100px',
         height: '100px'
-      }
+      };
     }
   }
+
   if (isPending) {
     return <p>...Pending</p>;
   }
   if (data) {
-    props.wasLoaded()
+    props.wasLoaded();
     data.getTracks().forEach((track) => {
       try {
         glagol.peerConnection.addTrack(track);
@@ -80,10 +83,11 @@ wasLoaded: ()=>void
 
     });
     glagol.peerConnectionAddHandlers();
-    return <Box  sx={styles.wrapper}>
+    return <Box sx={styles.wrapper}>
       <Input onChange={action} sx={getInputStyles()} ref={ref}/>
-      <Box sx={{display: 'flex', justifyContent: 'center',
-      marginTop: '10px'
+      <Box sx={{
+        display: 'flex', justifyContent: 'center',
+        marginTop: '10px'
       }}>
         <ButtonWithIcon
           styles={styleButtonVideo}

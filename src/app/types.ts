@@ -59,7 +59,7 @@ interface IInterface {
       audio: keyof IAudioQty,
       video: keyof IVideoQty
     }
-  }
+  },
 }
 
 interface IStore {

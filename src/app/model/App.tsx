@@ -14,6 +14,7 @@ function App() {
   const refRoomName = useRef<HTMLInputElement>(null);
   const refDisplayName = useRef<HTMLInputElement>(null);
   const [revirced, setReciverd]= useState(false)
+  const refBox=useRef<any>()
 
   function getChildren() {
     switch (state) {
@@ -86,10 +87,11 @@ function App() {
         height: '60px'
       };
     }
-
   }
 
+
   return <Box
+    ref={refBox}
     sx={
       styles.main
     }>
