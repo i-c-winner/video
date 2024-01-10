@@ -62,6 +62,7 @@ function Toolbox() {
   const [ currentIconCamera, setCurrentIconCamera ] = useState<IIcon>(iconCamera);
   const [ sharingState, setSharingState ] = useState<boolean>(false);
   const navigate=useNavigate();
+  const refBox=useRef<HTMLDivElement>()
 
   const centerButtons = {
     file: <ButtonWithIcon
@@ -118,7 +119,7 @@ function Toolbox() {
       variant="text" startIcon={currentIconCamera} action={toggledCamera}
       tooltipKey="camera"
     >
-      { <SubmenuForCamera/>}
+       <SubmenuForCamera/>
     </ButtonWithSubmenu>,
     microphone: <ButtonWithSubmenu
       styles={defaultButtonsStyle}
@@ -133,7 +134,7 @@ function Toolbox() {
       variant="text" startIcon={currentIconMicrophone} action={toggledMicrophone}
       tooltipKey="microphone"
     >
-      { <SubmenuForMicrophone/>}
+       <SubmenuForMicrophone/>
     </ButtonWithSubmenu>,
     settings: <ButtonWithIcon
       key={getRandomText(5)}
@@ -311,8 +312,13 @@ function Toolbox() {
     }
   }, [ isRecording ]);
 
-
-  return <Box sx={styles.toolboxLayer}>
+useEffect(()=>{
+  console.log('keydown')
+  refBox.current?.addEventListener('keydown', (key: KeyboardEvent)=>console.log(key))
+}, [])
+  return <Box
+    ref={refBox}
+    sx={styles.toolboxLayer}>
     <ModalWindow/>
     {toolboxVisible && <Box sx={getHeightToolbox()}>
       <Box>

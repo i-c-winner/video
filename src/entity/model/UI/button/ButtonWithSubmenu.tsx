@@ -4,6 +4,7 @@ import { ButtonWithIcon } from './ButtonWithIcon';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { iconArrow } from '../../../../shared/img/svg';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
+import { useEffect, useState } from 'react';
 
 
 interface IProps extends IPropsButton {
@@ -20,36 +21,55 @@ interface IProps extends IPropsButton {
     content: string,
   },
   children: ReactJSXElement | false,
-  openSubmenu: () => void
-
+  openSubmenu: () => void,
 }
 
+
 function ButtonWithSubmenu(props: IProps) {
+  const [ openChildren, setOpenChildren ] = useState<boolean>(false);
+  useEffect(() => {
+    document.addEventListener('keydown', () => {
+      console.log('document');
+    });
+  });
+function openingChildren() {
+  setOpenChildren(!openChildren)
+}
+useEffect(()=>{
+  function closingChildren (button: KeyboardEvent) {
+    if (button.key==='Escape') {
+      setOpenChildren(false)
+    }
+  }
+  document.addEventListener('keydown', closingChildren)
+  return ()=>{
+    document.removeEventListener('keydown', closingChildren)
+  }
+}, [])
   return (
-    <Box sx={{
+ <Box sx={{
       position: 'relative'
     }}>
-      {props.children && <Box sx={{
+      <Box sx={{
         position: 'absolute',
         bottom: '50px',
         left: '25px'
       }}>
-        {props.children}
-      </Box>}
+        {openChildren && props.children}
+      </Box>
       <ButtonWithIcon {...props}/>
       <Button
+        onClick={openingChildren}
         sx={{
           position: 'absolute',
           left: '37px',
           top: '0'
-        }}
-        onClick={props.openSubmenu}>
+        }}>
         <CreateSvgIcon sizes={{
           width: '15px',
           height: '10px',
           viewBox: '3 0 10 10'
-        }} icon={iconArrow}
-        />
+        }} icon={iconArrow}/>
       </Button>
     </Box>
   );

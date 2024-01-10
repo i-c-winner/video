@@ -63,12 +63,6 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    document.addEventListener('keydown', creating);
-    return () => {
-      document.removeEventListener('keydown', creating);
-    };
-  });
 
   function getButtonText() {
     if (state === 'createRoomName') {
@@ -88,10 +82,15 @@ function App() {
       };
     }
   }
+  function keyDownAction(event: any) {
+    console.log(event.target)
+  }
 
 
-  return <Box
+  return <div onKeyDown={keyDownAction}>
+    <Box
     ref={refBox}
+
     sx={
       styles.main
     }>
@@ -101,7 +100,8 @@ function App() {
       sx={getStyleButton()}
       variant="contained"
       onClick={changeState}>{t(getButtonText())}</Button>}
-  </Box>;
+  </Box>
+  </div>;
 }
 
 export { App };
