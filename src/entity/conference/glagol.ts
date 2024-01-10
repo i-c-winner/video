@@ -154,7 +154,6 @@ const glagol: IGlagol = {
     };
     const handlerMessageGroupChat = (stanza: Element) => {
       try {
-        console.log(stanza, 'MESSAGE TEXT');
         const body = stanza.getElementsByTagName('body')[0];
         const text = Strophe.getText(body);
         const jingle = stanza.getElementsByTagName('jingle')[0];
@@ -245,8 +244,6 @@ const glagol: IGlagol = {
       channel.init(event.channel);
 
       function createListeners(chanelInstance: RTCDataChannel) {
-        chanelInstance.onopen = () => console.log('ONOPEN');
-        chanelInstance.onclose = () => console.log('ONCLOSE');
         chanelInstance.onmessage = (message) => {
           channel.putChunks(message)
         };

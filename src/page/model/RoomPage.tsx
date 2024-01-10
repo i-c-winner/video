@@ -71,7 +71,6 @@ function RoomPage() {
 
   function addFileForSaving(params: any) {
     dispatch(addFile(params[0]));
-    console.log(params);
   }
 
   useEffect(() => {

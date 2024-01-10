@@ -45,9 +45,6 @@ class Channel {
         this._currentChunkStop = Channel.chunkSize;
       }
     };
-    this._fileReader.onloadend = () => {
-      console.log('END');
-    };
   };
 
   getInstance() {

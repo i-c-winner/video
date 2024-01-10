@@ -22,16 +22,14 @@ function SubmenuForMicrophone(props: ISubmenu) {
     }
   }
 
-  function selectingItem(event: SyntheticEvent) {
-    console.log(event);
-  }
+
 
   if (data) {
     const microphone = data.filter((element) => element.kind === 'audioinput');
     const audio = data.filter((element) => element.kind === 'audiooutput');
     return <Submenu>
       <RadioGroup
-        onChange={selectingItem}
+        // onChange={selectingItem}
         defaultValue="default"
       >
         {audio.map((audio) => <FormControlLabel
@@ -46,7 +44,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
       </RadioGroup>
       <RadioGroup
         defaultValue="default"
-        onChange={selectingItem}
+        // onChange={selectingItem}
       >
         {microphone.map((microphone) => <FormControlLabel
           control={<Radio/>}

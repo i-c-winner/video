@@ -24,7 +24,6 @@ function Devices() {
     });
     if (refVideo.current) refVideo.current.srcObject = stream;
     navigator.mediaDevices.enumerateDevices().then((devices) => {
-      console.log(devices, 'Devices');
       setVideoDevices(devices.filter((device) => device.kind === 'videoinput'));
       setAudioDevices(devices.filter((device) => device.kind === 'audiooutput'));
       setMicrophoneDevices(devices.filter((device) => device.kind === 'audioinput'));

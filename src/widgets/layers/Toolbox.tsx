@@ -312,10 +312,6 @@ function Toolbox() {
     }
   }, [ isRecording ]);
 
-useEffect(()=>{
-  console.log('keydown')
-  refBox.current?.addEventListener('keydown', (key: KeyboardEvent)=>console.log(key))
-}, [])
   return <Box
     ref={refBox}
     sx={styles.toolboxLayer}>

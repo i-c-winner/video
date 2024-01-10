@@ -36,7 +36,6 @@ const More = React.forwardRef((props, ref) => {
   function actionClick(this: { type:  TTypeModal}) {
     dispatch(changeTypeModal(this.type))
     dispatch(openModal(true))
-    console.log(this.type);
   }
   const { t } = useTranslation();
   return <Box sx={styleBox}>

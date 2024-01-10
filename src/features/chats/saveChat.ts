@@ -17,7 +17,6 @@ function saveChat(chats: TChat[]){
 
   saveButton.click();
   URL.revokeObjectURL(saveButton.href);
-  console.log(result)
 }
 
 export {saveChat}

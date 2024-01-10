@@ -26,7 +26,6 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
   function openMenu() {
     dispatch(changeTypeModal('more'));
     dispatch(openModal(true));
-    console.log('open');
   }
 
   function getMarginForMenuButton() {

@@ -82,13 +82,9 @@ function App() {
       };
     }
   }
-  function keyDownAction(event: any) {
-    console.log(event.target)
-  }
 
 
-  return <div onKeyDown={keyDownAction}>
-    <Box
+  return <Box
     ref={refBox}
 
     sx={
@@ -101,7 +97,7 @@ function App() {
       variant="contained"
       onClick={changeState}>{t(getButtonText())}</Button>}
   </Box>
-  </div>;
+
 }
 
 export { App };

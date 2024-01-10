@@ -4,6 +4,7 @@ import { useAsync } from 'react-async';
 import { Submenu } from './Submenu';
 import Radio from '@mui/material/Radio';
 import { SyntheticEvent } from 'react';
+import RadioGroup from '@mui/material/RadioGroup';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
@@ -20,24 +21,30 @@ function SubmenuForCamera(props: ISubmenu) {
       return {};
     }
   }
-function selectingItem(event: SyntheticEvent) {
-  console.log(event)
-}
+
   if (data) {
+    function getDefault() {
+      return cameras.length === 1 ? cameras[0].label.toLowerCase() : 'default';
+    }
+
     const cameras = data.filter((element) => element.kind === 'videoinput');
     return <Submenu>
-      <FormGroup
-      onChange={selectingItem}
+      <RadioGroup
+        defaultValue={getDefault()}
+        // onChange={selectingItem}
       >
-        {cameras.map((camera) => <FormControlLabel
-          control={<Radio />}
-          label={<Typography
-          sx={{
-            whiteSpace: 'nowrap'
-          }}
-          >{camera.label}</Typography>}
-        />)}
-      </FormGroup>
+        {cameras.map((camera) => {
+          return <FormControlLabel
+            control={<Radio/>}
+            value={camera.label.toLowerCase()}
+            label={<Typography
+              sx={{
+                whiteSpace: 'nowrap'
+              }}
+            >{camera.label}</Typography>}
+          />;
+        })}
+      </RadioGroup>
 
     </Submenu>;
   }

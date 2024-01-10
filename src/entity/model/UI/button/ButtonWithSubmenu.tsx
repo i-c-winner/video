@@ -27,11 +27,6 @@ interface IProps extends IPropsButton {
 
 function ButtonWithSubmenu(props: IProps) {
   const [ openChildren, setOpenChildren ] = useState<boolean>(false);
-  useEffect(() => {
-    document.addEventListener('keydown', () => {
-      console.log('document');
-    });
-  });
 function openingChildren() {
   setOpenChildren(!openChildren)
 }
