@@ -57,12 +57,6 @@ function App() {
     setReciverd(true)
   }
 
-  function creating(target: KeyboardEvent) {
-    if (target.key === 'Enter') {
-      changeState();
-    }
-  }
-
 
   function getButtonText() {
     if (state === 'createRoomName') {

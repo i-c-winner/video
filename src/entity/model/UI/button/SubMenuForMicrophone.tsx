@@ -8,6 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { getRandomText } from '../../../../features/plugins/getRandomText';
+import { glagol } from '../../../conference/glagol';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
@@ -28,6 +29,22 @@ function SubmenuForMicrophone(props: ISubmenu) {
   function selectingItem(ev: any) {
     ev.stopPropagation();
     console.log(ev.target, ev, 'TArget');
+  }
+
+  function getCurrentMicrophone() {
+    const result = {
+      microphone: '',
+      camera: ''
+    };
+    const senders = glagol.peerConnection.getSenders();
+    senders.map((sender) => {
+      if (sender.track?.kind === 'audio') {
+        result.microphone = sender.track?.label;
+      } else if (sender.track?.kind==='video') {
+        result.camera=sender.track?.label
+      }
+    });
+    return result;
   }
 
   if (data) {
@@ -53,7 +70,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
         <FormLabel id="sub-menu-microphone">Выберите микрофон</FormLabel>
         <RadioGroup
           aria-labelledby="sub-menu-microphone"
-          defaultValue="Default"
+          defaultValue={getCurrentMicrophone().microphone}
           onChange={selectingItem}
         >
           {microphone.map((microphone) => <FormControlLabel
