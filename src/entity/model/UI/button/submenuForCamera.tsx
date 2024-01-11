@@ -3,7 +3,6 @@ import { ISubmenu } from '../../../types';
 import { useAsync } from 'react-async';
 import { Submenu } from './Submenu';
 import Radio from '@mui/material/Radio';
-import { SyntheticEvent } from 'react';
 import RadioGroup from '@mui/material/RadioGroup';
 
 const getDevices = async () => {
@@ -22,6 +21,11 @@ function SubmenuForCamera(props: ISubmenu) {
     }
   }
 
+  function selectingItem(ev: any) {
+    ev.stopPropagation();
+    console.log(ev.target, ev, 'TArget');
+  }
+
   if (data) {
     function getDefault() {
       return cameras.length === 1 ? cameras[0].label.toLowerCase() : 'default';
@@ -31,7 +35,7 @@ function SubmenuForCamera(props: ISubmenu) {
     return <Submenu>
       <RadioGroup
         defaultValue={getDefault()}
-        // onChange={selectingItem}
+        onChange={selectingItem}
       >
         {cameras.map((camera) => {
           return <FormControlLabel
@@ -45,7 +49,6 @@ function SubmenuForCamera(props: ISubmenu) {
           />;
         })}
       </RadioGroup>
-
     </Submenu>;
   }
   return (

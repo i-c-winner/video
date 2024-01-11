@@ -5,6 +5,8 @@ import { Submenu } from './Submenu';
 import Radio from '@mui/material/Radio';
 import { SyntheticEvent } from 'react';
 import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
@@ -22,19 +24,22 @@ function SubmenuForMicrophone(props: ISubmenu) {
     }
   }
 
-
+  function selectingItem(ev: any) {
+    ev.stopPropagation();
+    console.log(ev.target, ev, 'TArget');
+  }
 
   if (data) {
     const microphone = data.filter((element) => element.kind === 'audioinput');
     const audio = data.filter((element) => element.kind === 'audiooutput');
     return <Submenu>
       <RadioGroup
-        // onChange={selectingItem}
-        defaultValue="default"
+        onChange={selectingItem}
+        defaultValue="Default"
       >
         {audio.map((audio) => <FormControlLabel
           control={<Radio/>}
-          value={audio.label.toLowerCase()}
+          value={audio.label}
           label={<Typography
             sx={{
               whiteSpace: 'nowrap'
@@ -42,21 +47,20 @@ function SubmenuForMicrophone(props: ISubmenu) {
           >{audio.label}</Typography>}
         />)}
       </RadioGroup>
-      <RadioGroup
-        defaultValue="default"
-        // onChange={selectingItem}
-      >
-        {microphone.map((microphone) => <FormControlLabel
-          control={<Radio/>}
-          value={microphone.label.toLowerCase()}
-          label={<Typography
-            sx={{
-              whiteSpace: 'nowrap'
-            }}
-          >{microphone.label}</Typography>}
-        />)}
-      </RadioGroup>
-
+      <FormControl>
+        <FormLabel id="sub-menu-microphone">Выберите микрофон</FormLabel>
+        <RadioGroup
+          aria-labelledby="sub-menu-microphone"
+          defaultValue="Default"
+          onChange={selectingItem}
+        >
+          {microphone.map((microphone) => <FormControlLabel
+            control={<Radio/>}
+            value={microphone.label}
+            label={microphone.label}
+          />)}
+        </RadioGroup>
+      </FormControl>
     </Submenu>;
   }
   return (
