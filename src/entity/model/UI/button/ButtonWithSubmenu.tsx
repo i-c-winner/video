@@ -4,7 +4,8 @@ import { ButtonWithIcon } from './ButtonWithIcon';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { iconArrow } from '../../../../shared/img/svg';
 import { CreateSvgIcon } from '../../../../features/CreaeteSvgIcon';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Popover } from '../popover/Popover';
 
 
 interface IProps extends IPropsButton {
@@ -20,29 +21,30 @@ interface IProps extends IPropsButton {
     },
     content: string,
   },
-  children: ReactJSXElement | false,
+  children: ReactJSXElement,
   openSubmenu: () => void,
+
 }
 
 
 function ButtonWithSubmenu(props: IProps) {
-  const [ openChildren, setOpenChildren ] = useState<boolean>(false);
-function openingChildren() {
-  setOpenChildren(!openChildren)
-}
-useEffect(()=>{
-  function closingChildren (button: KeyboardEvent) {
-    if (button.key==='Escape') {
-      setOpenChildren(false)
-    }
+  const [ popoverVisible, setPopoverVisible ] = useState<boolean>(false);
+
+  function closeVisiblePopover() {
+    setPopoverVisible(false);
   }
-  document.addEventListener('keydown', closingChildren)
-  return ()=>{
-    document.removeEventListener('keydown', closingChildren)
+
+  function openVisiblePopover() {
+    setPopoverVisible(true);
   }
-}, [])
+
+  function toggledVisiblePopover(ev: any) {
+    ev.stopPropagation()
+    setPopoverVisible(!popoverVisible);
+  }
+
   return (
- <Box sx={{
+    <Box sx={{
       position: 'relative'
     }}>
       <Box sx={{
@@ -50,11 +52,11 @@ useEffect(()=>{
         bottom: '50px',
         left: '25px'
       }}>
-        {openChildren && props.children}
+
       </Box>
       <ButtonWithIcon {...props}/>
       <Button
-        onClick={openingChildren}
+        onClick={toggledVisiblePopover}
         sx={{
           position: 'absolute',
           left: '37px',
@@ -65,6 +67,12 @@ useEffect(()=>{
           height: '10px',
           viewBox: '3 0 10 10'
         }} icon={iconArrow}/>
+        <Popover
+          onOpen={openVisiblePopover}
+          onClose={closeVisiblePopover}
+          state={popoverVisible}>
+          {props.children}
+        </Popover>
       </Button>
     </Box>
   );
