@@ -4,6 +4,7 @@ import { useAsync } from 'react-async';
 import { Submenu } from './Submenu';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import { getRandomText } from '../../../../features/plugins/getRandomText';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
@@ -39,6 +40,7 @@ function SubmenuForCamera(props: ISubmenu) {
       >
         {cameras.map((camera) => {
           return <FormControlLabel
+            key={getRandomText(5)}
             control={<Radio/>}
             value={camera.label.toLowerCase()}
             label={<Typography

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import {Box} from '@mui/material';
 
 interface IProps {
   state: boolean,
@@ -35,10 +36,15 @@ function Popover(props: IProps) {
 
 
   {
-    return props.state && <div
+    return props.state && <Box
+      sx={{
+        position: 'absolute',
+        bottom: '0',
+        zIndex: '10'
+      }}
       onClick={stopPropagation}>
       {props.children}
-    </div>;
+    </Box>;
   }
 }
 

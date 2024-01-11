@@ -7,6 +7,7 @@ import { SyntheticEvent } from 'react';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { getRandomText } from '../../../../features/plugins/getRandomText';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
@@ -38,6 +39,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
         defaultValue="Default"
       >
         {audio.map((audio) => <FormControlLabel
+          key={getRandomText(5)}
           control={<Radio/>}
           value={audio.label}
           label={<Typography
@@ -55,6 +57,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
           onChange={selectingItem}
         >
           {microphone.map((microphone) => <FormControlLabel
+            key={getRandomText(5)}
             control={<Radio/>}
             value={microphone.label}
             label={microphone.label}
