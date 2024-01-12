@@ -34,14 +34,7 @@ function App() {
       if (typeof event !== "string") glagol.params.roomName = event.target.value;
     } else if (type === 'displayName') {
       if (typeof event !== "string") glagol.params.displayName = event.target.value;
-    } else if (type === 'roomNameFromUrl') {
-      if (typeof event === "string") {
-        if (refRoomName.current !== null) {
-          refRoomName.current.value = event;
-        }
-        glagol.params.roomName = event;
-      }
-    }
+    } 
   }
 
   function changeState() {
@@ -76,7 +69,14 @@ function App() {
       };
     }
   }
+useEffect(() =>{
+    const roomName = window.location.pathname.split('/')[1];
 
+        if (roomName !== '') {
+          glagol.params.roomName=roomName
+          setState('createUserName')
+        }
+}, [])
 
   return <Box
     ref={refBox}
