@@ -17,7 +17,6 @@ const connection = async () => {
 };
 const CreateDisplayName = React.forwardRef((props: {
   changeDisplayName: (event: any, type: string) => void
-  wasLoaded: () => void
 }, ref) => {
 
   const { data, error, isPending } = useAsync({ promiseFn: connection });
@@ -73,7 +72,6 @@ const CreateDisplayName = React.forwardRef((props: {
     return <p>...Pending</p>;
   }
   if (data) {
-    props.wasLoaded();
     data.getTracks().forEach((track) => {
       try {
         glagol.peerConnection.addTrack(track);
@@ -84,7 +82,7 @@ const CreateDisplayName = React.forwardRef((props: {
     });
     glagol.peerConnectionAddHandlers();
     return <Box sx={styles.wrapper}>
-      <Input onChange={action} sx={getInputStyles()} ref={ref}/>
+      <Input placeholder="input yourName" onChange={action} sx={getInputStyles()} ref={ref}/>
       <Box sx={{
         display: 'flex', justifyContent: 'center',
         marginTop: '10px'

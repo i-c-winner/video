@@ -19,9 +19,9 @@ function App() {
   function getChildren() {
     switch (state) {
       case 'createUserName' :
-        return <CreateDisplayName wasLoaded={changingRevirced} changeDisplayName={changingInput} ref={refDisplayName}/>;
+        return <CreateDisplayName changeDisplayName={changingInput} ref={refDisplayName}/>;
       case 'createRoomName':
-        return <CreateRoomName  wasLoaded={changingRevirced} changeRoomName={changingInput} ref={refRoomName}/>;
+        return <CreateRoomName  changeRoomName={changingInput} ref={refRoomName}/>;
       case 'roomPage':
         return <RoomPage/>;
       default:
@@ -30,14 +30,16 @@ function App() {
   }
 
   function changingInput(event: (BaseSyntheticEvent | string), type: string) {
+    setReciverd(true)
     if (type === 'roomName') {
       if (typeof event !== "string") glagol.params.roomName = event.target.value;
     } else if (type === 'displayName') {
       if (typeof event !== "string") glagol.params.displayName = event.target.value;
-    } 
+    }
   }
 
   function changeState() {
+    setReciverd(false)
     if (state === 'createRoomName') {
       const path = window.location.pathname;
       if (refRoomName.current) history.replaceState(null, '', path.split('/')[0] + glagol.params.roomName);
@@ -45,9 +47,6 @@ function App() {
     } else if (state === 'createUserName') {
       setState('roomPage');
     }
-  }
-  function changingRevirced() {
-    setReciverd(true)
   }
 
 

@@ -10,7 +10,6 @@ const connection = async () => {
 };
 const CreateRoomName = React.forwardRef((props: {
   changeRoomName: (event: any, type: string) => void,
-  wasLoaded: ()=>void
 }, ref) => {
   const { data, error, isPending } = useAsync({ promiseFn: connection });
 
@@ -22,9 +21,8 @@ const CreateRoomName = React.forwardRef((props: {
     return <p>...Pending</p>;
   }
   if (data) {
-    props.wasLoaded()
     return <Box sx={styles.wrapper}>
-      <Input onChange={action} sx={getInputStyles()} inputRef={ref}/>
+      <Input placeholder="Input RoomName" onChange={action} sx={getInputStyles()} inputRef={ref}/>
     </Box>;
   }
   if (error) {
