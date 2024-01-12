@@ -26,9 +26,11 @@ function SubmenuForMicrophone(props: ISubmenu) {
     }
   }
 
-  function selectingItem(ev: any) {
+  function selectingAudio(ev: any, type: string) {
     ev.stopPropagation();
     console.log(ev.target, ev, 'TArget');
+    glagol.changeTrack(ev.target.value, 'audio')
+
   }
 
   function getCurrentMicrophone() {
@@ -51,33 +53,37 @@ function SubmenuForMicrophone(props: ISubmenu) {
     const microphone = data.filter((element) => element.kind === 'audioinput');
     const audio = data.filter((element) => element.kind === 'audiooutput');
     return <Submenu>
-      <RadioGroup
-        onChange={selectingItem}
-        defaultValue="Default"
-      >
-        {audio.map((audio) => <FormControlLabel
-          key={getRandomText(5)}
-          control={<Radio/>}
-          value={audio.label}
-          label={<Typography
-            sx={{
-              whiteSpace: 'nowrap'
-            }}
-          >{audio.label}</Typography>}
-        />)}
-      </RadioGroup>
+      {/*<RadioGroup*/}
+      {/*  onChange={selectingItem}*/}
+      {/*  defaultValue="Default"*/}
+      {/*>*/}
+      {/*  {audio.map((audio) => <FormControlLabel*/}
+      {/*    key={getRandomText(5)}*/}
+      {/*    control={<Radio/>}*/}
+      {/*    value={audio.label}*/}
+      {/*    label={<Typography*/}
+      {/*      sx={{*/}
+      {/*        whiteSpace: 'nowrap'*/}
+      {/*      }}*/}
+      {/*    >{audio.label}</Typography>}*/}
+      {/*  />)}*/}
+      {/*</RadioGroup>*/}
       <FormControl>
         <FormLabel id="sub-menu-microphone">Выберите микрофон</FormLabel>
         <RadioGroup
           aria-labelledby="sub-menu-microphone"
           defaultValue={getCurrentMicrophone().microphone}
-          onChange={selectingItem}
+          onChange={selectingAudio}
         >
           {microphone.map((microphone) => <FormControlLabel
             key={getRandomText(5)}
             control={<Radio/>}
             value={microphone.label}
-            label={microphone.label}
+            label={<Typography
+            sx={{
+              whiteSpace: 'nowrap'
+            }}
+            >{microphone.label}</Typography>}
           />)}
         </RadioGroup>
       </FormControl>

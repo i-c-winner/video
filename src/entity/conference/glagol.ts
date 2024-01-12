@@ -245,7 +245,7 @@ const glagol: IGlagol = {
 
       function createListeners(chanelInstance: RTCDataChannel) {
         chanelInstance.onmessage = (message) => {
-          channel.putChunks(message)
+          channel.putChunks(message);
         };
       }
     };
@@ -277,10 +277,43 @@ const glagol: IGlagol = {
       room.invite(glagol.sendMessage, glagol.params.roomName, glagol.params.displayName);
     }
   },
-  setLocalStream: () => {
+  setLocalStream: (constaints) => {
+    if (constaints) {
+      return navigator.mediaDevices.getUserMedia(constaints);
+    }
     return navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true
+    });
+  },
+  changeTrack(label, type) {
+    this.peerConnection.getSenders().forEach((sender) => {
+      if (sender.track?.kind === type) {
+        this.peerConnection.removeTrack(sender);
+      }
+    });
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      devices.forEach((device) => {
+
+        if (device.label === label) {
+          const constaints = type === 'video' ? {
+              video: {
+                deviceId: device.deviceId
+              },
+              audio: true
+            } : {
+            video: true,
+            audio: {
+              deviceId: device.deviceId
+            }
+          }
+            this.setLocalStream(constaints).then((stream) => {
+              stream.getTracks().forEach((track) => {
+                if (track.kind === type) this.peerConnection.addTrack(track);
+              });
+            });
+        }
+      });
     });
   },
   sendMessage: function (message) {
