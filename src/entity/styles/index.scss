@@ -13,7 +13,7 @@
     &_my {
       background-color: #100f60;
       color: white;
-      border-top-right-radius: 0 ;
+      border-top-right-radius: 0;
     }
 
     &_other {
@@ -26,6 +26,7 @@
 
 .input-field {
   flex-grow: 1;
+
   textarea {
     color: white;
     background-color: #2a2929;
@@ -44,6 +45,17 @@
 .input_profile {
   input, label {
     color: white
+  }
+}
+
+.form-control__label {
+  &:checked {
+    color: green;
+  }
+
+  &:hover {
+    background-color: #87bfff;
+    color: black;
   }
 }
 

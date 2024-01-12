@@ -33,7 +33,7 @@ const glagol: IGlagol = {
             sender.track.enabled = false;
           } else if (data.value !== 'enabled') {
             sender.track.enabled = true;
-            sender.track?.applyConstraints(constants.videoQuantity[data.value]).then((res) => {
+            sender.track?.applyConstraints(constants.videoQuantity[data.value]).then(() => {
             });
           }
         }
@@ -147,8 +147,7 @@ const glagol: IGlagol = {
       console.log(stanza, 'message');
       return true;
     };
-    const handlerIqTypeResult = (stanza: Element) => {
-      const from = stanza.getAttribute('from');
+    const handlerIqTypeResult = () => {
       glagol.roomInstance.invite();
       return true;
     };
@@ -166,7 +165,6 @@ const glagol: IGlagol = {
       return true;
     };
     const handlerPresence = (stanza: Element) => {
-      const from = stanza.getAttribute('from') as string;
       const jingle = stanza.getElementsByTagName('jingle');
       try {
         if (jingle[0].getAttribute('action') === "enter_to_room") {
@@ -185,7 +183,6 @@ const glagol: IGlagol = {
         }
       } catch (e) {
       }
-      const type = stanza.getAttribute('type');
       console.log(stanza, 'PESENCE');
       return true;
     };
@@ -218,8 +215,6 @@ const glagol: IGlagol = {
 
   peerConnectionAddHandlers() {
     const pc = glagol.peerConnection;
-    // @ts-ignore
-    window.peer = pc;
     pc.ontrack = (event) => {
       const type = event.streams[0].id.split('-')[0];
       if (type === 'audio' || type === 'video') {

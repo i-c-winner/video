@@ -36,14 +36,14 @@ function SubmenuForMicrophone(props: ISubmenu) {
   function getCurrentMicrophone() {
     const result = {
       microphone: '',
-      camera: ''
+      dynamic: ''
     };
     const senders = glagol.peerConnection.getSenders();
     senders.map((sender) => {
       if (sender.track?.kind === 'audio') {
         result.microphone = sender.track?.label;
       } else if (sender.track?.kind==='video') {
-        result.camera=sender.track?.label
+        result.dynamic=sender.track?.label
       }
     });
     return result;
@@ -51,7 +51,12 @@ function SubmenuForMicrophone(props: ISubmenu) {
 
   if (data) {
     const microphone = data.filter((element) => element.kind === 'audioinput');
-    const audio = data.filter((element) => element.kind === 'audiooutput');
+    // const audio = data.filter((element) => element.kind === 'audiooutput');
+    function getColor(label: string) {
+      if (label===getCurrentMicrophone().microphone) {
+        return 'green'
+      } return 'initial'
+    }
     return <Submenu>
       {/*<RadioGroup*/}
       {/*  onChange={selectingItem}*/}
@@ -76,12 +81,17 @@ function SubmenuForMicrophone(props: ISubmenu) {
           onChange={selectingAudio}
         >
           {microphone.map((microphone) => <FormControlLabel
+            classes={{
+              root: 'form-control__label'
+            }}
             key={getRandomText(5)}
             control={<Radio/>}
             value={microphone.label}
             label={<Typography
             sx={{
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              color: ()=>getColor(microphone.label),
+              textTransform: 'lowercase'
             }}
             >{microphone.label}</Typography>}
           />)}

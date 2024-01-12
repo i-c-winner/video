@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 
 function Submenu(props: { children: ReactNode }) {
   return <Box
-
     sx={{
       color: 'white',
       padding: '10px',

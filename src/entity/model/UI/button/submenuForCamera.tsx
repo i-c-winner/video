@@ -31,7 +31,6 @@ function SubmenuForCamera(props: ISubmenu) {
     function getDefault() {
       return cameras.length === 1 ? cameras[0].label.toLowerCase() : 'default';
     }
-
     const cameras = data.filter((element) => element.kind === 'videoinput');
     return <Submenu>
       <RadioGroup
@@ -45,7 +44,7 @@ function SubmenuForCamera(props: ISubmenu) {
             value={camera.label.toLowerCase()}
             label={<Typography
               sx={{
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
               }}
             >{camera.label}</Typography>}
           />;
