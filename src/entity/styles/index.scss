@@ -48,15 +48,20 @@
   }
 }
 
-.form-control__label {
-  &:checked {
-    color: green;
-  }
+.submenu {
+  .form-control__label {
+    margin: 0;
+    padding-right: 5px;
+    &:checked {
+      color: green;
+    }
 
-  &:hover {
-    background-color: #87bfff;
-    color: black;
+    &:hover {
+      background-color: #87bfff;
+      color: black;
+    }
   }
 }
+
 
 

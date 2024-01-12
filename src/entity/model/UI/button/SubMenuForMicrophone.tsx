@@ -29,7 +29,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
   function selectingAudio(ev: any, type: string) {
     ev.stopPropagation();
     console.log(ev.target, ev, 'TArget');
-    glagol.changeTrack(ev.target.value, 'audio')
+    glagol.changeTrack(ev.target.value, 'audio');
 
   }
 
@@ -42,8 +42,8 @@ function SubmenuForMicrophone(props: ISubmenu) {
     senders.map((sender) => {
       if (sender.track?.kind === 'audio') {
         result.microphone = sender.track?.label;
-      } else if (sender.track?.kind==='video') {
-        result.dynamic=sender.track?.label
+      } else if (sender.track?.kind === 'video') {
+        result.dynamic = sender.track?.label;
       }
     });
     return result;
@@ -51,12 +51,15 @@ function SubmenuForMicrophone(props: ISubmenu) {
 
   if (data) {
     const microphone = data.filter((element) => element.kind === 'audioinput');
+
     // const audio = data.filter((element) => element.kind === 'audiooutput');
     function getColor(label: string) {
-      if (label===getCurrentMicrophone().microphone) {
-        return 'green'
-      } return 'initial'
+      if (label === getCurrentMicrophone().microphone) {
+        return 'green';
+      }
+      return 'initial';
     }
+
     return <Submenu>
       {/*<RadioGroup*/}
       {/*  onChange={selectingItem}*/}
@@ -73,8 +76,21 @@ function SubmenuForMicrophone(props: ISubmenu) {
       {/*    >{audio.label}</Typography>}*/}
       {/*  />)}*/}
       {/*</RadioGroup>*/}
-      <FormControl>
-        <FormLabel id="sub-menu-microphone">Выберите микрофон</FormLabel>
+      <FormControl
+        classes={{
+          root: "submenu"
+        }}>
+        <FormLabel sx={{
+          textAlign: "left",
+          paddingLeft: "40px",
+          paddingBottom: "20px"
+        }} id="sub-menu-microphone">
+          <Typography sx={{
+            textTransform: 'lowercase',
+            color: 'white'
+          }}>
+            Выберите микрофон
+          </Typography></FormLabel>
         <RadioGroup
           aria-labelledby="sub-menu-microphone"
           defaultValue={getCurrentMicrophone().microphone}
@@ -88,11 +104,11 @@ function SubmenuForMicrophone(props: ISubmenu) {
             control={<Radio/>}
             value={microphone.label}
             label={<Typography
-            sx={{
-              whiteSpace: 'nowrap',
-              color: ()=>getColor(microphone.label),
-              textTransform: 'lowercase'
-            }}
+              sx={{
+                whiteSpace: 'nowrap',
+                color: () => getColor(microphone.label),
+                textTransform: 'lowercase'
+              }}
             >{microphone.label}</Typography>}
           />)}
         </RadioGroup>
