@@ -6,6 +6,7 @@ import { RoomPage } from '../../page/model/RoomPage';
 import { Box, Button } from '@mui/material';
 import { styles } from '../styles';
 import { useTranslation } from 'react-i18next';
+import { Page } from '../../page/model/Page';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
       case 'createRoomName':
         return <CreateRoomName  changeRoomName={changingInput} ref={refRoomName}/>;
       case 'roomPage':
-        return <RoomPage/>;
+        return <RoomPage />;
       default:
         return <p>unknown children</p>;
     }

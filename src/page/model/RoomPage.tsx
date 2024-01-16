@@ -107,20 +107,30 @@ function RoomPage() {
     }
   }, [ sharing ]);
 
-  return <Box sx={{
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    zIndex: 10
-  }
-  } display="flex">
-    <TopPanel/>
-    <LocalStream ref={refVideo}/>
-    <RemoteStreamsBox/>
+  return <Box
+    sx={{
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0',
+      bgcolor: 'background.paper',
+      display: 'flex',
+      justifyContent: 'space-between'
+    }}
+  >
+    <Box sx={{
+      flexGrow: '1',
+      display: 'flex',
+      flexFlow: 'column',
+      justifyContent: 'space-between'
+    }}>
+      <TopPanel/>
+      <LocalStream ref={refVideo}/>
+      <Toolbox/>
+    </Box>
     <ChatsBox/>
-    <Toolbox/>
+
   </Box>;
 }
 

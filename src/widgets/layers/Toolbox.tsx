@@ -253,7 +253,7 @@ function Toolbox() {
     }
   }
 
-  function getHeightToolbox() {
+  function getToolboxStyle() {
     if (window.screen.width > 720) {
       return {
         ...styles.toolboxLayer.toolbox,
@@ -316,7 +316,8 @@ function Toolbox() {
     ref={refBox}
     sx={styles.toolboxLayer}>
     <ModalWindow/>
-    {toolboxVisible && <Box sx={getHeightToolbox()}>
+    {/*{toolboxVisible && <Box sx={getHeightToolbox()}>*/}
+    { <Box sx={getToolboxStyle()}>
       <Box>
         <ButtonWithIcon
           wrapperStyles={{ margin: '5px 10px' }}

@@ -2,29 +2,15 @@ import { config } from '../../shared/config';
 
 const styles = {
   topPanelLayer: {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    zIndex: '-20',
-    pointerEvents: 'none',
+
     panel: {
       height: '50px',
       width: '100%',
       display: 'flex',
       justifyContent: 'center',
-      marginTop: '30px'
     }
   },
   remoteStreamLayer: {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    zIndex: '-30',
-    display: 'flex',
     flexFlow: 'row-reverse',
     pointerEvents: 'none',
     wrapper: {
@@ -49,15 +35,11 @@ const styles = {
 
   },
   localeStyleLayer: {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    zIndex: '-40',
     bgcolor: 'background.paper',
     color: 'white',
     display: 'flex',
+    justifyContent: 'center',
+    flexGrow: '1',
     logo: {
       position: 'absolute',
       top: '50px',
@@ -72,16 +54,11 @@ const styles = {
     }
   },
   chatsboxLayer: {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    zIndex: '-10',
     pointerEvents: 'none',
     chatsbox: {
       backgroundColor: 'rgba(25, 25, 25, .3)',
       width: config.boxes.chatsbox.width,
+      height: '100vh',
       boxSizing: 'border-box',
       display: 'flex',
       flexFlow: 'column',
@@ -103,11 +80,6 @@ const styles = {
     pointerEvents: 'none',
     display: 'flex',
     flexFlow: 'column-reverse',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
     textAlign: 'bottom',
     toolbox: {
       pointerEvents: 'initial',

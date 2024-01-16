@@ -18,7 +18,7 @@
   }
 
   &_local {
-    height: 97vh;
+    height: calc(97vh - 150px);
     width: 100%;
     overflow: hidden;
   }

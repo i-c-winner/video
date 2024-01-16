@@ -41,7 +41,7 @@ function RemoteStreamsBox() {
   const dispatch = useDispatch();
 
   function getStyles() {
-    const height = toolboxVisible ? 'calc(100vh - 50px)' : '100vh';
+    const height = 'calc(100vh - 200px)'
     return Object.assign(remoteStreamLayer.wrapper, { height });
   }
 

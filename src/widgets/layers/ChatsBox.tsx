@@ -9,20 +9,9 @@ import { ChatInputField } from '../../entity/model/ChatInputField';
 function ChatsBox() {
   const  {chatsBoxVisible, toolboxVisible}  = useSelector((state: IStore) => state.interface);
   const { chatsList } = useSelector((state: IStore) => state.chats);
-  function getStyles() {
-    if (toolboxVisible) {
-     return {
-       ...styles.chatsboxLayer.chatsbox,
-       height: 'calc(100vh - 50px)'
-     }
-    }return {
-      ...styles.chatsboxLayer.chatsbox,
-      height: '100vh'
-    }
-  }
 
   {return chatsBoxVisible && <Box sx={styles.chatsboxLayer}>
-    <Box sx={getStyles()}>
+    <Box sx={styles.chatsboxLayer.chatsbox}>
       <div className='chats'>
         {chatsList.map((chat: any) => {
           return <Chat key={getRandomText(5)} chat={chat}/>;
