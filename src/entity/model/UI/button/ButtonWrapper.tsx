@@ -8,12 +8,14 @@ interface IProps {
   text: string
 }
 
-
+const buttonsWithoutToggle =['file','record']
 function ButtonWrapper(props: IProps) {
   const [ toggled, setToggled ] = useState<boolean>(false);
 
   function getStyle() {
-    if (toggled) {
+    if (buttonsWithoutToggle.includes(props.text)) {
+      return 'my-button__toolbox';
+    } else if (toggled) {
       return 'my-button__toolbox my-button__toolbox_toggled';
     }
     return 'my-button__toolbox';

@@ -14,6 +14,11 @@ import {toggleTileMode} from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import {changeIsRecording} from '../../app/store/interfaceSlice';
+import { useEffect } from 'react';
+import { Recording } from '../../features/manager/record';
+
+
+let recording: Recording|null= null
 
 function Toolbox() {
   const { chatsBoxVisible, tileMode, isRecording } = useSelector((state: IStore) => state.interface);
@@ -25,9 +30,26 @@ function Toolbox() {
   function togglingTileMode() {
     dispatch(toggleTileMode(!tileMode))
   }
-  function recording () {
+  function recordAction () {
     dispatch(changeIsRecording(!isRecording))
   }
+
+    useEffect(() => {
+    if (isRecording) {
+      const rec = new Recording();
+      rec.init().then((result) => {
+        rec.createRecorder(result);
+        rec.createListeners();
+        rec.start();
+        recording = rec;
+      }).catch((error) => {
+        dispatch(changeIsRecording(false));
+      });
+    } else {
+      recording?.stop()
+    }
+  }, [ isRecording ]);
+
 
 
   return <Box
@@ -40,13 +62,13 @@ function Toolbox() {
         <ChatBubbleOvalLeftEllipsisIcon/>
       </ButtonWrapper>
       <ButtonWrapper
-        text="share"
+        text="file"
         action={openChat}>
         <FolderPlusIcon/>
       </ButtonWrapper>
       <ButtonWrapper
         text="share"
-        action={openChat}>
+        action={()=>console.log(12)}>
         <ShareIcon/>
       </ButtonWrapper>
       <ButtonWrapper
@@ -56,11 +78,10 @@ function Toolbox() {
       </ButtonWrapper>
       <ButtonWrapper
         text={"record"}
-        action={recording}>
+        action={recordAction}>
         <StopCircleIcon/>
       </ButtonWrapper>
     </Box>
-
   </Box>;
 }
 
