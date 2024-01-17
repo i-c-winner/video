@@ -41,8 +41,8 @@ function RemoteStreamsBox() {
   const dispatch = useDispatch();
 
   function getStyles() {
-    const height = 'calc(100vh - 200px)'
-    return Object.assign(remoteStreamLayer.wrapper, { height });
+    const height = 'calc(100vh - 200px)';
+    return Object.assign(remoteStreamLayer.wrapper, {  });
   }
 
   function openStreamsBox() {
@@ -71,7 +71,7 @@ function RemoteStreamsBox() {
             }}>
               <Box sx={{ margin: '0 0 0 auto', width: '85%' }} position={'relative'}>
                 <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
-                <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
+                {/*<Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>*/}
               </Box>
               <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
               <Box sx={
@@ -87,26 +87,8 @@ function RemoteStreamsBox() {
               </Box>
 
             </Box>
-            <ButtonWithIcon
-              classes={{
-                startIcon: 'margin_zero'
-              }
-              }
-              sizes={{
-                viewBox: '-4 -7 25 25'
-              }}
-              styles={buttonStyleByOpen}
-              startIcon={iconArrow} action={openStreamsBox}/>
-          </Box> : remoteStreams.length > 0 ? <ButtonWithIcon
-            classes={{
-              startIcon: 'margin_zero'
-            }
-            }
-            sizes={{
-              viewBox: '-4 -7 25 25'
-            }}
-            styles={buttonStyleByClose}
-            startIcon={iconArrow} action={openStreamsBox}/> : null}
+
+          </Box>  : null}
       </Box>;
     } else {
       return <RemoteStreamsBoxTileMode/>;

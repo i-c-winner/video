@@ -116,14 +116,17 @@ function RoomPage() {
       right: '0',
       bgcolor: 'background.paper',
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      padding: '16px'
     }}
   >
     <Box sx={{
       flexGrow: '1',
       display: 'flex',
       flexFlow: 'column',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      paddingRight: '16px',
+      boxSizing: 'border-box'
     }}>
       <TopPanel/>
       <LocalStream ref={refVideo}/>

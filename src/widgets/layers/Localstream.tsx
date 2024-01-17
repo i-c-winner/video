@@ -18,11 +18,7 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
   const { quality } = useSelector((state: IStore) => state.interface.conference);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
-  const sizes = {
-    width: '100px',
-    height: '100px',
-    viewBox: '-4 0 40 40'
-  };
+
 
   function openMenu() {
     dispatch(changeTypeModal('more'));
@@ -40,7 +36,6 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     styles.localeStyleLayer
   }>
     <RemoteStreamsBox />
-    {/*<CreateSvgIcon sizes={sizes} styles={styles.localeStyleLayer.logo} icon={iconLogo}></CreateSvgIcon>*/}
     <video className="video video_local" ref={ref} autoPlay={true}/>
     {/*<ButtonWithIcon startIcon={iconMenu} sizes={{ viewBox: '9 9 25 25' }}*/}
     {/*                wrapperStyles={{*/}

@@ -2,21 +2,37 @@ import { config } from '../../shared/config';
 
 const styles = {
   topPanelLayer: {
-
+    height: '100px',
+    padding: '0 0 16px 16px',
+    boxSizing: 'border-box',
+    bgColor: 'background.paper',
+    borderRadius: '10px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     panel: {
-      height: '50px',
-      width: '100%',
+      height: '84px',
+      padding: '0 16px',
+      backgroundColor: 'background.windows',
+      borderRadius: '1rem',
+      border: '1px solid grey',
       display: 'flex',
-      justifyContent: 'center',
-    }
+      justifyContent: 'space-between',
+      flexGrow: '1',
+      alignItems: 'center'
+    },
+    logo: {
+      color: 'green',
+      paddingRight: '50px'
+    },
   },
   remoteStreamLayer: {
-    flexFlow: 'row-reverse',
-    pointerEvents: 'none',
+padding: '16px',
     wrapper: {
-      backgroundColor: 'rgba(25, 25, 25, .3)',
+      padding: '16px',
+      backgroundColor: 'rgba(31, 39, 56)',
       width: config.boxes.remoteStreamBox.width,
-      height: '100vh',
       display: 'flex',
       flexFlow: 'column',
       justifyContent: 'space-between',
@@ -35,16 +51,13 @@ const styles = {
 
   },
   localeStyleLayer: {
-    bgcolor: 'background.paper',
-    color: 'white',
     display: 'flex',
-    justifyContent: 'center',
-    flexGrow: '1',
-    logo: {
-      position: 'absolute',
-      top: '50px',
-      left: '50px',
-    },
+    padding: '16px',
+    border: '1px grey solid',
+    borderRight: '1px grey solid',
+    borderRadius: '1rem',
+    boxSizing: 'border-radius',
+
     menu: {
       color: '#4b4b4b',
       backgroundColor: 'rgba(255, 255, 255, .5)',
@@ -54,15 +67,17 @@ const styles = {
     }
   },
   chatsboxLayer: {
-    pointerEvents: 'none',
+
     chatsbox: {
-      backgroundColor: 'rgba(25, 25, 25, .3)',
+      backgroundColor: 'background.windows',
       width: config.boxes.chatsbox.width,
-      height: '100vh',
+      height: 'calc(100vh - 32px)',
+      padding: '16px',
       boxSizing: 'border-box',
       display: 'flex',
       flexFlow: 'column',
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      borderRadius: '1rem'
     },
     chatInputField: {
       width: '100%',
@@ -77,16 +92,16 @@ const styles = {
   },
 
   toolboxLayer: {
-    pointerEvents: 'none',
-    display: 'flex',
-    flexFlow: 'column-reverse',
-    textAlign: 'bottom',
+    paddingTop: '16px',
+    boxSizing: 'border-box',
     toolbox: {
       pointerEvents: 'initial',
-      padding: '5px 20px',
+      padding: '16px',
       display: 'flex',
       justifyContent: 'space-around',
-      backgroundColor: '#4b4b4b'
+      backgroundColor: 'background.windows',
+      height: '86px',
+      borderRadius: '1rem'
     }
   }
 
