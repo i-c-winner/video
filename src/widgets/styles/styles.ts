@@ -92,16 +92,17 @@ padding: '16px',
   },
 
   toolboxLayer: {
-    paddingTop: '16px',
     boxSizing: 'border-box',
+    height: '56px',
     toolbox: {
       pointerEvents: 'initial',
       padding: '16px',
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: 'background.windows',
-      height: '86px',
-      borderRadius: '1rem'
+      height: '24px',
+      borderRadius: '1rem',
     }
   }
 

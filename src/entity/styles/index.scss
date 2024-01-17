@@ -52,6 +52,7 @@
   .form-control__label {
     margin: 0;
     padding-right: 5px;
+
     &:checked {
       color: green;
     }
@@ -61,6 +62,43 @@
       color: black;
     }
   }
+}
+
+.my-button {
+
+  &__toolbox {
+    margin-right: 10px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+    &:hover {
+      background-color: grey;
+    }
+
+    &_toggled {
+      background-color: #a855f7;
+      position: relative;
+
+      &::after {
+        border-radius: 50%;
+        border: 2px solid #a855f7;
+
+        content: '';
+        height: 44px;
+        width: 44px;
+        position: absolute;
+        top:-4px;
+        left: -4px;
+
+      }
+    }
+  }
+
 }
 
 
