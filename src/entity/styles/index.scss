@@ -66,8 +66,8 @@
 
 .my-button {
 
+
   &__toolbox {
-    margin-right: 10px;
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -75,6 +75,7 @@
     display: flex;
     flex-flow: column;
     justify-content: center;
+    align-items: center;
 
     &:hover {
       background-color: grey;
@@ -92,13 +93,21 @@
         height: 44px;
         width: 44px;
         position: absolute;
-        top:-4px;
+        top: -4px;
         left: -4px;
 
       }
     }
   }
+}
 
+.button-box {
+  color: white;
+  margin-right: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  justify-items: center;
 }
 
 

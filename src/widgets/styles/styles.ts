@@ -28,7 +28,7 @@ const styles = {
     },
   },
   remoteStreamLayer: {
-padding: '16px',
+    padding: '16px',
     wrapper: {
       padding: '16px',
       backgroundColor: 'rgba(31, 39, 56)',
@@ -93,7 +93,9 @@ padding: '16px',
 
   toolboxLayer: {
     boxSizing: 'border-box',
-    height: '56px',
+    paddingBottom: '16p',
+    marginTop: '16px',
+    height: '100px',
     toolbox: {
       pointerEvents: 'initial',
       padding: '16px',
@@ -101,7 +103,7 @@ padding: '16px',
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'background.windows',
-      height: '24px',
+      height: '54px',
       borderRadius: '1rem',
     }
   }
