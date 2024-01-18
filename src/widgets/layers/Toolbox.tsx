@@ -9,10 +9,10 @@ import {
   StopCircleIcon
 } from '@heroicons/react/16/solid';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
-import { changeChatsBox } from '../../app/store/interfaceSlice';
+import { changeChatsBox, changeTypeModal, openModal } from '../../app/store/interfaceSlice';
 import {toggleTileMode} from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { IStore } from '../../app/types';
+import { IInterface, IStore } from '../../app/types';
 import {changeIsRecording} from '../../app/store/interfaceSlice';
 import { useEffect, useState } from 'react';
 import { Recording } from '../../features/manager/record';
@@ -24,7 +24,7 @@ let recording: Recording|null= null
 
 function Toolbox() {
   const [sharingState, setSharingState]= useState<boolean>(false)
-  const { chatsBoxVisible, tileMode, isRecording } = useSelector((state: IStore) => state.interface);
+  const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
   const dispatch = useDispatch();
 
   function openChat() {
@@ -59,7 +59,10 @@ function Toolbox() {
       }
     });
   }
-
+  function openingModal(this: { type: IInterface['typeModal'] }) {
+    dispatch(changeTypeModal(this.type));
+    dispatch(openModal(!modalIsOpen));
+  }
   function sharingStop() {
     sharing.stop();
   }
@@ -92,7 +95,7 @@ function Toolbox() {
       </ButtonWrapper>
       <ButtonWrapper
         text="file"
-        action={openChat}>
+        action={openingModal.bind({type: 'file'})}>
         <FolderPlusIcon/>
       </ButtonWrapper>
       <ButtonWrapper

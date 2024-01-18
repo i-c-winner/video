@@ -8,7 +8,7 @@ interface IProps {
   text: string
 }
 
-const buttonsWithoutToggle =['file','record']
+const buttonsWithoutToggle =['file','record', 'share']
 function ButtonWrapper(props: IProps) {
   const [ toggled, setToggled ] = useState<boolean>(false);
 
