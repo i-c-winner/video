@@ -14,13 +14,16 @@ import {toggleTileMode} from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../app/types';
 import {changeIsRecording} from '../../app/store/interfaceSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Recording } from '../../features/manager/record';
+import { sharing } from '../../entity/sharing';
+import { addSharing } from '../../app/store/sourceSlice';
 
 
 let recording: Recording|null= null
 
 function Toolbox() {
+  const [sharingState, setSharingState]= useState<boolean>(false)
   const { chatsBoxVisible, tileMode, isRecording } = useSelector((state: IStore) => state.interface);
   const dispatch = useDispatch();
 
@@ -34,6 +37,32 @@ function Toolbox() {
     dispatch(changeIsRecording(!isRecording))
   }
 
+  function sharingAction() {
+    if (sharingState) {
+      sharingStop();
+      setSharingState(false);
+    } else {
+      sharingStart();
+      setSharingState(true);
+    }
+  }
+
+  function sharingStart() {
+    sharing.start().then((stream) => {
+      if (stream) {
+        dispatch(addSharing({
+          type: 'dashboard',
+          id: stream.id
+        }));
+      } else {
+        console.info('Sharing is aborting');
+      }
+    });
+  }
+
+  function sharingStop() {
+    sharing.stop();
+  }
     useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
@@ -68,7 +97,7 @@ function Toolbox() {
       </ButtonWrapper>
       <ButtonWrapper
         text="share"
-        action={()=>console.log(12)}>
+        action={sharingAction}>
         <ShareIcon/>
       </ButtonWrapper>
       <ButtonWrapper
