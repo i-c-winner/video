@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { IStore } from '../../../../app/types';
 
 interface IProps {
   action: () => void,
@@ -8,29 +10,47 @@ interface IProps {
   text: string
 }
 
-const buttonsWithoutToggle =['file','record', 'share']
-function ButtonWrapper(props: IProps) {
-  const [ toggled, setToggled ] = useState<boolean>(false);
+const buttonsWithoutToggle = [ 'file', 'record', 'share' ];
+const baseClass = 'my-button__toolbox';
 
-  function getStyle() {
-    if (buttonsWithoutToggle.includes(props.text)) {
-      return 'my-button__toolbox';
-    } else if (toggled) {
-      return 'my-button__toolbox my-button__toolbox_toggled';
-    }
-    return 'my-button__toolbox';
-  }
+function ButtonWrapper(props: IProps) {
+  const [ classes, setClasses ] = useState<string>(baseClass);
+  const [ toggled, setToggled ] = useState<boolean>(false);
+  const { isRecording } = useSelector((state: IStore) => state.interface);
+
 
   function actionClick() {
+    if (!buttonsWithoutToggle.includes(props.text)) {
+      if (!toggled) {
+        setClasses(baseClass + ' my-button__toolbox_toggled');
+      } else {
+        setClasses(baseClass);
+      }
+    }
+
     setToggled(!toggled);
     props.action();
   }
 
-  return <div className='button-box'>
+  useEffect(() => {
+    switch (props.text) {
+      case 'record':
+        if (isRecording) {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red');
+        } else {
+          setClasses(baseClass);
+        }
+
+    }
+
+  }, [ isRecording ]);
+
+
+  return <div className="button-box">
 
     <div
       onClick={actionClick}
-      className={getStyle()}>
+      className={classes}>
       <Box
         sx={{
           height: '24px',

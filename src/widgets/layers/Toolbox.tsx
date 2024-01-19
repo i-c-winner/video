@@ -6,7 +6,9 @@ import {
   FolderPlusIcon,
   ShareIcon,
   ArrowsPointingOutIcon,
-  StopCircleIcon
+  StopCircleIcon,
+  MicrophoneIcon,
+  VideoCameraIcon
 } from '@heroicons/react/16/solid';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { changeChatsBox, changeTypeModal, openModal } from '../../app/store/interfaceSlice';
@@ -112,6 +114,16 @@ function Toolbox() {
         text={"record"}
         action={recordAction}>
         <StopCircleIcon/>
+      </ButtonWrapper>
+      <ButtonWrapper
+        text={"mic"}
+        action={recordAction}>
+        <MicrophoneIcon/>
+      </ButtonWrapper>
+      <ButtonWrapper
+        text={"camera"}
+        action={recordAction}>
+        <VideoCameraIcon/>
       </ButtonWrapper>
     </Box>
   </Box>;

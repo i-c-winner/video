@@ -1,3 +1,14 @@
+@mixin after {
+  border-radius: 50%;
+  //border: 2px solid #a855f7;
+
+  content: '';
+  height: 44px;
+  width: 44px;
+  position: absolute;
+  top: -4px;
+  left: -4px;
+}
 .chats {
   display: flex;
   flex-flow: column;
@@ -85,16 +96,19 @@
       background-color: #a855f7;
       position: relative;
 
-      &::after {
-        border-radius: 50%;
-        border: 2px solid #a855f7;
+      &_red {
+        background-color: red;
+        position: relative;
+        &::after {
+          @include after;
+          border: 2px solid red;
+        }
 
-        content: '';
-        height: 44px;
-        width: 44px;
-        position: absolute;
-        top: -4px;
-        left: -4px;
+      }
+
+      &::after {
+        @include after;
+        border: 2px solid #a855f7;
 
       }
     }
