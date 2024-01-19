@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { IStore } from '../../../../app/types';
+import {useTranslation} from 'react-i18next';
 
 interface IProps {
   action: () => void,
@@ -19,7 +20,7 @@ function ButtonWrapper(props: IProps) {
   const { isRecording } = useSelector((state: IStore) => state.interface);
   const {video, audio}= useSelector((state: IStore)=>state.interface.conference.quality)
   const { sharing } = useSelector((state: IStore) => state.source);
-
+const {t}=useTranslation()
 
   function actionClick() {
     if (!buttonsWithoutToggle.includes(props.text)) {
@@ -87,7 +88,7 @@ function ButtonWrapper(props: IProps) {
         {props.children}
       </Box>
     </div>
-    <Typography>{props.text}</Typography>
+    <Typography>{t(`interface.icons.${props.text}`)}</Typography>
   </div>;
 
 }

@@ -126,7 +126,7 @@ function Toolbox() {
         <ShareIcon/>
       </ButtonWrapper>
       <ButtonWrapper
-        text="title"
+        text="tile"
         action={togglingTileMode}>
         <ArrowsPointingOutIcon/>
       </ButtonWrapper>
