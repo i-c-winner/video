@@ -9,6 +9,7 @@
   top: -4px;
   left: -4px;
 }
+
 .chats {
   display: flex;
   flex-flow: column;
@@ -16,21 +17,23 @@
   pointer-events: initial;
 
   .chat {
-    width: 50%;
+    width: 100%;
     margin: 0 5px 10px;
     padding: 5px 10px;
-    border-radius: 10px;
+    box-sizing: border-box;
+
+    &__body {
+      background-color: #2a2f42;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
 
     &_my {
-      background-color: #100f60;
-      color: white;
-      border-top-right-radius: 0;
+
     }
 
     &_other {
-      background-color: green;
-      align-self: flex-end;
-      border-top-left-radius: 0;
+
     }
   }
 }
@@ -99,6 +102,7 @@
       &_red {
         background-color: red;
         position: relative;
+
         &::after {
           @include after;
           border: 2px solid red;

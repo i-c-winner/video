@@ -1,19 +1,65 @@
-import { Box } from '@mui/material';
-import '../styles/index.scss'
+import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
+import '../styles/index.scss';
 import { TChat } from '../../app/types';
-import { glagol } from '../conference/glagol';
+import React from 'react';
 
-function Chat(props: {chat: TChat}) {
-function getClasses() {
-  if (props.chat.id===glagol.params.userNode) {
-    return 'chat chat_my'
-  } return 'chat chat_other'
-}
+function Chat(props: { chat: TChat }) {
+  const flexBox = {
+    display: 'flex',
+    justifyContent: 'space-between'
+  };
+  const card = <React.Fragment>
+    <CardHeader
+      sx={{
+        padding: '5px',
+
+      }}
+      title={<Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Typography>{props.chat.author}</Typography>
+        <Typography>Time</Typography>
+      </Box>}
+    >
+    </CardHeader>
+    <CardContent
+      sx={{
+        textAlign: 'left',
+        padding: '6px'
+      }}
+    >
+      {props.chat.text}</CardContent>
+  </React.Fragment>;
   return (
-    <Box className={getClasses()}>
-      <p>{props.chat.author}</p>
-      <p>{props.chat.text}</p>
+    <Box
+      sx={{
+        ...flexBox,
+        marginBottom: '10px'
+      }
+
+      }
+    >
+      <Box
+        sx={{
+          borderRadius: '50%',
+          minWidth: '50px',
+          height: '50px',
+          background: 'grey',
+          marginRight: '10px'
+        }}
+      ></Box>
+      <Card sx={{
+        flexGrow: '1',
+        color: 'white',
+        bgcolor: '#2a2f42',
+        padding: '5px 10px'
+      }} variant="outlined">{card}</Card>
     </Box>
+
+
   );
 }
 

@@ -22,9 +22,7 @@ import { sharing } from '../../entity/sharing';
 import { addSharing } from '../../app/store/sourceSlice';
 import { config } from '../../shared/config';
 
-
 let recording: Recording|null= null
-
 function Toolbox() {
   const [sharingState, setSharingState]= useState<boolean>(false)
   const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
@@ -77,9 +75,6 @@ function Toolbox() {
       dispatch(changeVideo(config.conference.quality.video));
     }
   }
-
-
-
   function toggledMicrophone() {
     if (audio === 'enabled') {
       dispatch(changeAudio('disabled'));
@@ -103,8 +98,6 @@ function Toolbox() {
       recording?.stop()
     }
   }, [ isRecording ]);
-
-
 
   return <Box
     sx={styles.toolboxLayer}>
