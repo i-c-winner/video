@@ -12,6 +12,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     panel: {
+      color: 'white',
       height: '84px',
       padding: '0 16px',
       backgroundColor: 'background.windows',
@@ -29,9 +30,13 @@ const styles = {
   },
   remoteStreamLayer: {
     padding: '16px',
+    border: '1px solid grey',
+    borderRadius: '1rem',
+    marginRight: '16px',
     wrapper: {
+
+      boxSizing: 'border-box',
       padding: '16px',
-      backgroundColor: 'rgba(31, 39, 56)',
       width: config.boxes.remoteStreamBox.width,
       display: 'flex',
       flexFlow: 'column',

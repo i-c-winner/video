@@ -25,13 +25,6 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     dispatch(openModal(true));
   }
 
-  function getMarginForMenuButton() {
-    if (remoteBoxVisible) {
-      return '300px';
-    }
-    return '50px';
-  }
-
   return <Box sx={
     styles.localeStyleLayer
   }>

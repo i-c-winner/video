@@ -60,16 +60,15 @@ function RemoteStreamsBox() {
   function getChildren() {
     if (!tileMode) {
       return <Box sx={remoteStreamLayer}>
-        {streamsBoxVisible ?
           <Box sx={getStyles()}>
             <Box sx={{
               position: 'absolute',
               top: '0',
               bottom: '0',
               display: 'flex',
-              flexFlow: 'column'
+              flexFlow: 'column',
             }}>
-              <Box sx={{ margin: '0 0 0 auto', width: '85%' }} position={'relative'}>
+              <Box sx={{ margin: '0 0 0 auto' }} position={'relative'}>
                 <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
                 {/*<Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>*/}
               </Box>
@@ -85,10 +84,8 @@ function RemoteStreamsBox() {
                   return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
                 })}
               </Box>
-
             </Box>
-
-          </Box>  : null}
+          </Box>
       </Box>;
     } else {
       return <RemoteStreamsBoxTileMode/>;
