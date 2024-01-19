@@ -11,7 +11,7 @@ import {
   VideoCameraIcon
 } from '@heroicons/react/16/solid';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
-import { changeChatsBox, changeTypeModal, openModal } from '../../app/store/interfaceSlice';
+import { changeAudio, changeChatsBox, changeTypeModal, changeVideo, openModal } from '../../app/store/interfaceSlice';
 import {toggleTileMode} from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IInterface, IStore } from '../../app/types';
@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { Recording } from '../../features/manager/record';
 import { sharing } from '../../entity/sharing';
 import { addSharing } from '../../app/store/sourceSlice';
+import { config } from '../../shared/config';
 
 
 let recording: Recording|null= null
@@ -27,7 +28,7 @@ let recording: Recording|null= null
 function Toolbox() {
   const [sharingState, setSharingState]= useState<boolean>(false)
   const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
-  // const {sharing}=useSelector((state: IStore)=>state.sh)
+ const {audio, video}=useSelector((state: IStore)=>state.interface.conference.quality)
   const dispatch = useDispatch();
 
   function openChat() {
@@ -69,6 +70,24 @@ function Toolbox() {
   function sharingStop() {
     sharing.stop();
   }
+  function toggledCamera() {
+    if (video !== 'disabled') {
+      dispatch(changeVideo('disabled'));
+    } else {
+      dispatch(changeVideo(config.conference.quality.video));
+    }
+  }
+
+
+
+  function toggledMicrophone() {
+    if (audio === 'enabled') {
+      dispatch(changeAudio('disabled'));
+    } else {
+      dispatch(changeAudio('enabled'));
+    }
+  }
+
     useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
@@ -118,12 +137,12 @@ function Toolbox() {
       </ButtonWrapper>
       <ButtonWrapper
         text={"mic"}
-        action={recordAction}>
+        action={toggledMicrophone}>
         <MicrophoneIcon/>
       </ButtonWrapper>
       <ButtonWrapper
         text={"camera"}
-        action={recordAction}>
+        action={toggledCamera}>
         <VideoCameraIcon/>
       </ButtonWrapper>
     </Box>

@@ -17,6 +17,7 @@ function ButtonWrapper(props: IProps) {
   const [ classes, setClasses ] = useState<string>(baseClass);
   const [ toggled, setToggled ] = useState<boolean>(false);
   const { isRecording } = useSelector((state: IStore) => state.interface);
+  const {video, audio}= useSelector((state: IStore)=>state.interface.conference.quality)
   const { sharing } = useSelector((state: IStore) => state.source);
 
 
@@ -49,12 +50,26 @@ function ButtonWrapper(props: IProps) {
           setClasses(baseClass);
         }
         break;
+      case 'camera':
+        if (video==='disabled') {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red')
+        } else {
+          setClasses(baseClass)
+        }
+        break;
+      case 'mic':
+        if (audio==='disabled') {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red')
+        } else {
+          setClasses(baseClass)
+        }
+        break;
       default:
         break;
     }
 
 
-  }, [ isRecording, sharing ]);
+  }, [ isRecording, sharing, audio, video]);
 
 
   return <div className="button-box">
