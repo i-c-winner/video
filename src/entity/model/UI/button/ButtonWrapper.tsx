@@ -17,6 +17,7 @@ function ButtonWrapper(props: IProps) {
   const [ classes, setClasses ] = useState<string>(baseClass);
   const [ toggled, setToggled ] = useState<boolean>(false);
   const { isRecording } = useSelector((state: IStore) => state.interface);
+  const { sharing } = useSelector((state: IStore) => state.source);
 
 
   function actionClick() {
@@ -40,10 +41,20 @@ function ButtonWrapper(props: IProps) {
         } else {
           setClasses(baseClass);
         }
-
+        break;
+      case 'share':
+        if (sharing !== undefined) {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red');
+        } else {
+          setClasses(baseClass);
+        }
+        break;
+      default:
+        break;
     }
 
-  }, [ isRecording ]);
+
+  }, [ isRecording, sharing ]);
 
 
   return <div className="button-box">

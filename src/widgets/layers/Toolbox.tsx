@@ -27,6 +27,7 @@ let recording: Recording|null= null
 function Toolbox() {
   const [sharingState, setSharingState]= useState<boolean>(false)
   const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
+  // const {sharing}=useSelector((state: IStore)=>state.sh)
   const dispatch = useDispatch();
 
   function openChat() {
