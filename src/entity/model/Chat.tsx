@@ -54,7 +54,7 @@ function Chat(props: { chat: TChat }) {
       <Card sx={{
         flexGrow: '1',
         color: 'white',
-        bgcolor: '#2a2f42',
+        bgcolor: 'background.other',
         padding: '5px 10px '
       }} variant="outlined">{card}</Card>
     </Box>

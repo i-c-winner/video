@@ -15,6 +15,7 @@
   flex-flow: column;
   overflow-y: auto;
   pointer-events: initial;
+  justify-content: space-between;
 
   .chat {
     width: 100%;

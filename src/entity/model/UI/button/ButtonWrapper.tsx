@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 interface IProps {
   action: () => void,
   children: ReactJSXElement,
-  text: string
+  text?: string
 }
 
 const buttonsWithoutToggle = [ 'file', 'record', 'share' ];
@@ -23,6 +23,7 @@ function ButtonWrapper(props: IProps) {
 const {t}=useTranslation()
 
   function actionClick() {
+  if (props?.text) {
     if (!buttonsWithoutToggle.includes(props.text)) {
       if (!toggled) {
         setClasses(baseClass + ' my-button__toolbox_toggled');
@@ -30,6 +31,8 @@ const {t}=useTranslation()
         setClasses(baseClass);
       }
     }
+  }
+
 
     setToggled(!toggled);
     props.action();
@@ -88,7 +91,7 @@ const {t}=useTranslation()
         {props.children}
       </Box>
     </div>
-    <Typography>{t(`interface.icons.${props.text}`)}</Typography>
+    {props.text&&<Typography>{t(`interface.icons.${props.text}`)}</Typography>}
   </div>;
 
 }

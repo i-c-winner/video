@@ -35,10 +35,10 @@ function ChatInputField() {
   const refInput = useRef<HTMLTextAreaElement>(null);
   return (
     <Box sx={styles.chatsboxLayer.chatInputField}>
-      <Box>
-        <Button sx={styleButton} onClick={saveMessages} variant="outlined">Save</Button>
-      </Box>
       <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" width="100%">
+        <Box>
+          <Button sx={styleButton} onClick={saveMessages} variant="outlined">Save</Button>
+        </Box>
         <TextField
           classes={{
             root: 'input-field'
