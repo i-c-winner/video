@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { IStore } from '../../../../app/types';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   action: () => void,
@@ -17,21 +17,21 @@ const baseClass = 'my-button__toolbox';
 function ButtonWrapper(props: IProps) {
   const [ classes, setClasses ] = useState<string>(baseClass);
   const [ toggled, setToggled ] = useState<boolean>(false);
-  const { isRecording } = useSelector((state: IStore) => state.interface);
-  const {video, audio}= useSelector((state: IStore)=>state.interface.conference.quality)
+  const { isRecording, chatsBoxVisible } = useSelector((state: IStore) => state.interface);
+  const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const { sharing } = useSelector((state: IStore) => state.source);
-const {t}=useTranslation()
+  const { t } = useTranslation();
 
   function actionClick() {
-  if (props?.text) {
-    if (!buttonsWithoutToggle.includes(props.text)) {
-      if (!toggled) {
-        setClasses(baseClass + ' my-button__toolbox_toggled');
-      } else {
-        setClasses(baseClass);
+    if (props?.text) {
+      if (!buttonsWithoutToggle.includes(props.text)) {
+        if (!toggled) {
+          setClasses(baseClass + ' my-button__toolbox_toggled');
+        } else {
+          setClasses(baseClass);
+        }
       }
     }
-  }
 
 
     setToggled(!toggled);
@@ -55,17 +55,24 @@ const {t}=useTranslation()
         }
         break;
       case 'camera':
-        if (video==='disabled') {
-          setClasses(baseClass + ' my-button__toolbox_toggled_red')
+        if (video === 'disabled') {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red');
         } else {
-          setClasses(baseClass)
+          setClasses(baseClass);
         }
         break;
       case 'mic':
-        if (audio==='disabled') {
-          setClasses(baseClass + ' my-button__toolbox_toggled_red')
+        if (audio === 'disabled') {
+          setClasses(baseClass + ' my-button__toolbox_toggled_red');
         } else {
-          setClasses(baseClass)
+          setClasses(baseClass);
+        }
+        break;
+      case 'chat':
+        if (chatsBoxVisible) {
+          setClasses(baseClass + ' my-button__toolbox_toggled');
+        } else {
+          setClasses(baseClass);
         }
         break;
       default:
@@ -73,7 +80,7 @@ const {t}=useTranslation()
     }
 
 
-  }, [ isRecording, sharing, audio, video]);
+  }, [ isRecording, sharing, audio, video, chatsBoxVisible ]);
 
 
   return <div className="button-box">
@@ -91,7 +98,7 @@ const {t}=useTranslation()
         {props.children}
       </Box>
     </div>
-    {props.text&&<Typography>{t(`interface.icons.${props.text}`)}</Typography>}
+    {props.text && <Typography>{t(`interface.icons.${props.text}`)}</Typography>}
   </div>;
 
 }

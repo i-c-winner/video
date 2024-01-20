@@ -6,14 +6,17 @@ import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { ChatInputField } from '../../entity/model/ChatInputField';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
-import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useDispatch } from 'react-redux';
+import { changeChatsBox } from '../../app/store/interfaceSlice';
 
 function ChatsBox() {
-  const { chatsBoxVisible, toolboxVisible } = useSelector((state: IStore) => state.interface);
+  const { chatsBoxVisible } = useSelector((state: IStore) => state.interface);
   const { chatsList } = useSelector((state: IStore) => state.chats);
+  const dispatch = useDispatch();
 
   function openSettings() {
-    console.log('open');
+    dispatch(changeChatsBox(false));
   }
 
   {
@@ -24,12 +27,13 @@ function ChatsBox() {
             display: 'flex',
             justifyContent: 'space-between',
             color: 'white',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            alignItems: 'center'
           }}
         >
           <Typography>Chat</Typography>
           <ButtonWrapper action={openSettings}>
-            <AdjustmentsHorizontalIcon/>
+            <XMarkIcon/>
           </ButtonWrapper>
         </Box>
         <Box sx={{
@@ -40,14 +44,12 @@ function ChatsBox() {
           overflowY: 'hidden'
         }}>
           <div className="chats">
-
             {chatsList.map((chat: any) => {
               return <Chat key={getRandomText(5)} chat={chat}/>;
             })}
           </div>
           <ChatInputField/>
         </Box>
-
       </Box>
     </Box>;
   }

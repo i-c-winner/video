@@ -43,12 +43,22 @@
   flex-grow: 1;
 
   textarea {
-    color: white;
-    background-color: #2a2929;
-    padding: 3px 5px;
-    border: 2px solid #100f60;
-
+    color: grey;
+    background-color: #151823;
+    padding: 8px 5px;
+    border: 1px solid grey;
+    border-radius: 3px;
   }
+  div {
+    &::after {
+      border-bottom: none;
+    }
+
+    &::before {
+      border-bottom: none!important;
+    }
+  }
+
 }
 
 .input_devices {
@@ -121,12 +131,17 @@
 }
 
 .button-box {
+  padding: 10px;
   color: white;
-  margin-right: 10px;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
+
+  &__toolbox {
+
+  }
+
 }
 
 

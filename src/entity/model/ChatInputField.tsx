@@ -2,14 +2,14 @@ import { Box, Button, TextField } from '@mui/material';
 import { styles } from '../../widgets/styles/styles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addChat } from '../../app/store/chatsSlice';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { chat } from '../../features/manager/chat';
 import { glagol } from '../conference/glagol';
-import { iconArrowSend } from '../../shared/img/svg';
-import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
+import {ArrowDownTrayIcon} from '@heroicons/react/24/outline';
 import { IStore } from '../../app/types';
 import { saveChat } from '../../features/chats/saveChat';
 import { styleButton } from '../styles/styles';
+import { ButtonWrapper } from './UI/button/ButtonWrapper';
 
 
 function ChatInputField() {
@@ -37,9 +37,10 @@ function ChatInputField() {
     <Box sx={styles.chatsboxLayer.chatInputField}>
       <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" width="100%">
         <Box>
-          <Button sx={styleButton} onClick={saveMessages} variant="outlined">Save</Button>
+          <ButtonWrapper action={saveMessages}>{<ArrowDownTrayIcon/>}</ButtonWrapper>
         </Box>
         <TextField
+          hiddenLabel={true}
           classes={{
             root: 'input-field'
           }}
@@ -47,14 +48,12 @@ function ChatInputField() {
           value={text}
           inputRef={refInput}
           id="standard-multiline-flexible"
-          label="Ваше сообщение"
           multiline
           color="primary"
           maxRows={4}
           variant="standard"
         />
-        <Button startIcon={<CreateSvgIcon sizes={{ height: '35px', width: '35px', viewBox: '0 -3 20 20' }}
-                                          icon={iconArrowSend}/>} onClick={sendMessage} variant="text"/>
+        <ButtonWrapper action={sendMessage}>{<PaperAirplaneIcon />}</ButtonWrapper>
       </Box>
 
 
