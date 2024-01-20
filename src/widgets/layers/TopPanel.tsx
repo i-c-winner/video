@@ -8,6 +8,7 @@ import { SunIcon, AdjustmentsVerticalIcon, MoonIcon, ArrowTopRightOnSquareIcon }
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { useDispatch } from 'react-redux';
 import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
+import {useNavigate} from 'react-router-dom';
 
 const sizes = {
   width: '50px',
@@ -18,9 +19,11 @@ const sizes = {
 function TopPanel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate=useNavigate()
 
   function exit() {
-
+    glagol.peerConnection.close();
+    navigate('/exit')
   }
 
   function changeTheme() {
