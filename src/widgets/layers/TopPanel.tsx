@@ -4,7 +4,10 @@ import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
 import { iconLogo } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
-
+import { SunIcon, AdjustmentsVerticalIcon, MoonIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
+import { useDispatch } from 'react-redux';
+import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
 
 const sizes = {
   width: '50px',
@@ -14,6 +17,22 @@ const sizes = {
 
 function TopPanel() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  function exit() {
+
+  }
+
+  function changeTheme() {
+
+  }
+
+  function openSettings() {
+    dispatch(changeTypeModal('settings'));
+    dispatch(openModal(true));
+  }
+
+
   return (
     <Box sx={styles.topPanelLayer}>
       <CreateSvgIcon sizes={sizes} styles={styles.topPanelLayer.logo} icon={iconLogo}></CreateSvgIcon>
@@ -24,8 +43,18 @@ function TopPanel() {
             color: 'grey'
           }}>{glagol.params.roomName}</Typography>}
         />
-
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+          }}
+        >
+          <ButtonWrapper action={changeTheme}><SunIcon/></ButtonWrapper>
+          <ButtonWrapper action={openSettings}><AdjustmentsVerticalIcon/></ButtonWrapper>
+          <ButtonWrapper action={exit}><ArrowTopRightOnSquareIcon/></ButtonWrapper>
+        </Box>
       </Box>
+
     </Box>
   );
 }
