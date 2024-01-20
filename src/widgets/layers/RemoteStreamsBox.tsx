@@ -62,24 +62,25 @@ function RemoteStreamsBox() {
       return <Box sx={remoteStreamLayer}>
           <Box sx={getStyles()}>
             <Box sx={{
-              position: 'absolute',
-              top: '0',
-              bottom: '0',
               display: 'flex',
               flexFlow: 'column',
             }}>
               <Box sx={{ margin: '0 0 0 auto' }} position={'relative'}>
                 <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
-                {/*<Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>*/}
+                <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
               </Box>
               <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
-              <Box sx={
+              <Box
+                sx={
                 {
                   flexGrow: '1',
+                  pointerEvents: 'initial',
+                  height: 'calc(100vh - 512px)',
                   overflowY: 'auto',
-                  pointerEvents: 'initial'
+                  overflowX: 'hidden'
                 }
-              }>
+              }
+              >
                 {remoteStreams.map((stream: { id: string, type: string }) => {
                   return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
                 })}
