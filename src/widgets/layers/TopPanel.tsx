@@ -41,9 +41,9 @@ function TopPanel() {
   }
 
   useEffect(() => {
-setColorText(()=>{
-  return theme.palette.mode==='dark'? 'grey': 'black'
-})
+    setColorText(() => {
+      return theme.palette.mode === 'dark' ? 'grey' : 'black';
+    });
   }, );
 
 

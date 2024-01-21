@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { ModalWindow } from '../modal/ModalWindow';
 import { styles } from '../styles/styles';
 import {
@@ -12,31 +12,36 @@ import {
 } from '@heroicons/react/16/solid';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { changeAudio, changeChatsBox, changeTypeModal, changeVideo, openModal } from '../../app/store/interfaceSlice';
-import {toggleTileMode} from '../../app/store/interfaceSlice';
+import { toggleTileMode } from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IInterface, IStore } from '../../app/types';
-import {changeIsRecording} from '../../app/store/interfaceSlice';
+import { changeIsRecording } from '../../app/store/interfaceSlice';
 import { useEffect, useState } from 'react';
 import { Recording } from '../../features/manager/record';
 import { sharing } from '../../entity/sharing';
 import { addSharing } from '../../app/store/sourceSlice';
 import { config } from '../../shared/config';
 
-let recording: Recording|null= null
+let recording: Recording | null = null;
+
 function Toolbox() {
-  const [sharingState, setSharingState]= useState<boolean>(false)
+  const [ sharingState, setSharingState ] = useState<boolean>(false);
   const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
- const {audio, video}=useSelector((state: IStore)=>state.interface.conference.quality)
+  const { audio, video } = useSelector((state: IStore) => state.interface.conference.quality);
   const dispatch = useDispatch();
+  const [ colorText, setColorText ] = useState<'grey' | 'black'>('grey');
+  const theme = useTheme();
 
   function openChat() {
     dispatch(changeChatsBox(!chatsBoxVisible));
   }
+
   function togglingTileMode() {
-    dispatch(toggleTileMode(!tileMode))
+    dispatch(toggleTileMode(!tileMode));
   }
-  function recordAction () {
-    dispatch(changeIsRecording(!isRecording))
+
+  function recordAction() {
+    dispatch(changeIsRecording(!isRecording));
   }
 
   function sharingAction() {
@@ -61,13 +66,16 @@ function Toolbox() {
       }
     });
   }
+
   function openingModal(this: { type: IInterface['typeModal'] }) {
     dispatch(changeTypeModal(this.type));
     dispatch(openModal(!modalIsOpen));
   }
+
   function sharingStop() {
     sharing.stop();
   }
+
   function toggledCamera() {
     if (video !== 'disabled') {
       dispatch(changeVideo('disabled'));
@@ -75,6 +83,7 @@ function Toolbox() {
       dispatch(changeVideo(config.conference.quality.video));
     }
   }
+
   function toggledMicrophone() {
     if (audio === 'enabled') {
       dispatch(changeAudio('disabled'));
@@ -83,7 +92,13 @@ function Toolbox() {
     }
   }
 
-    useEffect(() => {
+  useEffect(() => {
+    setColorText(() => {
+      return theme.palette.mode === 'dark' ? 'grey' : 'black';
+    });
+  }, [ theme ]);
+
+  useEffect(() => {
     if (isRecording) {
       const rec = new Recording();
       rec.init().then((result) => {
@@ -95,48 +110,65 @@ function Toolbox() {
         dispatch(changeIsRecording(false));
       });
     } else {
-      recording?.stop()
+      recording?.stop();
     }
   }, [ isRecording ]);
 
   return <Box
     sx={styles.toolboxLayer}>
     <ModalWindow/>
-    <Box sx={styles.toolboxLayer.toolbox}>
+    <Box sx={{
+      ...styles.toolboxLayer.toolbox,
+      color: colorText
+    }}>
       <ButtonWrapper
         text="chat"
         action={openChat}>
-        <ChatBubbleOvalLeftEllipsisIcon/>
+        <ChatBubbleOvalLeftEllipsisIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text="file"
-        action={openingModal.bind({type: 'file'})}>
-        <FolderPlusIcon/>
+        action={openingModal.bind({ type: 'file' })}>
+        <FolderPlusIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text="share"
         action={sharingAction}>
-        <ShareIcon/>
+        <ShareIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text="tile"
         action={togglingTileMode}>
-        <ArrowsPointingOutIcon/>
+        <ArrowsPointingOutIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text={"record"}
         action={recordAction}>
-        <StopCircleIcon/>
+        <StopCircleIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text={"mic"}
         action={toggledMicrophone}>
-        <MicrophoneIcon/>
+        <MicrophoneIcon
+          color={colorText}
+        />
       </ButtonWrapper>
       <ButtonWrapper
         text={"camera"}
         action={toggledCamera}>
-        <VideoCameraIcon/>
+        <VideoCameraIcon
+          color={colorText}
+        />
       </ButtonWrapper>
     </Box>
   </Box>;

@@ -98,7 +98,7 @@ function ButtonWrapper(props: IProps) {
         {props.children}
       </Box>
     </div>
-    {props.text && <Typography>{t(`interface.icons.${props.text}`)}</Typography>}
+    {props.text && <Typography variant={'subtitle1'}>{t(`interface.icons.${props.text}`)}</Typography>}
   </div>;
 
 }
