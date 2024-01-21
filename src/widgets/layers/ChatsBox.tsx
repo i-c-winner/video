@@ -9,8 +9,12 @@ import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
 import { changeChatsBox } from '../../app/store/interfaceSlice';
+import { useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 function ChatsBox() {
+  const theme = useTheme();
+  const [ colorText, setColorText ] = useState<'grey' | 'black'>('grey');
   const { chatsBoxVisible } = useSelector((state: IStore) => state.interface);
   const { chatsList } = useSelector((state: IStore) => state.chats);
   const dispatch = useDispatch();
@@ -19,6 +23,9 @@ function ChatsBox() {
     dispatch(changeChatsBox(false));
   }
 
+  useEffect(()=>{
+    setColorText(theme.palette.mode==='dark'? 'grey': 'black')
+  }, [theme])
   {
     return chatsBoxVisible && <Box sx={styles.chatsboxLayer}>
       <Box sx={styles.chatsboxLayer.chatsbox}>
@@ -31,9 +38,9 @@ function ChatsBox() {
             alignItems: 'center'
           }}
         >
-          <Typography>Chat</Typography>
+          <Typography variant="subtitle1">Chat</Typography>
           <ButtonWrapper action={openSettings}>
-            <XMarkIcon/>
+            <XMarkIcon color={colorText}/>
           </ButtonWrapper>
         </Box>
         <Box sx={{
