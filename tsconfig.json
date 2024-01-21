@@ -20,7 +20,9 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src", "src/shared/index.d.ts"],
+  "include": ["src", "src/shared/index.d.ts",
+    "@types/index.d.ts"
+  ],
   "types": [
     "node"
   ]

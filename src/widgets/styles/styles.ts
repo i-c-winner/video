@@ -12,7 +12,6 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     panel: {
-      color: 'white',
       height: '84px',
       padding: '0 16px',
       backgroundColor: 'background.windows',

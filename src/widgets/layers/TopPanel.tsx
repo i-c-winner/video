@@ -8,8 +8,8 @@ import { SunIcon, AdjustmentsVerticalIcon, MoonIcon, ArrowTopRightOnSquareIcon }
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { useDispatch } from 'react-redux';
 import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
-import {useNavigate} from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../app/model/App';
 
 const sizes = {
@@ -19,19 +19,20 @@ const sizes = {
 };
 
 function TopPanel() {
-  const theme=useTheme()
-  const themeContext=useContext(ThemeContext)
+  const [colorText, setColorText]=useState('grey')
+  const theme = useTheme();
+  const themeContext = useContext(ThemeContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   function exit() {
     glagol.peerConnection.close();
-    navigate('/exit')
+    navigate('/exit');
   }
 
   function changeTheme() {
-themeContext.toggleTheme()
+    themeContext.toggleTheme();
   }
 
   function openSettings() {
@@ -39,30 +40,37 @@ themeContext.toggleTheme()
     dispatch(openModal(true));
   }
 
-  useEffect(()=>{
-
-  },[theme])
+  useEffect(() => {
+setColorText(()=>{
+  return theme.palette.mode==='dark'? 'grey': 'black'
+})
+  }, );
 
 
   return (
     <Box sx={styles.topPanelLayer}>
       <CreateSvgIcon sizes={sizes} styles={styles.topPanelLayer.logo} icon={iconLogo}></CreateSvgIcon>
-      <Box sx={styles.topPanelLayer.panel}>
+      <Box sx={{
+        ...styles.topPanelLayer.panel,
+        color: colorText
+      }}>
         <CardHeader
           title={t('interface.room')}
-          subheader={<Typography sx={{
-            color: 'grey'
-          }}>{glagol.params.roomName}</Typography>}
+          subheader={<Typography
+            variant="subtitle1"
+            sx={{
+            }}>{glagol.params.roomName}</Typography>}
         />
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-around',
+            color: colorText
           }}
         >
-          <ButtonWrapper action={changeTheme}>{theme.palette.mode==='dark'?<SunIcon/>:<MoonIcon />}</ButtonWrapper>
-          <ButtonWrapper action={openSettings}><AdjustmentsVerticalIcon/></ButtonWrapper>
-          <ButtonWrapper action={exit}><ArrowTopRightOnSquareIcon/></ButtonWrapper>
+          <ButtonWrapper action={changeTheme}>{theme.palette.mode === 'dark' ? <SunIcon  color={colorText}/> : <MoonIcon  color={colorText}/>}</ButtonWrapper>
+          <ButtonWrapper action={openSettings}><AdjustmentsVerticalIcon color={colorText}/></ButtonWrapper>
+          <ButtonWrapper action={exit}><ArrowTopRightOnSquareIcon  color={colorText}/></ButtonWrapper>
         </Box>
       </Box>
 

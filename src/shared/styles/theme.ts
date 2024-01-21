@@ -1,4 +1,4 @@
-import { PaletteMode } from '@mui/material';
+import { Palette, PaletteMode } from '@mui/material';
 
 const myTheme = {
   dark: {
@@ -10,6 +10,12 @@ const myTheme = {
         other: '#2a2f42'
       },
     },
+    typography: {
+      title: 'white',
+      subtitle1: {
+        color: 'grey'
+      }
+    }
   },
   light: {
     palette: {
@@ -20,6 +26,12 @@ const myTheme = {
         other: 'grey'
       },
     },
+    typography: {
+      title: 'black',
+      subtitle1: {
+        color: 'black'
+      }
+    }
   }
 
 
