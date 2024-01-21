@@ -1,4 +1,4 @@
-import { Box, CardHeader, Typography, Card } from '@mui/material';
+import { Box, CardHeader, Typography, Card, useTheme } from '@mui/material';
 import { styles } from '../styles/styles';
 import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +19,9 @@ const sizes = {
 };
 
 function TopPanel() {
+  const theme=useTheme()
   const themeContext=useContext(ThemeContext)
-  console.log(themeContext)
+  console.log(themeContext, theme)
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate=useNavigate()
@@ -56,7 +57,7 @@ themeContext.toggleTheme()
             justifyContent: 'space-around',
           }}
         >
-          <ButtonWrapper action={changeTheme}><SunIcon/></ButtonWrapper>
+          <ButtonWrapper action={changeTheme}>{theme.palette.mode==='dark'?<SunIcon/>:<MoonIcon />}</ButtonWrapper>
           <ButtonWrapper action={openSettings}><AdjustmentsVerticalIcon/></ButtonWrapper>
           <ButtonWrapper action={exit}><ArrowTopRightOnSquareIcon/></ButtonWrapper>
         </Box>
