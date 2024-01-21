@@ -16,8 +16,8 @@ const myTheme = {
       mode: 'light' as PaletteMode,
       background: {
         paper: 'white',
-        windows: '#222738',
-        other: '#2a2f42'
+        windows: '#f3f4f6',
+        other: 'grey'
       },
     },
   }

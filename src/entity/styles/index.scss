@@ -42,13 +42,7 @@
 .input-field {
   flex-grow: 1;
 
-  textarea {
-    color: grey;
-    background-color: #151823;
-    padding: 8px 5px;
-    border: 1px solid grey;
-    border-radius: 3px;
-  }
+
   div {
     &::after {
       border-bottom: none;
@@ -56,6 +50,24 @@
 
     &::before {
       border-bottom: none!important;
+    }
+  }
+  textarea {
+    padding: 8px 5px;
+    border-radius: 3px;
+  }
+  &_dark{
+    textarea {
+      color: grey;
+      background-color: #151823;
+      border: 1px solid grey;
+    }
+  }
+  &_light {
+    textarea {
+      color: grey;
+      background-color: white;
+      border: 1px solid grey;
     }
   }
 

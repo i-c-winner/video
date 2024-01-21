@@ -10,14 +10,16 @@ import { IStore } from '../../app/types';
 import { saveChat } from '../../features/chats/saveChat';
 import { styleButton } from '../styles/styles';
 import { ButtonWrapper } from './UI/button/ButtonWrapper';
+import { useTheme } from '@mui/material';
 
 
 function ChatInputField() {
   const [ text, setText ] = useState<string>('');
   const dispatch = useDispatch();
   const { chatsList } = useSelector((state: IStore) => state.chats);
-
+const theme=useTheme()
   function sendMessage() {
+
     setText('');
     if (refInput.current?.value) {
       chat.sendMessage(glagol.sendMessage, refInput.current?.value);
@@ -31,6 +33,11 @@ function ChatInputField() {
   function saveMessages() {
     saveChat(chatsList);
   }
+  function  getInputBackground() {
+  if (theme.palette.mode==='dark') {
+    return 'input-field input-field_dark'
+  } return 'input-field input-field_light'
+  }
 
   const refInput = useRef<HTMLTextAreaElement>(null);
   return (
@@ -42,7 +49,7 @@ function ChatInputField() {
         <TextField
           hiddenLabel={true}
           classes={{
-            root: 'input-field'
+            root: getInputBackground()
           }}
           onChange={changeText}
           value={text}
