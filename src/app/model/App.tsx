@@ -7,7 +7,7 @@ import { Box, Button, createTheme } from '@mui/material';
 import { styles } from '../styles';
 import { useTranslation } from 'react-i18next';
 import { ThemeProvider } from '@mui/material';
-import {theme} from '../../shared/styles/theme';
+import {myTheme} from '../../shared/styles/theme';
 
 const ThemeContext = React.createContext({
   toggleTheme: () => {
@@ -33,11 +33,7 @@ function App() {
 
   const theme = React.useMemo(
     () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
+      createTheme(mode==='dark'?myTheme.dark:myTheme.light),
     [ mode ],
   );
 
