@@ -1,4 +1,4 @@
-import { inputStyles } from '../../page/styles/styles.';
+import {inputStyles} from '../../page/styles/styles';
 
 function getInputStyles() {
   if (window.screen.width>720) {

@@ -69,7 +69,7 @@ function RemoteStreamsBox() {
                 <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
                 <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
               </Box>
-              <Typography color="white" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
+              <Typography variant='subtitle1' pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
               <Box
                 sx={
                 {

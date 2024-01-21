@@ -2,13 +2,15 @@ const styles = {
   wrapper: {
     paddingTop: '15vh',
     textAlign: 'center',
-    paddingBottom: '25px'
+    paddingBottom: '25px',
+
   }
 };
 const inputStyles = {
   '720': {
     backgroundColor: 'white',
-    paddingLeft: '5px'
+    paddingLeft: '5px',
+    color: 'grey'
   },
   '520': {
     paddingLeft: '5px',
@@ -17,6 +19,7 @@ const inputStyles = {
     height: '60px',
     marginBottom: '20px',
     fontSize: '2em',
+    color: 'grey'
   }
 };
 export { styles, inputStyles };

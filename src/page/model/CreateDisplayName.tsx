@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 import { useAsync } from 'react-async';
 import { glagol } from '../../entity/conference/glagol';
 import { Box, Input } from '@mui/material';
-import { styles } from '../styles/styles.';
+import {styles} from '../styles/styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeAudio, changeVideo } from '../../app/store/interfaceSlice';

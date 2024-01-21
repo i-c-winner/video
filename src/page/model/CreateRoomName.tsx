@@ -2,7 +2,7 @@ import React, { BaseSyntheticEvent } from 'react';
 import { useAsync } from 'react-async';
 import { glagol } from '../../entity/conference/glagol';
 import { Box, Input } from '@mui/material';
-import { styles } from '../styles/styles.';
+import {styles} from '../styles/styles';
 import { getInputStyles } from '../../features/styles/getInputStyles';
 
 const connection = async () => {
