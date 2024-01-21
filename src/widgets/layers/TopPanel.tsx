@@ -9,6 +9,8 @@ import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { useDispatch } from 'react-redux';
 import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
 import {useNavigate} from 'react-router-dom';
+import {useContext} from 'react';
+import { ThemeContext } from '../../app/model/App';
 
 const sizes = {
   width: '50px',
@@ -17,6 +19,8 @@ const sizes = {
 };
 
 function TopPanel() {
+  const themeContext=useContext(ThemeContext)
+  console.log(themeContext)
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate=useNavigate()
@@ -27,7 +31,7 @@ function TopPanel() {
   }
 
   function changeTheme() {
-
+themeContext.toggleTheme()
   }
 
   function openSettings() {

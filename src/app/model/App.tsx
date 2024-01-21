@@ -1,37 +1,61 @@
-import { useRef, useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react';
+import React, { useRef, useState, useEffect, SyntheticEvent, BaseSyntheticEvent } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { CreateRoomName } from '../../page/model/CreateRoomName';
 import { CreateDisplayName } from '../../page/model/CreateDisplayName';
 import { RoomPage } from '../../page/model/RoomPage';
-import { Box, Button } from '@mui/material';
+import { Box, Button, createTheme } from '@mui/material';
 import { styles } from '../styles';
 import { useTranslation } from 'react-i18next';
-import { Page } from '../../page/model/Page';
+import { ThemeProvider } from '@mui/material';
+import {theme} from '../../shared/styles/theme';
 
+const ThemeContext = React.createContext({
+  toggleTheme: () => {
+  }
+});
 
 function App() {
   const { t } = useTranslation();
   const [ state, setState ] = useState<any>('createRoomName');
   const refRoomName = useRef<HTMLInputElement>(null);
   const refDisplayName = useRef<HTMLInputElement>(null);
-  const [revirced, setReciverd]= useState(false)
-  const refBox=useRef<any>()
+  const [ revirced, setReciverd ] = useState(false);
+  const refBox = useRef<any>();
+  const [ mode, setMode ] = useState<'dark' | 'light'>('dark');
+  const colorMode = React.useMemo(
+    () => ({
+      toggleTheme: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [ mode ],
+  );
 
   function getChildren() {
     switch (state) {
       case 'createUserName' :
         return <CreateDisplayName changeDisplayName={changingInput} ref={refDisplayName}/>;
       case 'createRoomName':
-        return <CreateRoomName  changeRoomName={changingInput} ref={refRoomName}/>;
+        return <CreateRoomName changeRoomName={changingInput} ref={refRoomName}/>;
       case 'roomPage':
-        return <RoomPage />;
+        return <RoomPage/>;
       default:
         return <p>unknown children</p>;
     }
   }
 
   function changingInput(event: (BaseSyntheticEvent | string), type: string) {
-    setReciverd(true)
+    setReciverd(true);
     if (type === 'roomName') {
       if (typeof event !== "string") glagol.params.roomName = event.target.value;
     } else if (type === 'displayName') {
@@ -40,7 +64,7 @@ function App() {
   }
 
   function changeState() {
-    setReciverd(false)
+    setReciverd(false);
     if (state === 'createRoomName') {
       const path = window.location.pathname;
       if (refRoomName.current) history.replaceState(null, '', path.split('/')[0] + glagol.params.roomName);
@@ -69,29 +93,36 @@ function App() {
       };
     }
   }
-useEffect(() =>{
+
+  useEffect(() => {
     const roomName = window.location.pathname.split('/')[1];
 
-        if (roomName !== '') {
-          glagol.params.roomName=roomName
-          setState('createUserName')
-        }
-}, [])
+    if (roomName !== '') {
+      glagol.params.roomName = roomName;
+      setState('createUserName');
+    }
+  }, []);
 
-  return <Box
-    ref={refBox}
+  return <ThemeContext.Provider value={colorMode}>
+    <ThemeProvider theme={theme}>
+      <Box
+        ref={refBox}
 
-    sx={
-      styles.main
-    }>
-    {getChildren()}
-    {state !== 'roomPage' && <Button
-      disabled={!revirced}
-      sx={getStyleButton()}
-      variant="contained"
-      onClick={changeState}>{t(getButtonText())}</Button>}
-  </Box>
+        sx={
+          styles.main
+        }>
+        {getChildren()}
+        {state !== 'roomPage' && <Button
+          disabled={!revirced}
+          sx={getStyleButton()}
+          variant="contained"
+          onClick={changeState}>{t(getButtonText())}</Button>}
+      </Box>
+    </ThemeProvider>
+
+  </ThemeContext.Provider>;
+
 
 }
 
-export { App };
+export { App, ThemeContext };
