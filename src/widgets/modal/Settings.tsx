@@ -47,14 +47,15 @@ function a11yProps(index: number, value: number) {
     'aria-controls': `simple-tabpanel-${index}`,
     sx: () => {
       const defaultStyle = {
-        marginBottom: '10px'
+        margin: '0 10px',
+        padding: '4px'
       };
       if (index === value) {
         return {
           ...defaultStyle,
-          background: '#87bfff',
-          borderRadius: '7px',
-          color: 'black'
+          backgroundColor: '#87bfff',
+          borderRadius: '3px',
+          color: 'black',
         };
       }
       return { defaultStyle };
@@ -81,22 +82,24 @@ const Settings = React.forwardRef((props, ref) => {
         borderColor: 'divider',
         margin: '0 auto',
         bgcolor: 'background.paper',
-        padding: '10px 20px',
+        padding: '3px 6px',
         width,
         boxSizing: 'border-box',
         textAlign: 'center',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        color: 'white'
+        color: 'white',
       }}>
-        <Typography color="white">{t('modal.settings.settings')}</Typography>
-        <Tabs TabIndicatorProps={{sx:{display: 'none'}}} textColor="inherit" value={value} onChange={handleChange}
+        <Typography variant='subtitle1'>{t('modal.settings.settings')}</Typography>
+        <Tabs sx={{
+          minHeight: 'initial'
+        }} TabIndicatorProps={{sx:{display: 'none'}}} textColor="inherit" value={value} onChange={handleChange}
               aria-label="basic tabs example">
-          <Tab component="p" label={t('modal.settings.devices')} {...a11yProps(0, value)} />
-          <Tab component="p" label={t('modal.settings.profile')} {...a11yProps(1, value)} />
-          <Tab component="p" label={t('modal.settings.calendar')}{...a11yProps(2, value)} />
-          <Tab component="p" label={t('modal.settings.more')}{...a11yProps(3, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.devices')}</Typography>} {...a11yProps(0, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.profile')}</Typography>} {...a11yProps(1, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.calendar')}</Typography>}{...a11yProps(2, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.more')}</Typography>}{...a11yProps(3, value)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

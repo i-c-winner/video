@@ -31,7 +31,17 @@ const myTheme = {
       subtitle1: {
         color: 'black'
       }
-    }
+    },
+    components: {
+      // Name of the component
+      MuiButtonBase: {
+        defaultProps: {
+          // The props to change the default for.
+          backgroundcolor: 'red',
+          disableRipple: true, // No more ripple, on the whole application 💣!
+        },
+      },
+    },
   }
 
 

@@ -102,7 +102,11 @@
 }
 
 .my-button {
-
+  &__tabs {
+    min-height: 0!important;
+    height: 30px!important;
+    margin: 5px 0!important;
+  }
 
   &__toolbox {
     height: 40px;
