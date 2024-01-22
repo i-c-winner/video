@@ -99,7 +99,7 @@ function RemoteStreamsBox() {
               {
                 flexGrow: '1',
                 pointerEvents: 'initial',
-                height: 'calc(100vh - 512px)',
+                height: 'calc(100vh - 536px)',
                 overflowY: 'auto',
                 overflowX: 'hidden'
               }

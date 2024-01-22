@@ -4,9 +4,7 @@ import { styleButton } from '../styles/styles';
 import {useTranslation} from 'react-i18next';
 
 const styleInput = {
-  color: 'white',
   borderRadius: '8px',
-  background: '#181818',
 };
 
 function Profile() {
