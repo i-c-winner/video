@@ -9,6 +9,9 @@ import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
 import { VideoCameraSlashIcon } from '@heroicons/react/20/solid';
 import { VideoCameraIcon } from '@heroicons/react/24/solid';
+import { MicOff } from '@mui/icons-material';
+import { MicrophoneIcon } from '@heroicons/react/24/solid';
+import { ChartBarIcon } from '@heroicons/react/24/solid';
 
 const { remoteStreamLayer } = styles;
 const styleImageButton = {
@@ -17,11 +20,10 @@ const styleImageButton = {
 };
 
 function RemoteStreamsBox() {
-  const { video } = useSelector((state: IStore) => state.interface.conference.quality);
+  const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
   const { remoteStreams } = useSelector((state: IStore) => state.source);
-
 
   function getStyles() {
     return Object.assign(remoteStreamLayer.wrapper, {
@@ -30,11 +32,39 @@ function RemoteStreamsBox() {
     });
   }
 
+  function getColor() {
+    switch (video) {
+      case 'disabled':
+      case 'low':
+        return 'red';
+      case 'middle':
+        return 'yellow';
+      case 'height':
+        return 'green';
+      default:
+        return 'grey';
+    }
+  }
+
   function getChildren() {
     if (!tileMode) {
       return <Box sx={remoteStreamLayer}>
         <Box sx={getStyles()}>
           <Box sx={{ margin: '0 0 0 auto' }} position={'relative'}>
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              position: 'absolute',
+              top: '7px',
+              padding: '2px',
+              width: '95%',
+              left: '5px'
+            }}><Box sx={{
+              ...styleImageButton,
+              color: getColor()
+            }}>
+              <ChartBarIcon/>
+            </Box></Box>
             <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
             <Box sx={{
               display: 'flex',
@@ -45,13 +75,23 @@ function RemoteStreamsBox() {
               width: '95%',
               left: '5px'
             }}>
-              {video !== 'disabled' ? <Box
-                  sx={styleImageButton}
-                ><VideoCameraIcon color="white"/></Box> :
-                <Box sx={styleImageButton}><VideoCameraSlashIcon color="red"/></Box>}
+              <Box sx={{
+                display: 'flex'
+              }}>
+                {video !== 'disabled' ? <Box
+                    sx={styleImageButton}
+                  ><VideoCameraIcon color="white"/></Box> :
+                  <Box sx={styleImageButton}><VideoCameraSlashIcon color="red"/></Box>}
+                {audio !== 'disabled' ? <Box
+                    sx={styleImageButton}
+                  ><MicrophoneIcon color="white"/></Box> :
+                  <Box sx={{
+                    ...styleImageButton,
+                    color: 'red'
+                  }}><MicOff/></Box>}
+              </Box>
               <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
             </Box>
-
           </Box>
           <Typography variant="myText" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
           <Box
