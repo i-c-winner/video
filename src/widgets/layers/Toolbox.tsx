@@ -21,6 +21,8 @@ import { Recording } from '../../features/manager/record';
 import { sharing } from '../../entity/sharing';
 import { addSharing } from '../../app/store/sourceSlice';
 import { config } from '../../shared/config';
+import { MicOff } from '@mui/icons-material';
+import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 
 let recording: Recording | null = null;
 
@@ -159,16 +161,17 @@ function Toolbox() {
       <ButtonWrapper
         text={"mic"}
         action={toggledMicrophone}>
-        <MicrophoneIcon
+        {audio !== 'disabled' ? <MicrophoneIcon
           color={colorText}
-        />
+        /> : <Box sx={{ color: 'white' }}><MicOff/></Box>}
       </ButtonWrapper>
       <ButtonWrapper
         text={"camera"}
         action={toggledCamera}>
-        <VideoCameraIcon
+        {video!=='disabled'?<VideoCameraIcon
           color={colorText}
-        />
+        />:<VideoCameraSlashIcon color='white'/>}
+
       </ButtonWrapper>
     </Box>
   </Box>;
