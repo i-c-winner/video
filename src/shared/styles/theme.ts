@@ -12,7 +12,7 @@ const myTheme = {
     },
     typography: {
       title: 'white',
-      subtitle1: {
+      myText: {
         color: 'grey'
       }
     }
@@ -28,23 +28,26 @@ const myTheme = {
     },
     typography: {
       title: 'black',
-      subtitle1: {
+      myText: {
         color: 'black'
-      }
+      },
+      poster: {
+        fontSize: '4rem',
+        color: 'red',
+      },
+      // Disable h3 variant
+      h3: undefined,
     },
     components: {
-      // Name of the component
-      MuiButtonBase: {
+      MuiTypography: {
         defaultProps: {
-          // The props to change the default for.
-          backgroundcolor: 'red',
-          disableRipple: true, // No more ripple, on the whole application 💣!
+          variantMapping: {
+            // Map the new variant to render a <h1> by default
+            poster: 'h1',
+          },
         },
       },
     },
-  }
-
-
-
+  },
 };
 export { myTheme };

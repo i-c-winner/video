@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { ModalWindow } from '../modal/ModalWindow';
 import { styles } from '../styles/styles';
 import {

@@ -91,15 +91,15 @@ const Settings = React.forwardRef((props, ref) => {
         alignItems: 'center',
         color: 'white',
       }}>
-        <Typography variant='subtitle1'>{t('modal.settings.settings')}</Typography>
+        <Typography variant='myText'>{t('modal.settings.settings')}</Typography>
         <Tabs sx={{
           minHeight: 'initial'
         }} TabIndicatorProps={{sx:{display: 'none'}}} textColor="inherit" value={value} onChange={handleChange}
               aria-label="basic tabs example">
-          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.devices')}</Typography>} {...a11yProps(0, value)} />
-          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.profile')}</Typography>} {...a11yProps(1, value)} />
-          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.calendar')}</Typography>}{...a11yProps(2, value)} />
-          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='subtitle1'>{t('modal.settings.more')}</Typography>}{...a11yProps(3, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='myText'>{t('modal.settings.devices')}</Typography>} {...a11yProps(0, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='myText'>{t('modal.settings.profile')}</Typography>} {...a11yProps(1, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='myText'>{t('modal.settings.calendar')}</Typography>}{...a11yProps(2, value)} />
+          <Tab classes={{root: 'my-button my-button__tabs'}} component="p" label={<Typography variant='myText'>{t('modal.settings.more')}</Typography>}{...a11yProps(3, value)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>

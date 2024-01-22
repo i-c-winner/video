@@ -35,18 +35,16 @@ const styles = {
     wrapper: {
 
       boxSizing: 'border-box',
-      padding: '16px',
       width: config.boxes.remoteStreamBox.width,
       display: 'flex',
       flexFlow: 'column',
       justifyContent: 'space-between',
       position: 'relative',
       displayName: {
-        position: 'absolute',
-        bottom: '5px',
-        left: '5px',
         padding: '2px',
-        backgroundColor: 'rgba(225, 225, 225, .5)'
+        backgroundColor: 'rgba(225, 225, 225, .5)',
+        maxWidth: '170px',
+        overflow: 'hidden'
       }
     }
   },

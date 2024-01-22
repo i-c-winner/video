@@ -1,18 +1,27 @@
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    poster: React.CSSProperties;
+    myText: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    poster?: React.CSSProperties;
+    myText?: React.CSSProperties;
   }
 }
 
 // Update the Typography's variant prop options
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    poster: true;
+    myText: true;
     h3: false;
   }
 }
+// extendedTypography.d.ts
+import { TypographyProps } from '@material-ui/core/Typography';
+
+declare module '@material-ui/core/Typography' {
+  interface TypographyProps {
+    variant?: 'myText' | TypographyProps['variant'];
+  }
+}
+

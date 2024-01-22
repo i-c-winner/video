@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../app/model/App';
 
+
 const sizes = {
   width: '50px',
   height: '50px',
@@ -57,7 +58,7 @@ function TopPanel() {
         <CardHeader
           title={t('interface.room')}
           subheader={<Typography
-            variant="subtitle1"
+            variant='myText'
             sx={{
             }}>{glagol.params.roomName}</Typography>}
         />

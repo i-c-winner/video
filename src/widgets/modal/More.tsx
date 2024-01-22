@@ -68,7 +68,7 @@ const theme=useTheme()
               <ListItemText sx={{
                 padding: '0'
               }}>
-                <Typography variant='subtitle1'>
+                <Typography variant='myText'>
                   {t(`modal.more.${button}`)}
                 </Typography>
               </ListItemText>

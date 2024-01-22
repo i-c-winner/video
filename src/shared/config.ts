@@ -14,7 +14,8 @@ const config = {
   },
   boxes: {
     remoteStreamBox: {
-      width: '150px',
+      width: '250px',
+      padding: '0'
     },
     chatsbox: {
       width: '300px'

@@ -38,7 +38,7 @@ function ChatsBox() {
             alignItems: 'center'
           }}
         >
-          <Typography variant="subtitle1">Chat</Typography>
+          <Typography variant="myText">Chat</Typography>
           <ButtonWrapper action={openSettings}>
             <XMarkIcon color={colorText}/>
           </ButtonWrapper>
