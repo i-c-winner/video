@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
 import { Dispatch } from '@reduxjs/toolkit';
+import { Typography } from '@mui/material';
 
 const width = '600px';
 
@@ -102,10 +103,10 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           defaultValue={video}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={t('modal.settings.disabled')}/>
-          <FormControlLabel value={videoQty.low} control={<Radio/>} label={t('modal.settings.low')}/>
-          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={t('modal.settings.middle')}/>
-          <FormControlLabel value={videoQty.height} control={<Radio/>} label={t('modal.settings.high')}/>
+          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
+          <FormControlLabel value={videoQty.low} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.low')}</Typography>}/>
+          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.middle')}</Typography>}/>
+          <FormControlLabel value={videoQty.height} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.high')}</Typography>}/>
         </RadioGroup>
       </FormControl>
     );
@@ -124,8 +125,8 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           defaultValue={audio}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={ t('modal.settings.enabled')}/>
-          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={t('modal.settings.disabled')}/>
+          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.enabled')}</Typography>}/>
+          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
         </RadioGroup>
       </FormControl>
     );

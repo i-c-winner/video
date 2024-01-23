@@ -1,6 +1,7 @@
 body {
   scrollbar-color: #6969dd #e0e0e0;
   scrollbar-width: thin;
+  background-color: var(--bcground-body);
 }
 
 body {
@@ -8,7 +9,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 5px;
   margin: 0;
 }
 
@@ -21,7 +22,8 @@ body {
 }
 :root {
   --width-remote-box: 300px;
-  --width-chat-box: 300px
+  --width-chat-box: 300px;
+  --bcground-body: #151823;
 }
 ::-webkit-scrollbar { /* 1 - скроллбар */
   width: 16px;

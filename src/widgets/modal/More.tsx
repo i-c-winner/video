@@ -1,4 +1,4 @@
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {useDispatch} from 'react-redux';
@@ -12,12 +12,13 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import {useTheme} from '@mui/material';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 
+
 type TTypeModal = Partial<IInterface['typeModal']>
 
 const styleBox = {
   bgcolor: 'background.windows',
-  margin: '10px 150px auto auto',
-  width: 'auto'
+  width: 'auto',
+  pointerEvents: 'initial'
 };
 
 
@@ -34,10 +35,11 @@ const theme=useTheme()
     [key in TTypeModal]: ReactJSXElement
   }
   const allButtons = Object.keys(buttons) as TTypeModal[]
-  const currentButtons=['settings', 'settingsVideo']
+  const currentButtons=[ 'settingsVideo']
   const filteredButtons=selectingButtons(allButtons, currentButtons) as TTypeModal[]
   const dispatch=useDispatch()
   function actionClick(this: { type:  TTypeModal}) {
+  console.log(this)
     dispatch(changeTypeModal(this.type))
     dispatch(openModal(true))
   }
@@ -57,14 +59,14 @@ const theme=useTheme()
             }}
             key={getRandomText(8)}>
             <ListItemButton
+              onClick={actionClick.bind({type: button})}
               sx={{
                 padding: '0'
               }}
               divider={true}>
-              <ButtonWrapper action={actionClick.bind({type: button})} >
+              <ButtonWrapper action={()=>{}} >
                 {buttons[button]}
               </ButtonWrapper>
-
               <ListItemText sx={{
                 padding: '0'
               }}>
