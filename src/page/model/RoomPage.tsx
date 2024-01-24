@@ -1,7 +1,6 @@
 import { glagol } from '../../entity/conference/glagol';
 import React, { useEffect, useRef } from 'react';
 import '../../widgets/styles/index.scss';
-import { RemoteStreamsBox } from '../../widgets/layers/RemoteStreamsBox';
 import { Box } from '@mui/material';
 import { LocalStream } from '../../widgets/layers/Localstream';
 import { Toolbox } from '../../widgets/layers/Toolbox';

@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { ModalWindow } from '../modal/ModalWindow';
 import { styles } from '../styles/styles';
 import {
@@ -171,7 +171,6 @@ function Toolbox() {
         {video!=='disabled'?<VideoCameraIcon
           color={colorText}
         />:<VideoCameraSlashIcon color='white'/>}
-
       </ButtonWrapper>
     </Box>
   </Box>;

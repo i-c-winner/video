@@ -21,7 +21,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src", "src/shared/index.d.ts",
-    "@types/index.d.ts"
+    "@types/index.d.ts", "@types/image.d.ts"
   ],
   "types": [
     "node"
