@@ -41,8 +41,7 @@ const styles = {
       justifyContent: 'space-between',
       position: 'relative',
       displayName: {
-        padding: '2px',
-        backgroundColor: 'rgba(225, 225, 225, .5)',
+        paddingRight: '20px',
         maxWidth: '170px',
         overflow: 'hidden'
       }

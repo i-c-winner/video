@@ -2,6 +2,8 @@ import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
 import '../styles/index.scss';
 import { TChat } from '../../app/types';
 import React from 'react';
+import {BadgeAvatars} from './avatar/BadgeAvatar';
+import avatar from '../../../public/images/face1.jpeg'
 
 function Chat(props: { chat: TChat }) {
   const flexBox = {
@@ -44,13 +46,15 @@ function Chat(props: { chat: TChat }) {
     >
       <Box
         sx={{
-          borderRadius: '50%',
           minWidth: '50px',
           height: '50px',
-          background: 'grey',
           marginRight: '10px'
         }}
-      ></Box>
+      >
+        <BadgeAvatars
+          // avatar={avatar}
+          styles={{color: "orange"}}/>
+      </Box>
       <Card sx={{
         flexGrow: '1',
         color: 'white',

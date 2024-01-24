@@ -12,6 +12,8 @@ import { VideoCameraIcon } from '@heroicons/react/24/solid';
 import { MicOff } from '@mui/icons-material';
 import { MicrophoneIcon } from '@heroicons/react/24/solid';
 import { ChartBarIcon } from '@heroicons/react/24/solid';
+import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
+import myAvatar from '../../../public/images/face2.jpeg'
 
 const { remoteStreamLayer } = styles;
 const styleImageButton = {
@@ -73,10 +75,12 @@ function RemoteStreamsBox() {
               bottom: '7px',
               padding: '2px',
               width: '95%',
-              left: '5px'
+              left: '5px',
+              alignItems: 'flex-end'
             }}>
               <Box sx={{
-                display: 'flex'
+                display: 'flex',
+                position: 'relative'
               }}>
                 {video !== 'disabled' ? <Box
                     sx={styleImageButton}
@@ -90,7 +94,22 @@ function RemoteStreamsBox() {
                     color: 'red'
                   }}><MicOff/></Box>}
               </Box>
-              <Typography sx={remoteStreamLayer.wrapper.displayName}>{glagol.params.displayName}</Typography>
+              <Box sx={{
+                position: 'absolute'
+              }}>
+              </Box>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'flex-end'
+              }}>
+                <Typography sx={remoteStreamLayer.wrapper.displayName} color="white">{glagol.params.displayName}</Typography>
+                <BadgeAvatars
+                  avatar={myAvatar}
+                  styles={{
+                  color: 'blue',
+                }}/>
+              </Box>
+
             </Box>
           </Box>
           <Typography variant="myText" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
@@ -124,7 +143,7 @@ function RemoteStreamsBox() {
         if (refVideo.current) refVideo.current.srcObject = stream;
       }
     });
-  });
+  },[]);
 
   return getChildren();
 }

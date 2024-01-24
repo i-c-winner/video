@@ -20,7 +20,7 @@ const config = {
   plugins: [
     new CopyPlugin({
       patterns: [{
-        from: "src/shared/img/image",
+        from: "public/images/",
         to: "images"
       }]
     }),

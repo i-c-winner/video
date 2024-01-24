@@ -21,7 +21,7 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     <RemoteStreamsBox/>
     {video === 'disabled' ? <Box sx={{ width: '100%', paddingTop: '10vh' }}><BadgeAvatars
         styles={{ color: 'green' }}
-        sizes={{ width: 250, height: 250 }}/></Box> :
+        sizes={{ width: 200, height: 200 }}/></Box> :
       <video className="video video_local" ref={ref} autoPlay={true}/>}
   </Box>;
 

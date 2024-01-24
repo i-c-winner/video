@@ -3,15 +3,17 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import face1 from '../../../shared/img/image/face1.jpeg'
+import comet from '../../../../public/images/comete.jpeg'
 
 
 interface  IProps{
 sizes: {width: number, height: number},
   styles: {
-  color: string
+  [key: string]: string
   }
+  avatar: any
 }
+
 type TProps= Partial<IProps>
 
 
@@ -19,8 +21,8 @@ type TProps= Partial<IProps>
 
  function BadgeAvatars(props:  TProps) {
    const MyAvatar = styled(Avatar)(({ theme }) => ({
-     width: props.sizes?.width,
-     height: props.sizes?.height,
+     // width: props.sizes?.width,
+     // height: props.sizes?.height,
      border: `2px solid ${theme.palette.background.paper}`,
    }));
    const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -55,9 +57,6 @@ type TProps= Partial<IProps>
 
 
    return (
-    <Stack sx={{
-      width: '100%'
-    }} direction="row" spacing={2}>
       <StyledBadge
         sx={{
           margin: '0 auto !important',
@@ -66,9 +65,8 @@ type TProps= Partial<IProps>
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <MyAvatar sizes={"50vw"} alt="Remy Sharp" src={face1} />
+        <MyAvatar alt="Remy Sharp" src={props.avatar} ></MyAvatar>
        </StyledBadge>
-     </Stack>
    );
 }
 export {BadgeAvatars}
