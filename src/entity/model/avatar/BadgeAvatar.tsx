@@ -21,8 +21,8 @@ type TProps= Partial<IProps>
 
  function BadgeAvatars(props:  TProps) {
    const MyAvatar = styled(Avatar)(({ theme }) => ({
-     // width: props.sizes?.width,
-     // height: props.sizes?.height,
+     width: props.sizes?.width,
+     height: props.sizes?.height,
      border: `2px solid ${theme.palette.background.paper}`,
    }));
    const StyledBadge = styled(Badge)(({ theme }) => ({

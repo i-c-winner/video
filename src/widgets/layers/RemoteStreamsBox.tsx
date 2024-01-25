@@ -143,7 +143,7 @@ function RemoteStreamsBox() {
         if (refVideo.current) refVideo.current.srcObject = stream;
       }
     });
-  },[]);
+  }, []);
 
   return getChildren();
 }

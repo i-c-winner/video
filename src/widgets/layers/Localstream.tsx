@@ -19,11 +19,17 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
     styles.localeStyleLayer
   }>
     <RemoteStreamsBox/>
-    {video === 'disabled' ? <Box sx={{ width: '100%', paddingTop: '10vh' }}><BadgeAvatars
+    <Box sx={{position: 'relative', width: '100%'}}>
+      {video === 'disabled' && <Box sx={{
+        position: 'absolute',
+        width: '100%', paddingTop: '10vh'
+      }}><BadgeAvatars
         styles={{ color: 'green' }}
-        sizes={{ width: 200, height: 200 }}/></Box> :
-      <video className="video video_local" ref={ref} autoPlay={true}/>}
-  </Box>;
+        sizes={{ width: 200, height: 200 }}/></Box>}
+      <video className="video video_local" ref={ref} autoPlay={true}/>
+    </Box>;
+    </Box>
+
 
 });
 export { LocalStream };
