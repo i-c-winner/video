@@ -94,7 +94,9 @@ const glagol: IGlagol = {
           glagol.streamsWasChanged(jimbleText);
           break;
         }
-        case 'add_track': {
+        case 'invitation_reply':
+        case 'add_track':
+        {
           glagol.streamsWasChanged(jimbleText);
           console.log('ADD TRACK');
           break;
