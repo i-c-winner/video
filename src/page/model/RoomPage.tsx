@@ -73,6 +73,7 @@ function RoomPage() {
   }
 
   useEffect(() => {
+    // glagol.peerConnectionAddHandlers()
     glagol.roomInstance.create();
     glagol.on('addTrackToSource', addTrackToSource);
     glagol.on('addSharingToSource', addSharingToSource);

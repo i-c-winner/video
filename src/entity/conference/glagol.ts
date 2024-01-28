@@ -6,7 +6,6 @@ import { Room } from '../../shared/room/room';
 import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
 import { channel } from './channel';
-
 const room = new Room();
 setRegister(strophe);
 // @ts-ignore
@@ -16,8 +15,8 @@ const glagol: IGlagol = {
   peerConnection: new RTCPeerConnection({
     iceCandidatePoolSize: 5,
     iceServers: [
-      { urls: 'stun:stun.l.google.com:19302'},
-      { urls: 'stun:vks.knodl.tech:80'},
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:vks.knodl.tech:80' },
 
       {
         urls: 'turn:vks.knodl.tech:80',
@@ -113,8 +112,17 @@ const glagol: IGlagol = {
           break;
         }
         case 'invitation_reply':
-        case 'add_track':
-        {
+          glagol.setLocalStream().then((stream) => {
+            stream.getTracks().forEach((track) => {
+              try {
+                glagol.peerConnection.addTrack(track);
+              } catch (e) {
+              }
+            });
+            glagol.streamsWasChanged(jimbleText);
+          });
+          break;
+        case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
           console.log('ADD TRACK');
           break;
@@ -187,19 +195,17 @@ const glagol: IGlagol = {
     const handlerPresence = (stanza: Element) => {
       const jingle = stanza.getElementsByTagName('jingle');
       try {
-        if (jingle[0].getAttribute('action') === "enter_to_room") {
-          const x = stanza.getElementsByTagName('x');
-          try {
-            const statuses: Element[] = Array.from(x[1].getElementsByTagName('status'));
-            if (statuses[0] !== null) {
-              if (Number(statuses[0].getAttribute('code')) === 201) {
-                glagol.roomInstance.validate();
-              } else if (Number(statuses[0].getAttribute('code')) === 100) {
-                glagol.roomInstance.invite();
-              }
+        const x = stanza.getElementsByTagName('x');
+        try {
+          const statuses: Element[] = Array.from(x[1].getElementsByTagName('status'));
+          if (statuses[0] !== null) {
+            if (Number(statuses[0].getAttribute('code')) === 201) {
+              glagol.roomInstance.validate();
+            } else if (Number(statuses[0].getAttribute('code')) === 100) {
+              glagol.roomInstance.invite();
             }
-          } catch (e) {
           }
+        } catch (e) {
         }
       } catch (e) {
       }
@@ -222,14 +228,14 @@ const glagol: IGlagol = {
     }).then((answer) => {
       const answer64 = btoa(JSON.stringify({ answer }));
       this.peerConnection.setLocalDescription(answer).then(() => {
+        const message: Strophe.Builder = new Strophe.Builder('message', {
+          to: `${this.params.roomName}@conference.prosolen.net/focus`,
+          type: 'chat'
+        }).c('body').t(answer64);
+        this.sendMessage(message);
+      }).catch((error) => {
+        console.error(new Error('error'), error);
       });
-      const message: Strophe.Builder = new Strophe.Builder('message', {
-        to: `${this.params.roomName}@conference.prosolen.net/focus`,
-        type: 'chat'
-      }).c('body').t(answer64);
-      this.sendMessage(message);
-    }).catch((error) => {
-      console.error(new Error('error'), error);
     });
   },
 
@@ -312,21 +318,21 @@ const glagol: IGlagol = {
 
         if (device.label === label) {
           const constaints = type === 'video' ? {
-              video: {
-                deviceId: device.deviceId
-              },
-              audio: true
-            } : {
+            video: {
+              deviceId: device.deviceId
+            },
+            audio: true
+          } : {
             video: true,
             audio: {
               deviceId: device.deviceId
             }
-          }
-            this.setLocalStream(constaints).then((stream) => {
-              stream.getTracks().forEach((track) => {
-                if (track.kind === type) this.peerConnection.addTrack(track);
-              });
+          };
+          this.setLocalStream(constaints).then((stream) => {
+            stream.getTracks().forEach((track) => {
+              if (track.kind === type) this.peerConnection.addTrack(track);
             });
+          });
         }
       });
     });
@@ -350,5 +356,6 @@ const glagol: IGlagol = {
     });
   }
 };
+glagol.peerConnectionAddHandlers();
 
 export { glagol };

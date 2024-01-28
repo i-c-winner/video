@@ -39,7 +39,6 @@ const theme=useTheme()
   const filteredButtons=selectingButtons(allButtons, currentButtons) as TTypeModal[]
   const dispatch=useDispatch()
   function actionClick(this: { type:  TTypeModal}) {
-  console.log(this)
     dispatch(changeTypeModal(this.type))
     dispatch(openModal(true))
   }

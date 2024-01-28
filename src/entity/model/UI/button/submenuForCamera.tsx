@@ -24,7 +24,6 @@ function SubmenuForCamera(props: ISubmenu) {
 
   function selectingItem(ev: any) {
     ev.stopPropagation();
-    console.log(ev.target, ev, 'TArget');
   }
 
   if (data) {

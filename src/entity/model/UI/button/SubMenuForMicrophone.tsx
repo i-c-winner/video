@@ -28,7 +28,6 @@ function SubmenuForMicrophone(props: ISubmenu) {
 
   function selectingAudio(ev: any, type: string) {
     ev.stopPropagation();
-    console.log(ev.target, ev, 'TArget');
     glagol.changeTrack(ev.target.value, 'audio');
 
   }

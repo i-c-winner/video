@@ -28,14 +28,13 @@ class Room {
     return Room.instance;
   }
 
+
   create(action: TSendMessage, roomName: string, userNode: string) {
     const message = new Strophe.Builder('presence', {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
     }).c('x', {
       xmlns: 'http://jabber.org/protocol/muc'
-    }).up().c('jingle', {
-      action: "enter_to_room"
-    });
+    })
     action(message);
   }
 

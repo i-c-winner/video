@@ -12,7 +12,7 @@ interface IProps {
 function Popover(props: IProps) {
   const refBox = useRef<HTMLDivElement>(null);
   function click(ev: any) {
-    console.log(ev, 'CLIKC')
+
 
   }
   function stopPropagation(ev: any) {

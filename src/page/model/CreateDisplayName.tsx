@@ -15,7 +15,7 @@ import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import {MicOff} from '@mui/icons-material';
 
 const connection = async () => {
-  return glagol.setLocalStream();
+  return 'OK'
 };
 const CreateDisplayName = React.forwardRef((props: {
   changeDisplayName: (event: any, type: string) => void
@@ -27,7 +27,6 @@ const {audio, video} = useSelector((state: IStore)=>state.interface.conference.q
 
   const actions = {
     videoChange: () => {
-      console.log(video)
       if (video!=='disabled') {
         dispatch(changeVideo('disabled'));
       } else {
@@ -51,15 +50,7 @@ const {audio, video} = useSelector((state: IStore)=>state.interface.conference.q
     return <p>...Pending</p>;
   }
   if (data) {
-    data.getTracks().forEach((track) => {
-      try {
-        glagol.peerConnection.addTrack(track);
-      } catch (e) {
 
-      }
-
-    });
-    glagol.peerConnectionAddHandlers();
     return <Box sx={styles.wrapper}>
       <Input placeholder="input yourName" onChange={action} sx={getInputStyles()} ref={ref}/>
       <Box sx={{
