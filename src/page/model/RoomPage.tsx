@@ -53,15 +53,21 @@ function RoomPage() {
   }
 
   function renderScreenStream() {
-    const stream = new MediaStream();
-    glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-      if (transceiver.sender.track?.kind === 'video') {
-        stream.addTrack(transceiver.sender.track);
+    if (glagol.peerConnection.getTransceivers().length===0) {
+      if (refVideo.current!==null) refVideo.current.srcObject=glagol.currentLocalStream
+    } else  {
+      const stream = new MediaStream();
+      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+        if (transceiver.sender.track?.kind === 'video') {
+          stream.addTrack(transceiver.sender.track);
+        }
+      });
+      if (refVideo.current !== null) {
+        refVideo.current.srcObject = stream;
       }
-    });
-    if (refVideo.current !== null) {
-      refVideo.current.srcObject = stream;
     }
+
+
   }
 
   function messageReceived(message: [ IMessage ]) {

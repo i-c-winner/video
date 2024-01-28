@@ -136,13 +136,13 @@ function RemoteStreamsBox() {
   }
 
   useEffect(() => {
-    glagol.peerConnection.getSenders().forEach((sender) => {
-      if (sender.track?.kind === 'video' && sender.track.contentHint !== 'detail') {
-        const stream = new MediaStream();
-        stream.addTrack(sender.track);
-        if (refVideo.current) refVideo.current.srcObject = stream;
-      }
-    });
+    // glagol.peerConnection.getSenders().forEach((sender) => {
+    //   if (sender.track?.kind === 'video' && sender.track.contentHint !== 'detail') {
+    //     const stream = new MediaStream();
+    //     stream.addTrack(sender.track);
+        if (refVideo.current) refVideo.current.srcObject = glagol.currentLocalStream;
+    //   }
+    // });
   }, []);
 
   return getChildren();
