@@ -119,7 +119,6 @@ const glagol: IGlagol = {
               } catch (e) {
               }
             });
-            glagol.currentLocalStream=stream
             glagol.streamsWasChanged(jimbleText);
           });
           break;

@@ -39,7 +39,10 @@ function Toolbox() {
   }
 
   function togglingTileMode() {
-    dispatch(toggleTileMode(!tileMode));
+    /**
+     * TODO  подключить плиточный режим
+     */
+    // dispatch(toggleTileMode(!tileMode));
   }
 
   function recordAction() {
