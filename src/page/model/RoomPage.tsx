@@ -23,6 +23,7 @@ function RoomPage() {
   const refVideo = useRef<HTMLVideoElement>(null);
   const dispatch = useDispatch();
   const { sharing } = useSelector((state: IStore) => state.source);
+  const {video}=useSelector((state: IStore)=>state.interface.conference.quality)
 
 
   function addTrackToSource(args: any[]) {
@@ -111,7 +112,7 @@ function RoomPage() {
     } else {
       renderScreenStream();
     }
-  }, [ sharing ]);
+  }, [ sharing, video ]);
 
   return <Box
     sx={{
