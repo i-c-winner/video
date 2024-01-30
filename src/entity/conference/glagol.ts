@@ -7,6 +7,7 @@ import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
 import { channel } from './channel';
 const room = new Room();
+
 setRegister(strophe);
 // @ts-ignore
 const { Strophe } = strophe;
@@ -273,7 +274,13 @@ const glagol: IGlagol = {
     };
     pc.onsignalingstatechange = (event) => {
     };
-    pc.onconnectionstatechange = (event) => {
+    pc.onconnectionstatechange = (event: any ) => {
+      console.log(event, 'EVENT')
+      if (event.target.connectionState==='connected') {
+        this.emit('changeConnecting', true)
+      } else {
+        this.emit('changeConnecting', false)
+      }
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {

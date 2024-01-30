@@ -1,18 +1,30 @@
-import React, { ForwardedRef } from 'react';
+import React, { ForwardedRef, useEffect, useState } from 'react';
 import { RemoteStreamsBox } from './RemoteStreamsBox';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { glagol } from '../../entity/conference/glagol';
 import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
+import { getRandomText } from '../../features/plugins/getRandomText';
 
 const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>) => {
-
+  const [ connected, setConnected ] = useState<boolean>(false);
   const { video } = useSelector((state: IStore) => state.interface.conference.quality);
   const { quality } = useSelector((state: IStore) => state.interface.conference);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
+
+
+  function changeConnecting(state: [ boolean ]) {
+    setConnected(state[0]);
+  }
+
+  useEffect(() => {
+    glagol.on('changeConnecting', changeConnecting);
+  });
 
 
   return <Box sx={
@@ -26,6 +38,19 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
       }}><BadgeAvatars
         styles={{ color: 'green' }}
         sizes={{ width: 200, height: 200 }}/></Box>}
+      {!connected && <Box
+        key={getRandomText(5)}
+        sx={{
+          position: 'absolute',
+          color: "red",
+          display: "flex",
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      ><ButtonWrapper action={() => {
+      }}><ExclamationCircleIcon color="red"/></ButtonWrapper><Typography>Отсутсвует соединение с
+        сервером</Typography></Box>}
       <video className="video video_local" ref={ref} autoPlay={true}/>
     </Box>;
   </Box>;
