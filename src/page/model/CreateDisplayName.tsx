@@ -55,7 +55,6 @@ const {audio, video} = useSelector((state: IStore)=>state.interface.conference.q
   }
   if (data) {
     glagol.currentLocalStream=data
-
     return <Box sx={styles.wrapper}>
       <Input placeholder="input yourName" onChange={action} sx={getInputStyles()} ref={ref}/>
       <Box sx={{

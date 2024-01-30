@@ -112,15 +112,14 @@ const glagol: IGlagol = {
           break;
         }
         case 'invitation_reply':
-          glagol.setLocalStream().then((stream) => {
-            stream.getTracks().forEach((track) => {
+          if (glagol.currentLocalStream) glagol.currentLocalStream.getTracks().forEach((track) => {
               try {
                 glagol.peerConnection.addTrack(track);
               } catch (e) {
               }
             });
             glagol.streamsWasChanged(jimbleText);
-          });
+
           break;
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
@@ -298,15 +297,6 @@ const glagol: IGlagol = {
       room.invite(glagol.sendMessage, glagol.params.roomName, glagol.params.displayName);
     }
   },
-  setLocalStream: (constaints) => {
-    if (constaints) {
-      return navigator.mediaDevices.getUserMedia(constaints);
-    }
-    return navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    });
-  },
   changeTrack(label, type) {
     this.peerConnection.getSenders().forEach((sender) => {
       if (sender.track?.kind === type) {
@@ -328,8 +318,9 @@ const glagol: IGlagol = {
               deviceId: device.deviceId
             }
           };
-          this.setLocalStream(constaints).then((stream) => {
+          navigator.mediaDevices.getUserMedia(constaints).then((stream) => {
             stream.getTracks().forEach((track) => {
+              this.currentLocalStream=stream
               if (track.kind === type) this.peerConnection.addTrack(track);
             });
           });

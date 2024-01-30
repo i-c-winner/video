@@ -28,12 +28,6 @@ interface IGlagol {
   },
   streamsWasChanged: (description: string) => void,
   sendMessage: (message: Strophe.Builder) => void
-  setLocalStream: (constaints?: {
-    video: boolean| {
-      deviceId: string
-    },
-    audio: boolean |{deviceId: string}
-  }) => Promise<MediaStream>
   currentLocalStream: MediaStream | null,
   changeTrack: (label: string, type: string)=>void,
   on: (name: string, callback: TCallback) => void,
