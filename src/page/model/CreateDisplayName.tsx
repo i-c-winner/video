@@ -15,11 +15,11 @@ import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import {MicOff} from '@mui/icons-material';
 
 const connection = async () => {
-
-  return navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true
-  })
+return 'OK'
+  // return navigator.mediaDevices.getUserMedia({
+  //   video: true,
+  //   audio: true
+  // })
 };
 const CreateDisplayName = React.forwardRef((props: {
   changeDisplayName: (event: any, type: string) => void
@@ -54,7 +54,7 @@ const {audio, video} = useSelector((state: IStore)=>state.interface.conference.q
     return <p>...Pending</p>;
   }
   if (data) {
-    glagol.currentLocalStream=data
+
     return <Box sx={styles.wrapper}>
       <Input placeholder="input yourName" onChange={action} sx={getInputStyles()} ref={ref}/>
       <Box sx={{

@@ -28,10 +28,13 @@ function LocalStream(props: {
 
   useEffect(() => {
     glagol.on('changeConnecting', changeConnecting);
+    return()=>{
+      glagol.off('changeConnecting')
+    }
   }, []);
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = props.stream;
-  }, [props.stream, props.littleScreenStream]);
+  },[]);
 
   return <Box sx={
     styles.localeStyleLayer
@@ -45,19 +48,19 @@ function LocalStream(props: {
       }}><BadgeAvatars
         styles={{ color: 'green' }}
         sizes={{ width: 200, height: 200 }}/></Box>}
-      {!connected && <Box
-        key={getRandomText(5)}
-        sx={{
-          position: 'absolute',
-          color: "red",
-          display: "flex",
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      ><ButtonWrapper action={() => {
-      }}><ExclamationCircleIcon color="red"/></ButtonWrapper><Typography>Отсутсвует соединение с
-        сервером</Typography></Box>}
+      {/*{!connected && <Box*/}
+      {/*  key={getRandomText(5)}*/}
+      {/*  sx={{*/}
+      {/*    position: 'absolute',*/}
+      {/*    color: "red",*/}
+      {/*    display: "flex",*/}
+      {/*    width: '100%',*/}
+      {/*    alignItems: 'center',*/}
+      {/*    justifyContent: 'center'*/}
+      {/*  }}*/}
+      {/*><ButtonWrapper action={() => {*/}
+      {/*}}><ExclamationCircleIcon color="red"/></ButtonWrapper><Typography>Отсутсвует соединение с*/}
+      {/*  сервером</Typography></Box>}*/}
       <video className="video video_local" ref={refVideo} autoPlay={true}/>
     </Box>;
   </Box>;

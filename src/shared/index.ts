@@ -31,6 +31,7 @@ interface IGlagol {
   currentLocalStream: MediaStream | null,
   changeTrack: (label: string, type: string)=>void,
   on: (name: string, callback: TCallback) => void,
+  off: (name: string)=>void,
   emit: (name: string, args?: any) => void
 }
 

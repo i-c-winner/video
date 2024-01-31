@@ -112,19 +112,25 @@ const glagol: IGlagol = {
           console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
           console.log(glagol.peerConnection.getReceivers())
-          // glagol.emit('changeStream', )
           break;
         }
         case 'invitation_reply':
-          if (glagol.currentLocalStream) glagol.currentLocalStream.getTracks().forEach((track) => {
-            try {
-              glagol.peerConnection.addTrack(track);
-            } catch (e) {
-            }
-          });
-          glagol.streamsWasChanged(jimbleText);
-          glagol.emit('changeStream', glagol.currentLocalStream);
-          glagol.emit('changeLittleScreenStream', glagol.currentLocalStream)
+          navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+          }).then((stream)=>{
+            glagol.currentLocalStream=stream
+            stream.getTracks().forEach((track) => {
+              try {
+                glagol.peerConnection.addTrack(track);
+              } catch (e) {
+              }
+            });
+            glagol.streamsWasChanged(jimbleText);
+            glagol.emit('changeStream', stream);
+            glagol.emit('changeLittleScreenStream', stream)
+          })
+
           break;
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
@@ -357,6 +363,13 @@ const glagol: IGlagol = {
       this.listener[name] = [];
     }
     this.listener[name].push(callback);
+  },
+  off(name) {
+    if (this.listener[name]) {
+      this.listener[name]=[]
+    } else {
+      console.error((error: any) => new Error(error), `Слушатель ${name} не существует`);
+    }
   },
   emit: function (name, ...args) {
     if (!this.listener[name]) {

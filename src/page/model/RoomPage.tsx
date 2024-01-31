@@ -11,6 +11,7 @@ import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '..
 import { IStore, TStream } from '../../app/types';
 import { addChat } from '../../app/store/chatsSlice';
 import { addFile } from '../../app/store/filesSlice';
+import { getRandomText } from '../../features/plugins/getRandomText';
 
 interface IMessage {
   text: string,
@@ -37,7 +38,6 @@ function RoomPage() {
   }
 
   const removeSharingFromSource = () => {
-    renderScreenStream();
     dispatch(removeSharing());
   };
 
@@ -68,24 +68,6 @@ function RoomPage() {
     glagol.on('changeLittleScreenStream', changeLittleScreenStream);
   }, []);
 
-  function renderScreenStream() {
-    if (glagol.peerConnection.getTransceivers().length === 0) {
-      if (refVideo.current !== null) refVideo.current.srcObject = glagol.currentLocalStream;
-    } else {
-      const stream = new MediaStream();
-      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-        if (transceiver.sender.track?.kind === 'video') {
-          stream.addTrack(transceiver.sender.track);
-        }
-      });
-      if (refVideo.current !== null) {
-        refVideo.current.srcObject = stream;
-      }
-    }
-
-
-  }
-
   function messageReceived(message: [ IMessage ]) {
     dispatch(addChat(message[0]));
   }
@@ -106,22 +88,26 @@ function RoomPage() {
     glagol.on('addFileForSaving', addFileForSaving);
   }, []);
   useEffect(() => {
-
+    console.log(glagol)
     if (sharing === undefined) {
-      if (glagol.currentLocalStream) setStream(glagol.currentLocalStream);
+      if (glagol.currentLocalStream!==null) setStream(glagol.currentLocalStream);
+
     } else {
-      const stream = new MediaStream();
+      const myStream = new MediaStream();
       if (Array.isArray(sharing)) {
         glagol.peerConnection.getTransceivers().forEach((transceiver) => {
           if (transceiver.receiver.track?.id === sharing[0].id) {
-            if (transceiver.receiver.track) stream.addTrack(transceiver.receiver.track);
+            if (transceiver.receiver.track) {
+              myStream.addTrack(transceiver.receiver.track);
+            }
           }
         });
-        setStream(stream);
-      } 
+        setStream(myStream);
+      } else {
+        if (glagol.currentLocalStream!==null) setStream(glagol.currentLocalStream);
+      }
+
     }
-
-
   }, [ sharing ]);
 
   return <Box
@@ -146,7 +132,7 @@ function RoomPage() {
       boxSizing: 'border-box'
     }}>
       <TopPanel/>
-      <LocalStream littleScreenStream={littleScreenStream} stream={stream}/>
+      <LocalStream key={getRandomText(5)} littleScreenStream={littleScreenStream} stream={stream}/>
       <Toolbox/>
     </Box>
     <ChatsBox/>
