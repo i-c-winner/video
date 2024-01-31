@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useEffect, useState } from 'react';
+import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
 import { RemoteStreamsBox } from './RemoteStreamsBox';
 import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
@@ -10,10 +10,14 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { getRandomText } from '../../features/plugins/getRandomText';
 
-const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>) => {
+function LocalStream(props: {
+  stream: MediaStream
+  littleScreenStream: MediaStream
+}) {
   const [ connected, setConnected ] = useState<boolean>(false);
   const { video } = useSelector((state: IStore) => state.interface.conference.quality);
   const { quality } = useSelector((state: IStore) => state.interface.conference);
+  const refVideo = useRef<HTMLVideoElement>(null);
   glagol.applyConstraints({ type: 'video', value: quality.video });
   glagol.applyConstraints({ type: 'audio', value: quality.audio });
 
@@ -24,14 +28,17 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
 
   useEffect(() => {
     glagol.on('changeConnecting', changeConnecting);
-  });
-
+  }, []);
+  useEffect(() => {
+    if (refVideo.current !== null) refVideo.current.srcObject = props.stream;
+  }, [props.stream, props.littleScreenStream]);
 
   return <Box sx={
     styles.localeStyleLayer
   }>
-    <RemoteStreamsBox/>
-    <Box sx={{ position: 'relative', width: '100%' }}>
+    <RemoteStreamsBox stream={props.littleScreenStream}/>
+    <Box
+      sx={{ position: 'relative', width: '100%' }}>
       {video === 'disabled' && <Box sx={{
         position: 'absolute',
         width: '100%', paddingTop: '10vh'
@@ -51,10 +58,10 @@ const LocalStream = React.forwardRef((props, ref: ForwardedRef<HTMLVideoElement>
       ><ButtonWrapper action={() => {
       }}><ExclamationCircleIcon color="red"/></ButtonWrapper><Typography>Отсутсвует соединение с
         сервером</Typography></Box>}
-      <video className="video video_local" ref={ref} autoPlay={true}/>
+      <video className="video video_local" ref={refVideo} autoPlay={true}/>
     </Box>;
   </Box>;
 
 
-});
+};
 export { LocalStream };

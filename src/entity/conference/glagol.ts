@@ -6,6 +6,7 @@ import { Room } from '../../shared/room/room';
 import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
 import { channel } from './channel';
+
 const room = new Room();
 
 setRegister(strophe);
@@ -110,17 +111,20 @@ const glagol: IGlagol = {
         case 'add_dashboard': {
           console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
+          console.log(glagol.peerConnection.getReceivers())
+          // glagol.emit('changeStream', )
           break;
         }
         case 'invitation_reply':
           if (glagol.currentLocalStream) glagol.currentLocalStream.getTracks().forEach((track) => {
-              try {
-                glagol.peerConnection.addTrack(track);
-              } catch (e) {
-              }
-            });
-            glagol.streamsWasChanged(jimbleText);
-
+            try {
+              glagol.peerConnection.addTrack(track);
+            } catch (e) {
+            }
+          });
+          glagol.streamsWasChanged(jimbleText);
+          glagol.emit('changeStream', glagol.currentLocalStream);
+          glagol.emit('changeLittleScreenStream', glagol.currentLocalStream)
           break;
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
@@ -145,8 +149,17 @@ const glagol: IGlagol = {
         }
         case 'send_dashboard': {
           console.log('SEND DASHBOARD');
-          glagol.emit('renderMySharing');
-          glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText)));
+          // glagol.emit('renderMySharing');
+          glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText))).then(()=>{
+            glagol.peerConnection.getSenders().forEach((sender)=>{
+              if (sender.track?.contentHint==='detail') {
+                const stream=new MediaStream()
+                stream.addTrack(sender.track)
+                glagol.emit('changeStream', stream)
+              }
+            })
+          });
+
           break;
         }
         case 'remove_dashboard': {
@@ -274,12 +287,12 @@ const glagol: IGlagol = {
     };
     pc.onsignalingstatechange = (event) => {
     };
-    pc.onconnectionstatechange = (event: any ) => {
-      console.log(event, 'EVENT')
-      if (event.target.connectionState==='connected') {
-        this.emit('changeConnecting', true)
+    pc.onconnectionstatechange = (event: any) => {
+      console.log(event, 'EVENT');
+      if (event.target.connectionState === 'connected') {
+        this.emit('changeConnecting', true);
       } else {
-        this.emit('changeConnecting', false)
+        this.emit('changeConnecting', false);
       }
     };
     pc.onicecandidate = (event) => {
@@ -327,7 +340,7 @@ const glagol: IGlagol = {
           };
           navigator.mediaDevices.getUserMedia(constaints).then((stream) => {
             stream.getTracks().forEach((track) => {
-              this.currentLocalStream=stream
+              this.currentLocalStream = stream;
               if (track.kind === type) this.peerConnection.addTrack(track);
             });
           });

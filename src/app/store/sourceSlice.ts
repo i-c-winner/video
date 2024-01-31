@@ -9,7 +9,7 @@ const sourceSlice = createSlice({
   name: 'source',
   initialState,
   reducers: {
-    addSharing: ((state, action: PayloadAction<TStream>) => {
+    addSharing: ((state, action: PayloadAction<TStream|undefined>) => {
       state.sharing = action.payload;
     }),
     removeSharing: ((state) => {

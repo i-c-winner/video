@@ -21,7 +21,7 @@ const styleImageButton = {
   width: '24px',
 };
 
-function RemoteStreamsBox() {
+function RemoteStreamsBox(props: {stream: MediaStream}) {
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
@@ -136,14 +136,8 @@ function RemoteStreamsBox() {
   }
 
   useEffect(() => {
-    // glagol.peerConnection.getSenders().forEach((sender) => {
-    //   if (sender.track?.kind === 'video' && sender.track.contentHint !== 'detail') {
-    //     const stream = new MediaStream();
-    //     stream.addTrack(sender.track);
-        if (refVideo.current) refVideo.current.srcObject = glagol.currentLocalStream;
-    //   }
-    // });
-  }, []);
+        if (refVideo.current) refVideo.current.srcObject = props.stream;
+  }, [props.stream]);
 
   return getChildren();
 }

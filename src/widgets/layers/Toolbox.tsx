@@ -78,6 +78,7 @@ function Toolbox() {
   }
 
   function sharingStop() {
+    dispatch(addSharing())
     sharing.stop();
   }
 

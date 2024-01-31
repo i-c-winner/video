@@ -1,5 +1,5 @@
 import { glagol } from '../../entity/conference/glagol';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../../widgets/styles/index.scss';
 import { Box } from '@mui/material';
 import { LocalStream } from '../../widgets/layers/Localstream';
@@ -20,10 +20,12 @@ interface IMessage {
 
 
 function RoomPage() {
+  const [ stream, setStream ] = useState<MediaStream>(new MediaStream());
+  const [ littleScreenStream, setLittleScreenStream ] = useState<MediaStream>(new MediaStream());
   const refVideo = useRef<HTMLVideoElement>(null);
   const dispatch = useDispatch();
   const { sharing } = useSelector((state: IStore) => state.source);
-  const {video}=useSelector((state: IStore)=>state.interface.conference.quality)
+  const { video } = useSelector((state: IStore) => state.interface.conference.quality);
 
 
   function addTrackToSource(args: any[]) {
@@ -53,10 +55,23 @@ function RoomPage() {
     });
   }
 
+  function changeStream(stream: [ MediaStream ]) {
+    setStream(stream[0]);
+  }
+
+  function changeLittleScreenStream(stream: [ MediaStream ]) {
+    setLittleScreenStream(stream[0]);
+  }
+
+  useEffect(() => {
+    glagol.on('changeStream', changeStream);
+    glagol.on('changeLittleScreenStream', changeLittleScreenStream);
+  }, []);
+
   function renderScreenStream() {
-    if (glagol.peerConnection.getTransceivers().length===0) {
-      if (refVideo.current!==null) refVideo.current.srcObject=glagol.currentLocalStream
-    } else  {
+    if (glagol.peerConnection.getTransceivers().length === 0) {
+      if (refVideo.current !== null) refVideo.current.srcObject = glagol.currentLocalStream;
+    } else {
       const stream = new MediaStream();
       glagol.peerConnection.getTransceivers().forEach((transceiver) => {
         if (transceiver.sender.track?.kind === 'video') {
@@ -91,28 +106,23 @@ function RoomPage() {
     glagol.on('addFileForSaving', addFileForSaving);
   }, []);
   useEffect(() => {
-    const stream = new MediaStream();
-    if (Array.isArray(sharing)) {
-      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-        if (transceiver.receiver.track?.id === sharing[0].id) {
-          if (transceiver.receiver.track) stream.addTrack(transceiver.receiver.track);
-        }
-      });
-      if (refVideo.current !== null) refVideo.current.srcObject = stream;
-    } else if (sharing !== undefined) {
-      glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-        if (sharing) {
-          if (transceiver.receiver.track?.id === sharing.id) {
-            if (transceiver.sender.track) stream.addTrack(transceiver.sender.track);
-          }
-        }
 
-      });
-      if (refVideo.current !== null) refVideo.current.srcObject = stream;
+    if (sharing === undefined) {
+      if (glagol.currentLocalStream) setStream(glagol.currentLocalStream);
     } else {
-      renderScreenStream();
+      const stream = new MediaStream();
+      if (Array.isArray(sharing)) {
+        glagol.peerConnection.getTransceivers().forEach((transceiver) => {
+          if (transceiver.receiver.track?.id === sharing[0].id) {
+            if (transceiver.receiver.track) stream.addTrack(transceiver.receiver.track);
+          }
+        });
+        setStream(stream);
+      } 
     }
-  }, [ sharing, video ]);
+
+
+  }, [ sharing ]);
 
   return <Box
     sx={{
@@ -136,7 +146,7 @@ function RoomPage() {
       boxSizing: 'border-box'
     }}>
       <TopPanel/>
-      <LocalStream ref={refVideo}/>
+      <LocalStream littleScreenStream={littleScreenStream} stream={stream}/>
       <Toolbox/>
     </Box>
     <ChatsBox/>
