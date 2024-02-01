@@ -21,6 +21,7 @@ interface IMessage {
 
 
 function RoomPage() {
+  const [ connected, setConnected ] = useState<boolean>(false);
   const [ stream, setStream ] = useState<MediaStream>(new MediaStream());
   const [ littleScreenStream, setLittleScreenStream ] = useState<MediaStream>(new MediaStream());
   const refVideo = useRef<HTMLVideoElement>(null);
@@ -63,10 +64,10 @@ function RoomPage() {
     setLittleScreenStream(stream[0]);
   }
 
-  useEffect(() => {
-    glagol.on('changeStream', changeStream);
-    glagol.on('changeLittleScreenStream', changeLittleScreenStream);
-  }, []);
+  function changeConnecting(state: [ boolean ]) {
+    setConnected(state[0]);
+  }
+
 
   function messageReceived(message: [ IMessage ]) {
     dispatch(addChat(message[0]));
@@ -75,6 +76,13 @@ function RoomPage() {
   function addFileForSaving(params: any) {
     dispatch(addFile(params[0]));
   }
+
+
+  useEffect(() => {
+    glagol.on('changeConnecting', changeConnecting);
+    glagol.on('changeStream', changeStream);
+    glagol.on('changeLittleScreenStream', changeLittleScreenStream);
+  }, []);
 
   useEffect(() => {
     // glagol.peerConnectionAddHandlers()
@@ -88,9 +96,9 @@ function RoomPage() {
     glagol.on('addFileForSaving', addFileForSaving);
   }, []);
   useEffect(() => {
-    console.log(glagol)
+    console.log(glagol);
     if (sharing === undefined) {
-      if (glagol.currentLocalStream!==null) setStream(glagol.currentLocalStream);
+      if (glagol.currentLocalStream !== null) setStream(glagol.currentLocalStream);
 
     } else {
       const myStream = new MediaStream();
@@ -104,7 +112,7 @@ function RoomPage() {
         });
         setStream(myStream);
       } else {
-        if (glagol.currentLocalStream!==null) setStream(glagol.currentLocalStream);
+        if (glagol.currentLocalStream !== null) setStream(glagol.currentLocalStream);
       }
 
     }
@@ -132,7 +140,9 @@ function RoomPage() {
       boxSizing: 'border-box'
     }}>
       <TopPanel/>
-      <LocalStream key={getRandomText(5)} littleScreenStream={littleScreenStream} stream={stream}/>
+      <LocalStream
+        connected={connected}
+        key={getRandomText(5)} littleScreenStream={littleScreenStream} stream={stream}/>
       <Toolbox/>
     </Box>
     <ChatsBox/>
