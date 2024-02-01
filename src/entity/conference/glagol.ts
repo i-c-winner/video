@@ -91,6 +91,7 @@ const glagol: IGlagol = {
         } else if (status === Strophe.Status.REGIFAIL) {
           console.info("The Server does not support In-Band Registration");
         } else if (status === Strophe.Status.CONNECTED) {
+          console.info('Соединение XMPP установленно')
           glagol.connectionAddHandlers();
           resolve(glagol.connection);
         } else {
@@ -109,9 +110,7 @@ const glagol: IGlagol = {
       const jimbleText = Strophe.getText(jimble);
       switch (bodyText) {
         case 'add_dashboard': {
-          console.log('ADD_DASHBOARD');
           glagol.streamsWasChanged(jimbleText);
-          console.log(glagol.peerConnection.getReceivers())
           break;
         }
         case 'invitation_reply':
@@ -134,7 +133,6 @@ const glagol: IGlagol = {
           break;
         case 'add_track': {
           glagol.streamsWasChanged(jimbleText);
-          console.log('ADD TRACK');
           break;
         }
         case 'ice_candidate': {
@@ -154,8 +152,6 @@ const glagol: IGlagol = {
           break;
         }
         case 'send_dashboard': {
-          console.log('SEND DASHBOARD');
-          // glagol.emit('renderMySharing');
           glagol.peerConnection.setRemoteDescription(JSON.parse(atob(jimbleText))).then(()=>{
             glagol.peerConnection.getSenders().forEach((sender)=>{
               if (sender.track?.contentHint==='detail') {
@@ -170,7 +166,6 @@ const glagol: IGlagol = {
         }
         case 'remove_dashboard': {
           glagol.emit('removeSharingFromSource');
-          console.log('REMOVE DASHBOARD');
           if (glagol.peerConnection.signalingState === 'stable') {
             glagol.streamsWasChanged(jimbleText);
           } else {
@@ -179,7 +174,6 @@ const glagol: IGlagol = {
           break;
         }
         case 'offer_download': {
-          console.log('Offer dashboard', stanza);
           const idRemote = jimble.getAttribute('id_remote');
           glagol.emit('addFileForSaving', {
             text: jimbleText,
@@ -191,7 +185,6 @@ const glagol: IGlagol = {
           console.info('message with unknown action');
         }
       }
-      console.log(stanza, 'message');
       return true;
     };
     const handlerIqTypeResult = () => {
@@ -228,7 +221,6 @@ const glagol: IGlagol = {
         }
       } catch (e) {
       }
-      console.log(stanza, 'PESENCE');
       return true;
     };
     glagol.connection.addHandler(handlerMessage, null, 'message', 'chat');
@@ -294,10 +286,11 @@ const glagol: IGlagol = {
     pc.onsignalingstatechange = (event) => {
     };
     pc.onconnectionstatechange = (event: any) => {
-      console.log(event, 'EVENT');
       if (event.target.connectionState === 'connected') {
+        console.info('Соединение с видеомостом установленно')
         this.emit('changeConnecting', true);
       } else {
+        console.error(new Error('Соединение с видеомостом отсутствует'))
         this.emit('changeConnecting', false);
       }
     };

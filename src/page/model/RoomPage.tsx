@@ -96,7 +96,6 @@ function RoomPage() {
     glagol.on('addFileForSaving', addFileForSaving);
   }, []);
   useEffect(() => {
-    console.log(glagol);
     if (sharing === undefined) {
       if (glagol.currentLocalStream !== null) setStream(glagol.currentLocalStream);
 
