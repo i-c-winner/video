@@ -12,7 +12,6 @@ import {
 } from '@heroicons/react/16/solid';
 import { ButtonWrapper } from '../../entity/model/UI/button/ButtonWrapper';
 import { changeAudio, changeChatsBox, changeTypeModal, changeVideo, openModal } from '../../app/store/interfaceSlice';
-import { toggleTileMode } from '../../app/store/interfaceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IInterface, IStore } from '../../app/types';
 import { changeIsRecording } from '../../app/store/interfaceSlice';
@@ -148,13 +147,13 @@ function Toolbox() {
           color={colorText}
         />
       </ButtonWrapper>
-      <ButtonWrapper
-        text="tile"
-        action={togglingTileMode}>
-        <ArrowsPointingOutIcon
-          color={colorText}
-        />
-      </ButtonWrapper>
+      {/*<ButtonWrapper*/}
+      {/*  text="tile"*/}
+      {/*  action={togglingTileMode}>*/}
+      {/*  <ArrowsPointingOutIcon*/}
+      {/*    color={colorText}*/}
+      {/*  />*/}
+      {/*</ButtonWrapper>*/}
       <ButtonWrapper
         text={"record"}
         action={recordAction}>
