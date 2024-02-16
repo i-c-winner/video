@@ -12,10 +12,21 @@ import { IStore, TStream } from '../../app/types';
 import { addChat } from '../../app/store/chatsSlice';
 import { addFile } from '../../app/store/filesSlice';
 import { getRandomText } from '../../features/plugins/getRandomText';
+import GlagolProduct from 'glagol-video';
+import GlagolDev from '../../../glagol/index';
+import * as process from 'process';
 
-// import Glagol from '../../../glagol/index'
+function getGlagol(mode: string|undefined){
+  if (mode== "production") {
+    return GlagolProduct;
+  } else {
+    return GlagolDev;
+  }
+}
+const Glagol=getGlagol(process.env.GLAGOL)
 
-import Glagol from 'glagol-video';
+
+
 
 interface IMessage {
   text: string,
