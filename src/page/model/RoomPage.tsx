@@ -16,13 +16,18 @@ import GlagolProduct from 'glagol-video';
 import GlagolDev from '../../../glagol/index';
 import * as process from 'process';
 
+
 function getGlagol(mode: string|undefined){
-  if (mode== "production") {
+  if (mode== "product") {
+    console.log('production')
     return GlagolProduct;
   } else {
+    console.log('developmetn')
     return GlagolDev;
   }
 }
+console.log(process)
+
 const Glagol=getGlagol(process.env.GLAGOL)
 
 

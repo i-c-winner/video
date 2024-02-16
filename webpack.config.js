@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const webpack=require('webpack')
 const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = "style-loader";
@@ -18,6 +19,9 @@ const config = {
     historyApiFallback: true,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.GLAGOL': JSON.stringify(process.env.GLAGOL)
+}),
     new CopyPlugin({
       patterns: [{
         from: "public/images/",
