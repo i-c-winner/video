@@ -13,7 +13,7 @@ import { addChat } from '../../app/store/chatsSlice';
 import { addFile } from '../../app/store/filesSlice';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import GlagolProduct from 'glagol-video';
-import GlagolDev from '../../../glagol/index';
+import GlagolDev from '../../../../glagol/index';
 import * as process from 'process';
 
 
