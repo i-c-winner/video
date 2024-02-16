@@ -13,6 +13,10 @@ import { addChat } from '../../app/store/chatsSlice';
 import { addFile } from '../../app/store/filesSlice';
 import { getRandomText } from '../../features/plugins/getRandomText';
 
+// import Glagol from '../../../glagol/index'
+
+import Glagol from 'glagol-video';
+
 interface IMessage {
   text: string,
   id: string,
@@ -21,132 +25,40 @@ interface IMessage {
 
 
 function RoomPage() {
-  const [ connected, setConnected ] = useState<boolean>(false);
-  const [ stream, setStream ] = useState<MediaStream>(new MediaStream());
-  const [ littleScreenStream, setLittleScreenStream ] = useState<MediaStream>(new MediaStream());
-  const refVideo = useRef<HTMLVideoElement>(null);
-  const dispatch = useDispatch();
-  const { sharing } = useSelector((state: IStore) => state.source);
-  const { video } = useSelector((state: IStore) => state.interface.conference.quality);
+  useEffect(() => {
+    Glagol.setHandler('addTrack', (...args) => console.log(args));
+    new Glagol({
+      roomName: glagol.params.roomName,
+      xmppUrl: 'https://xmpp.prosolen.net:5281/http-bind',
+      webUrl: {
+        iceCandidatePoolSize: 5,
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:vks.knodl.tech:80' },
 
+          {
+            urls: 'turn:vks.knodl.tech:80',
+            username: 'nehy$.pth-3084659',
+            credential: 'l@g&wojmv-po5924rufjmfvoi%np58igvao$ifv'
+          },
 
-  function addTrackToSource(args: any[]) {
-    if (typeof args[0]) dispatch(addRemoteTrack(args[0]));
-  }
+          {
+            urls: 'turns:vks.knodl.tech:443',
+            username: 'nehy$.pth-3084659',
+            credential: 'l@g&wojmv-po5924rufjmfvoi%np58igvao$ifv'
+          },
 
-  function addSharingToSource(...args: TStream[]) {
-    dispatch(addSharing(args[0]));
-  }
-
-  const removeSharingFromSource = () => {
-    dispatch(removeSharing());
-  };
-
-  function removeRemoteTrackFormSource(id: string[]) {
-    dispatch(removeRemoteTrack(id[0]));
-  }
-
-  function renderMySharing() {
-    const stream = new MediaStream;
-    glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-      if (transceiver.sender.track?.contentHint === 'detail') {
-        stream.addTrack(transceiver.sender.track);
+          {
+            urls: 'turns:vks.knodl.tech:443?transport=tcp',
+            username: 'nehy$.pth-3084659',
+            credential: 'l@g&wojmv-po5924rufjmfvoi%np58igvao$ifv'
+          },
+        ]
       }
-      if (refVideo.current !== null) refVideo.current.srcObject = stream;
     });
-  }
+  });
 
-  function changeStream(stream: [ MediaStream ]) {
-    setStream(stream[0]);
-  }
-
-  function changeLittleScreenStream(stream: [ MediaStream ]) {
-    setLittleScreenStream(stream[0]);
-  }
-
-  function changeConnecting(state: [ boolean ]) {
-    setConnected(state[0]);
-  }
-
-
-  function messageReceived(message: [ IMessage ]) {
-    dispatch(addChat(message[0]));
-  }
-
-  function addFileForSaving(params: any) {
-    dispatch(addFile(params[0]));
-  }
-
-
-  useEffect(() => {
-    glagol.on('changeConnecting', changeConnecting);
-    glagol.on('changeStream', changeStream);
-    glagol.on('changeLittleScreenStream', changeLittleScreenStream);
-  }, []);
-
-  useEffect(() => {
-    // glagol.peerConnectionAddHandlers()
-    glagol.roomInstance.create();
-    glagol.on('addTrackToSource', addTrackToSource);
-    glagol.on('addSharingToSource', addSharingToSource);
-    glagol.on('removeSharingFromSource', removeSharingFromSource);
-    glagol.on('removeRemoteTrackFormSource', removeRemoteTrackFormSource);
-    glagol.on('renderMySharing', renderMySharing);
-    glagol.on('messageReceived', messageReceived);
-    glagol.on('addFileForSaving', addFileForSaving);
-  }, []);
-  useEffect(() => {
-    if (sharing === undefined) {
-      if (glagol.currentLocalStream !== null) setStream(glagol.currentLocalStream);
-
-    } else {
-      const myStream = new MediaStream();
-      if (Array.isArray(sharing)) {
-        glagol.peerConnection.getTransceivers().forEach((transceiver) => {
-          if (transceiver.receiver.track?.id === sharing[0].id) {
-            if (transceiver.receiver.track) {
-              myStream.addTrack(transceiver.receiver.track);
-            }
-          }
-        });
-        setStream(myStream);
-      } else {
-        if (glagol.currentLocalStream !== null) setStream(glagol.currentLocalStream);
-      }
-
-    }
-  }, [ sharing ]);
-
-  return <Box
-    sx={{
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0',
-      bgcolor: 'background.paper',
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: '16px'
-    }}
-  >
-    <Box sx={{
-      flexGrow: '1',
-      display: 'flex',
-      flexFlow: 'column',
-      justifyContent: 'space-between',
-      paddingRight: '16px',
-      boxSizing: 'border-box'
-    }}>
-      <TopPanel/>
-      <LocalStream
-        connected={connected}
-        key={getRandomText(5)} littleScreenStream={littleScreenStream} stream={stream}/>
-      <Toolbox/>
-    </Box>
-    <ChatsBox/>
-
-  </Box>;
+  return <p>Return Page</p>;
 }
 
 export { RoomPage };

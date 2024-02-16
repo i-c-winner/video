@@ -6,7 +6,8 @@ import {styles} from '../styles/styles';
 import { getInputStyles } from '../../features/styles/getInputStyles';
 
 const connection = async () => {
-  return glagol.createConference();
+  // return glagol.createConference();
+  return 'ok'
 };
 const CreateRoomName = React.forwardRef((props: {
   changeRoomName: (event: any, type: string) => void,
