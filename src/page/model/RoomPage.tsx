@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../../widgets/styles/index.scss';
-import {app} from '../../app/model/constants/app';
+import { app } from '../../app/model/constants/app';
 import GlagolProduct from 'glagol-video';
 import GlagolDev from '../../../glagol/index';
 import * as process from 'process';
@@ -11,21 +11,26 @@ import { Toolbox } from '../../widgets/layers/Toolbox';
 import { ChatsBox } from '../../widgets/layers/ChatsBox';
 
 
-function getGlagol(mode: string|undefined){
-  if (mode== "product") {
-    console.log('production')
+function getGlagol(mode: string | undefined) {
+  if (mode == "product") {
+    console.log('production');
     return GlagolProduct;
   } else {
-    console.log('developmetn')
+    console.log('developmetn');
     return GlagolDev;
   }
 }
-const Glagol=getGlagol(process.env.GLAGOL)
 
+const Glagol = getGlagol(process.env.GLAGOL);
 
 function RoomPage() {
+  function roomOn(...args: any[]) {
+    console.log(args, 'roomOn');
+  }
+
   useEffect(() => {
     Glagol.setHandler('addTrack', (...args) => console.log(args));
+    Glagol.setHandler('roomOn', roomOn);
     new Glagol({
       roomName: app.roomName,
       displayName: app.displayName,
@@ -59,33 +64,33 @@ function RoomPage() {
   });
 
 
-return <Box
-  sx={{
-    position: 'absolute',
-    top: '0',
-    bottom: '0',
-    left: '0',
-    right: '0',
-    bgcolor: 'background.paper',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '16px'
-  }}
->
-  <Box sx={{
-    flexGrow: '1',
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'space-between',
-    paddingRight: '16px',
-    boxSizing: 'border-box'
-  }}>
-    <TopPanel/>
+  return <Box
+    sx={{
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0',
+      bgcolor: 'background.paper',
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '16px'
+    }}
+  >
+    <Box sx={{
+      flexGrow: '1',
+      display: 'flex',
+      flexFlow: 'column',
+      justifyContent: 'space-between',
+      paddingRight: '16px',
+      boxSizing: 'border-box'
+    }}>
+      <TopPanel/>
 
-    <Toolbox/>
-  </Box>
-  <ChatsBox/>
-</Box>
+      <Toolbox/>
+    </Box>
+    <ChatsBox/>
+  </Box>;
 }
 
 export { RoomPage };
