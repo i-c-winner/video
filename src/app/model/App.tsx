@@ -7,7 +7,10 @@ import { Box, Button, createTheme } from '@mui/material';
 import { styles } from '../styles';
 import { useTranslation } from 'react-i18next';
 import { ThemeProvider } from '@mui/material';
-import {myTheme} from '../../shared/styles/theme';
+import { myTheme } from '../../shared/styles/theme';
+import { app } from './constants/app';
+import Glagol from '../../../glagol';
+import { connection } from '../../../glagol/src/connection/connection';
 
 const ThemeContext = React.createContext({
   toggleTheme: () => {
@@ -22,6 +25,7 @@ function App() {
   const [ revirced, setReciverd ] = useState(false);
   const refBox = useRef<any>();
   const [ mode, setMode ] = useState<'dark' | 'light'>('dark');
+
   const colorMode = React.useMemo(
     () => ({
       toggleTheme: () => {
@@ -33,7 +37,7 @@ function App() {
 
   const theme = React.useMemo(
     () =>
-      createTheme(mode==='dark'?myTheme.dark:myTheme.light),
+      createTheme(mode === 'dark' ? myTheme.dark : myTheme.light),
     [ mode ],
   );
 
@@ -53,9 +57,9 @@ function App() {
   function changingInput(event: (BaseSyntheticEvent | string), type: string) {
     setReciverd(true);
     if (type === 'roomName') {
-      if (typeof event !== "string") glagol.params.roomName = event.target.value;
+      if (typeof event !== "string") app.roomName= event.target.value;
     } else if (type === 'displayName') {
-      if (typeof event !== "string") glagol.params.displayName = event.target.value;
+      if (typeof event !== "string") app.displayName = event.target.value;
     }
   }
 
@@ -89,6 +93,9 @@ function App() {
       };
     }
   }
+  function connectionOn(...args: any[]) {
+    console.log(args, 'Connectiona')
+  }
 
   useEffect(() => {
     const roomName = window.location.pathname.split('/')[1];
@@ -98,6 +105,10 @@ function App() {
       setState('createUserName');
     }
   }, []);
+
+  useEffect(()=>{
+setReciverd(true)
+  }, [])
 
   return <ThemeContext.Provider value={colorMode}>
     <ThemeProvider theme={theme}>

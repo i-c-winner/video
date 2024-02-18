@@ -1,20 +1,14 @@
-import { glagol } from '../../entity/conference/glagol';
 import React, { useEffect, useRef, useState } from 'react';
 import '../../widgets/styles/index.scss';
+import {app} from '../../app/model/constants/app';
+import GlagolProduct from 'glagol-video';
+import GlagolDev from '../../../glagol/index';
+import * as process from 'process';
 import { Box } from '@mui/material';
+import { TopPanel } from '../../widgets/layers/TopPanel';
 import { LocalStream } from '../../widgets/layers/Localstream';
 import { Toolbox } from '../../widgets/layers/Toolbox';
 import { ChatsBox } from '../../widgets/layers/ChatsBox';
-import { TopPanel } from '../../widgets/layers/TopPanel';
-import { useDispatch, useSelector } from 'react-redux';
-import { addRemoteTrack, addSharing, removeRemoteTrack, removeSharing } from '../../app/store/sourceSlice';
-import { IStore, TStream } from '../../app/types';
-import { addChat } from '../../app/store/chatsSlice';
-import { addFile } from '../../app/store/filesSlice';
-import { getRandomText } from '../../features/plugins/getRandomText';
-import GlagolProduct from 'glagol-video';
-import GlagolDev from '../../../../glagol/index';
-import * as process from 'process';
 
 
 function getGlagol(mode: string|undefined){
@@ -26,25 +20,15 @@ function getGlagol(mode: string|undefined){
     return GlagolDev;
   }
 }
-console.log(process)
-
 const Glagol=getGlagol(process.env.GLAGOL)
-
-
-
-
-interface IMessage {
-  text: string,
-  id: string,
-  author: string
-}
 
 
 function RoomPage() {
   useEffect(() => {
     Glagol.setHandler('addTrack', (...args) => console.log(args));
     new Glagol({
-      roomName: glagol.params.roomName,
+      roomName: app.roomName,
+      displayName: app.displayName,
       xmppUrl: 'https://xmpp.prosolen.net:5281/http-bind',
       webUrl: {
         iceCandidatePoolSize: 5,
@@ -74,7 +58,34 @@ function RoomPage() {
     });
   });
 
-  return <p>Return Page</p>;
+
+return <Box
+  sx={{
+    position: 'absolute',
+    top: '0',
+    bottom: '0',
+    left: '0',
+    right: '0',
+    bgcolor: 'background.paper',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '16px'
+  }}
+>
+  <Box sx={{
+    flexGrow: '1',
+    display: 'flex',
+    flexFlow: 'column',
+    justifyContent: 'space-between',
+    paddingRight: '16px',
+    boxSizing: 'border-box'
+  }}>
+    <TopPanel/>
+
+    <Toolbox/>
+  </Box>
+  <ChatsBox/>
+</Box>
 }
 
 export { RoomPage };
