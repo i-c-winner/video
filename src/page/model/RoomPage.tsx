@@ -11,7 +11,7 @@ import {app} from '../../app/model/constants/app';
 
 function RoomPage() {
     console.log(app.glagolVC, 'APP')
-    app.glagolVC.setHandler('addTrack', ()=>{console.log('addTrack')})
+    // app.glagolVC.setHandler('addTrack', ()=>{console.log('addTrack')})
   function roomOn(...args: any[]) {
     console.log(args, 'roomOn');
   }

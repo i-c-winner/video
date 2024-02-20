@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { myTheme } from '../../shared/styles/theme';
 import { app } from './constants/app';
 import GlagolProduct from 'glagol-video';
-import GlagolDev from '../../../glagol/index';
+import GlagolDev from '../../../glagol-module/index';
 import process from 'process';
 
 // function getGlagol(mode: string | undefined) {
@@ -117,7 +117,7 @@ function App() {
                 }
             })
             createrGlagol.createGlagol()
-            createrGlagol.registr()
+            createrGlagol.register()
             app.glagolVC=createrGlagol.getGlagol()
         }
     }
