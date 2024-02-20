@@ -1,9 +1,9 @@
 import { getRandomText } from '../../../features/plugins/getRandomText';
-
 interface IApp {
   userNode: string,
   roomName: string,
-  displayName: string
+  displayName: string,
+  glagolVC?:any
 }
 const app: IApp = {
   userNode: getRandomText(5),
