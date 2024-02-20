@@ -8,26 +8,16 @@ import { styles } from '../styles';
 import { useTranslation } from 'react-i18next';
 import { myTheme } from '../../shared/styles/theme';
 import { app } from './constants/app';
-import GlagolProduct from 'glagol-video';
-import GlagolDev from '../../../glagol-module/index';
-import process from 'process';
+import Glagol from 'glagol-video';
 
-// function getGlagol(mode: string | undefined) {
-//     if (mode == 'product') {
-//         console.log('production');
-//         return GlagolProduct;
-//     } else {
-//         console.log('developmetn');
-//         return GlagolDev;
-//     }
-// }
-//
+
+
+
 // const Glagol = getGlagol(process.env.GLAGOL);
 const ThemeContext = React.createContext({
     toggleTheme: () => {
     }
 });
-const Glagol = GlagolDev
 
 function App() {
     const {t} = useTranslation();
