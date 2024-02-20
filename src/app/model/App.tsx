@@ -147,7 +147,11 @@ function App() {
     }
 
     function roomOn(...args: any[]) {
+        console.log('roomOn', args)
         setState('roomPage')
+    }
+    function streamStarted (...args: any[]) {
+        console.log(args)
     }
 
     useEffect(() => {
@@ -160,6 +164,7 @@ function App() {
         setReciverd(true)
         Glagol.setHandler('addTrack', (...args) => console.log(args));
         Glagol.setHandler('roomOn', roomOn)
+        Glagol.setHandler('streamStarted', streamStarted)
     }, []);
 
     return <ThemeContext.Provider value={ colorMode }>

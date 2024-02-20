@@ -20,7 +20,7 @@ function RemoteStreamsBoxTileMode() {
         {remoteStreams.map((element: any) => {
           return   <React.Fragment>
             <Grid key={getRandomText(5)} sx={()=>element.type==='audio'? {display: 'none'}: {}} item xs={3}>
-              <RemoteStream  id={element.id} />
+              {/*<RemoteStream  id={element.id} />*/}
             </Grid>
 
             </React.Fragment>

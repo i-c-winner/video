@@ -21,7 +21,8 @@ const styleImageButton = {
   width: '24px',
 };
 
-function RemoteStreamsBox(props: {stream: MediaStream}) {
+function RemoteStreamsBox(props: {streams: MediaStream[]}) {
+  console.log(props, 'STREAM')
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
@@ -124,8 +125,8 @@ function RemoteStreamsBox(props: {stream: MediaStream}) {
               }
             }
           >
-            {remoteStreams.map((stream: { id: string, type: string }) => {
-              return <RemoteStream key={getRandomText(5)} id={stream.id}/>;
+            {props.streams.map((stream) => {
+              return <RemoteStream  key={stream.id} stream={stream}/>;
             })}
           </Box>
         </Box>
@@ -135,9 +136,9 @@ function RemoteStreamsBox(props: {stream: MediaStream}) {
     }
   }
 
-  useEffect(() => {
-        if (refVideo.current) refVideo.current.srcObject = props.stream;
-  }, [props.stream]);
+  // useEffect(() => {
+  //       // if (refVideo.current) refVideo.current.srcObject = props.stream;
+  // }, [props.stream]);
 
   return getChildren();
 }

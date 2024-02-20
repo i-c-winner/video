@@ -43,7 +43,7 @@ function RoomPage() {
       boxSizing: 'border-box'
     }}>
       <TopPanel/>
-
+<LocalStream />
       <Toolbox/>
     </Box>
     <ChatsBox/>
