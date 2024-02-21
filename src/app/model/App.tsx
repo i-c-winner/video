@@ -47,16 +47,14 @@ function App() {
         [mode],
     );
 
-    function roomOn() {
-        console.info('Комната создана')
+    function connectionOn(...args: any[]) {
+        console.info('Комната создана', args)
         setChildren(<RoomPage />)
     }
 
-    function streamStarted(...args: any[]) {
-        console.log(args)
-    }
 
     useEffect(() => {
+        Glagol.setHandler('connectionOn', connectionOn)
         const path=window.location.pathname.split('/')[1]
         console.log(window.location.pathname)
         if (path && !app.appCreated) {
@@ -96,17 +94,13 @@ function App() {
             createrGlagol.createGlagol()
             createrGlagol.register()
             app.glagolVC = createrGlagol.getGlagol()
-            Object.freeze(app)
         }
-        Glagol.setHandler('roomOn', roomOn)
-        Glagol.setHandler('streamStarted', streamStarted)
     }, [])
 
     return <ThemeContext.Provider value={ colorMode }>
         <ThemeProvider theme={ theme }>
             <Box
                 ref={ refBox }
-
                 sx={
                     styles.main
                 }>
@@ -114,8 +108,6 @@ function App() {
             </Box>
         </ThemeProvider>
     </ThemeContext.Provider>;
-
-
 }
 
 export { App, ThemeContext };

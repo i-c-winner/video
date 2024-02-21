@@ -2,8 +2,7 @@ import { RemoteStream } from '../../entity/model/RemoteStream';
 import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
-import { getRandomText } from '../../features/plugins/getRandomText';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
@@ -13,6 +12,7 @@ import { MicOff } from '@mui/icons-material';
 import { MicrophoneIcon } from '@heroicons/react/24/solid';
 import { ChartBarIcon } from '@heroicons/react/24/solid';
 import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
+import {app} from '../../app/model/constants/app';
 import myAvatar from '../../../public/images/face2.jpeg'
 
 const { remoteStreamLayer } = styles;
@@ -22,11 +22,16 @@ const styleImageButton = {
 };
 
 function RemoteStreamsBox(props: {streams: MediaStream[]}) {
+  const {glagolVC}= app
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
   const { remoteStreams } = useSelector((state: IStore) => state.source);
+  glagolVC.setHandler('roomOn', roomOn)
 
+  function roomOn(args: [MediaStream]) {
+    if (refVideo.current) refVideo.current.srcObject=args[0]
+  }
   function getStyles() {
     return Object.assign(remoteStreamLayer.wrapper, {
       display: 'flex',
