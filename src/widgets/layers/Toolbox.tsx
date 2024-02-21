@@ -22,10 +22,12 @@ import { addSharing } from '../../app/store/sourceSlice';
 import { config } from '../../shared/config';
 import { MicOff } from '@mui/icons-material';
 import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
+import {app} from '../../app/model/constants/app';
 
 let recording: Recording | null = null;
 
 function Toolbox() {
+  const {glagolVC}=app
   const [ sharingState, setSharingState ] = useState<boolean>(false);
   const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector((state: IStore) => state.interface);
   const { audio, video } = useSelector((state: IStore) => state.interface.conference.quality);
@@ -53,7 +55,7 @@ function Toolbox() {
       sharingStop();
       setSharingState(false);
     } else {
-      sharingStart();
+      glagolVC.sharingStart()
       setSharingState(true);
     }
   }

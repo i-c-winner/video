@@ -24,7 +24,12 @@ function LocalStream() {
        if (refVideo.current) refVideo.current.srcObject=mediaStream[0]
         setOn(true)
     }
+    function sendSharing(mediaStream: [MediaStream]) {
+        if (refVideo.current) refVideo.current.srcObject=mediaStream[0]
+        setOn(true)
+    }
     useEffect(() => {
+        glagolVC.setHandler('sendSharing', sendSharing)
         glagolVC.setHandler('addTrack', addTrack)
         glagolVC.setHandler('roomOn', roomOn)
     }, [])
