@@ -3,5 +3,4 @@ node_modules
 src/functions/recording
 dist/
 dist.zip
-glagol/
-
+glagol-module
