@@ -22,7 +22,6 @@ const styleImageButton = {
 };
 
 function RemoteStreamsBox(props: {streams: MediaStream[]}) {
-  console.log(props, 'STREAM')
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);

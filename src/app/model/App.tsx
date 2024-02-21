@@ -1,40 +1,33 @@
-import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
-import { glagol } from '../../entity/conference/glagol';
-import { CreateRoomName } from '../../page/model/CreateRoomName';
-import { RoomPage } from '../../page/model/RoomPage';
-import { CreateDisplayName } from '../../page/model/CreateDisplayName';
-import { Box, Button, createTheme, ThemeProvider } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, createTheme, ThemeProvider } from '@mui/material';
 import { styles } from '../styles';
-import { useTranslation } from 'react-i18next';
 import { myTheme } from '../../shared/styles/theme';
 import { app } from './constants/app';
 import GlagolProduct from 'glagol-video';
 import GlagolDev from '../../../glagol-module/index';
+import { useNavigate } from 'react-router-dom';
 import process from 'process';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { RoomPage } from '../../page/model/RoomPage';
 
-// function getGlagol(mode: string | undefined) {
-//     if (mode == 'product') {
-//         console.log('production');
-//         return GlagolProduct;
-//     } else {
-//         console.log('developmetn');
-//         return GlagolDev;
-//     }
-// }
-//
-// const Glagol = getGlagol(process.env.GLAGOL);
+function getGlagol(mode: string | undefined) {
+    if (mode == 'product') {
+        return GlagolProduct;
+    } else {
+        return GlagolDev;
+    }
+}
+
+const Glagol = getGlagol(process.env.GLAGOL);
 const ThemeContext = React.createContext({
     toggleTheme: () => {
     }
 });
-const Glagol = GlagolDev
 
 function App() {
-    const {t} = useTranslation();
-    const [state, setState] = useState<any>('createRoomName');
-    const refRoomName = useRef<HTMLInputElement>(null);
-    const refDisplayName = useRef<HTMLInputElement>(null);
-    const [revirced, setReciverd] = useState(false);
+    const navigate = useNavigate()
+    const [children, setChildren] = useState<ReactJSXElement>(<p>Doumloads</p>);
+
     const refBox = useRef<any>();
     const [mode, setMode] = useState<'dark' | 'light'>('dark');
 
@@ -54,38 +47,22 @@ function App() {
         [mode],
     );
 
-    function getChildren() {
-        switch (state) {
-            case 'createUserName' :
-                return <CreateDisplayName changeDisplayName={ changingInput } ref={ refDisplayName }/>;
-            case 'createRoomName':
-                return <CreateRoomName changeRoomName={ changingInput } ref={ refRoomName }/>;
-            case 'roomPage':
-                return <RoomPage/>;
-            default:
-                return <p>unknown children</p>;
-        }
+    function roomOn() {
+        console.info('Комната создана')
+        setChildren(<RoomPage />)
     }
 
-    function changingInput(event: (BaseSyntheticEvent | string), type: string) {
-        setReciverd(true);
-        if (type === 'roomName') {
-            if (typeof event !== 'string') app.roomName = event.target.value;
-        } else if (type === 'displayName') {
-            if (typeof event !== 'string') app.displayName = event.target.value;
-        }
+    function streamStarted(...args: any[]) {
+        console.log(args)
     }
 
-    function changeState() {
-        setReciverd(false);
-        if (state === 'createRoomName') {
-            const path = window.location.pathname;
-            if (refRoomName.current) {
-                history.replaceState(null, '', path.split('/')[0]
-                    + app.roomName);
-            }
-            setState('createUserName');
-        } else if (state === 'createUserName') {
+    useEffect(() => {
+        const path=window.location.pathname.split('/')[1]
+        console.log(window.location.pathname)
+        if (path && !app.appCreated) {
+            app.roomName=path
+            navigate('/creatername')
+        } else {
             const createrGlagol = new Glagol({
                 roomName: app.roomName,
                 displayName: app.displayName,
@@ -118,54 +95,12 @@ function App() {
             })
             createrGlagol.createGlagol()
             createrGlagol.register()
-            app.glagolVC=createrGlagol.getGlagol()
+            app.glagolVC = createrGlagol.getGlagol()
+            Object.freeze(app)
         }
-    }
-
-
-    function getButtonText() {
-        if (state === 'createRoomName') {
-            return 'interface.buttons.createRoomName';
-        }
-        return 'interface.buttons.createDisplayName';
-    }
-
-    function getStyleButton() {
-        if (window.screen.width > 720) {
-            return {};
-        } else {
-            return {
-                width: '80%',
-                fontSize: '2em',
-                height: '60px'
-            };
-        }
-    }
-
-    function connectionOn(...args: any[]) {
-        console.log(args, 'Connectiona')
-    }
-
-    function roomOn(...args: any[]) {
-        console.log('roomOn', args)
-        setState('roomPage')
-    }
-    function streamStarted (...args: any[]) {
-        console.log(args)
-    }
-
-    useEffect(() => {
-        const roomName = window.location.pathname.split('/')[1];
-
-        if (roomName !== '') {
-            glagol.params.roomName = roomName;
-            setState('createUserName');
-        }
-        setReciverd(true)
-        Glagol.setHandler('addTrack', (...args) => console.log(args));
         Glagol.setHandler('roomOn', roomOn)
         Glagol.setHandler('streamStarted', streamStarted)
-    }, []);
+    }, [])
 
     return <ThemeContext.Provider value={ colorMode }>
         <ThemeProvider theme={ theme }>
@@ -175,15 +110,9 @@ function App() {
                 sx={
                     styles.main
                 }>
-                { getChildren() }
-                { state !== 'roomPage' && <Button
-                    disabled={ !revirced }
-                    sx={ getStyleButton() }
-                    variant="contained"
-                    onClick={ changeState }>{ t(getButtonText()) }</Button> }
+                { children }
             </Box>
         </ThemeProvider>
-
     </ThemeContext.Provider>;
 
 

@@ -1,17 +1,26 @@
-import {App} from "../model/App";
-import {Exit} from '../../page/model/Exit';
+import { App } from '../model/App';
+import { CreateDisplayName } from '../../page/model/CreateDisplayName';
+import { CreateRoomName } from '../../page/model/CreateRoomName';
+import { Exit } from '../../page/model/Exit';
 
-const rout= [{
-  path: '/',
-  element: <App />,
-  children: [{
-    path: '/:room',
-    element: <App />
-  }]
-},
-  {
-    path: '/exit',
-    element: <Exit />
-  }]
+const rout = [
+    {
+        path: '/:room',
+        element: <App/>
+    },
 
-export {rout}
+    {
+        path: '/creatername',
+        element: <CreateDisplayName/>
+    },
+    {
+        path: '/exit',
+        element: <Exit/>
+    },
+    {
+        path: '/',
+        element: <CreateRoomName/>,
+    }
+]
+
+export { rout }

@@ -1,34 +1,28 @@
-import React, { BaseSyntheticEvent } from 'react';
-import { useAsync } from 'react-async';
-import { glagol } from '../../entity/conference/glagol';
-import { Box, Input } from '@mui/material';
-import {styles} from '../styles/styles';
+import { BaseSyntheticEvent, useEffect, useRef } from 'react';
+import { Box, Input, Typography, Button } from '@mui/material';
+import { styles } from '../styles/styles';
 import { getInputStyles } from '../../features/styles/getInputStyles';
+import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
+import {app} from '../../app/model/constants/app';
 
-const connection = async () => {
-  // return glagol.createConference();
-  return 'ok'
-};
-const CreateRoomName = React.forwardRef((props: {
-  changeRoomName: (event: any, type: string) => void,
-}, ref) => {
-  const { data, error, isPending } = useAsync({ promiseFn: connection });
 
-  function action(event: BaseSyntheticEvent) {
-    props.changeRoomName(event, 'roomName');
-  }
-
-  if (isPending) {
-    return <p>...Pending</p>;
-  }
-  if (data) {
-    return <Box sx={styles.wrapper}>
-      <Input placeholder="Input RoomName" onChange={action} sx={getInputStyles()} inputRef={ref}/>
+function CreateRoomName() {
+    const navigate=useNavigate()
+    const {t}=useTranslation()
+    const refInput=useRef<HTMLElement>()
+    function change(event: BaseSyntheticEvent){
+        app.roomName=event.target.value
+    }
+    function actionClick() {
+        navigate(`/creatername`)
+    }
+    return <Box sx={ styles.wrapper }>
+        <Input placeholder="Input RoomName" onChange={ change } sx={ getInputStyles() } ref={refInput}/>
+        <Button onClick={actionClick}>
+            <Typography variant='myText' >{t('interface.buttons.createRoomName')}</Typography>
+        </Button>
     </Box>;
-  }
-  if (error) {
-    return <p>error</p>;
-  }
-  return <p>start</p>;
-});
+}
+
 export { CreateRoomName };

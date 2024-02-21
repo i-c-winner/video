@@ -9,7 +9,6 @@ function RemoteStream(props: { stream: MediaStream }) {
 
 
     useEffect(() => {
-        console.log(props.stream)
         props.stream.getTracks().forEach((track) => {
             if (refVideo.current !== null) refVideo.current.srcObject = props.stream;
             setKind(track.kind);
