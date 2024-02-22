@@ -2,7 +2,7 @@ import { RemoteStream } from '../../entity/model/RemoteStream';
 import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
@@ -27,7 +27,7 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
   const { remoteStreams } = useSelector((state: IStore) => state.source);
-  glagolVC.setHandler('roomOn', roomOn)
+
 
   function roomOn(args: [MediaStream]) {
     if (refVideo.current) refVideo.current.srcObject=args[0]
@@ -52,6 +52,10 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
         return 'grey';
     }
   }
+
+  useEffect(()=>{
+    glagolVC.setHandler('roomOn', roomOn)
+  }, [])
 
   function getChildren() {
     if (!tileMode) {
@@ -139,11 +143,6 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
       return <RemoteStreamsBoxTileMode/>;
     }
   }
-
-  // useEffect(() => {
-  //       // if (refVideo.current) refVideo.current.srcObject = props.stream;
-  // }, [props.stream]);
-
   return getChildren();
 }
 

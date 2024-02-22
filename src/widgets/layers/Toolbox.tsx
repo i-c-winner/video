@@ -59,6 +59,9 @@ function Toolbox() {
       setSharingState(true);
     }
   }
+function stop () {
+    glagolVC.sharingStop()
+}
 
   function sharingStart() {
     sharing.start().then((stream) => {
@@ -149,13 +152,14 @@ function Toolbox() {
           color={colorText}
         />
       </ButtonWrapper>
-      {/*<ButtonWrapper*/}
-      {/*  text="tile"*/}
-      {/*  action={togglingTileMode}>*/}
-      {/*  <ArrowsPointingOutIcon*/}
-      {/*    color={colorText}*/}
-      {/*  />*/}
-      {/*</ButtonWrapper>*/}
+      <ButtonWrapper
+          text="share"
+          action={stop}>
+        <ShareIcon
+            color={colorText}
+        />
+      </ButtonWrapper>
+
       <ButtonWrapper
         text={"record"}
         action={recordAction}>

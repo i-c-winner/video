@@ -13,11 +13,19 @@ function LocalStream() {
     const [on, setOn]= useState(false)
     const refVideo=useRef<HTMLVideoElement>(null)
     const glagolVC = app.glagolVC
-    glagolVC.setHandler('roomOn', roomOn)
 
     function addTrack(...args: any[]) {
         setRemoteStreams(prevRemotestream => {
             return prevRemotestream.concat(args[0])
+        })
+    }
+    function removeTrack(mediaStreams: [MediaStream]) {
+        setRemoteStreams(prevRemoteStream=>{
+
+            return prevRemoteStream.filter((element)=>{
+                console.log(element, mediaStreams[0])
+                return element!==mediaStreams[0]
+            })
         })
     }
     function roomOn(mediaStream: [MediaStream]) {
@@ -32,6 +40,7 @@ function LocalStream() {
         glagolVC.setHandler('sendSharing', sendSharing)
         glagolVC.setHandler('addTrack', addTrack)
         glagolVC.setHandler('roomOn', roomOn)
+        glagolVC.setHandler('removeTrack', removeTrack)
     }, [])
     return <Box sx={
         styles.localeStyleLayer
