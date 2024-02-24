@@ -2,7 +2,7 @@ import { RemoteStream } from '../../entity/model/RemoteStream';
 import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
@@ -14,6 +14,8 @@ import { ChartBarIcon } from '@heroicons/react/24/solid';
 import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
 import {app} from '../../app/model/constants/app';
 import myAvatar from '../../../public/images/face2.jpeg'
+import { getRandomText } from '../../features/plugins/getRandomText';
+import { BigScreen } from '../../entity/model/BigScreen';
 
 const { remoteStreamLayer } = styles;
 const styleImageButton = {
@@ -23,14 +25,18 @@ const styleImageButton = {
 
 function RemoteStreamsBox(props: {streams: MediaStream[]}) {
   const {glagolVC}= app
+const [stream, setStream]= useState<MediaStream>(new MediaStream())
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
   const { remoteStreams } = useSelector((state: IStore) => state.source);
 
 
-  function roomOn(args: [MediaStream]) {
-    if (refVideo.current) refVideo.current.srcObject=args[0]
+  function roomOn(stream: [MediaStream]) {
+   setStream(stream[0])
+  }
+  function changeBigScreen(stream: [MediaStream]){
+    setStream(stream[0])
   }
   function getStyles() {
     return Object.assign(remoteStreamLayer.wrapper, {
@@ -55,6 +61,7 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
 
   useEffect(()=>{
     glagolVC.setHandler('roomOn', roomOn)
+    glagolVC.setHandler('changeBigScreen', changeBigScreen)
   }, [])
 
   function getChildren() {
@@ -76,7 +83,7 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
             }}>
               <ChartBarIcon/>
             </Box></Box>
-            <video className="video video_my-video" autoPlay={true} ref={refVideo}/>
+            <BigScreen key={getRandomText(5)} stream={stream} />
             <Box sx={{
               display: 'flex',
               justifyContent: 'space-between',

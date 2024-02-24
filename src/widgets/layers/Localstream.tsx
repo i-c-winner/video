@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RemoteStreamsBox } from './RemoteStreamsBox';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { styles } from '../styles/styles';
 import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { app } from '../../app/model/constants/app';
-import * as stream from 'stream';
+import { BigScreen } from '../../entity/model/BigScreen';
 
 function LocalStream() {
     const [remoteStreams, setRemoteStreams] = useState<MediaStream[]>([])
     const [on, setOn]= useState(false)
+    const [stream, setStream]=useState<MediaStream>(new MediaStream)
     const refVideo=useRef<HTMLVideoElement>(null)
     const glagolVC = app.glagolVC
 
@@ -21,7 +21,6 @@ function LocalStream() {
     }
     function removeTrack(mediaStreams: [MediaStream]) {
         setRemoteStreams(prevRemoteStream=>{
-
             return prevRemoteStream.filter((element)=>{
                 console.log(element, mediaStreams[0])
                 return element!==mediaStreams[0]
@@ -29,18 +28,25 @@ function LocalStream() {
         })
     }
     function roomOn(mediaStream: [MediaStream]) {
-       if (refVideo.current) refVideo.current.srcObject=mediaStream[0]
+        setStream(mediaStream[0])
         setOn(true)
     }
     function sendSharing(mediaStream: [MediaStream]) {
         if (refVideo.current) refVideo.current.srcObject=mediaStream[0]
+        setStream(mediaStream[0])
         setOn(true)
     }
+    function changeBigScreen(mediaStream: [MediaStream]) {
+        setStream(mediaStream[0])
+        setOn(true)
+    }
+
     useEffect(() => {
         glagolVC.setHandler('sendSharing', sendSharing)
         glagolVC.setHandler('addTrack', addTrack)
         glagolVC.setHandler('roomOn', roomOn)
         glagolVC.setHandler('removeTrack', removeTrack)
+        glagolVC.setHandler('changeBigScreen', changeBigScreen)
     }, [])
     return <Box sx={
         styles.localeStyleLayer
@@ -65,18 +71,8 @@ function LocalStream() {
                     justifyContent: 'center',
                 } }
             >
-                {/*<Box sx={ {*/}
-                {/*    height: '25px',*/}
-                {/*    width: '25px',*/}
-                {/*    display: 'flex',*/}
-                {/*    marginRight: '10px'*/}
-                {/*} }>*/}
-                {/*    <ExclamationCircleIcon color="red"/>*/}
-                {/*</Box>*/}
-                {/*<Typography> Отсутсвует соединение с*/}
-                {/*    сервером</Typography>*/}
             </Box> }
-            <video className="video video_local" ref={refVideo} autoPlay={true}/>
+            <BigScreen stream={stream} />
         </Box>;
     </Box>;
 
