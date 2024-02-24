@@ -3,3 +3,4 @@
 src/functions/recording
 dist/
 dist.zip
+node_modules
