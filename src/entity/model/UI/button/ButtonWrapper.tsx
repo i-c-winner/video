@@ -21,7 +21,6 @@ function ButtonWrapper(props: IProps) {
   const [ toggled, setToggled ] = useState<boolean>(false);
   const { isRecording, chatsBoxVisible } = useSelector((state: IStore) => state.interface);
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
-  const { sharing } = useSelector((state: IStore) => state.source);
   const { t } = useTranslation();
 
   function actionClick() {
@@ -80,7 +79,7 @@ function ButtonWrapper(props: IProps) {
     }
 
 
-  }, [ isRecording, sharing, audio, video, chatsBoxVisible ]);
+  }, [ isRecording, props.toggled, audio, video, chatsBoxVisible ]);
 
 
   return <div className="button-box">

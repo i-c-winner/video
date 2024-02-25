@@ -26,8 +26,6 @@ import { config } from '../../shared/config';
 import { MicOff } from '@mui/icons-material';
 import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 import { app } from '../../app/model/constants/app';
-import { IMySender } from '../../../glagol-module/src/components/types';
-import { sharing } from '../../entity/sharing';
 
 let recording: Recording | null = null;
 
@@ -51,7 +49,9 @@ function Toolbox() {
     function sharingAction() {
         if (iSharing) {
             glagolVC.sharingStop();
+            setISharing(false)
         } else {
+            setISharing(true)
             glagolVC.sharingStart()
         }
     }
@@ -76,19 +76,7 @@ function Toolbox() {
             dispatch(changeAudio('enabled'));
         }
     }
-    function sharingStart() {
-      setISharing(glagolVC.webRtc.getSenders().find((sender: IMySender) => {
-        sender?.track?.hasOwnProperty('iSharingScreen')
-      }))
-    }
-    function sharingStop() {
-      setISharing(false)
-    }
 
-useEffect(()=>{
-  glagolVC.setHandler('sharingStart', sharingStart)
-  glagolVC.setHandler('sharingStop', sharingStop)
-}, [])
     useEffect(() => {
         setColorText(() => {
             return theme.palette.mode === 'dark' ? 'grey' : 'black';
