@@ -8,7 +8,9 @@ import { useTranslation } from 'react-i18next';
 interface IProps {
   action: () => void,
   children: ReactJSXElement,
-  text?: string
+  text?: string,
+  toggled?: boolean
+
 }
 
 const buttonsWithoutToggle = [ 'file', 'record', 'share' ];
@@ -32,8 +34,6 @@ function ButtonWrapper(props: IProps) {
         }
       }
     }
-
-
     setToggled(!toggled);
     props.action();
   }
@@ -48,7 +48,7 @@ function ButtonWrapper(props: IProps) {
         }
         break;
       case 'share':
-        if (sharing !== undefined) {
+        if (props.toggled) {
           setClasses(baseClass + ' my-button__toolbox_toggled_red');
         } else {
           setClasses(baseClass);
