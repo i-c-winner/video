@@ -1,0 +1,3 @@
+[submodule "glagol-module"]
+	path = glagol-module
+	url = https://github.com/i-c-winner/glagol-module.git
