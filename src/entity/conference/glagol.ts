@@ -5,7 +5,7 @@ import { IGlagol } from '../../shared';
 import { Room } from '../../shared/room/room';
 import { constants } from '../../shared/config';
 import { candidates } from '../candidates';
-import { channel } from './channel';
+import { channel } from '../../../glagol-module/src/plugins/channel';
 
 const room = new Room();
 

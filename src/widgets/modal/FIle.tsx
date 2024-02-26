@@ -4,7 +4,7 @@ import { CloudUpload } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { getRandomText } from '../../features/plugins/getRandomText';
-import { channel } from '../../entity/conference/channel';
+import { channel } from '../../../glagol-module/src/plugins/channel';
 import { glagol } from '../../entity/conference/glagol';
 import {useDispatch} from 'react-redux';
 import {openModal} from '../../app/store/interfaceSlice';

@@ -83,7 +83,7 @@ const [stream, setStream]= useState<MediaStream>(new MediaStream())
             }}>
               <ChartBarIcon/>
             </Box></Box>
-            <BigScreen key={getRandomText(5)} stream={stream} />
+            <BigScreen key={getRandomText(5)} classes='video video_my-video' stream={stream} />
             <Box sx={{
               display: 'flex',
               justifyContent: 'space-between',

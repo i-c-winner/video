@@ -72,7 +72,7 @@ function LocalStream() {
                 } }
             >
             </Box> }
-            <BigScreen stream={stream} />
+            <BigScreen classes='video video_local' stream={stream} />
         </Box>;
     </Box>;
 
