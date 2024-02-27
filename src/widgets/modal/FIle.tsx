@@ -1,23 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, List, ListItem, ListItemButton, ListItemText, styled, Typography } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from '../../app/types';
 import { getRandomText } from '../../features/plugins/getRandomText';
-import { channel } from '../../../glagol-module/src/plugins/channel';
-import { glagol } from '../../entity/conference/glagol';
-import {useDispatch} from 'react-redux';
-import {openModal} from '../../app/store/interfaceSlice';
-import { addFile, removeFile } from '../../app/store/filesSlice';
-import {useTranslation} from 'react-i18next';
-import {app} from "../../app/model/constants/app";
+import { openModal } from '../../app/store/interfaceSlice';
+import { removeFile } from '../../app/store/filesSlice';
+import { useTranslation } from 'react-i18next';
+import { app } from "../../app/model/constants/app";
 
 const File = React.forwardRef((props, ref) => {
-  const {glagolVC}=app
+  const {glagolVC} = app
 
-  const dispatch=useDispatch()
-  const { files } = useSelector((state: IStore) => state.files);
-  const {t}= useTranslation()
+  const dispatch = useDispatch()
+  const {files} = useSelector((state: IStore) => state.files);
+  const {t} = useTranslation()
   const VisuallyHiddenInput = styled('input')({
     // clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -31,24 +28,13 @@ const File = React.forwardRef((props, ref) => {
   });
 
   function clickButton(this: { idRemote: string, text: string }) {
-   const filteredFiles=  files.filter((file) => file.text === this.text);
-    const message = new Strophe.Builder('message', {
-      to: `${glagol.params.roomName}@conference.prosolen.net/focus`,
-      type: 'chat'
-    }).c('x', { xmlns: 'http://jabber.org/protocol/muc#user' }).up()
-      .c('body', {}, "start_download")
-      .c('jimble', {
-        xmlns: 'urn:xmpp:jimble',
-        ready: 'true'
-      }).t(filteredFiles[0].text);
-    const params = {
-      file_name: JSON.parse(atob(filteredFiles[0].text)).file_name,
-      file_size: JSON.parse(atob(filteredFiles[0].text)).file_size,
-      timestamp: JSON.parse(atob(filteredFiles[0].text)).timestamp
-    };
-    channel.createFileDescriotion(params)
-    glagol.sendMessage(message);
-    dispatch(removeFile(this.text))
+    const filteredFiles = files.filter((file) => file.text === this.text);
+    glagolVC.saveFile(filteredFiles, this.text)
+  }
+
+  function removingFile(fileForRemove: [string]) {
+    dispatch(removeFile(fileForRemove[0]))
+    dispatch(openModal(false))
   }
 
   function sendFile(event: any) {
@@ -57,10 +43,18 @@ const File = React.forwardRef((props, ref) => {
       file_size: event.target.files[0].size,
       timestamp: new Date().toString()
     };
-   glagolVC.sendFile({event, params})
+    glagolVC.sendFile({event, params})
     dispatch(openModal(false))
   }
 
+  useEffect(() => {
+    glagolVC.setHandler('removeFile', removingFile)
+    return () => {
+      /**
+       * TODO removing sharing
+       */
+    }
+  }, [])
   return <Box
     sx={
       {
@@ -87,9 +81,9 @@ const File = React.forwardRef((props, ref) => {
       </Button>
     </Box>
     <Box
-    sx={{
-      paddingTop: '10px'
-    }}
+      sx={{
+        paddingTop: '10px'
+      }}
     >
       <Typography>{t('modal.files.save')}</Typography>
       <List>
