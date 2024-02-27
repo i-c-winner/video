@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {openModal} from '../../app/store/interfaceSlice';
 import {removeFile} from '../../app/store/filesSlice';
 import {useTranslation} from 'react-i18next';
+import {app} from "../../app/model/constants/app";
 
 const File = React.forwardRef((props, ref) => {
   const dispatch=useDispatch()
@@ -49,14 +50,13 @@ const File = React.forwardRef((props, ref) => {
   }
 
   function sendFile(event: any) {
+    const {glagolVC}=app
     const params = {
       file_name: event.target.files[0].name,
       file_size: event.target.files[0].size,
       timestamp: new Date().toString()
     };
-    channel.createFileDescriotion(params);
-    channel.send(JSON.stringify(params));
-    channel.setCurrentFile(event.target.files[0]);
+   glagolVC.sendFile({event, params})
     dispatch(openModal(false))
   }
 
