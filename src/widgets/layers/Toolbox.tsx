@@ -26,6 +26,7 @@ import { config } from '../../shared/config';
 import { MicOff } from '@mui/icons-material';
 import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 import { app } from '../../app/model/constants/app';
+import { addFile } from "../../app/store/filesSlice";
 
 let recording: Recording | null = null;
 
@@ -77,6 +78,20 @@ function Toolbox() {
         }
     }
 
+    function fileDownload (args: [string, string]) {
+        dispatch(addFile({
+            text: args[0],
+            idRemote: args[1]
+        }))
+    }
+    useEffect(()=>{
+        glagolVC.setHandler('fileDownload', fileDownload)
+        return ()=>{
+            /**
+             * TODO remove handler
+             */
+        }
+    },[])
     useEffect(() => {
         setColorText(() => {
             return theme.palette.mode === 'dark' ? 'grey' : 'black';

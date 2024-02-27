@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Box, Button, List, ListItem, ListItemButton, ListItemText, styled, Typography } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -8,11 +8,13 @@ import { channel } from '../../../glagol-module/src/plugins/channel';
 import { glagol } from '../../entity/conference/glagol';
 import {useDispatch} from 'react-redux';
 import {openModal} from '../../app/store/interfaceSlice';
-import {removeFile} from '../../app/store/filesSlice';
+import { addFile, removeFile } from '../../app/store/filesSlice';
 import {useTranslation} from 'react-i18next';
 import {app} from "../../app/model/constants/app";
 
 const File = React.forwardRef((props, ref) => {
+  const {glagolVC}=app
+
   const dispatch=useDispatch()
   const { files } = useSelector((state: IStore) => state.files);
   const {t}= useTranslation()
@@ -50,7 +52,6 @@ const File = React.forwardRef((props, ref) => {
   }
 
   function sendFile(event: any) {
-    const {glagolVC}=app
     const params = {
       file_name: event.target.files[0].name,
       file_size: event.target.files[0].size,
