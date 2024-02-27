@@ -186,7 +186,10 @@ class Glagol {
                         .c('body').t('send_dashboard').up()
                         .c('jimble', {xmlns: 'urn:xmpp:jimble', ready: 'true'}).t(offer64);
                     this.sendMessage(message);
-                }).catch((error: any) => console.error(`This is Error by sharing ${ error }`));
+                }).catch((error: any) => {
+                    this.emit('abortingSharing')
+                    console.error(`This is Error by sharing ${ error }`)
+                });
 
                 break;
             }

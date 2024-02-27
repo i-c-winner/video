@@ -4,7 +4,6 @@ import { styles } from '../styles';
 import { myTheme } from '../../shared/styles/theme';
 import { app } from './constants/app';
 import Glagol from '../../../my-module/src/components/CreaterGlagol';
-// import Glagol from 'glagol-video'
 import { useNavigate } from 'react-router-dom';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { RoomPage } from '../../page/model/RoomPage';

@@ -52,8 +52,8 @@ function Toolbox() {
             glagolVC.sharingStop();
             setISharing(false)
         } else {
-            setISharing(true)
-            glagolVC.sharingStart()
+                setISharing(true)
+                glagolVC.sharingStart()
         }
     }
 
@@ -84,7 +84,11 @@ function Toolbox() {
             idRemote: args[1]
         }))
     }
+    function abortingSharing() {
+        setISharing(false)
+    }
     useEffect(()=>{
+        glagolVC.setHandler('abortingSharing', abortingSharing)
         glagolVC.setHandler('fileDownload', fileDownload)
         return ()=>{
             /**
