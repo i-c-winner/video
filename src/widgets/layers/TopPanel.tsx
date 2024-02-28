@@ -11,6 +11,7 @@ import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../app/model/App';
+import {app} from "../../app/model/constants/app";
 
 
 const sizes = {
@@ -60,7 +61,7 @@ function TopPanel() {
           subheader={<Typography
             variant='myText'
             sx={{
-            }}>{glagol.params.roomName}</Typography>}
+            }}>{app.glagolVC.roomName}</Typography>}
         />
         <Box
           sx={{
