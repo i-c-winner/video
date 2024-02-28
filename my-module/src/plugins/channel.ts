@@ -55,7 +55,7 @@ class Channel {
     if (this._instance) this._instance.send(data);
   }
 
-  createFileDescriotion(description: {
+  createFileDescription(description: {
     file_name: string,
     file_size: number,
     timestamp: string
