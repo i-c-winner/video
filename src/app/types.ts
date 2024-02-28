@@ -31,7 +31,7 @@ interface ISource {
 
 type TChat = {
   author: string,
-  id: string,
+  id?: string,
   text: string
 }
 

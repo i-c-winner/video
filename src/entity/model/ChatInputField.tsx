@@ -23,7 +23,6 @@ function ChatInputField() {
       glagolVC.sendChatMessage(refInput.current?.value);
       dispatch(addChat({
         text: refInput.current?.value,
-        id: glagolVC.userNode,
         author: glagolVC.displayName
       }))
     }

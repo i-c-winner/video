@@ -27,6 +27,7 @@ import { MicOff } from '@mui/icons-material';
 import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 import { app } from '../../app/model/constants/app';
 import { addFile } from "../../app/store/filesSlice";
+import { addChat } from "../../app/store/chatsSlice";
 
 let recording: Recording | null = null;
 
@@ -87,9 +88,13 @@ function Toolbox() {
     function abortingSharing() {
         setISharing(false)
     }
+    function setMessageChat(chat: [{text: string, author: string, id?: string}]) {
+        dispatch(addChat(chat[0]))
+    }
     useEffect(()=>{
         glagolVC.setHandler('abortingSharing', abortingSharing)
         glagolVC.setHandler('fileDownload', fileDownload)
+        glagolVC.setHandler('setMessageChat', setMessageChat)
         return ()=>{
             /**
              * TODO remove handler

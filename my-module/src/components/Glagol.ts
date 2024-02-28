@@ -2,6 +2,7 @@ import { getRandomText } from '../plugins/getRandomText';
 import { sharing } from '../plugins/sharing';
 import { IMyTrack } from './types';
 import { channel } from "../plugins/channel";
+import { saveChat } from "../../../src/features/chats/saveChat";
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[]
@@ -39,6 +40,8 @@ class Glagol {
     this.xmpp.addHandler(this.xmppHandlerMessage, null, 'message');
     this.xmpp.addHandler(this.xmppHandlerPresence, null, 'presence');
     this.xmpp.addHandler(this.xmppHandlerIqTypeResult, null, 'iq', 'result');
+    this.xmpp.addHandler(this.xmppHandlerMessageGroupChat, null, 'message', 'groupchat');
+
   }
 
   register() {
@@ -225,8 +228,27 @@ class Glagol {
     return true
   };
 
-  xmppHandlerIq = (stanza: Element) => {
-    console.log(stanza)
+  xmppHandlerMessageGroupChat = (stanza: Element) => {
+    try {
+      const fromAttribute: string|null=stanza.getAttribute('from')
+      if (fromAttribute!==null) {
+       const from =fromAttribute.split('/')[1]
+        if (from!==this.userNode) {
+          const bodyText = Strophe.getText(stanza.getElementsByTagName('body')[0]);
+          const jingle = stanza.getElementsByTagName('jingle')[0];
+          const jimble = stanza.getElementsByTagName('jimble')[0];
+          const jimbleText = Strophe.getText(jimble);
+          this.emit('setMessageChat', {
+            text: bodyText,
+            author: jingle.getAttribute('author')})
+          console.log(stanza, 'this is Chat Message')
+        }
+      }
+
+
+    } catch (e) {
+
+    }
     return true;
   };
 
