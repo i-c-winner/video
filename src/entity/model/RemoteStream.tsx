@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { glagol } from '../conference/glagol';
 
 
 function RemoteStream(props: { stream: MediaStream }) {

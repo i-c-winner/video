@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useSelector } from 'react-redux';
 import { useRef, useEffect, useState } from 'react';
-import { glagol } from '../../entity/conference/glagol';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
 import { VideoCameraSlashIcon } from '@heroicons/react/20/solid';

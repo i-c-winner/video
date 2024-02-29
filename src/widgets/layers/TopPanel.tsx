@@ -1,6 +1,6 @@
 import { Box, CardHeader, Typography, Card, useTheme } from '@mui/material';
 import { styles } from '../styles/styles';
-import { glagol } from '../../entity/conference/glagol';
+// import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
 import { iconLogo } from '../../shared/img/svg';
 import { CreateSvgIcon } from '../../features/CreaeteSvgIcon';
@@ -29,7 +29,7 @@ function TopPanel() {
   const navigate = useNavigate();
 
   function exit() {
-    glagol.peerConnection.close();
+    app.glagolVC.webRtc.close();
     navigate('/exit');
   }
 

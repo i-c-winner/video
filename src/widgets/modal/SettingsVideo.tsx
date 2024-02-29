@@ -7,7 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { glagol } from '../../entity/conference/glagol';
+// import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, useState } from 'react';
 import { IVideoQty, IAudioQty } from '../type';
@@ -70,18 +70,18 @@ function a11yProps(index: number) {
   };
 }
 
-function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IVideoQty = event.target.value;
-  glagol.applyConstraints({ type: 'video', value });
-  this.dispatch(changeVideo(value));
-
-}
-
-function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IAudioQty = event.target.value;
-  glagol.applyConstraints({ type: 'audio', value });
-  this.dispatch(changeAudio(value));
-}
+// function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
+//   const value: keyof IVideoQty = event.target.value;
+//   glagol.applyConstraints({ type: 'video', value });
+//   this.dispatch(changeVideo(value));
+//
+// }
+//
+// function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
+//   const value: keyof IAudioQty = event.target.value;
+//   glagol.applyConstraints({ type: 'audio', value });
+//   this.dispatch(changeAudio(value));
+// }
 
 const SettingsVideo = React.forwardRef((props, ref) => {
   const { t } = useTranslation();
@@ -98,7 +98,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={changeQty.bind({ dispatch })}
+          // onChange={changeQty.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={video}
           name="radio-buttons-group"
@@ -120,7 +120,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={toggleAudio.bind({ dispatch })}
+          // onChange={toggleAudio.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={audio}
           name="radio-buttons-group"
