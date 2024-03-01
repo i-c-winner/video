@@ -50,12 +50,6 @@ class CreaterGlagol {
         this.webRtc.ondatachannel=((event: RTCDataChannelEvent)=>this.glagol.pcHandlerDataChannel(event))
         this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) => this.glagol.pcHandlerIceCandidate(event);
         this.webRtc.ontrack = (event: RTCTrackEvent) => this.glagol.pcHandlerOnTrack(event);
-        // const xmppHandlerMessage = this.xmppHandlerMessage.bind(this) as (stanza:Element)=>boolean;
-        // const xmppHandlerPresence = this.xmppHandlerPresence.bind(this) as (stanza:Element)=>boolean;
-        // const xmppHandlerIqTypeResult = this.xmppHandlerIqTypeResult.bind(this) as (stanza:Element)=>boolean;
-        // this.strophe.addHandler(xmppHandlerMessage, null, 'message');
-        // this.strophe.addHandler(xmppHandlerPresence, null, 'presence');
-        // this.strophe.addHandler(xmppHandlerIqTypeResult, null, 'iq', 'result');
     }
 
     createGlagol() {

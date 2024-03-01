@@ -1,14 +1,14 @@
 import { getRandomText } from '../plugins/getRandomText';
 import { sharing } from '../plugins/sharing';
 import { IMyTrack } from './types';
-import { channel } from "../plugins/channel";
+import { Channel } from "../plugins/channel";
 import { saveChat } from "../../../src/features/chats/saveChat";
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[]
 };
 
-
+const channel= new Channel()
 class Glagol {
   private xmpp: any;
   private webRtc: RTCPeerConnection;
@@ -118,14 +118,10 @@ class Glagol {
   }
 
   pcHandlerDataChannel(event: RTCDataChannelEvent) {
-    createListeners(event.channel);
-    channel.init(event.channel);
-
-    function createListeners(chanelInstance: RTCDataChannel) {
-      chanelInstance.onmessage = (message) => {
-        channel.putChunks(message);
-      };
+    event.channel.onmessage = (message) => {
+      channel.putChunks(message);
     }
+    channel.init(event.channel);
   }
 
   xmppHandlerMessage = (stanza: Element) => {
@@ -378,9 +374,9 @@ class Glagol {
     }
 
   }) {
-    channel.createFileDescription(props.params);
-    channel.send(JSON.stringify(props.params));
-    channel.setCurrentFile(props.event.target.files[0]);
+    // channel.createFileDescription(props.params);
+    channel.sendParams(JSON.stringify(props.params));
+    channel.sendBodyFile(props.event.target.files[0]);
   }
 
   saveFile(files: any, fileForRemove: string) {
@@ -399,7 +395,7 @@ class Glagol {
       timestamp: JSON.parse(atob(files[0].text)).timestamp
     };
     this.sendMessage(message);
-    channel.createFileDescription(params)
+    // channel.createFileDescription(params)
     this.emit('removeFile', fileForRemove)
   }
 
