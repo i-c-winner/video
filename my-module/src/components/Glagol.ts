@@ -374,8 +374,7 @@ class Glagol {
     }
 
   }) {
-    // channel.createFileDescription(props.params);
-    channel.sendParams(JSON.stringify(props.params));
+    channel.sendData(JSON.stringify(props.params));
     channel.sendBodyFile(props.event.target.files[0]);
   }
 
