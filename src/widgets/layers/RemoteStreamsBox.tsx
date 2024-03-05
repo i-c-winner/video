@@ -26,9 +26,8 @@ function RemoteStreamsBox(props: {streams: MediaStream[]}) {
   const {glagolVC}= app
 const [stream, setStream]= useState<MediaStream>(new MediaStream())
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
-  const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
-  // const { remoteStreams } = useSelector((state: IStore) => state.source);
+
 
 
   function roomOn(stream: [MediaStream]) {

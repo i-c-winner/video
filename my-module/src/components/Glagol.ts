@@ -2,7 +2,8 @@ import { getRandomText } from '../plugins/getRandomText';
 import { sharing } from '../plugins/sharing';
 import { IMyTrack } from './types';
 import { Channel } from "../plugins/channel";
-import { saveChat } from "../../../src/features/chats/saveChat";
+import {constants} from "../../../src/shared/config";
+import * as trace_events from "trace_events";
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[]
@@ -135,7 +136,7 @@ class Glagol {
       }
       case 'invitation_reply':
         navigator.mediaDevices.getUserMedia({
-          video: true,
+          video: constants.videoQuantity.low,
           audio: true
         }).then((stream) => {
           stream.getTracks().forEach((track) => {
@@ -378,6 +379,7 @@ class Glagol {
     channel.sendBodyFile(props.event.target.files[0]);
   }
 
+
   saveFile(files: any, fileForRemove: string) {
     const message = new Strophe.Builder('message', {
       to: `${this.roomName}@conference.prosolen.net/focus`,
@@ -398,6 +400,18 @@ class Glagol {
     this.emit('removeFile', fileForRemove)
   }
 
+  changeVideo(qty: 'height' | 'middle' | 'low') {
+    const contraints= constants.videoQuantity[qty]
+    this.webRtc.getSenders().forEach((sender)=>{
+      if (sender.track?.kind==='video') {
+        sender.track.applyConstraints(contraints).then(()=>{
+          console.info('Qty was be change')
+        }).catch((error)=>{
+          console.error('Change qty have error: ', error)
+        })
+      }
+    })
+  }
   sendChatMessage(text: string) {
     const message = new Strophe.Builder('message', {
       from: `${this.userNode}@prosolen.net/${this.userNode}`,
