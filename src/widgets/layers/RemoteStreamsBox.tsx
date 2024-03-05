@@ -28,7 +28,7 @@ const [stream, setStream]= useState<MediaStream>(new MediaStream())
   const { video, audio } = useSelector((state: IStore) => state.interface.conference.quality);
   const refVideo = useRef<HTMLVideoElement>(null);
   const { tileMode } = useSelector((state: IStore) => state.interface);
-  const { remoteStreams } = useSelector((state: IStore) => state.source);
+  // const { remoteStreams } = useSelector((state: IStore) => state.source);
 
 
   function roomOn(stream: [MediaStream]) {
@@ -127,7 +127,7 @@ const [stream, setStream]= useState<MediaStream>(new MediaStream())
 
             </Box>
           </Box>
-          <Typography variant="myText" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>
+          {/*<Typography variant="myText" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>*/}
           <Box
             sx={
               {
