@@ -1,4 +1,5 @@
 import { getRandomText } from '../../../features/plugins/getRandomText';
+
 interface IApp {
   userNode: string
   roomName: string,

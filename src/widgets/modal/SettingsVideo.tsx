@@ -84,10 +84,7 @@ function a11yProps(index: number) {
 // }
 
 const SettingsVideo = React.forwardRef((props, ref) => {
-  const { t } = useTranslation();
-  const [ audio ] = useState(useSelector((state: IStore) => state.interface.conference.quality.audio));
-  const [ video ] = useState(useSelector((state: IStore) => state.interface.conference.quality.video));
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
   const [ value, setValue ] = React.useState(0);
 
   function getvideo() {
@@ -100,7 +97,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           }}
           // onChange={changeQty.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={video}
+
           name="radio-buttons-group"
         >
           <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
@@ -122,7 +119,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           }}
           // onChange={toggleAudio.bind({ dispatch })}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={audio}
+          // defaultValue={audio}
           name="radio-buttons-group"
         >
           <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.enabled')}</Typography>}/>

@@ -16,6 +16,7 @@ interface IOptions {
     microphoneIsWorking: boolean
   }
 }
+type TQuantity= 'height'| 'middle'| 'low'
 
 interface IMyTrack extends MediaStreamTrack {
   iSharingScreen?: boolean
@@ -23,4 +24,4 @@ interface IMyTrack extends MediaStreamTrack {
 interface IMySender extends RTCRtpSender {
   track: IMyTrack
 }
-export type {IOptions, IMyTrack, IMySender}
+export type {IOptions, IMyTrack, IMySender, TQuantity}

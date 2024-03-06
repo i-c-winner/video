@@ -20,7 +20,7 @@ class Glagol {
   private displayName: string;
   private handlers: IHandlers
   private parametersToCreate: {
-    videoQuality: MediaTrackConstraints | boolean,
+    videoQuality: MediaTrackConstraints,
     cameraIsWorking: boolean,
     microphoneIsWorking: boolean
   }
