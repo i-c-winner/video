@@ -2,6 +2,8 @@ import { getRandomText } from '../plugins/getRandomText';
 import { sharing } from '../plugins/sharing';
 import { IMyTrack } from './types';
 import { Channel } from "../plugins/channel";
+import { GlagolManager } from "./GlagolManager";
+
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[]
@@ -17,11 +19,12 @@ class Glagol {
   private roomName: string;
   private displayName: string;
   private handlers: IHandlers
-  private params: {
+  private parametersToCreate: {
     videoQuality: MediaTrackConstraints | boolean,
     cameraIsWorking: boolean,
     microphoneIsWorking: boolean
   }
+  private glagolManager: GlagolManager;
 
   constructor(props: {
     xmpp: any,
@@ -31,7 +34,7 @@ class Glagol {
     displayName: string,
     handlers: IHandlers,
     params: {
-      videoQuality: MediaTrackConstraints | boolean,
+      videoQuality: MediaTrackConstraints,
       cameraIsWorking: boolean,
       microphoneIsWorking: boolean
     }
@@ -43,7 +46,8 @@ class Glagol {
     this.displayName = props.displayName
     this.handlers = props.handlers
     this.candidates = []
-    this.params = props.params
+    this.parametersToCreate = props.params
+    this.glagolManager=new GlagolManager(this.webRtc, this.xmpp, props.params)
   }
 
   addHandlers() {
@@ -145,16 +149,16 @@ class Glagol {
       }
       case 'invitation_reply':
         navigator.mediaDevices.getUserMedia({
-          video: this.params.videoQuality,
+          video: this.parametersToCreate.videoQuality,
           audio: true
         }).then((stream) => {
           stream.getTracks().forEach((track) => {
             this.webRtc.addTrack(track);
             if (track.kind==='video') {
-              track.enabled=this.params.cameraIsWorking
+              track.enabled=this.parametersToCreate.cameraIsWorking
             }
             if (track.kind==='audio') {
-              track.enabled=this.params.microphoneIsWorking
+              track.enabled=this.parametersToCreate.microphoneIsWorking
             }
           });
           this.connectdWasChanged(jimbleText);
@@ -433,41 +437,6 @@ class Glagol {
       this.handlers[name] = []
     }
     this.handlers[name].push(handler)
-  }
-
-  setParams(type: 'videoQuality' | 'cameraIsWorking' | 'microphoneIsWorking', value: MediaTrackConstraints | boolean) {
-    switch (type) {
-      case 'videoQuality':
-        this.params.videoQuality = value
-        break
-      case 'cameraIsWorking':
-        if (typeof value === 'boolean') {
-          this.params.cameraIsWorking = value
-          this.webRtc.getSenders().forEach((sender) => {
-            if (sender.track !== null) {
-              if (sender.track.kind === 'video') {
-                sender.track.enabled = value
-              }
-            }
-          })
-        } else {
-          console.error('Error type value for state camera')
-        }
-        break
-      case 'microphoneIsWorking' :
-        if (typeof value === 'boolean') {
-          this.params.microphoneIsWorking = value
-        } else {
-          console.error('Error type value for state microphone')
-        }
-        break
-      default:
-        console.error('Error type value for parameters')
-    }
-  }
-
-  getParams() {
-    return this.params
   }
 
   emit = (name: string, ...args: any[]) => {

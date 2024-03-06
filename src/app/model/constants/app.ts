@@ -6,7 +6,7 @@ interface IApp {
   glagolVC: any,
   appCreated: boolean,
  params : {
-    videoQuality: MediaTrackConstraints|boolean,
+    videoQuality: MediaTrackConstraints,
     cameraIsWorking: boolean,
     microphoneIsWorking: boolean
   }

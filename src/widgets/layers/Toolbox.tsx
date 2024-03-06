@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IInterface, IStore } from '../../app/types';
 import { useEffect, useState } from 'react';
 import { Recording } from '../../features/manager/record';
-import { config } from '../../shared/config';
 import { MicOff } from '@mui/icons-material';
 import { VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 import { app } from '../../app/model/constants/app';
@@ -36,8 +35,8 @@ function Toolbox() {
     const [iSharing, setISharing] = useState<boolean>(false)
     const {chatsBoxVisible, tileMode, isRecording, modalIsOpen} = useSelector((state: IStore) => state.interface);
     const {audio, video} = useSelector((state: IStore) => state.interface.conference.quality);
-    const [cameraIsWorking, setCameraIsWorking]= useState(app.glagolVC.getParams().cameraIsWorking)
-    const [microphoneIsWorking, setMicrophoneIsWorking] = useState(app.glagolVC.getParams().microphoneIsWorking)
+    const [cameraIsWorking, setCameraIsWorking]= useState<boolean>(app.glagolVC.glagolManager.getStateCamera())
+    const [microphoneIsWorking, setMicrophoneIsWorking] =useState<boolean>(false)
     const dispatch = useDispatch();
     const [colorText, setColorText] = useState<'grey' | 'black'>('grey');
     const theme = useTheme();
@@ -66,17 +65,17 @@ function Toolbox() {
     }
 
     function toggledCamera() {
-        const {cameraIsWorking}=app.glagolVC.getParams()
+        const {cameraIsWorking}=app.glagolVC.glagolManager.getStateCamera()
         setCameraIsWorking(!cameraIsWorking)
-        app.glagolVC.setParams('cameraIsWorking', !cameraIsWorking)
+        // app.glagolVC.setParams('cameraIsWorking', !cameraIsWorking)
 
     }
 
-    function toggledMicrophone() {
-        const {microphoneIsWorking}=app.glagolVC.getParams()
-        setMicrophoneIsWorking(!microphoneIsWorking)
-        app.glagolVC.setParams('microphoneIsWorking', !microphoneIsWorking)
-    }
+    // function toggledMicrophone() {
+    //     const {microphoneIsWorking}=app.glagolVC.getParams()
+    //     setMicrophoneIsWorking(!microphoneIsWorking)
+    //     app.glagolVC.setParams('microphoneIsWorking', !microphoneIsWorking)
+    // }
 
     function fileDownload (args: [string, string]) {
         dispatch(addFile({
@@ -161,7 +160,7 @@ function Toolbox() {
             <ButtonWrapper
                 text={ 'mic' }
                 toggled={microphoneIsWorking}
-                action={ toggledMicrophone }>
+                action={ ()=>{}}>
                 {microphoneIsWorking ? <MicrophoneIcon
                     color={ colorText }
                 /> : <Box sx={ {color: 'white'} }><MicOff/></Box> }

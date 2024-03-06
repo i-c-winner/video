@@ -30,7 +30,7 @@ class CreaterGlagol {
   private strophe: Strophe.Connection;
   private webRtc: RTCPeerConnection;
   private params: {
-    videoQuality: MediaTrackConstraints | boolean;
+    videoQuality: MediaTrackConstraints;
     cameraIsWorking: boolean;
     microphoneIsWorking: boolean
   };
