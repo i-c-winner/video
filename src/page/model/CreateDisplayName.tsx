@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useEffect } from 'react';
+import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Box, Button, Input, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useTranslation } from 'react-i18next';
@@ -18,21 +18,16 @@ function CreateDisplayName() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const {t, i18n} = useTranslation();
-
+    const [cameraIsWorking, setcameraIsWorking]=useState<boolean>(true)
+    const [microphoneIsWorking, setMicrophoneIsWorking]= useState<boolean>(true)
     const actions = {
         videoChange: () => {
-            if (video !== 'disabled') {
-                dispatch(changeVideo('disabled'));
-            } else {
-                dispatch(changeVideo(config.conference.quality.video));
-            }
+            app.params.cameraIsWorking=!app.params.cameraIsWorking
+            setcameraIsWorking(!cameraIsWorking)
         },
         audioChange: () => {
-            if (audio !== 'disabled') {
-                dispatch(changeAudio('disabled'));
-            } else {
-                dispatch(changeAudio('enabled'));
-            }
+            app.params.microphoneIsWorking=!app.params.microphoneIsWorking
+            setMicrophoneIsWorking(!microphoneIsWorking)
         }
     };
 
@@ -52,10 +47,10 @@ function CreateDisplayName() {
             display: 'flex', justifyContent: 'center',
             marginTop: '10px',
         } }>
-            <ButtonWrapper action={ actions.videoChange }>{ video !== 'disabled' ? <VideoCameraIcon/> :
+            <ButtonWrapper action={ actions.videoChange }>{ cameraIsWorking? <VideoCameraIcon/> :
                 <VideoCameraSlashIcon color="red"/> }
             </ButtonWrapper>
-            <ButtonWrapper action={ actions.audioChange }>{ audio !== 'disabled' ? <MicrophoneIcon/> :
+            <ButtonWrapper action={ actions.audioChange }>{ microphoneIsWorking ? <MicrophoneIcon/> :
                 <Box sx={ {color: 'red'} }><MicOff/></Box> }
             </ButtonWrapper>
         </Box>

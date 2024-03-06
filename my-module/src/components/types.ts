@@ -9,6 +9,11 @@ interface IOptions {
       username?: string,
       credential?: string
     }[]
+  },
+  params: {
+    videoQuality: MediaTrackConstraints|boolean,
+    cameraIsWorking: boolean,
+    microphoneIsWorking: boolean
   }
 }
 

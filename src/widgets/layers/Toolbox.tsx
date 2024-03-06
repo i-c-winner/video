@@ -36,6 +36,8 @@ function Toolbox() {
     const [iSharing, setISharing] = useState<boolean>(false)
     const {chatsBoxVisible, tileMode, isRecording, modalIsOpen} = useSelector((state: IStore) => state.interface);
     const {audio, video} = useSelector((state: IStore) => state.interface.conference.quality);
+    const [cameraIsWorking, setCameraIsWorking]= useState(app.glagolVC.getParams().cameraIsWorking)
+    const [microphoneIsWorking, setMicrophoneIsWorking] = useState(app.glagolVC.getParams().microphoneIsWorking)
     const dispatch = useDispatch();
     const [colorText, setColorText] = useState<'grey' | 'black'>('grey');
     const theme = useTheme();
@@ -64,19 +66,16 @@ function Toolbox() {
     }
 
     function toggledCamera() {
-        if (video !== 'disabled') {
-            dispatch(changeVideo('disabled'));
-        } else {
-            dispatch(changeVideo(config.conference.quality.video));
-        }
+        const {cameraIsWorking}=app.glagolVC.getParams()
+        setCameraIsWorking(!cameraIsWorking)
+        app.glagolVC.setParams('cameraIsWorking', !cameraIsWorking)
+
     }
 
     function toggledMicrophone() {
-        if (audio === 'enabled') {
-            dispatch(changeAudio('disabled'));
-        } else {
-            dispatch(changeAudio('enabled'));
-        }
+        const {microphoneIsWorking}=app.glagolVC.getParams()
+        setMicrophoneIsWorking(!microphoneIsWorking)
+        app.glagolVC.setParams('microphoneIsWorking', !microphoneIsWorking)
     }
 
     function fileDownload (args: [string, string]) {
@@ -161,15 +160,17 @@ function Toolbox() {
             </ButtonWrapper>
             <ButtonWrapper
                 text={ 'mic' }
+                toggled={microphoneIsWorking}
                 action={ toggledMicrophone }>
-                { audio !== 'disabled' ? <MicrophoneIcon
+                {microphoneIsWorking ? <MicrophoneIcon
                     color={ colorText }
                 /> : <Box sx={ {color: 'white'} }><MicOff/></Box> }
             </ButtonWrapper>
             <ButtonWrapper
                 text={ 'camera' }
+                toggled={cameraIsWorking}
                 action={ toggledCamera }>
-                { video !== 'disabled' ? <VideoCameraIcon
+                { cameraIsWorking ? <VideoCameraIcon
                     color={ colorText }
                 /> : <VideoCameraSlashIcon color="white"/> }
             </ButtonWrapper>
