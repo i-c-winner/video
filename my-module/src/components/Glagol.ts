@@ -76,8 +76,6 @@ class Glagol {
           console.info('Соединение XMPP установленно');
           this.glagolManager = new GlagolManager(this.webRtc, this.xmpp)
           resolve(true)
-
-
         } else {
           // Do other stuff
         }
