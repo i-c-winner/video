@@ -2,8 +2,6 @@ import React, { BaseSyntheticEvent, useState } from 'react';
 import { Box, Button, Input, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useTranslation } from 'react-i18next';
-import { IStore } from '../../app/types';
-import { useDispatch, useSelector } from 'react-redux';
 import { getInputStyles } from '../../features/styles/getInputStyles';
 import { MicrophoneIcon, VideoCameraIcon, VideoCameraSlashIcon } from '@heroicons/react/24/outline';
 import { MicOff } from '@mui/icons-material';
@@ -11,9 +9,7 @@ import { app } from '../../app/model/constants/app';
 import { useNavigate } from 'react-router-dom';
 
 function CreateDisplayName() {
-  const {audio, video} = useSelector((state: IStore) => state.interface.conference.quality)
   const navigate = useNavigate()
-  const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const [cameraIsWorking, setcameraIsWorking] = useState<boolean>(true)
   const [microphoneIsWorking, setMicrophoneIsWorking] = useState<boolean>(true)
@@ -22,10 +18,10 @@ function CreateDisplayName() {
       app.startingParameters.cameraIsWorking = !app.startingParameters.cameraIsWorking
       setcameraIsWorking(!cameraIsWorking)
     },
-    // audioChange: () => {
-    //     app.params.microphoneIsWorking=!app.params.microphoneIsWorking
-    //     setMicrophoneIsWorking(!microphoneIsWorking)
-    // }
+    audioChange: () => {
+        app.startingParameters.microphoneIsWorking=!app.startingParameters.microphoneIsWorking
+        setMicrophoneIsWorking(!microphoneIsWorking)
+    }
   };
 
   function action(event: BaseSyntheticEvent) {
@@ -56,12 +52,13 @@ function CreateDisplayName() {
            }>{cameraIsWorking ? <VideoCameraIcon color={'green'}/> :
         <VideoCameraSlashIcon color="red"/>}
       </Box>
-      <Box sx={
+      <Box onClick={actions.audioChange}
+           sx={
         {
           width: '25px',
           height: '25px'
         }
-      }>{microphoneIsWorking ? <MicrophoneIcon/> :
+      }>{microphoneIsWorking ? <MicrophoneIcon color={'green'}/> :
         <Box sx={{color: 'red'}}><MicOff/></Box>}
       </Box>
     </Box>
