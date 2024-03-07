@@ -10,11 +10,6 @@ interface IOptions {
       credential?: string
     }[]
   },
-  params: {
-    videoQuality: MediaTrackConstraints,
-    cameraIsWorking: boolean,
-    microphoneIsWorking: boolean
-  }
 }
 type TQuantity= 'height'| 'middle'| 'low'
 

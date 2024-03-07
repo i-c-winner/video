@@ -51,7 +51,6 @@ function App() {
             navigate('/creatername')
         } else {
             const createrGlagol = new Glagol({
-                params: app.params,
                 roomName: app.roomName,
                 displayName: app.displayName,
                 xmppUrl: 'https://xmpp.prosolen.net:5281/http-bind',
@@ -85,6 +84,7 @@ function App() {
             createrGlagol.register()
             app.glagolVC = createrGlagol.getGlagol()
         }
+
     }, [])
 
     return <ThemeContext.Provider value={ colorMode }>

@@ -23,17 +23,15 @@ class GlagolManager {
   private xmpp: any;
   private cameraIsWorking: boolean
   private currentCameraQuantity: TQuantity
+  private microponeIsWorking: boolean;
 
   constructor(webRtc: RTCPeerConnection,
     xmpp: any,
-    params: {
-      videoQuality: MediaTrackConstraints,
-      cameraIsWorking: boolean,
-      microphoneIsWorking: boolean
-    }) {
+) {
     this.webRtc = webRtc
     this.xmpp = xmpp
-    this.cameraIsWorking = params.cameraIsWorking
+    this.cameraIsWorking = true
+      this.microponeIsWorking=true
     this.currentCameraQuantity = 'low'
   }
 
@@ -47,7 +45,7 @@ class GlagolManager {
     })
   }
 
-  switchOffCamerf() {
+  switchOffCamera() {
     this.webRtc.getSenders().forEach((sender) => {
       if (sender.track !== null)
         if (sender.track.kind === 'video') {
@@ -55,8 +53,16 @@ class GlagolManager {
         }
     })
   }
+  switchOffMic() {
+    this.webRtc.getSenders().forEach((sender) => {
+      if (sender.track !== null)
+        if (sender.track.kind === 'audio') {
+          sender.track.enabled = false
+        }
+    })
+  }
 
-  appleConstaraints(params: TQuantity) {
+  applyConstraints(params: TQuantity) {
     this.webRtc.getSenders().forEach((sender) => {
       if (sender.track !== null)
         if (sender.track.kind === 'video') {

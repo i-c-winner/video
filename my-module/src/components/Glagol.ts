@@ -19,12 +19,8 @@ class Glagol {
   private roomName: string;
   private displayName: string;
   private handlers: IHandlers
-  private parametersToCreate: {
-    videoQuality: MediaTrackConstraints,
-    cameraIsWorking: boolean,
-    microphoneIsWorking: boolean
-  }
-  private glagolManager: GlagolManager;
+
+  private glagolManager: GlagolManager | null;
 
   constructor(props: {
     xmpp: any,
@@ -33,11 +29,6 @@ class Glagol {
     roomName: string,
     displayName: string,
     handlers: IHandlers,
-    params: {
-      videoQuality: MediaTrackConstraints,
-      cameraIsWorking: boolean,
-      microphoneIsWorking: boolean
-    }
   }) {
     this.xmpp = props.xmpp;
     this.webRtc = props.webRtc;
@@ -46,8 +37,7 @@ class Glagol {
     this.displayName = props.displayName
     this.handlers = props.handlers
     this.candidates = []
-    this.parametersToCreate = props.params
-    this.glagolManager=new GlagolManager(this.webRtc, this.xmpp, props.params)
+    this.glagolManager = null
   }
 
   addHandlers() {
@@ -84,7 +74,10 @@ class Glagol {
           console.info('The Server does not support In-Band Registration');
         } else if (status === Strophe.Status.CONNECTED) {
           console.info('Соединение XMPP установленно');
+          this.glagolManager = new GlagolManager(this.webRtc, this.xmpp)
           resolve(true)
+
+
         } else {
           // Do other stuff
         }
@@ -149,17 +142,15 @@ class Glagol {
       }
       case 'invitation_reply':
         navigator.mediaDevices.getUserMedia({
-          video: this.parametersToCreate.videoQuality,
+          video: {
+            width: 320,
+            height: 240,
+            frameRate: 30
+          },
           audio: true
         }).then((stream) => {
           stream.getTracks().forEach((track) => {
             this.webRtc.addTrack(track);
-            if (track.kind==='video') {
-              track.enabled=this.parametersToCreate.cameraIsWorking
-            }
-            if (track.kind==='audio') {
-              track.enabled=this.parametersToCreate.microphoneIsWorking
-            }
           });
           this.connectdWasChanged(jimbleText);
           this.emit('roomOn', stream)

@@ -29,12 +29,6 @@ class CreaterGlagol {
   private displayName: string;
   private strophe: Strophe.Connection;
   private webRtc: RTCPeerConnection;
-  private params: {
-    videoQuality: MediaTrackConstraints;
-    cameraIsWorking: boolean;
-    microphoneIsWorking: boolean
-  };
-
 
   constructor(props: IOptions) {
     this.emit = (name: string, ...args: any[]) => {
@@ -55,7 +49,6 @@ class CreaterGlagol {
     this.webRtc.ondatachannel = ((event: RTCDataChannelEvent) => this.glagol.pcHandlerDataChannel(event))
     this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) => this.glagol.pcHandlerIceCandidate(event);
     this.webRtc.ontrack = (event: RTCTrackEvent) => this.glagol.pcHandlerOnTrack(event);
-    this.params = props.params
   }
 
   createGlagol() {
@@ -66,7 +59,6 @@ class CreaterGlagol {
       roomName: this.roomName,
       displayName: this.displayName,
       handlers: CreaterGlagol.handlers,
-      params: this.params
     });
     this.glagol.addHandlers()
   }

@@ -6,15 +6,17 @@ interface IApp {
   displayName: string,
   glagolVC: any,
   appCreated: boolean,
- params : {
-    videoQuality: MediaTrackConstraints,
+  startingParameters: {
+    quantity: MediaTrackConstraints,
     cameraIsWorking: boolean,
     microphoneIsWorking: boolean
   }
+
 }
+
 const app: IApp = {
-  params:{
-    videoQuality: {
+  startingParameters: {
+    quantity: {
       width: 320,
       height: 240,
       frameRate: 30
@@ -28,4 +30,4 @@ const app: IApp = {
   glagolVC: null,
   appCreated: false
 }
-export {app}
+export { app }

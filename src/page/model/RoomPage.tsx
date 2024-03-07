@@ -5,6 +5,7 @@ import { TopPanel } from '../../widgets/layers/TopPanel';
 import { LocalStream } from '../../widgets/layers/Localstream';
 import { Toolbox } from '../../widgets/layers/Toolbox';
 import { ChatsBox } from '../../widgets/layers/ChatsBox';
+import {app} from "../../app/model/constants/app";
 
 function RoomPage() {
     return <Box

@@ -30,6 +30,13 @@ function LocalStream() {
     function roomOn(mediaStream: [MediaStream]) {
         setStream(mediaStream[0])
         setOn(true)
+        const {microphoneIsWorking, cameraIsWorking}= app.startingParameters
+        if (!microphoneIsWorking) {
+            app.glagolVC.glagolManager.switchOffMic()
+        }
+        if (!cameraIsWorking) {
+            app.glagolVC.glagolManager.switchOffCamera()
+        }
     }
     function sendSharing(mediaStream: [MediaStream]) {
         if (refVideo.current) refVideo.current.srcObject=mediaStream[0]
