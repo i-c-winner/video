@@ -22,8 +22,8 @@ class GlagolManager {
   private webRtc: RTCPeerConnection
   private xmpp: any;
   private cameraIsWorking: boolean
-  private currentCameraQuantity: TQuantity
-  private microponeIsWorking: boolean;
+  public currentCameraQuantity: TQuantity
+  private microphoneIsWorking: boolean;
   private handlers: {
     [key: string]: ((...args: any[]) => void)[]
   }
@@ -34,9 +34,9 @@ class GlagolManager {
     this.webRtc = webRtc
     this.xmpp = xmpp
     this.cameraIsWorking = true
-    this.microponeIsWorking = true
+    this.microphoneIsWorking = true
     this.currentCameraQuantity = 'low'
-    this.handlers={}
+    this.handlers = {}
   }
 
 
@@ -47,7 +47,7 @@ class GlagolManager {
           sender.track.enabled = true
         }
     })
-    this.cameraIsWorking=true
+    this.cameraIsWorking = true
     this.emit('cameraSwitchOn')
   }
 
@@ -58,7 +58,7 @@ class GlagolManager {
           sender.track.enabled = false
         }
     })
-    this.cameraIsWorking=false
+    this.cameraIsWorking = false
     this.emit('cameraSwitchOff')
   }
 
@@ -69,9 +69,10 @@ class GlagolManager {
           sender.track.enabled = false
         }
     })
-    this.microponeIsWorking=false
+    this.microphoneIsWorking = false
     this.emit('microphoneSwitchOff')
   }
+
   switchOnMic() {
     this.webRtc.getSenders().forEach((sender) => {
       if (sender.track !== null)
@@ -79,25 +80,13 @@ class GlagolManager {
           sender.track.enabled = true
         }
     })
-    this.microponeIsWorking=true
+    this.microphoneIsWorking = true
     this.emit('microphoneSwitchOn')
   }
 
   applyConstraints(params: TQuantity) {
-    this.webRtc.getSenders().forEach((sender) => {
-      if (sender.track !== null)
-        if (sender.track.kind === 'video') {
-          sender.track.applyConstraints(videoQuantity[this.currentCameraQuantity])
-        }
-    })
-    this.microponeIsWorking=false
-  }
-
-  getStateCamera() {
-    return this.cameraIsWorking
-  }
-  getStateMic() {
-    return this.microponeIsWorking
+    console.log(params)
+    this.currentCameraQuantity = params
   }
 
   setHandler(name: string, handler: (...args: any[]) => void) {
@@ -109,7 +98,7 @@ class GlagolManager {
 
   emit = (name: string, ...args: any[]) => {
     try {
-      this.handlers[name].forEach((handler: (...args: any[])=>void) => {
+      this.handlers[name].forEach((handler: (...args: any[]) => void) => {
         handler(args);
       });
     } catch (e) {
