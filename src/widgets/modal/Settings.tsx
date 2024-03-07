@@ -110,7 +110,8 @@ const Settings = React.forwardRef((props, ref) => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <Calendar />
-      </CustomTabPanel>   <CustomTabPanel value={value} index={3}>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <More/>
       </CustomTabPanel>
       <Box sx={{
