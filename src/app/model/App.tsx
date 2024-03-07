@@ -45,7 +45,6 @@ function App() {
     useEffect(() => {
         Glagol.setHandler('connectionOn', connectionOn)
         const path=window.location.pathname.split('/')[1]
-        console.log(window.location.pathname)
         if (path && !app.appCreated) {
             app.roomName=path
             navigate('/creatername')

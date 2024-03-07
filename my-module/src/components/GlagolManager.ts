@@ -85,7 +85,16 @@ class GlagolManager {
   }
 
   applyConstraints(params: TQuantity) {
-    console.log(params)
+    const constraints=videoQuantity[params]
+    this.webRtc.getSenders().forEach((sender)=>{
+      if (sender.track!==null)
+      if (sender.track.kind==='video') {
+        if (sender.track!==null)
+        sender.track.applyConstraints(constraints).then(()=>{
+        })
+      }
+    })
+
     this.currentCameraQuantity = params
   }
 

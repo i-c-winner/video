@@ -57,7 +57,7 @@ function Toolbox() {
   }
 
   function toggledCamera() {
-    const cameraIsWorking = app.glagolVC.glagolManager.getStateCamera()
+    const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
     if (cameraIsWorking) {
       app.glagolVC.glagolManager.switchOffCamera()
     } else {
@@ -105,7 +105,7 @@ function Toolbox() {
     setMicrophoneIsWorking(true)
   }
 function changeCameraAndMic() {
-  const cameraIsWorking = app.glagolVC.glagolManager.getStateCamera()
+  const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
   const microphoneIsWorking=app.glagolVC.glagolManager.microphoneIsWorking
   if (!cameraIsWorking) cameraSwitchOff()
   if (!microphoneIsWorking) microphoneSwitchOff()

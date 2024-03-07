@@ -71,12 +71,7 @@ function a11yProps(index: number) {
 }
 
 
-//
-// function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-//   const value: keyof IAudioQty = event.target.value;
-//   glagol.applyConstraints({ type: 'audio', value });
-//   this.dispatch(changeAudio(value));
-// }
+
 
 const SettingsVideo = React.forwardRef((props, ref) => {
   const {t} = useTranslation()
@@ -94,6 +89,15 @@ const SettingsVideo = React.forwardRef((props, ref) => {
     dispatch(openModal(false))
   }
 
+function toggleAudio( event: BaseSyntheticEvent) {
+  const value: keyof IAudioQty = event.target.value;
+  if (value) {
+    app.glagolVC.glagolManager.switchOffMic()
+  } else {
+    app.glagolVC.glagolManager.switchOnMic()
+  }
+  dispatch(openModal(false));
+}
   function getvideo() {
     function getDefault() {
       const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
@@ -144,7 +148,7 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          // onChange={toggleAudio.bind({ dispatch })}
+          onChange={toggleAudio}
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={getDefault()}
           name="radio-buttons-group"

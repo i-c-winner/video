@@ -22,7 +22,6 @@ function LocalStream() {
     function removeTrack(mediaStreams: [MediaStream]) {
         setRemoteStreams(prevRemoteStream=>{
             return prevRemoteStream.filter((element)=>{
-                console.log(element, mediaStreams[0])
                 return element!==mediaStreams[0]
             })
         })

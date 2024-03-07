@@ -209,8 +209,6 @@ class Glagol {
         if (this.webRtc.signalingState !== 'have-local-offer') {
           this.connectdWasChanged(jimbleText);
           const stream = new MediaStream()
-
-          console.log(this.webRtc.getTransceivers())
           this.webRtc.getSenders().forEach((sender: RTCRtpSender) => {
             if (sender.track !== null) {
               stream.addTrack(sender.track)

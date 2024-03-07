@@ -24,7 +24,6 @@ class Channel {
     this._fileReader.onload = () => {
 
       setTimeout(() => {
-        console.log(this._instance?.bufferedAmount)
         this.sendData(this._fileReader.result)
         this.sliceFile()
       }, this.TIMEOUTSIZE)
