@@ -71,8 +71,6 @@ function a11yProps(index: number) {
 }
 
 
-
-
 const SettingsVideo = React.forwardRef((props, ref) => {
   const {t} = useTranslation()
   const [value, setValue] = React.useState(0);
@@ -89,15 +87,16 @@ const SettingsVideo = React.forwardRef((props, ref) => {
     dispatch(openModal(false))
   }
 
-function toggleAudio( event: BaseSyntheticEvent) {
-  const value: keyof IAudioQty = event.target.value;
-  if (value) {
-    app.glagolVC.glagolManager.switchOffMic()
-  } else {
-    app.glagolVC.glagolManager.switchOnMic()
+  function toggleAudio(event: BaseSyntheticEvent) {
+    const value: keyof IAudioQty = event.target.value;
+    if (value) {
+      app.glagolVC.glagolManager.switchOffMic()
+    } else {
+      app.glagolVC.glagolManager.switchOnMic()
+    }
+    dispatch(openModal(false));
   }
-  dispatch(openModal(false));
-}
+
   function getvideo() {
     function getDefault() {
       const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking

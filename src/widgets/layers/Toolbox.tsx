@@ -23,6 +23,7 @@ import { addChat } from "../../app/store/chatsSlice";
 
 let recording: Recording | null = null;
 
+
 function Toolbox() {
   const glagolVC = app.glagolVC
   const [iSharing, setISharing] = useState<boolean>(false)
@@ -104,18 +105,21 @@ function Toolbox() {
   function microphoneSwitchOn() {
     setMicrophoneIsWorking(true)
   }
-function changeCameraAndMic() {
-  const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
-  const microphoneIsWorking=app.glagolVC.glagolManager.microphoneIsWorking
-  if (!cameraIsWorking) cameraSwitchOff()
-  if (!microphoneIsWorking) microphoneSwitchOff()
-}
+
+  function changeCameraAndMic() {
+    const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
+    const microphoneIsWorking = app.glagolVC.glagolManager.microphoneIsWorking
+    if (!cameraIsWorking) cameraSwitchOff()
+    if (!microphoneIsWorking) microphoneSwitchOff()
+  }
+
   function setHandlers() {
     glagolVC.glagolManager.setHandler('cameraSwitchOff', cameraSwitchOff)
     glagolVC.glagolManager.setHandler('cameraSwitchOn', cameraSwitchOn)
     glagolVC.glagolManager.setHandler('microphoneSwitchOff', microphoneSwitchOff)
     glagolVC.glagolManager.setHandler('microphoneSwitchOn', microphoneSwitchOn)
   }
+
   useEffect(() => {
     glagolVC.setHandler('abortingSharing', abortingSharing)
     glagolVC.setHandler('fileDownload', fileDownload)
