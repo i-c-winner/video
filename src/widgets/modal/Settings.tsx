@@ -31,6 +31,7 @@ function CustomTabPanel(props: ITabPanelProps) {
           width,
           margin: '0 auto',
           height: '25vh',
+          minHeight: '250px',
           paddingTop: '15px',
           boxSizing: 'border-box'
         }}>
