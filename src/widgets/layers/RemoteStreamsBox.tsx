@@ -5,16 +5,13 @@ import { useSelector } from 'react-redux';
 import { useRef, useEffect, useState } from 'react';
 import { IStore } from '../../app/types';
 import { RemoteStreamsBoxTileMode } from '../RemoteStreamsBoxTileMode';
-import { VideoCameraSlashIcon } from '@heroicons/react/20/solid';
-import { VideoCameraIcon } from '@heroicons/react/24/solid';
-import { MicOff } from '@mui/icons-material';
-import { MicrophoneIcon } from '@heroicons/react/24/solid';
 import { ChartBarIcon } from '@heroicons/react/24/solid';
 import { BadgeAvatars } from '../../entity/model/avatar/BadgeAvatar';
 import { app } from '../../app/model/constants/app';
 import myAvatar from '../../../public/images/face2.jpeg'
 import { getRandomText } from '../../features/plugins/getRandomText';
 import { BigScreen } from '../../entity/model/BigScreen';
+import { Icons } from "../../entity/model/icons/Icons";
 
 const {remoteStreamLayer} = styles;
 const styleImageButton = {
@@ -26,8 +23,6 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
   const {glagolVC} = app
   const [stream, setStream] = useState<MediaStream>(new MediaStream())
   const {tileMode} = useSelector((state: IStore) => state.interface);
-  const [cameraIsWorking, setCameraIsWorking] = useState<boolean>(app.glagolVC.glagolManager.cameraIsWorking)
-  const [micIsWorking, setMicIsWorking] = useState<boolean>(app.glagolVC.glagolManager.microphoneIsWorking)
 
 
   function roomOn(stream: [MediaStream]) {
@@ -58,29 +53,11 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
     }
   }
 
-  function cameraSwitchOff() {
-    setCameraIsWorking(false)
-  }
-
-  function cameraSwitchOn() {
-    setCameraIsWorking(true)
-  }
-
-  function microphoneSwitchOff() {
-    setMicIsWorking(false)
-  }
-
-  function microphoneSwitchOn() {
-    setMicIsWorking(true)
-  }
 
   useEffect(() => {
     glagolVC.setHandler('roomOn', roomOn)
     glagolVC.setHandler('changeBigScreen', changeBigScreen)
-    glagolVC.glagolManager.setHandler('cameraSwitchOff', cameraSwitchOff)
-    glagolVC.glagolManager.setHandler('cameraSwitchOn', cameraSwitchOn)
-    glagolVC.glagolManager.setHandler('microphoneSwitchOff', microphoneSwitchOff)
-    glagolVC.glagolManager.setHandler('microphoneSwitchOn', microphoneSwitchOn)
+
   }, [])
 
   function getChildren() {
@@ -113,22 +90,7 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
               left: '5px',
               alignItems: 'flex-end'
             }}>
-              <Box sx={{
-                display: 'flex',
-                position: 'relative'
-              }}>
-                {cameraIsWorking ? <Box
-                    sx={styleImageButton}
-                  ><VideoCameraIcon color="white"/></Box> :
-                  <Box sx={styleImageButton}><VideoCameraSlashIcon color="red"/></Box>}
-                {micIsWorking ? <Box
-                    sx={styleImageButton}
-                  ><MicrophoneIcon color="white"/></Box> :
-                  <Box sx={{
-                    ...styleImageButton,
-                    color: 'red'
-                  }}><MicOff/></Box>}
-              </Box>
+
               <Box sx={{
                 position: 'absolute'
               }}>
@@ -137,6 +99,7 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
                 display: 'flex',
                 alignItems: 'flex-end'
               }}>
+                <Icons/>
                 <Typography sx={remoteStreamLayer.wrapper.displayName}
                             color="white">{glagolVC.displayName}</Typography>
                 <BadgeAvatars
