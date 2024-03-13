@@ -111,7 +111,7 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
 
             </Box>
           </Box>
-          {/*<Typography variant="myText" pt={4}>Количество участников: {remoteStreams.length / 2 + 1}</Typography>*/}
+          <Typography variant="myText" pt={4}>Количество участников: {props.streams.length / 2 + 1}</Typography>
           <Box
             sx={
               {
