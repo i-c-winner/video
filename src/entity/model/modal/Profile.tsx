@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react';
-import { styleButton } from '../styles/styles';
+import { styleButton } from '../../styles/styles';
 import {useTranslation} from 'react-i18next';
 
 const styleInput = {

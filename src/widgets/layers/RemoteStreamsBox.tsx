@@ -137,7 +137,8 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
                 display: 'flex',
                 alignItems: 'flex-end'
               }}>
-                <Typography sx={remoteStreamLayer.wrapper.displayName} color="white">{glagolVC.displayName}</Typography>
+                <Typography sx={remoteStreamLayer.wrapper.displayName}
+                            color="white">{glagolVC.displayName}</Typography>
                 <BadgeAvatars
                   avatar={myAvatar}
                   styles={{

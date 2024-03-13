@@ -1,6 +1,6 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import { app } from "../../app/model/constants/app";
+import { app } from "../../../app/model/constants/app";
 import { useTranslation } from 'react-i18next';
 
 const styleInput = {

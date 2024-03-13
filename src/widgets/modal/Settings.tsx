@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Box, Tabs, Tab, Button, Typography} from '@mui/material';
-import {Devices} from '../../entity/modal/Devices';
-import { Profile } from '../../entity/modal/Profile';
-import { Calendar } from '../../entity/modal/Calendar';
+import {Devices} from '../../entity/model/modal/Devices';
+import { Profile } from '../../entity/model/modal/Profile';
+import { Calendar } from '../../entity/model/modal/Calendar';
 import { More } from './More';
 
 const width = '600px';
