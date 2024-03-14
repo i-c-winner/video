@@ -1,7 +1,9 @@
-import { Autocomplete, Box, TextField } from '@mui/material';
+import { Autocomplete, AutocompleteRenderInputParams, Box, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { app } from "../../../app/model/constants/app";
 import { useTranslation } from 'react-i18next';
+import { changeDevices } from "../../../features/devices/changeDevices";
+
 
 const styleInput = {
   color: 'white',
@@ -15,6 +17,11 @@ function Devices() {
   const [audioDevices, setAudioDevices] = useState<{ label: string }[]>([]);
   const [microphoneDevices, setMicrophoneDevices] = useState<{ label: string }[]>([]);
   const refVideo = useRef<HTMLVideoElement>(null);
+
+  function changeAudio(this: AutocompleteRenderInputParams) {
+    // console.log(this)
+  }
+
   useEffect(() => {
     const stream = new MediaStream();
     app.glagolVC.webRtc.getSenders().forEach((sender: RTCRtpSender) => {
@@ -42,17 +49,40 @@ function Devices() {
           flexFlow: 'column',
           justifyContent: 'space-between'
         }}>
-        <Autocomplete sx={styleInput} renderInput={(params) => <TextField
-          classes={{
-            root: 'input_devices'
-          }}
-          {...params} label={t('modal.settings.video')}/>} options={videoDevices}/>
-        <Autocomplete sx={styleInput} renderInput={(params) => <TextField
-          classes={{
-            root: 'input_devices'
-          }}{...params} label={t('modal.settings.audio')}/>}
+        <Autocomplete sx={styleInput}
+                      onInputChange={(event, value, reason) => {
+                        console.log(value, 'selectecting Device')
+                        changeDevices.camera(value)
+                      }
+                      } renderInput={(params) => {
+
+          return <TextField
+            classes={{
+              root: 'input_devices'
+            }}
+
+            {...params} label={t('modal.settings.video')}/>
+        }} options={videoDevices}/>
+        <Autocomplete sx={styleInput}
+                      onInputChange={(event, value, reason) => {
+                        console.log(value, 'selectecting Device')
+                        changeDevices.audio(value)
+                      }
+                      }
+                      renderInput={(params) => {
+                        return <TextField
+                          classes={{
+                            root: 'input_devices'
+                          }}{...params} label={t('modal.settings.audio')}/>
+                      }}
                       options={audioDevices}/>
-        <Autocomplete sx={styleInput} renderInput={(params) => <TextField
+        <Autocomplete sx={styleInput}
+                      onInputChange={(event, value, reason) => {
+                        console.log(value, 'selectecting Device')
+                        changeDevices.mic(value)
+                      }
+                      }
+                      renderInput={(params) => <TextField
           classes={{
             root: 'input_devices'
           }}{...params} label={t('modal.settings.microphone')}/>}

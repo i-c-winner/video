@@ -29,7 +29,7 @@ class GlagolManager {
   }
 
   constructor(webRtc: RTCPeerConnection,
-    xmpp: any,
+              xmpp: any,
   ) {
     this.webRtc = webRtc
     this.xmpp = xmpp
@@ -85,14 +85,14 @@ class GlagolManager {
   }
 
   applyConstraints(params: TQuantity) {
-    const constraints=videoQuantity[params]
-    this.webRtc.getSenders().forEach((sender)=>{
-      if (sender.track!==null)
-      if (sender.track.kind==='video') {
-        if (sender.track!==null)
-        sender.track.applyConstraints(constraints).then(()=>{
-        })
-      }
+    const constraints = videoQuantity[params]
+    this.webRtc.getSenders().forEach((sender) => {
+      if (sender.track !== null)
+        if (sender.track.kind === 'video') {
+          if (sender.track !== null)
+            sender.track.applyConstraints(constraints).then(() => {
+            })
+        }
     })
 
     this.currentCameraQuantity = params
@@ -115,6 +115,29 @@ class GlagolManager {
     }
 
   };
+
+  changeDevices(deviceId: string, type: string) {
+    const constraints= {
+      video: type==='video'?{
+        deviceId
+      }:true,
+      audio: type==='audio'? {
+        deviceId
+      }: true
+    }
+    navigator.mediaDevices.getUserMedia(constraints).then((streams)=>{
+      streams.getTracks().forEach((track)=>{
+        if (track.kind===type) {
+          this.webRtc.getSenders().forEach((sender)=>{
+            if (sender.track?.id===deviceId) {
+              this.webRtc.removeTrack(sender)
+            }
+          })
+          this.webRtc.addTrack(track)
+        }
+      })
+    })
+  }
 }
 
 export { GlagolManager }
