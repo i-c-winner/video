@@ -13,9 +13,9 @@ const styleInput = {
 
 function Devices() {
   const {t} = useTranslation();
-  const [videoDevices, setVideoDevices] = useState<{ label: string }[]>([]);
-  const [audioDevices, setAudioDevices] = useState<{ label: string }[]>([]);
-  const [microphoneDevices, setMicrophoneDevices] = useState<{ label: string }[]>([]);
+  const [videoDevices, setVideoDevices] = useState<any[]>([]);
+  const [audioDevices, setAudioDevices] = useState< any[]>([]);
+  const [microphoneDevices, setMicrophoneDevices] = useState<any[]>([]);
   const refVideo = useRef<HTMLVideoElement>(null);
 
   function changeAudio(this: AutocompleteRenderInputParams) {
@@ -51,8 +51,8 @@ function Devices() {
         }}>
         <Autocomplete sx={styleInput}
                       onInputChange={(event, value, reason) => {
-                        console.log(value, 'selectecting Device')
-                        changeDevices.camera(value)
+                        const filteredDevice=videoDevices.filter((device)=>device.label===value)
+                        changeDevices.camera(filteredDevice[0].deviceId)
                       }
                       } renderInput={(params) => {
 
@@ -65,8 +65,9 @@ function Devices() {
         }} options={videoDevices}/>
         <Autocomplete sx={styleInput}
                       onInputChange={(event, value, reason) => {
-                        console.log(value, 'selectecting Device')
-                        changeDevices.audio(value)
+                        const filteredDevice=audioDevices.filter((device)=>device.label===value)
+                        console.log(filteredDevice[0])
+                        changeDevices.audio(filteredDevice[0].deviceId)
                       }
                       }
                       renderInput={(params) => {
@@ -78,8 +79,8 @@ function Devices() {
                       options={audioDevices}/>
         <Autocomplete sx={styleInput}
                       onInputChange={(event, value, reason) => {
-                        console.log(value, 'selectecting Device')
-                        changeDevices.mic(value)
+                        const filteredDevice=microphoneDevices.filter((device)=>device.label===value)
+                        changeDevices.mic(filteredDevice[0].deviceId)
                       }
                       }
                       renderInput={(params) => <TextField

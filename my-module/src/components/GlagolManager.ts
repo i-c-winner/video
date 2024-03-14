@@ -117,19 +117,19 @@ class GlagolManager {
   };
 
   changeDevices(deviceId: string, type: string) {
-    const constraints= {
-      video: type==='video'?{
+    const constraints = {
+      video: type === 'video' ? {
         deviceId
-      }:true,
-      audio: type==='audio'? {
+      } : true,
+      audio: type === 'audio' ? {
         deviceId
-      }: true
+      } : true
     }
-    navigator.mediaDevices.getUserMedia(constraints).then((streams)=>{
-      streams.getTracks().forEach((track)=>{
-        if (track.kind===type) {
-          this.webRtc.getSenders().forEach((sender)=>{
-            if (sender.track?.id===deviceId) {
+    navigator.mediaDevices.getUserMedia(constraints).then((streams) => {
+      streams.getTracks().forEach((track) => {
+        if (track.kind === type) {
+          this.webRtc.getSenders().forEach((sender) => {
+            if (sender.track?.id === deviceId) {
               this.webRtc.removeTrack(sender)
             }
           })
@@ -137,6 +137,19 @@ class GlagolManager {
         }
       })
     })
+  }
+
+  changeAudioOutput(deviceId: string) {
+    this.webRtc.getReceivers().forEach((receiver)=>{
+      if (receiver.track?.kind==='audio') {
+        receiver.track?.applyConstraints({
+          deviceId: deviceId
+        }).then(()=>{
+
+        }).catch((error)=>console.error('Error audoout', error))
+      }
+    })
+    console.log(deviceId)
   }
 }
 
