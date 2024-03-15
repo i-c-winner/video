@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BaseSyntheticEvent } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -7,15 +8,14 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { glagol } from '../../entity/conference/glagol';
+// import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from 'react-i18next';
-import { BaseSyntheticEvent, useState } from 'react';
-import { IVideoQty, IAudioQty } from '../type';
-import { useDispatch, useSelector } from 'react-redux';
-import { IStore } from '../../app/types';
-import { changeVideo, changeAudio } from '../../app/store/interfaceSlice';
+import { IAudioQty, IVideoQty } from '../type';
 import { Dispatch } from '@reduxjs/toolkit';
 import { Typography } from '@mui/material';
+import { app } from "../../app/model/constants/app";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../app/store/interfaceSlice";
 
 const width = '600px';
 
@@ -37,7 +37,7 @@ const audioQty: Readonly<IAudioQty> = {
 };
 
 function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const {children, value, index, ...other} = props;
   return (
     <div
       role="tabpanel"
@@ -70,27 +70,42 @@ function a11yProps(index: number) {
   };
 }
 
-function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IVideoQty = event.target.value;
-  glagol.applyConstraints({ type: 'video', value });
-  this.dispatch(changeVideo(value));
-
-}
-
-function toggleAudio(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
-  const value: keyof IAudioQty = event.target.value;
-  glagol.applyConstraints({ type: 'audio', value });
-  this.dispatch(changeAudio(value));
-}
 
 const SettingsVideo = React.forwardRef((props, ref) => {
-  const { t } = useTranslation();
-  const [ audio ] = useState(useSelector((state: IStore) => state.interface.conference.quality.audio));
-  const [ video ] = useState(useSelector((state: IStore) => state.interface.conference.quality.video));
-  const dispatch = useDispatch();
-  const [ value, setValue ] = React.useState(0);
+  const {t} = useTranslation()
+  const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch()
+
+  function changeQty(this: { dispatch: Dispatch }, event: BaseSyntheticEvent) {
+    const value: keyof IVideoQty = event.target.value;
+    if (value === 'disabled') {
+      app.glagolVC.glagolManager.switchOffCamera()
+    } else {
+      app.glagolVC.glagolManager.switchOnCamera()
+      app.glagolVC.glagolManager.applyConstraints(value)
+    }
+    dispatch(openModal(false))
+  }
+
+  function toggleAudio(event: BaseSyntheticEvent) {
+    const value: keyof IAudioQty = event.target.value;
+    if (value) {
+      app.glagolVC.glagolManager.switchOffMic()
+    } else {
+      app.glagolVC.glagolManager.switchOnMic()
+    }
+    dispatch(openModal(false));
+  }
 
   function getvideo() {
+    function getDefault() {
+      const cameraIsWorking = app.glagolVC.glagolManager.cameraIsWorking
+      if (!cameraIsWorking) {
+        return 'disabled'
+      }
+      return app.glagolVC.glagolManager.currentCameraQuantity
+    }
+
     return (
       <FormControl sx={{textAlign: 'center'}}>
         <FormLabel id="demo-radio-buttons-group-label">{t('modal.more.videoQty')}</FormLabel>
@@ -98,21 +113,33 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={changeQty.bind({ dispatch })}
+          onChange={changeQty}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={video}
+          defaultValue={getDefault}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={videoQty.disabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
-          <FormControlLabel value={videoQty.low} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.low')}</Typography>}/>
-          <FormControlLabel value={videoQty.middle} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.middle')}</Typography>}/>
-          <FormControlLabel value={videoQty.height} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.high')}</Typography>}/>
+          <FormControlLabel value={videoQty.disabled} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
+          <FormControlLabel value={videoQty.low} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.low')}</Typography>}/>
+          <FormControlLabel value={videoQty.middle} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.middle')}</Typography>}/>
+          <FormControlLabel value={videoQty.height} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.high')}</Typography>}/>
         </RadioGroup>
       </FormControl>
     );
   }
 
   function getAudio() {
+    function getDefault() {
+      const microphoneIsWorking = app.glagolVC.glagolManager.microphoneIsWorking
+      if (!microphoneIsWorking) {
+        return 'disabled'
+      }
+      return 'enabled'
+    }
+
     return (
       <FormControl>
         <FormLabel id="demo-radio-buttons-group-label">{t('modal.more.mute')}</FormLabel>
@@ -120,13 +147,15 @@ const SettingsVideo = React.forwardRef((props, ref) => {
           sx={{
             pointerEvents: 'initial'
           }}
-          onChange={toggleAudio.bind({ dispatch })}
+          onChange={toggleAudio}
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={audio}
+          defaultValue={getDefault()}
           name="radio-buttons-group"
         >
-          <FormControlLabel value={audioQty.enabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.enabled')}</Typography>}/>
-          <FormControlLabel value={audioQty.disabled} control={<Radio/>} label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
+          <FormControlLabel value={audioQty.enabled} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.enabled')}</Typography>}/>
+          <FormControlLabel value={audioQty.disabled} control={<Radio/>}
+                            label={<Typography variant='myText'>{t('modal.settings.disabled')}</Typography>}/>
         </RadioGroup>
       </FormControl>
     );

@@ -1,12 +1,12 @@
 import {TChat} from '../../app/types';
 
 function saveChat(chats: TChat[]){
-  let curruntId:string=''
+  let curruntId:string|undefined=''
   let result =''
   chats.forEach((chat)=>{
-    if (chat.id!==curruntId) {
+    if (chat?.id!==curruntId) {
       result=result+ '\r\n ' +' Автор: '+ chat.author
-      curruntId=chat.id
+      curruntId=chat?.id
     }
     result=result+'\r\n' + ' Сообщение: '+ '\r\n ' + chat.text + '\r\n '
   })

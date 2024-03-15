@@ -54,14 +54,14 @@ function ButtonWrapper(props: IProps) {
         }
         break;
       case 'camera':
-        if (video === 'disabled') {
+        if (!props.toggled) {
           setClasses(baseClass + ' my-button__toolbox_toggled_red');
         } else {
           setClasses(baseClass);
         }
         break;
       case 'mic':
-        if (audio === 'disabled') {
+        if (!props.toggled) {
           setClasses(baseClass + ' my-button__toolbox_toggled_red');
         } else {
           setClasses(baseClass);

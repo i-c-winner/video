@@ -3,51 +3,17 @@ import {IMyTrack, IMySender} from '../components/types';
 interface ISharing {
   start: () => void,
   stop: () => void,
-  getStream: () => Promise<MediaStream>
 }
 
 const sharing: ISharing = {
-  getStream() {
-    return navigator.mediaDevices.getDisplayMedia({
-      video: {
-        width: 1200,
-        height: 800
-      },
-      audio: false
-    })
-  },
   start: function () {
     const context: any = this
-    // navigator.mediaDevices.getDisplayMedia({
-    //     video: {
-    //         width: 1200,
-    //         height: 800
-    //     },
-    //     audio: false
-    // }).then((stream) => {
-    const message = $msg({to: `${ context.roomName }@conference.prosolen.net/focus`, type: 'chat'})
-      .c('x', {xmlns: 'http://jabber.org/protocol/muc#user'}).up()
-      .c('body').t('offer_dashboard').up()
-      .c('jimble', {xmlns: 'urn:xmpp:jimble', ready: 'true'})
-    context.sendMessage(message);
-    // })
-    //     stream.getTracks().forEach((track) => {
-    //         if (track.kind === 'video') {
-    //             // track.applyConstraints({deviceId: 'mySharingScreen'});
-    //             context.webRtc.addTrack(track);
-    //         }
-    //     });
-    //     context.emit('sendSharing', stream)
-    //     return context.webRtc.createOffer({iceRestart: false});
-    // }).then(() => {
-    //     const offer64 = btoa(JSON.stringify({offer: context.webRtc.localDescription}));
-    //     const message = $msg({to: `${ context.roomName }@conference.prosolen.net/focus`, type: 'chat'})
-    //         .c('x', {xmlns: 'http://jabber.org/protocol/muc#user'}).up()
-    //         .c('body').t('send_dashboard').up()
-    //         .c('jimble', {xmlns: 'urn:xmpp:jimble', ready: 'true'}).t(offer64);
-    //     glagol.sendMessage(message);
-    // }).catch((error: any) => console.error(`This is Error by sharing ${ error }`));
-  },
+      const message = $msg({to: `${ context.roomName }@conference.prosolen.net/focus`, type: 'chat'})
+        .c('x', {xmlns: 'http://jabber.org/protocol/muc#user'}).up()
+        .c('body').t('offer_dashboard').up()
+        .c('jimble', {xmlns: 'urn:xmpp:jimble', ready: 'true'})
+      context.sendMessage(message);
+    },
   stop: function () {
 
     const context: any = this
