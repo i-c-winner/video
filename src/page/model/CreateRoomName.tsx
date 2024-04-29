@@ -11,16 +11,27 @@ function CreateRoomName() {
     const navigate=useNavigate()
     const {t}=useTranslation()
     const refInput=useRef<HTMLElement>()
+    const textButton: any='interface.buttons.createRoomName'
     function change(event: BaseSyntheticEvent){
         app.roomName=event.target.value
     }
     function actionClick() {
         navigate(`/creatername`)
     }
+    useEffect(() =>{
+        const handleKey=(key:WindowEventMap["keydown"])=>{
+            if (key.key==="Enter") actionClick()
+        }
+        window.addEventListener('keydown', handleKey)
+        return() =>{
+            window.removeEventListener('keydown', handleKey)
+        }
+    }, [])
+
     return <Box sx={ styles.wrapper }>
         <Input placeholder="Input RoomName" onChange={ change } sx={ getInputStyles() } ref={refInput}/>
         <Button onClick={actionClick}>
-            <Typography variant='myText' >{t('interface.buttons.createRoomName')}</Typography>
+            <Typography variant='myText' >{t(textButton)}</Typography>
         </Button>
     </Box>;
 }

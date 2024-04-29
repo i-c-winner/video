@@ -11,6 +11,7 @@ import { openModal, changeTypeModal } from '../../app/store/interfaceSlice';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../app/model/App';
+import { app } from "../../app/model/constants/app";
 
 
 const sizes = {
@@ -26,11 +27,12 @@ function TopPanel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const interfaceRoom: any='interface.room'
 
   function exit() {
     glagol.peerConnection.close();
     navigate('/exit');
-  }
+  }``
 
   function changeTheme() {
     themeContext.toggleTheme();
@@ -56,11 +58,11 @@ function TopPanel() {
         color: colorText
       }}>
         <CardHeader
-          title={t('interface.room')}
+          title={t(interfaceRoom)}
           subheader={<Typography
             variant='myText'
             sx={{
-            }}>{glagol.params.roomName}</Typography>}
+            }}>{app.roomName}</Typography>}
         />
         <Box
           sx={{

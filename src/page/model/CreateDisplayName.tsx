@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useEffect } from 'react';
+import React, { BaseSyntheticEvent, KeyboardEvent, useEffect } from "react";
 import { Box, Button, Input, Typography } from '@mui/material';
 import { styles } from '../styles/styles';
 import { useTranslation } from 'react-i18next';
@@ -43,10 +43,20 @@ function CreateDisplayName() {
         app.appCreated = true
         navigate(`/${ app.roomName }`)
     }
+    useEffect(() =>{
+        const handleKey=(key:WindowEventMap["keydown"])=>{
+            if (key.key==="Enter") goPage()
+        }
+        window.addEventListener('keydown', handleKey)
+        return() =>{
+            window.removeEventListener('keydown', handleKey)
+        }
+    }, [])
+    const buttonText: any='interface.buttons.createDisplayName'
     return <Box sx={ styles.wrapper }>
         <Input placeholder="input yourName" onChange={ action } sx={ getInputStyles() }/>
         <Button onClick={ goPage }>
-            <Typography variant="myText">{ t('interface.buttons.createDisplayName') }</Typography>
+            <Typography variant="myText">{ t(buttonText) }</Typography>
         </Button>
         <Box sx={ {
             display: 'flex', justifyContent: 'center',
