@@ -32,6 +32,7 @@ function CreateDisplayName() {
   function goPage() {
     app.appCreated = true;
     navigate(`/${app.roomName}`);
+
   }
 
   useEffect(() => {
