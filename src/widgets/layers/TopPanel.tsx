@@ -19,6 +19,7 @@ const sizes = {
   height: '50px',
   viewBox: '-4 0 40 40'
 };
+const interfaceRoom: any='interface.room'
 
 function TopPanel() {
   const [colorText, setColorText]=useState('grey')
@@ -57,7 +58,7 @@ function TopPanel() {
         color: colorText
       }}>
         <CardHeader
-          title={t('interface.room')}
+          title={t(interfaceRoom)}
           subheader={<Typography
             variant='myText'
             sx={{

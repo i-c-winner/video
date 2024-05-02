@@ -23,8 +23,10 @@ function CreateRoomName() {
   }
 
   useEffect(() => {
-    function handlerKey() {
-      actionClick();
+    function handlerKey(event: WindowEventMap['keydown']) {
+      if (event.key==="Enter") {
+        actionClick();
+      }
     }
     window.addEventListener("keydown", handlerKey);
     return () => {

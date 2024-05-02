@@ -35,8 +35,10 @@ function CreateDisplayName() {
   }
 
   useEffect(() => {
-    function handlerKey() {
-      goPage();
+    function handlerKey(event: WindowEventMap['keydown']) {
+      if (event.key==='Enter') {
+        goPage();
+      }
     }
 
     window.addEventListener("keydown", handlerKey);
