@@ -267,7 +267,9 @@ class Glagol {
           console.log(stanza, "this is Chat Message");
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error(e)
+    }
     return true;
   };
 
@@ -286,8 +288,8 @@ class Glagol {
             this.invitateRoom();
           }
         }
-      } catch (e) {}
-    } catch (e) {}
+      } catch (e) {console.error(e)}
+    } catch (e) {console.error(e)}
     console.log(stanza, "Stanza");
     return true;
   };
@@ -302,7 +304,7 @@ class Glagol {
           if (roomName === this.roomName) this.invitateRoom();
         }
       }
-    } catch (e) {}
+    } catch (e) {console.error(e)}
     return true;
   };
 
