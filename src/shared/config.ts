@@ -2,24 +2,24 @@ const config = {
   chatsBoxVisible: false,
   toolboxVisible: true,
   modalIsOpen: false,
-  typeModal: 'error',
+  typeModal: "error",
   tileMode: false,
   isRecording: false,
   remoteBoxVisible: false,
   conference: {
     quality: {
-      video: 'low',
-      audio: 'enabled'
-    }
+      video: "low",
+      audio: "enabled",
+    },
   },
   boxes: {
     remoteStreamBox: {
-      width: '250px',
-      padding: '0'
+      width: "250px",
+      padding: "0",
     },
     chatsbox: {
-      width: '300px'
-    }
+      width: "300px",
+    },
   },
 };
 const constants = {
@@ -27,20 +27,20 @@ const constants = {
     buttonIcon: {
       width: "25px",
       height: "25px",
-      viewBox: '0 0 25 25'
-    }
+      viewBox: "0 0 25 25",
+    },
   },
 
   modal: {
-    WIDTH_HEIGHT: '900px',
-    WIDTH_MIDDLE: '700px',
-    WIDTH_LOW: '400px'
+    WIDTH_HEIGHT: "900px",
+    WIDTH_MIDDLE: "700px",
+    WIDTH_LOW: "400px",
   },
   videoQuantity: {
     height: {
       width: 800,
       height: 520,
-      frameRate: 60
+      frameRate: 60,
     },
     middle: {
       width: 640,
@@ -50,9 +50,9 @@ const constants = {
     low: {
       width: 320,
       height: 240,
-      frameRate: 30
+      frameRate: 30,
     },
-  }
+  },
 };
 
 export { constants, config };

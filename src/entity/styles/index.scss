@@ -2,7 +2,7 @@
   border-radius: 50%;
   //border: 2px solid #a855f7;
 
-  content: '';
+  content: "";
   height: 44px;
   width: 44px;
   position: absolute;
@@ -30,11 +30,9 @@
     }
 
     &_my {
-
     }
 
     &_other {
-
     }
   }
 }
@@ -42,21 +40,20 @@
 .input-field {
   flex-grow: 1;
 
-
   div {
     &::after {
       border-bottom: none;
     }
 
     &::before {
-      border-bottom: none!important;
+      border-bottom: none !important;
     }
   }
   textarea {
     padding: 8px 5px;
     border-radius: 3px;
   }
-  &_dark{
+  &_dark {
     textarea {
       color: grey;
       background-color: #151823;
@@ -70,16 +67,17 @@
       border: 1px solid grey;
     }
   }
-
 }
 
 .input_devices {
-  input, label {
+  input,
+  label {
   }
 }
 
 .input_profile {
-  input, label {
+  input,
+  label {
   }
 }
 
@@ -101,9 +99,9 @@
 
 .my-button {
   &__tabs {
-    min-height: 0!important;
-    height: 30px!important;
-    margin: 5px 0!important;
+    min-height: 0 !important;
+    height: 30px !important;
+    margin: 5px 0 !important;
   }
 
   &__toolbox {
@@ -132,13 +130,11 @@
           @include after;
           border: 2px solid red;
         }
-
       }
 
       &::after {
         @include after;
         border: 2px solid #a855f7;
-
       }
     }
   }
@@ -150,8 +146,4 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
-
 }
-
-
-

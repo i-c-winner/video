@@ -1,4 +1,4 @@
-import CreaterGlagol from './src/components/CreaterGlagol';
+import CreaterGlagol from "./src/components/CreaterGlagol";
 //
 // CreaterGlagol.setHandler('addTrack',  (...args) => {console.log('addTrack', args[0])} );
 // CreaterGlagol.setHandler('removeTrack',  (...args) => {console.log('removeTrack', args[0])} );
@@ -44,5 +44,4 @@ import CreaterGlagol from './src/components/CreaterGlagol';
 //
 // }
 
-export default CreaterGlagol
-
+export default CreaterGlagol;

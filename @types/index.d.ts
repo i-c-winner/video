@@ -1,4 +1,4 @@
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface TypographyVariants {
     myText: React.CSSProperties;
   }
@@ -10,18 +10,17 @@ declare module '@mui/material/styles' {
 }
 
 // Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     myText: true;
     h3: false;
   }
 }
 // extendedTypography.d.ts
-import { TypographyProps } from '@material-ui/core/Typography';
+import { TypographyProps } from "@material-ui/core/Typography";
 
-declare module '@material-ui/core/Typography' {
+declare module "@material-ui/core/Typography" {
   interface TypographyProps {
-    variant?: 'myText' | TypographyProps['variant'];
+    variant?: "myText" | TypographyProps["variant"];
   }
 }
-

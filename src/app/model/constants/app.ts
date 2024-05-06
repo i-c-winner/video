@@ -1,17 +1,16 @@
-import { getRandomText } from '../../../features/plugins/getRandomText';
+import { getRandomText } from "../../../features/plugins/getRandomText";
 
 interface IApp {
-  userNode: string
-  roomName: string,
-  displayName: string,
-  glagolVC: any,
-  appCreated: boolean,
+  userNode: string;
+  roomName: string;
+  displayName: string;
+  glagolVC: any;
+  appCreated: boolean;
   startingParameters: {
-    quantity: MediaTrackConstraints,
-    cameraIsWorking: boolean,
-    microphoneIsWorking: boolean
-  }
-
+    quantity: MediaTrackConstraints;
+    cameraIsWorking: boolean;
+    microphoneIsWorking: boolean;
+  };
 }
 
 const app: IApp = {
@@ -19,15 +18,15 @@ const app: IApp = {
     quantity: {
       width: 320,
       height: 240,
-      frameRate: 30
+      frameRate: 30,
     },
     cameraIsWorking: true,
-    microphoneIsWorking: true
+    microphoneIsWorking: true,
   },
   userNode: getRandomText(5),
   roomName: getRandomText(5),
-  displayName: 'i am incognito',
+  displayName: "i am incognito",
   glagolVC: null,
-  appCreated: false
-}
-export { app }
+  appCreated: false,
+};
+export { app };

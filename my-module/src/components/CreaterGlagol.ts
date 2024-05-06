@@ -1,27 +1,29 @@
-import * as strophe from 'strophe.js';
-import { setRegister } from '../plugins/rigester';
-import { Glagol } from './Glagol';
-import { IOptions } from './types';
-import { getRandomText } from '../plugins/getRandomText';
-
+import * as strophe from "strophe.js";
+import { setRegister } from "../plugins/rigester";
+import { Glagol } from "./Glagol";
+import { IOptions } from "./types";
+import { getRandomText } from "../plugins/getRandomText";
 
 setRegister(strophe);
 // @ts-ignore
-const {Strophe} = strophe;
+const { Strophe } = strophe;
 
 class CreaterGlagol {
   private glagol: any;
   private CreaterGlagol: any;
 
   static handlers: {
-    [key: string]: ((...args: any[]) => void)[]
+    [key: string]: ((...args: any[]) => void)[];
   } = {};
 
   private xmpp: any;
   private readonly roomName: string;
   private readonly userNode: string;
   private readonly emit: (name: string, ...args: any[]) => void;
-  static setHandler = function (name: string, handler: (...args: any[]) => void) {
+  static setHandler = function (
+    name: string,
+    handler: (...args: any[]) => void,
+  ) {
     if (!CreaterGlagol.handlers[name]) CreaterGlagol.handlers[name] = [];
     CreaterGlagol.handlers[name].push(handler);
   };
@@ -39,16 +41,18 @@ class CreaterGlagol {
       } catch (e) {
         console.info(`Listener ${name} note found: `, e);
       }
-
     };
     this.strophe = new Strophe.Connection(props.xmppUrl);
     this.webRtc = new RTCPeerConnection(props.webUrl);
     this.roomName = props.roomName;
     this.userNode = getRandomText(5);
     this.displayName = props.displayName;
-    this.webRtc.ondatachannel = ((event: RTCDataChannelEvent) => this.glagol.pcHandlerDataChannel(event))
-    this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) => this.glagol.pcHandlerIceCandidate(event);
-    this.webRtc.ontrack = (event: RTCTrackEvent) => this.glagol.pcHandlerOnTrack(event);
+    this.webRtc.ondatachannel = (event: RTCDataChannelEvent) =>
+      this.glagol.pcHandlerDataChannel(event);
+    this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) =>
+      this.glagol.pcHandlerIceCandidate(event);
+    this.webRtc.ontrack = (event: RTCTrackEvent) =>
+      this.glagol.pcHandlerOnTrack(event);
   }
 
   createGlagol() {
@@ -60,34 +64,34 @@ class CreaterGlagol {
       displayName: this.displayName,
       handlers: CreaterGlagol.handlers,
     });
-    this.glagol.addHandlers()
+    this.glagol.addHandlers();
   }
 
   register() {
     this.glagol.register().then((result: any) => {
-      this.emit('connectionOn');
+      this.emit("connectionOn");
       if (result) this.glagol.createRoom();
-      this.emit('connectionOn');
+      this.emit("connectionOn");
     });
   }
 
   xmppHandlerMessage(stanza: Element) {
     this.glagol.xmppHandlerMessage(stanza);
-    return true
+    return true;
   }
 
   xmppHandlerPresence(stanza: Element) {
     this.glagol.xmppHandlerPresence(stanza);
-    return true
+    return true;
   }
 
   xmppHandlerIqTypeResult(stanza: Element) {
     this.glagol.xmppHandlerIqTypeResult(stanza);
-    return true
+    return true;
   }
 
   getGlagol() {
-    return this.glagol
+    return this.glagol;
   }
 }
 

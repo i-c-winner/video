@@ -11,22 +11,20 @@ class Channel {
   private TIMEOUTSIZE: number;
   private BUFFERSIZE: number;
 
-
   constructor() {
-    this.TIMEOUTSIZE = 25
-    this.BUFFERSIZE = 1000000
-    this._fileReader = new FileReader()
+    this.TIMEOUTSIZE = 25;
+    this.BUFFERSIZE = 1000000;
+    this._fileReader = new FileReader();
     this._currentSizeChunks = 0;
     this._instance = null;
     this._startComplitChunks = false;
     this._chunks = [];
     this._offset = 0;
     this._fileReader.onload = () => {
-
       setTimeout(() => {
-        this.sendData(this._fileReader.result)
-        this.sliceFile()
-      }, this.TIMEOUTSIZE)
+        this.sendData(this._fileReader.result);
+        this.sliceFile();
+      }, this.TIMEOUTSIZE);
     };
   }
 
@@ -52,28 +50,33 @@ class Channel {
   }
 
   readBuffer() {
-    this._fileReader.readAsArrayBuffer(this._file.slice(this._offset,
-      this._offset += Channel.chunkSize));
+    this._fileReader.readAsArrayBuffer(
+      this._file.slice(this._offset, (this._offset += Channel.chunkSize)),
+    );
   }
 
   putChunks(message: MessageEvent) {
     this._chunks.push(message.data);
-    const itIsParams=()=>{
-      return this._chunks.length > 1
-    }
-    if (itIsParams() && (message.data.size ?? message.data.byteLength) < Channel.chunkSize) {
+    const itIsParams = () => {
+      return this._chunks.length > 1;
+    };
+    if (
+      itIsParams() &&
+      (message.data.size ?? message.data.byteLength) < Channel.chunkSize
+    ) {
       try {
-        const blob = new Blob(this._chunks.slice(1), {type: 'application/octet-stream'});
+        const blob = new Blob(this._chunks.slice(1), {
+          type: "application/octet-stream",
+        });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.download = 'fileDownload';
+        link.download = "fileDownload";
         link.click();
         this._chunks = [];
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-
     }
   }
 }

@@ -1,19 +1,24 @@
-import { Paper, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-import { ISubmenu } from '../../../types';
-import { useAsync } from 'react-async';
-import { Submenu } from './Submenu';
-import Radio from '@mui/material/Radio';
-import { SyntheticEvent } from 'react';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { getRandomText } from '../../../../features/plugins/getRandomText';
+import {
+  Paper,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
+import { ISubmenu } from "../../../types";
+import { useAsync } from "react-async";
+import { Submenu } from "./Submenu";
+import Radio from "@mui/material/Radio";
+import { SyntheticEvent } from "react";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import { getRandomText } from "../../../../features/plugins/getRandomText";
 // import { glagol } from '../../../conference/glagol';
 
 const getDevices = async () => {
   return navigator.mediaDevices.enumerateDevices();
 };
-
 
 function SubmenuForMicrophone(props: ISubmenu) {
   // const { data, error, isPending } = useAsync({ promiseFn: getDevices });
@@ -117,7 +122,7 @@ function SubmenuForMicrophone(props: ISubmenu) {
   // return (
   //   <Paper sx={getStyle}>...Pending</Paper>
   // );
-  return <p>submenuMic</p>
+  return <p>submenuMic</p>;
 }
 
 export { SubmenuForMicrophone };

@@ -1,17 +1,18 @@
 # Создание Glagol
 
 1. Импортировать Glagol
+
    ```javascript
-   import Clagol from 'glagol-video'
+   import Clagol from "glagol-video";
    ```
 
 2. После чего можно создавать слушателей для Glagol
    ```javascript
-   Glagol.setHandler(name, (...args)=>{
-   /**
+   Glagol.setHandler(name, (...args) => {
+     /**
    тут функция слушатель
    */
-   })
+   });
    ```
 3. Затем можно иницилизировать соединение
    ```typescript
@@ -41,7 +42,7 @@
 - changeBigScreen: Изменит отображение большого экрана
 - sendFile: Отправит файл на сервер
   ```typescript
-  import { string } from "prop-types"; 
+  import { string } from "prop-types";
   glagol.sendFile(event: any ,{
       file_name: string,
       file_size: number,
@@ -54,7 +55,7 @@
   ```
 - saveFile: Сохранит файл на локальную машину
   ```typescript
-  import { string } from "prop-types"; 
+  import { string } from "prop-types";
   glagol.saveFile({
   idRemote: string,
   text: string
@@ -63,6 +64,6 @@
   */
   }
   ```
-  где idRemote - id приодящий в stanza - ответе от 
-  XMPP сервера, text - сообщение приходящее там же как body для 
+  где idRemote - id приодящий в stanza - ответе от
+  XMPP сервера, text - сообщение приходящее там же как body для
   аргумента jimble

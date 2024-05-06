@@ -4,7 +4,9 @@ class Recording {
   private mediaRecorder: MediaRecorder | null;
 
   constructor() {
-    this.options = MediaRecorder.isTypeSupported("video/webm; codecs=vp9") ? "video/webm; codecs=vp9" : "video/webm";
+    this.options = MediaRecorder.isTypeSupported("video/webm; codecs=vp9")
+      ? "video/webm; codecs=vp9"
+      : "video/webm";
     this.chunks = [];
     this.mediaRecorder = null;
     this.createListeners = this.createListeners.bind(this);
@@ -13,16 +15,18 @@ class Recording {
 
   init() {
     return new Promise<MediaStream>((resolve, reject) => {
-      resolve(navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: true
-      }));
+      resolve(
+        navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: true,
+        }),
+      );
     });
   }
 
   createRecorder(stream: MediaStream) {
     this.mediaRecorder = new MediaRecorder(stream, {
-      mimeType: this.options
+      mimeType: this.options,
     });
     return this.mediaRecorder;
   }
@@ -31,13 +35,13 @@ class Recording {
     if (this.mediaRecorder !== null) {
       this.mediaRecorder.ondataavailable = (ev) => this.chunks.push(ev.data);
       this.mediaRecorder.onstop = (ev) => {
-        let blob = new Blob(this.chunks, {
-          type: this.chunks[0].type
+        const blob = new Blob(this.chunks, {
+          type: this.chunks[0].type,
         });
-        let url = URL.createObjectURL(blob);
-        let a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
         a.href = url;
-        a.download = 'video.webm';
+        a.download = "video.webm";
         a.click();
       };
     }
@@ -49,9 +53,9 @@ class Recording {
 
   stop() {
     this.mediaRecorder?.stop();
-    this.mediaRecorder?.stream.getTracks().forEach((track)=>{
-      track.stop()
-    })
+    this.mediaRecorder?.stream.getTracks().forEach((track) => {
+      track.stop();
+    });
   }
 }
 

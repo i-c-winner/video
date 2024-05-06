@@ -6,10 +6,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { app } from "../../app/model/constants/app";
 
-
 function CreateRoomName() {
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const refInput = useRef<HTMLElement>();
 
   function change(event: BaseSyntheticEvent) {
@@ -23,8 +22,8 @@ function CreateRoomName() {
   }
 
   useEffect(() => {
-    function handlerKey(event: WindowEventMap['keydown']) {
-      if (event.key==="Enter") {
+    function handlerKey(event: WindowEventMap["keydown"]) {
+      if (event.key === "Enter") {
         actionClick();
       }
     }
@@ -33,12 +32,19 @@ function CreateRoomName() {
       window.removeEventListener("keydown", handlerKey);
     };
   });
-  return <Box sx={styles.wrapper}>
-    <Input placeholder="Input RoomName" onChange={change} sx={getInputStyles()} ref={refInput}/>
-    <Button onClick={actionClick}>
-      <Typography variant="myText">{t(buttonText)}</Typography>
-    </Button>
-  </Box>;
+  return (
+    <Box sx={styles.wrapper}>
+      <Input
+        placeholder="Input RoomName"
+        onChange={change}
+        sx={getInputStyles()}
+        ref={refInput}
+      />
+      <Button onClick={actionClick}>
+        <Typography variant="myText">{t(buttonText)}</Typography>
+      </Button>
+    </Box>
+  );
 }
 
 export { CreateRoomName };
