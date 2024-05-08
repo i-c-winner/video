@@ -1,18 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IChats, TChat } from '../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IChats, TChat } from "../types";
 
 const initialState: IChats = {
-  chatsList: [
-  ]
-}
+  chatsList: [],
+};
 const chatsSlice = createSlice({
-  name: 'chats',
+  name: "chats",
   initialState,
   reducers: {
     addChat: (state, action: PayloadAction<TChat>) => {
       state.chatsList.push(action.payload);
-    }
-  }
+    },
+  },
 });
 
 export const { addChat } = chatsSlice.actions;

@@ -1,21 +1,22 @@
 interface IOptions {
-  xmppUrl: string,
-  roomName: string,
-  displayName: string
+  xmppUrl: string;
+  roomName: string;
+  displayName: string;
   webUrl: {
-    iceCandidatePoolSize: number,
+    iceCandidatePoolSize: number;
     iceServers: {
-      urls: string,
-      username?: string,
-      credential?: string
-    }[]
-  }
+      urls: string;
+      username?: string;
+      credential?: string;
+    }[];
+  };
 }
+type TQuantity = "height" | "middle" | "low";
 
 interface IMyTrack extends MediaStreamTrack {
-  iSharingScreen?: boolean
+  iSharingScreen?: boolean;
 }
 interface IMySender extends RTCRtpSender {
-  track: IMyTrack
+  track: IMyTrack;
 }
-export type {IOptions, IMyTrack, IMySender}
+export type { IOptions, IMyTrack, IMySender, TQuantity };

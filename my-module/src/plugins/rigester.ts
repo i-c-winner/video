@@ -1,6 +1,4 @@
 function setRegister(strophe: any) {
-
-
   /*
   This library is free software; you can redistribute it and/or modify it
    under the terms of the GNU Lesser General Public License as published
@@ -20,8 +18,8 @@ function setRegister(strophe: any) {
    * File: strophe.register.js
    * A Strophe plugin for XMPP In-Band Registration.
    */
-  const {Strophe, $iq} = strophe
-  Strophe.addConnectionPlugin('register', {
+  const { Strophe, $iq } = strophe;
+  Strophe.addConnectionPlugin("register", {
     _connection: null,
 
     //The plugin must have the init function.
@@ -29,7 +27,7 @@ function setRegister(strophe: any) {
       this._connection = conn;
 
       // compute free emun index number
-      var i = 0;
+      let i = 0;
       Object.keys(Strophe.Status).forEach(function (key) {
         i = Math.max(i, Strophe.Status[key]);
       });
@@ -38,7 +36,7 @@ function setRegister(strophe: any) {
        *  NS.REGISTER - In-Band Registration
        *              from XEP 77.
        */
-      Strophe.addNamespace('REGISTER', 'jabber:iq:register');
+      Strophe.addNamespace("REGISTER", "jabber:iq:register");
       Strophe.Status.REGIFAIL = i + 1;
       Strophe.Status.REGISTER = i + 2;
       Strophe.Status.REGISTERED = i + 3;
@@ -46,14 +44,14 @@ function setRegister(strophe: any) {
       Strophe.Status.NOTACCEPTABLE = i + 5;
 
       if (conn.disco) {
-        if (conn.disco.addFeature)
-          conn.disco.addFeature(Strophe.NS.REGISTER);
+        if (conn.disco.addFeature) conn.disco.addFeature(Strophe.NS.REGISTER);
         if (conn.disco.addNode)
-          conn.disco.addNode(Strophe.NS.REGISTER, {items: []});
+          conn.disco.addNode(Strophe.NS.REGISTER, { items: [] });
       }
 
       // hooking strophe's connection.reset
-      var self = this, reset = conn.reset.bind(conn);
+      const self = this,
+        reset = conn.reset.bind(conn);
       conn.reset = function () {
         reset();
         self.instructions = "";
@@ -62,14 +60,14 @@ function setRegister(strophe: any) {
       };
 
       // hooking strophe's _connect_cb
-      var connect_cb = conn._connect_cb.bind(conn);
+      const connect_cb = conn._connect_cb.bind(conn);
       conn._connect_cb = function (req: any, callback: any, raw: any) {
         if (!self._registering) {
           if (self.processed_features) {
             // exchange Input hooks to not print the stream:features twice
-            var xmlInput = conn.xmlInput;
+            const xmlInput = conn.xmlInput;
             conn.xmlInput = Strophe.Connection.prototype.xmlInput;
-            var rawInput = conn.rawInput;
+            const rawInput = conn.rawInput;
             conn.rawInput = Strophe.Connection.prototype.rawInput;
             connect_cb(req, callback, raw);
             conn.xmlInput = xmlInput;
@@ -82,7 +80,7 @@ function setRegister(strophe: any) {
           // Save this request in case we want to authenticate later
           self._connect_cb_data = {
             req: req,
-            raw: raw
+            raw: raw,
           };
           if (self._register_cb(req, callback, raw)) {
             // remember that we already processed stream:features
@@ -93,32 +91,31 @@ function setRegister(strophe: any) {
       };
 
       // hooking strophe`s authenticate
-      var auth_old = conn.authenticate.bind(conn);
-      conn.authenticate = function (this: any,matched: any) {
+      const auth_old = conn.authenticate.bind(conn);
+      conn.authenticate = function (this: any, matched: any) {
         if (typeof matched === "undefined") {
-          var conn = this._connection;
+          const conn = this._connection;
 
           if (!this.fields.username || !this.domain || !this.fields.password) {
             Strophe.info("Register a JID first!");
             return;
           }
 
-          var jid = this.fields.username + "@" + this.domain;
+          const jid = this.fields.username + "@" + this.domain;
 
           conn.jid = jid;
           conn.authzid = Strophe.getBareJidFromJid(conn.jid);
           conn.authcid = Strophe.getNodeFromJid(conn.jid);
           conn.pass = this.fields.password;
 
-          var req = this._connect_cb_data.req;
-          var callback = conn.connect_callback;
-          var raw = this._connect_cb_data.raw;
+          const req = this._connect_cb_data.req;
+          const callback = conn.connect_callback;
+          const raw = this._connect_cb_data.raw;
           conn._connect_cb(req, callback, raw);
         } else {
           auth_old(matched);
         }
       }.bind(this);
-
     },
 
     /** Function: connect
@@ -148,8 +145,14 @@ function setRegister(strophe: any) {
      *      number of connections the server will hold at one time.  This
      *      should almost always be set to 1 (the default).
      */
-    connect: function (domain: any, callback: any, wait: any, hold: any, route: any) {
-      var conn = this._connection;
+    connect: function (
+      domain: any,
+      callback: any,
+      wait: any,
+      hold: any,
+      route: any,
+    ) {
+      const conn = this._connection;
       this.domain = Strophe.getDomainFromJid(domain);
       this.instructions = "";
       this.fields = {};
@@ -170,18 +173,21 @@ function setRegister(strophe: any) {
      *    (Strophe.Request) req - The current request.
      */
     _register_cb: function (req: any, _callback: any, raw: any) {
-      var conn = this._connection;
+      const conn = this._connection;
 
       Strophe.info("_register_cb was called");
       conn.connected = true;
 
-      var bodyWrap = conn._proto._reqToData(req);
+      const bodyWrap = conn._proto._reqToData(req);
       if (!bodyWrap) {
         return;
       }
 
       if (conn.xmlInput !== Strophe.Connection.prototype.xmlInput) {
-        if (bodyWrap.nodeName === conn._proto.strip && bodyWrap.childNodes.length) {
+        if (
+          bodyWrap.nodeName === conn._proto.strip &&
+          bodyWrap.childNodes.length
+        ) {
           conn.xmlInput(bodyWrap.childNodes[0]);
         } else {
           conn.xmlInput(bodyWrap);
@@ -195,14 +201,14 @@ function setRegister(strophe: any) {
         }
       }
 
-      var conncheck = conn._proto._connect_cb(bodyWrap);
+      const conncheck = conn._proto._connect_cb(bodyWrap);
       if (conncheck === Strophe.Status.CONNFAIL) {
         return false;
       }
 
       // Check for the stream:features tag
-      var register = bodyWrap.getElementsByTagName("register");
-      var mechanisms = bodyWrap.getElementsByTagName("mechanism");
+      const register = bodyWrap.getElementsByTagName("register");
+      const mechanisms = bodyWrap.getElementsByTagName("mechanism");
       if (register.length === 0 && mechanisms.length === 0) {
         conn._proto._no_auth_received(_callback);
         return false;
@@ -214,10 +220,16 @@ function setRegister(strophe: any) {
       }
 
       // send a get request for registration, to get all required data fields
-      conn._addSysHandler(this._get_register_cb.bind(this),
-        null, "iq", null, null);
-      conn.send($iq({type: "get"}).c("query",
-        {xmlns: Strophe.NS.REGISTER}).tree());
+      conn._addSysHandler(
+        this._get_register_cb.bind(this),
+        null,
+        "iq",
+        null,
+        null,
+      );
+      conn.send(
+        $iq({ type: "get" }).c("query", { xmlns: Strophe.NS.REGISTER }).tree(),
+      );
 
       return true;
     },
@@ -232,7 +244,10 @@ function setRegister(strophe: any) {
      *    false to remove SHOULD contain the registration information currentlSHOULD contain the registration information currentlSHOULD contain the registration information currentlthe handler.
      */
     _get_register_cb: function (stanza: any) {
-      var i, query, field, conn = this._connection;
+      let i,
+        query,
+        field,
+        conn = this._connection;
       query = stanza.getElementsByTagName("query");
 
       if (query.length !== 1) {
@@ -243,16 +258,17 @@ function setRegister(strophe: any) {
       // get required fields
       for (i = 0; i < query.childNodes.length; i++) {
         field = query.childNodes[i];
-        if (field.tagName.toLowerCase() === 'instructions') {
+        if (field.tagName.toLowerCase() === "instructions") {
           // this is a special element
           // it provides info about given data fields in a textual way.
           conn.register.instructions = Strophe.getText(field);
           continue;
-        } else if (field.tagName.toLowerCase() === 'x') {
+        } else if (field.tagName.toLowerCase() === "x") {
           // ignore x for now
           continue;
         }
-        conn.register.fields[field.tagName.toLowerCase()] = Strophe.getText(field);
+        conn.register.fields[field.tagName.toLowerCase()] =
+          Strophe.getText(field);
       }
       conn._changeConnectStatus(Strophe.Status.REGISTER, null);
       return false;
@@ -267,8 +283,12 @@ function setRegister(strophe: any) {
      *  and invoke this function to procceed in the registration process.
      */
     submit: function () {
-      var i, name, query, fields, conn = this._connection;
-      query = $iq({type: "set"}).c("query", {xmlns: Strophe.NS.REGISTER});
+      let i,
+        name,
+        query,
+        fields,
+        conn = this._connection;
+      query = $iq({ type: "set" }).c("query", { xmlns: Strophe.NS.REGISTER });
 
       // set required fields
       fields = Object.keys(this.fields);
@@ -278,8 +298,7 @@ function setRegister(strophe: any) {
       }
 
       // providing required information
-      conn._addSysHandler(this._submit_cb.bind(this),
-        null, "iq", null, null);
+      conn._addSysHandler(this._submit_cb.bind(this), null, "iq", null, null);
       conn.send(query);
     },
 
@@ -293,7 +312,11 @@ function setRegister(strophe: any) {
      *    false to remove the handler.
      */
     _submit_cb: function (stanza: any) {
-      var i, query, field, error = null, conn = this._connection;
+      let i,
+        query,
+        field,
+        error = null,
+        conn = this._connection;
 
       query = stanza.getElementsByTagName("query");
       if (query.length > 0) {
@@ -301,7 +324,7 @@ function setRegister(strophe: any) {
         // update fields
         for (i = 0; i < query.childNodes.length; i++) {
           field = query.childNodes[i];
-          if (field.tagName.toLowerCase() === 'instructions') {
+          if (field.tagName.toLowerCase() === "instructions") {
             // this is a special element
             // it provides info about given data fields in a textual way
             this.instructions = Strophe.getText(field);
@@ -322,9 +345,9 @@ function setRegister(strophe: any) {
 
         // this is either 'conflict' or 'not-acceptable'
         error = error[0].firstChild.tagName.toLowerCase();
-        if (error === 'conflict') {
+        if (error === "conflict") {
           conn._changeConnectStatus(Strophe.Status.CONFLICT, error);
-        } else if (error === 'not-acceptable') {
+        } else if (error === "not-acceptable") {
           conn._changeConnectStatus(Strophe.Status.NOTACCEPTABLE, error);
         } else {
           conn._changeConnectStatus(Strophe.Status.REGIFAIL, error);
@@ -336,8 +359,8 @@ function setRegister(strophe: any) {
       }
 
       return false;
-    }
-  })
+    },
+  });
 }
 
-export {setRegister}
+export { setRegister };

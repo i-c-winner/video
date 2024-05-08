@@ -1,5 +1,4 @@
+type TCallback = (...args: any[]) => void;
+type TQuantity = "height" | "middle" | "low";
 
-type TCallback = (...args:any[])=>void
-
-
-export type {TCallback}
+export type { TCallback, TQuantity };

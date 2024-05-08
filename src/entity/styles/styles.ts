@@ -1,6 +1,6 @@
-const styleButton= {
-  borderRadius: 'initial',
-  pointerEvents: 'initial'
-}
+const styleButton = {
+  borderRadius: "initial",
+  pointerEvents: "initial",
+};
 
-export {styleButton}
+export { styleButton };

@@ -1,5 +1,5 @@
-import { TCallbackConference } from '../../app/types';
-import { IGlagol, TSendMessage } from '../index';
+import { TCallbackConference } from "../../app/types";
+import { IGlagol, TSendMessage } from "../index";
 
 class Room {
   private static instance: any;
@@ -12,44 +12,45 @@ class Room {
   private userNode: string;
   // @ts-ignore
   private listeners: {
-    [key: string]: TCallbackConference[]
+    [key: string]: TCallbackConference[];
   };
 
   constructor() {
     if (Room.instance) {
-      return Room.instance
+      return Room.instance;
     }
-    Room.instance=this
+    Room.instance = this;
     this.listeners = {};
-    this.roomName = '';
+    this.roomName = "";
 
-    this.userNode = '';
-    this.displayName = '';
+    this.userNode = "";
+    this.displayName = "";
     return Room.instance;
   }
 
-
   create(action: TSendMessage, roomName: string, userNode: string) {
-    const message = new Strophe.Builder('presence', {
+    const message = new Strophe.Builder("presence", {
       to: `${roomName}@conference.prosolen.net/${userNode}`,
-    }).c('x', {
-      xmlns: 'http://jabber.org/protocol/muc'
-    })
+    }).c("x", {
+      xmlns: "http://jabber.org/protocol/muc",
+    });
     action(message);
   }
 
   validate(action: TSendMessage, roomName: string, userNode: string) {
-    const message = new Strophe.Builder('iq', {
+    const message = new Strophe.Builder("iq", {
       from: `${roomName}@prosolen.net/${userNode}`,
       id: this.userNode,
       to: `${roomName}@conference.prosolen.net`,
-      type: 'set'
-    }).c('query', {
-      xmlns: 'http://jabber.org/protocol/muc#owner'
-    }).c('x', {
-      xmlns: 'jabber:x:data',
-      type: 'submit'
-    });
+      type: "set",
+    })
+      .c("query", {
+        xmlns: "http://jabber.org/protocol/muc#owner",
+      })
+      .c("x", {
+        xmlns: "jabber:x:data",
+        type: "submit",
+      });
     action(message);
   }
 
@@ -58,20 +59,27 @@ class Room {
       action: "INVITATION",
       tracks: {
         audio: true,
-        video: true
-      }
+        video: true,
+      },
     };
     const inviteMessageB64 = btoa(JSON.stringify(invitation));
-    const message = new Strophe.Builder('message', {
-      to: 'focus@prosolen.net/focus',
-      type: 'chat',
-      xmlns: 'jabber:client'
-    }).c('x', {
-      xmlns: 'jabber:x:conference',
-      jid: `${roomName}@conference.prosolen.net`
-    }).up().c('nick', {
-      xmlns: 'http://jabber.org/protocol/nick'
-    }).t(displayName).up().c('jimble').t(inviteMessageB64);
+    const message = new Strophe.Builder("message", {
+      to: "focus@prosolen.net/focus",
+      type: "chat",
+      xmlns: "jabber:client",
+    })
+      .c("x", {
+        xmlns: "jabber:x:conference",
+        jid: `${roomName}@conference.prosolen.net`,
+      })
+      .up()
+      .c("nick", {
+        xmlns: "http://jabber.org/protocol/nick",
+      })
+      .t(displayName)
+      .up()
+      .c("jimble")
+      .t(inviteMessageB64);
     action(message);
   }
 }

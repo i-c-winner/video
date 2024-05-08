@@ -1,39 +1,39 @@
-import { Palette, PaletteMode } from '@mui/material';
+import { Palette, PaletteMode } from "@mui/material";
 
 const myTheme = {
   dark: {
     palette: {
-      mode: 'dark' as PaletteMode,
+      mode: "dark" as PaletteMode,
       background: {
-        paper: '#151823',
-        windows: '#222738',
-        other: '#2a2f42'
+        paper: "#151823",
+        windows: "#222738",
+        other: "#2a2f42",
       },
     },
     typography: {
-      title: 'white',
+      title: "white",
       myText: {
-        color: 'grey'
-      }
-    }
+        color: "grey",
+      },
+    },
   },
   light: {
     palette: {
-      mode: 'light' as PaletteMode,
+      mode: "light" as PaletteMode,
       background: {
-        paper: 'white',
-        windows: '#f3f4f6',
-        other: 'grey'
+        paper: "white",
+        windows: "#f3f4f6",
+        other: "grey",
       },
     },
     typography: {
-      title: 'black',
+      title: "black",
       myText: {
-        color: 'black'
+        color: "black",
       },
       poster: {
-        fontSize: '4rem',
-        color: 'red',
+        fontSize: "4rem",
+        color: "red",
       },
       // Disable h3 variant
       h3: undefined,
@@ -43,7 +43,7 @@ const myTheme = {
         defaultProps: {
           variantMapping: {
             // Map the new variant to render a <h1> by default
-            poster: 'h1',
+            poster: "h1",
           },
         },
       },

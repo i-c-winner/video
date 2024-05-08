@@ -2,11 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const webpack=require('webpack')
+const webpack = require("webpack");
 const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = "style-loader";
-
 
 const config = {
   entry: "./src/app/main.tsx",
@@ -20,13 +19,15 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.GLAGOL': JSON.stringify(process.env.GLAGOL)
-}),
+      "process.env.GLAGOL": JSON.stringify(process.env.GLAGOL),
+    }),
     new CopyPlugin({
-      patterns: [{
-        from: "public/images/",
-        to: "images"
-      }]
+      patterns: [
+        {
+          from: "public/images/",
+          to: "images",
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "index.html",
@@ -50,8 +51,8 @@ const config = {
         loader: "ts-loader",
         // exclude: /node_modules/,
         options: {
-          allowTsInNodeModules: true
-        }
+          allowTsInNodeModules: true,
+        },
       },
       {
         test: /\.css$/i,
@@ -67,7 +68,7 @@ const config = {
       },
       {
         test: /\.svg$/,
-        loader: "svg-loader"
+        loader: "svg-loader",
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -78,9 +79,9 @@ const config = {
               limit: 8192, // Пороговое значение для размера файла (в байтах)
               name: "images/[name].[ext]", // Имя файла после обработки url-loader
             },
-          }
+          },
         ],
-      }
+      },
 
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/

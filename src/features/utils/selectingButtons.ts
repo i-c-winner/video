@@ -1,4 +1,4 @@
-import { IInterface } from '../../app/types';
+import { IInterface } from "../../app/types";
 
 function selectingButtons(where: string[], what: string[]) {
   return where.filter((button) => {
@@ -7,4 +7,3 @@ function selectingButtons(where: string[], what: string[]) {
 }
 
 export { selectingButtons };
-

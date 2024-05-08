@@ -25,31 +25,37 @@ body {
   --width-chat-box: 300px;
   --bcground-body: #151823;
 }
-::-webkit-scrollbar { /* 1 - скроллбар */
+::-webkit-scrollbar {
+  /* 1 - скроллбар */
   width: 16px;
   height: 4px;
   background-color: #2a2929;
 }
 
-::-webkit-scrollbar-button { /* 2 - кнопка */
-
+::-webkit-scrollbar-button {
+  /* 2 - кнопка */
 }
 
-::-webkit-scrollbar-track { /* 3 - трек */
+::-webkit-scrollbar-track {
+  /* 3 - трек */
 }
 
-::-webkit-scrollbar-track-piece { /* 4 - видимая часть трека */
+::-webkit-scrollbar-track-piece {
+  /* 4 - видимая часть трека */
 }
 
-::-webkit-scrollbar-thumb { /* 5 - ползунок */
+::-webkit-scrollbar-thumb {
+  /* 5 - ползунок */
   border-radius: 8px;
   background-color: grey;
 }
 
-::-webkit-scrollbar-corner { /* 6 - уголок */
+::-webkit-scrollbar-corner {
+  /* 6 - уголок */
 }
 
-::-webkit-resizer { /* 7 - изменение размеров */
+::-webkit-resizer {
+  /* 7 - изменение размеров */
 }
 
 p {

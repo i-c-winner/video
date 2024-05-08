@@ -1,28 +1,34 @@
-import { Box, Button, TextField } from '@mui/material';
-import { styles } from '../../widgets/styles/styles';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
-import { chat } from '../../features/manager/chat';
-import { glagol } from '../conference/glagol';
-import {ArrowDownTrayIcon} from '@heroicons/react/24/outline';
-import { IStore } from '../../app/types';
-import { saveChat } from '../../features/chats/saveChat';
-import { styleButton } from '../styles/styles';
-import { ButtonWrapper } from './UI/button/ButtonWrapper';
-import { useTheme } from '@mui/material';
-
+import { Box, TextField, useTheme } from "@mui/material";
+import { styles } from "../../widgets/styles/styles";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ArrowDownTrayIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/outline";
+import { IStore } from "../../app/types";
+import { saveChat } from "../../features/chats/saveChat";
+import { app } from "../../app/model/constants/app";
+import { ButtonWrapper } from "./UI/button/ButtonWrapper";
+import { addChat } from "../../app/store/chatsSlice";
 
 function ChatInputField() {
-  const [ text, setText ] = useState<string>('');
+  const { glagolVC } = app;
+  const [text, setText] = useState<string>("");
   const dispatch = useDispatch();
   const { chatsList } = useSelector((state: IStore) => state.chats);
-const theme=useTheme()
-  function sendMessage() {
+  const theme = useTheme();
 
-    setText('');
+  function sendMessage() {
+    setText("");
     if (refInput.current?.value) {
-      chat.sendMessage(glagol.sendMessage, refInput.current?.value);
+      glagolVC.sendChatMessage(refInput.current?.value);
+      dispatch(
+        addChat({
+          text: refInput.current?.value,
+          author: glagolVC.displayName,
+        }),
+      );
     }
   }
 
@@ -33,23 +39,32 @@ const theme=useTheme()
   function saveMessages() {
     saveChat(chatsList);
   }
-  function  getInputBackground() {
-  if (theme.palette.mode==='dark') {
-    return 'input-field input-field_dark'
-  } return 'input-field input-field_light'
+
+  function getInputBackground() {
+    if (theme.palette.mode === "dark") {
+      return "input-field input-field_dark";
+    }
+    return "input-field input-field_light";
   }
 
   const refInput = useRef<HTMLTextAreaElement>(null);
   return (
     <Box sx={styles.chatsboxLayer.chatInputField}>
-      <Box sx={{ boxSizing: 'border-box' }} display="flex" justifyContent="space-between" width="100%">
+      <Box
+        sx={{ boxSizing: "border-box" }}
+        display="flex"
+        justifyContent="space-between"
+        width="100%"
+      >
         <Box>
-          <ButtonWrapper action={saveMessages}>{<ArrowDownTrayIcon/>}</ButtonWrapper>
+          <ButtonWrapper action={saveMessages}>
+            {<ArrowDownTrayIcon />}
+          </ButtonWrapper>
         </Box>
         <TextField
           hiddenLabel={true}
           classes={{
-            root: getInputBackground()
+            root: getInputBackground(),
           }}
           onChange={changeText}
           value={text}
@@ -60,10 +75,10 @@ const theme=useTheme()
           maxRows={4}
           variant="standard"
         />
-        <ButtonWrapper action={sendMessage}>{<PaperAirplaneIcon />}</ButtonWrapper>
+        <ButtonWrapper action={sendMessage}>
+          {<PaperAirplaneIcon />}
+        </ButtonWrapper>
       </Box>
-
-
     </Box>
   );
 }

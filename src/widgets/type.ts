@@ -1,13 +1,13 @@
 interface IVideoQty {
-  disabled: 'disabled',
-  low: 'low',
-  middle: 'middle',
-  height: 'height'
+  disabled: "disabled";
+  low: "low";
+  middle: "middle";
+  height: "height";
 }
 
 interface IAudioQty {
-  enabled: 'enabled',
-  disabled: 'disabled'
+  enabled: "enabled";
+  disabled: "disabled";
 }
 
 interface IStyle {
@@ -15,9 +15,9 @@ interface IStyle {
 }
 interface IIcon {
   attributes: {
-    [key: string]: string
-  },
-  content: string,
+    [key: string]: string;
+  };
+  content: string;
 }
 
 export type { IVideoQty, IAudioQty, IStyle, IIcon };
