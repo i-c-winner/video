@@ -1,9 +1,4 @@
-import {
-  Autocomplete,
-  AutocompleteRenderInputParams,
-  Box,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Box, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { app } from "../../../app/model/constants/app";
 import { useTranslation } from "react-i18next";
@@ -21,10 +16,6 @@ function Devices() {
   const [audioDevices, setAudioDevices] = useState<any[]>([]);
   const [microphoneDevices, setMicrophoneDevices] = useState<any[]>([]);
   const refVideo = useRef<HTMLVideoElement>(null);
-
-  function changeAudio(this: AutocompleteRenderInputParams) {
-    // console.log(this)
-  }
 
   useEffect(() => {
     const stream = new MediaStream();
@@ -67,7 +58,7 @@ function Devices() {
       >
         <Autocomplete
           sx={styleInput}
-          onInputChange={(event, value, reason) => {
+          onInputChange={(event, value) => {
             const filteredDevice = videoDevices.filter(
               (device) => device.label === value,
             );
@@ -88,12 +79,12 @@ function Devices() {
         />
         <Autocomplete
           sx={styleInput}
-          onInputChange={(event, value, reason) => {
+          onInputChange={(event, value) => {
             const filteredDevice = audioDevices.filter(
               (device) => device.label === value,
             );
             console.log(filteredDevice[0]);
-            changeDevices.audio(filteredDevice[0].deviceId);
+            changeDevices.audio();
           }}
           renderInput={(params) => {
             return (
@@ -110,7 +101,7 @@ function Devices() {
         />
         <Autocomplete
           sx={styleInput}
-          onInputChange={(event, value, reason) => {
+          onInputChange={(event, value) => {
             const filteredDevice = microphoneDevices.filter(
               (device) => device.label === value,
             );

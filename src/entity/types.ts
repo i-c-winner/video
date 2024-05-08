@@ -1,7 +1,3 @@
-import { ButtonClasses } from "@mui/material";
-
-type TKyes = keyof ButtonClasses;
-
 interface ICandidates {
   list: RTCIceCandidate[];
   pushCandidate: (candidate: RTCIceCandidate) => void;

@@ -31,7 +31,7 @@ let recording: Recording | null = null;
 function Toolbox() {
   const glagolVC = app.glagolVC;
   const [iSharing, setISharing] = useState<boolean>(false);
-  const { chatsBoxVisible, tileMode, isRecording, modalIsOpen } = useSelector(
+  const { chatsBoxVisible, isRecording, modalIsOpen } = useSelector(
     (state: IStore) => state.interface,
   );
   const [cameraIsWorking, setCameraIsWorking] = useState<boolean>(true);
@@ -163,6 +163,7 @@ function Toolbox() {
           recording = rec;
         })
         .catch((error) => {
+          new Error(error);
           dispatch(changeIsRecording(false));
         });
     } else {

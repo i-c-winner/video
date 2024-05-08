@@ -12,10 +12,7 @@ interface IGlagol {
     roomName: string;
     displayName: string;
   };
-  applyConstraints: (data: {
-    type: "audio" | "video";
-    value: keyof IAudioQty | keyof IVideoQty;
-  }) => void;
+  applyConstraints: (data: { type: "audio" | "video"; value: keyof IAudioQty | keyof IVideoQty }) => void;
   peerConnection: RTCPeerConnection;
   connection: any;
   connectionAddHandlers: () => void;

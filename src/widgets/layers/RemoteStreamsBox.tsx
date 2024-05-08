@@ -2,7 +2,7 @@ import { RemoteStream } from "../../entity/model/RemoteStream";
 import { Box, Typography } from "@mui/material";
 import { styles } from "../styles/styles";
 import { useSelector } from "react-redux";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IStore } from "../../app/types";
 import { RemoteStreamsBoxTileMode } from "../RemoteStreamsBoxTileMode";
 import { ChartBarIcon } from "@heroicons/react/24/solid";

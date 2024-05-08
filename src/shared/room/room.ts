@@ -1,5 +1,5 @@
 import { TCallbackConference } from "../../app/types";
-import { IGlagol, TSendMessage } from "../index";
+import { TSendMessage } from "../index";
 
 class Room {
   private static instance: any;

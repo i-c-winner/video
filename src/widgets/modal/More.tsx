@@ -27,7 +27,7 @@ const styleBox = {
   pointerEvents: "initial",
 };
 
-const More = React.forwardRef((props, ref) => {
+const More = React.forwardRef(() => {
   const theme = useTheme();
 
   function getColor() {

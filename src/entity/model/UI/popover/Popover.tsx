@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import { Box } from "@mui/material";
 
@@ -10,13 +10,11 @@ interface IProps {
 }
 
 function Popover(props: IProps) {
-  const refBox = useRef<HTMLDivElement>(null);
-  function click(ev: any) {}
   function stopPropagation(ev: any) {
     ev.stopPropagation();
   }
   useEffect(() => {
-    function closePopover(ev: any) {
+    function closePopover() {
       props.onClose();
     }
 

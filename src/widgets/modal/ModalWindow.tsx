@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IStore } from "../../app/types";
 import { openModal } from "../../app/store/interfaceSlice";
 import { Settings } from "./Settings";
-import React, { ReactElement, ReactNode, useRef } from "react";
+import React, { ReactElement } from "react";
 import { Error } from "./Error";
 import { More } from "./More";
 import { SettingsVideo } from "./SettingsVideo";

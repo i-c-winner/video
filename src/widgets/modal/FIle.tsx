@@ -18,7 +18,7 @@ import { removeFile } from "../../app/store/filesSlice";
 import { useTranslation } from "react-i18next";
 import { app } from "../../app/model/constants/app";
 
-const File = React.forwardRef((props, ref) => {
+const File = React.forwardRef(() => {
   const { glagolVC } = app;
 
   const dispatch = useDispatch();

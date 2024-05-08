@@ -8,7 +8,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-// import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from "react-i18next";
 import { IAudioQty, IVideoQty } from "../type";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -72,7 +71,7 @@ function a11yProps(index: number) {
   };
 }
 
-const SettingsVideo = React.forwardRef((props, ref) => {
+const SettingsVideo = React.forwardRef(() => {
   const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();

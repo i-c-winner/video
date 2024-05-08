@@ -1,7 +1,7 @@
 import { IPropsButton } from "../../../types";
-import { Box, Button, Tooltip } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { CreateSvgIcon } from "../../../../features/CreaeteSvgIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getStyles } from "../../../../features/UI/buttons/getStyles";
 
 interface IProps extends IPropsButton {

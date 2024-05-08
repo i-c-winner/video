@@ -1,7 +1,5 @@
-import { app } from "../../app/model/constants/app";
-
 const changeDevices = {
-  audio: function (deviceId: string) {
+  audio: function () {
     // app.glagolVC.glagolManager.changeAudioOutput(deviceId)
   },
   mic: function (deviceId: string) {

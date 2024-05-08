@@ -4,9 +4,7 @@ class Recording {
   private mediaRecorder: MediaRecorder | null;
 
   constructor() {
-    this.options = MediaRecorder.isTypeSupported("video/webm; codecs=vp9")
-      ? "video/webm; codecs=vp9"
-      : "video/webm";
+    this.options = MediaRecorder.isTypeSupported("video/webm; codecs=vp9") ? "video/webm; codecs=vp9" : "video/webm";
     this.chunks = [];
     this.mediaRecorder = null;
     this.createListeners = this.createListeners.bind(this);
@@ -14,7 +12,7 @@ class Recording {
   }
 
   init() {
-    return new Promise<MediaStream>((resolve, reject) => {
+    return new Promise<MediaStream>((resolve) => {
       resolve(
         navigator.mediaDevices.getDisplayMedia({
           video: true,
@@ -34,7 +32,7 @@ class Recording {
   createListeners() {
     if (this.mediaRecorder !== null) {
       this.mediaRecorder.ondataavailable = (ev) => this.chunks.push(ev.data);
-      this.mediaRecorder.onstop = (ev) => {
+      this.mediaRecorder.onstop = () => {
         const blob = new Blob(this.chunks, {
           type: this.chunks[0].type,
         });

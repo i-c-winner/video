@@ -16,6 +16,8 @@ declare module "@mui/material/Typography" {
     h3: false;
   }
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { TypographyProps } from "@mui/material";
 
 declare module "@material-ui/core/Typography" {
   interface TypographyProps {

@@ -1,4 +1,5 @@
-import { Palette, PaletteMode } from "@mui/material";
+import { PaletteMode } from "@mui/material";
+import { ThemeOptions } from "@mui/material";
 
 const myTheme = {
   dark: {
@@ -16,7 +17,7 @@ const myTheme = {
         color: "grey",
       },
     },
-  },
+  } as ThemeOptions,
   light: {
     palette: {
       mode: "light" as PaletteMode,
@@ -48,6 +49,6 @@ const myTheme = {
         },
       },
     },
-  },
+  } as ThemeOptions,
 };
 export { myTheme };

@@ -3,7 +3,6 @@ import "../styles/index.scss";
 import { TChat } from "../../app/types";
 import React from "react";
 import { BadgeAvatars } from "./avatar/BadgeAvatar";
-import avatar from "../../../public/images/face1.jpeg";
 
 function Chat(props: { chat: TChat }) {
   const flexBox = {

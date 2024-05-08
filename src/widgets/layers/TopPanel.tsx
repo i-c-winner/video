@@ -1,4 +1,4 @@
-import { Box, CardHeader, Typography, Card, useTheme } from "@mui/material";
+import { Box, CardHeader, Typography, useTheme } from "@mui/material";
 import { styles } from "../styles/styles";
 // import { glagol } from '../../entity/conference/glagol';
 import { useTranslation } from "react-i18next";

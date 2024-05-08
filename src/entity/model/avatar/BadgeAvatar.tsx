@@ -2,8 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import comet from "../../../../public/images/comete.jpeg";
 
 interface IProps {
   sizes: { width: number; height: number };

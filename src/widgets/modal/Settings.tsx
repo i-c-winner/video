@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Tabs, Tab, Button, Typography } from "@mui/material";
+import { Box, Tabs, Tab, Typography } from "@mui/material";
 import { Devices } from "../../entity/model/modal/Devices";
 import { Profile } from "../../entity/model/modal/Profile";
 import { Calendar } from "../../entity/model/modal/Calendar";
@@ -66,7 +66,7 @@ function a11yProps(index: number, value: number) {
   };
 }
 
-const Settings = React.forwardRef((props, ref) => {
+const Settings = React.forwardRef(() => {
   const [value, setValue] = React.useState(0);
   const { t } = useTranslation();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

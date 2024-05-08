@@ -1,6 +1,6 @@
 import React from "react";
 
-const Error = React.forwardRef((props, ref) => {
+const Error = React.forwardRef(() => {
   return (
     <div
       style={{

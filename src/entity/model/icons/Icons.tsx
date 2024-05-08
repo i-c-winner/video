@@ -5,9 +5,7 @@ import { MicOff } from "@mui/icons-material";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { app } from "../../../app/model/constants/app";
-import { styles } from "../../../widgets/styles/styles";
 
-const { remoteStreamLayer } = styles;
 const styleImageButton = {
   height: "24px",
   width: "24px",

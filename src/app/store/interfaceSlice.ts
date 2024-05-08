@@ -12,10 +12,7 @@ const interfaceSlice = createSlice({
     openModal: (state, action: PayloadAction<boolean>) => {
       state.modalIsOpen = action.payload;
     },
-    changeTypeModal: (
-      state,
-      action: PayloadAction<IInterface["typeModal"]>,
-    ) => {
+    changeTypeModal: (state, action: PayloadAction<IInterface["typeModal"]>) => {
       state.typeModal = action.payload;
     },
     changeVideo: (state, action) => {
