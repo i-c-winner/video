@@ -113,18 +113,8 @@ class GlagolManager {
 
   changeDevices(deviceId: string, type: string) {
     const constraints = {
-      video:
-        type === "video"
-          ? {
-              deviceId,
-            }
-          : true,
-      audio:
-        type === "audio"
-          ? {
-              deviceId,
-            }
-          : true,
+      video: type === "video" ? { deviceId } : true,
+      audio: type === "audio" ? { deviceId } : true,
     };
     navigator.mediaDevices.getUserMedia(constraints).then((streams) => {
       streams.getTracks().forEach((track) => {

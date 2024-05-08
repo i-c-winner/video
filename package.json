@@ -21,7 +21,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "copy-webpack-plugin": "^12.0.2",
-    "eslint": "^8.57.0",
     "file-loader": "^6.2.0",
     "globals": "^15.1.0",
     "i18next": "^23.7.3",
@@ -51,6 +50,7 @@
     "@webpack-cli/generators": "^3.0.7",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
+    "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^3.2.5",

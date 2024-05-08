@@ -56,7 +56,10 @@ function BadgeAvatars(props: TProps) {
         margin: "0 auto !important",
       }}
       overlap="circular"
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
       variant="dot"
     >
       <MyAvatar alt="Remy Sharp" src={props.avatar}></MyAvatar>

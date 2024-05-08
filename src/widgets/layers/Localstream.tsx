@@ -67,8 +67,13 @@ function LocalStream() {
             }}
           >
             <BadgeAvatars
-              styles={{ color: "green" }}
-              sizes={{ width: 200, height: 200 }}
+              styles={{
+                color: "green",
+              }}
+              sizes={{
+                width: 200,
+                height: 200,
+              }}
             />
           </Box>
         )}

@@ -11,12 +11,16 @@ interface IOptions {
     }[];
   };
 }
+
 type TQuantity = "height" | "middle" | "low";
 
 interface IMyTrack extends MediaStreamTrack {
   iSharingScreen?: boolean;
+  hasOwn?: (args: "iSharingScreen") => boolean;
 }
+
 interface IMySender extends RTCRtpSender {
   track: IMyTrack;
 }
+
 export type { IOptions, IMyTrack, IMySender, TQuantity };

@@ -46,7 +46,9 @@ function setRegister(strophe: any) {
       if (conn.disco) {
         if (conn.disco.addFeature) conn.disco.addFeature(Strophe.NS.REGISTER);
         if (conn.disco.addNode)
-          conn.disco.addNode(Strophe.NS.REGISTER, { items: [] });
+          conn.disco.addNode(Strophe.NS.REGISTER, {
+            items: [],
+          });
       }
 
       // hooking strophe's connection.reset
@@ -228,7 +230,11 @@ function setRegister(strophe: any) {
         null,
       );
       conn.send(
-        $iq({ type: "get" }).c("query", { xmlns: Strophe.NS.REGISTER }).tree(),
+        $iq({ type: "get" })
+          .c("query", {
+            xmlns: Strophe.NS.REGISTER,
+          })
+          .tree(),
       );
 
       return true;
@@ -241,7 +247,8 @@ function setRegister(strophe: any) {
      *    (XMLElement) elem - The query stanza.
      *
      *  Returns:
-     *    false to remove SHOULD contain the registration information currentlSHOULD contain the registration information currentlSHOULD contain the registration information currentlthe handler.
+     *    false to remove SHOULD contain the registration information currentlSHOULD contain the registration
+     *    information currentlSHOULD contain the registration information currentlthe handler.
      */
     _get_register_cb: function (stanza: any) {
       let i,
@@ -288,7 +295,9 @@ function setRegister(strophe: any) {
         query,
         fields,
         conn = this._connection;
-      query = $iq({ type: "set" }).c("query", { xmlns: Strophe.NS.REGISTER });
+      query = $iq({ type: "set" }).c("query", {
+        xmlns: Strophe.NS.REGISTER,
+      });
 
       // set required fields
       fields = Object.keys(this.fields);

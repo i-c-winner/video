@@ -12,21 +12,27 @@ const sharing: ISharing = {
       to: `${context.roomName}@conference.prosolen.net/focus`,
       type: "chat",
     })
-      .c("x", { xmlns: "http://jabber.org/protocol/muc#user" })
+      .c("x", {
+        xmlns: "http://jabber.org/protocol/muc#user",
+      })
       .up()
       .c("body")
       .t("offer_dashboard")
       .up()
-      .c("jimble", { xmlns: "urn:xmpp:jimble", ready: "true" });
+      .c("jimble", {
+        xmlns: "urn:xmpp:jimble",
+        ready: "true",
+      });
     context.sendMessage(message);
   },
   stop: function () {
     const context: any = this;
-    const sender = context.webRtc
-      .getSenders()
-      .find((sender: IMySender) =>
-        sender?.track?.hasOwnProperty("iSharingScreen"),
-      ) as IMySender;
+    const sender = context.webRtc.getSenders().find((sender: IMySender) => {
+      if (sender.track !== null) {
+        return sender?.track?.hasOwn!("iSharingScreen");
+      }
+      return false;
+    }) as IMySender;
 
     // context.webRtc.getSenders().forEach((sender: RTCRtpSender)=>{
     sender.track?.stop();
@@ -46,7 +52,9 @@ const sharing: ISharing = {
           context.webRtc.addTrack(track);
         });
         context.emit("roomOn", stream);
-        return context.webRtc.createOffer({ iceRestart: false });
+        return context.webRtc.createOffer({
+          iceRestart: false,
+        });
       })
       .then((offer: RTCOfferOptions) => {
         context.webRtc.setLocalDescription(offer);
@@ -55,12 +63,17 @@ const sharing: ISharing = {
           to: `${context.roomName}@conference.prosolen.net/focus`,
           type: "chat",
         })
-          .c("x", { xmlns: "http://jabber.org/protocol/muc#user" })
+          .c("x", {
+            xmlns: "http://jabber.org/protocol/muc#user",
+          })
           .up()
           .c("body")
           .t("remove_dashboard")
           .up()
-          .c("jimble", { xmlns: "urn:xmpp:jimble", ready: "true" })
+          .c("jimble", {
+            xmlns: "urn:xmpp:jimble",
+            ready: "true",
+          })
           .t(offerB64);
         context.sendMessage(message);
       });

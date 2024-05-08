@@ -194,21 +194,32 @@ class Glagol {
               }
             });
             this.emit("sendSharing", stream);
-            return this.webRtc.createOffer({ iceRestart: false });
+            return this.webRtc.createOffer({
+              iceRestart: false,
+            });
           })
           .then((offer: RTCLocalSessionDescriptionInit) => {
             this.webRtc.setLocalDescription(offer);
-            const offer64 = btoa(JSON.stringify({ offer }));
+            const offer64 = btoa(
+              JSON.stringify({
+                offer,
+              }),
+            );
             const message = $msg({
               to: `${this.roomName}@conference.prosolen.net/focus`,
               type: "chat",
             })
-              .c("x", { xmlns: "http://jabber.org/protocol/muc#user" })
+              .c("x", {
+                xmlns: "http://jabber.org/protocol/muc#user",
+              })
               .up()
               .c("body")
               .t("send_dashboard")
               .up()
-              .c("jimble", { xmlns: "urn:xmpp:jimble", ready: "true" })
+              .c("jimble", {
+                xmlns: "urn:xmpp:jimble",
+                ready: "true",
+              })
               .t(offer64);
             this.sendMessage(message);
           })
@@ -268,7 +279,7 @@ class Glagol {
         }
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
     return true;
   };
@@ -288,8 +299,12 @@ class Glagol {
             this.invitateRoom();
           }
         }
-      } catch (e) {console.error(e)}
-    } catch (e) {console.error(e)}
+      } catch (e) {
+        console.error(e);
+      }
+    } catch (e) {
+      console.error(e);
+    }
     console.log(stanza, "Stanza");
     return true;
   };
@@ -304,7 +319,9 @@ class Glagol {
           if (roomName === this.roomName) this.invitateRoom();
         }
       }
-    } catch (e) {console.error(e)}
+    } catch (e) {
+      console.error(e);
+    }
     return true;
   };
 
@@ -423,7 +440,9 @@ class Glagol {
       to: `${this.roomName}@conference.prosolen.net/focus`,
       type: "chat",
     })
-      .c("x", { xmlns: "http://jabber.org/protocol/muc#user" })
+      .c("x", {
+        xmlns: "http://jabber.org/protocol/muc#user",
+      })
       .up()
       .c("body", {}, "start_download")
       .c("jimble", {

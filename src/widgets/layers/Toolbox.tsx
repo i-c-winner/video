@@ -182,7 +182,12 @@ function Toolbox() {
         <ButtonWrapper text="chat" action={openChat}>
           <ChatBubbleOvalLeftEllipsisIcon color={colorText} />
         </ButtonWrapper>
-        <ButtonWrapper text="file" action={openingModal.bind({ type: "file" })}>
+        <ButtonWrapper
+          text="file"
+          action={openingModal.bind({
+            type: "file",
+          })}
+        >
           <FolderPlusIcon color={colorText} />
         </ButtonWrapper>
         <ButtonWrapper toggled={iSharing} text="share" action={sharingAction}>

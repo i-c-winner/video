@@ -74,7 +74,9 @@ const More = React.forwardRef((props, ref) => {
                 key={getRandomText(8)}
               >
                 <ListItemButton
-                  onClick={actionClick.bind({ type: button })}
+                  onClick={actionClick.bind({
+                    type: button,
+                  })}
                   sx={{
                     padding: "0",
                   }}

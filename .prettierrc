@@ -1,0 +1,14 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "jsxBracketSameLine": true,
+  "overrides": [
+    {
+      "files": "src/**/*.{ts}",
+      "options": {
+        "parser": "typescript",
+        "printWidth": 120
+      }
+    }
+  ]
+}

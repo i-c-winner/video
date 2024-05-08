@@ -29,8 +29,7 @@ function RemoteStreamsBoxTileMode() {
                       element.type === "audio" ? { display: "none" } : {}
                     }
                     item
-                    xs={3}
-                  >
+                    xs={3}>
                     {/*<RemoteStream  id={element.id} />*/}
                   </Grid>
                 </React.Fragment>

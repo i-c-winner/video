@@ -52,8 +52,12 @@ function App() {
         webUrl: {
           iceCandidatePoolSize: 5,
           iceServers: [
-            { urls: "stun:stun.l.google.com:19302" },
-            { urls: "stun:vks.knodl.tech:80" },
+            {
+              urls: "stun:stun.l.google.com:19302",
+            },
+            {
+              urls: "stun:vks.knodl.tech:80",
+            },
 
             {
               urls: "turn:vks.knodl.tech:80",

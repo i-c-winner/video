@@ -103,14 +103,18 @@ const Settings = React.forwardRef((props, ref) => {
           sx={{
             minHeight: "initial",
           }}
-          TabIndicatorProps={{ sx: { display: "none" } }}
+          TabIndicatorProps={{
+            sx: { display: "none" },
+          }}
           textColor="inherit"
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
           <Tab
-            classes={{ root: "my-button my-button__tabs" }}
+            classes={{
+              root: "my-button my-button__tabs",
+            }}
             component="p"
             label={
               <Typography variant="myText">
@@ -120,7 +124,9 @@ const Settings = React.forwardRef((props, ref) => {
             {...a11yProps(0, value)}
           />
           <Tab
-            classes={{ root: "my-button my-button__tabs" }}
+            classes={{
+              root: "my-button my-button__tabs",
+            }}
             component="p"
             label={
               <Typography variant="myText">
@@ -130,7 +136,9 @@ const Settings = React.forwardRef((props, ref) => {
             {...a11yProps(1, value)}
           />
           <Tab
-            classes={{ root: "my-button my-button__tabs" }}
+            classes={{
+              root: "my-button my-button__tabs",
+            }}
             component="p"
             label={
               <Typography variant="myText">
@@ -140,7 +148,9 @@ const Settings = React.forwardRef((props, ref) => {
             {...a11yProps(2, value)}
           />
           <Tab
-            classes={{ root: "my-button my-button__tabs" }}
+            classes={{
+              root: "my-button my-button__tabs",
+            }}
             component="p"
             label={
               <Typography variant="myText">

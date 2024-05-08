@@ -62,7 +62,12 @@ function RemoteStreamsBox(props: { streams: MediaStream[] }) {
       return (
         <Box sx={remoteStreamLayer}>
           <Box sx={getStyles()}>
-            <Box sx={{ margin: "0 0 0 auto" }} position={"relative"}>
+            <Box
+              sx={{
+                margin: "0 0 0 auto",
+              }}
+              position={"relative"}
+            >
               <Box
                 sx={{
                   display: "flex",

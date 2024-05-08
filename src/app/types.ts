@@ -50,14 +50,7 @@ interface IInterface {
   toolboxVisible: boolean;
   modalIsOpen: boolean;
   tileMode: boolean;
-  typeModal:
-    | "error"
-    | "settings"
-    | "more"
-    | "settingsVideo"
-    | "fullScreen"
-    | "allMute"
-    | "file";
+  typeModal: "error" | "settings" | "more" | "settingsVideo" | "fullScreen" | "allMute" | "file";
   isRecording: boolean;
   remoteBoxVisible: boolean;
   conference: {
@@ -75,14 +68,4 @@ interface IStore {
   files: IFiles;
 }
 
-export type {
-  TStream,
-  IInterface,
-  IStore,
-  IChats,
-  TChat,
-  ISource,
-  IConfig,
-  TCallbackConference,
-  IParamsConference,
-};
+export type { TStream, IInterface, IStore, IChats, TChat, ISource, IConfig, TCallbackConference, IParamsConference };
