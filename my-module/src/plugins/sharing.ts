@@ -7,6 +7,7 @@ interface ISharing {
 
 const sharing: ISharing = {
   start: function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context: any = this;
     const message = $msg({
       to: `${context.roomName}@conference.prosolen.net/focus`,
@@ -26,6 +27,7 @@ const sharing: ISharing = {
     context.sendMessage(message);
   },
   stop: function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context: any = this;
     const sender = context.webRtc.getSenders().find((sender: IMySender) => {
       if (sender.track !== null) {
