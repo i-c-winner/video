@@ -86,8 +86,7 @@ class GlagolManager {
     this.webRtc.getSenders().forEach((sender) => {
       if (sender.track !== null)
         if (sender.track.kind === "video") {
-          if (sender.track !== null)
-            sender.track.applyConstraints(constraints).then(() => {});
+          if (sender.track !== null) sender.track.applyConstraints(constraints).then(() => {});
         }
     });
 

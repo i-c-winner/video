@@ -147,13 +147,7 @@ function setRegister(strophe: any) {
      *      number of connections the server will hold at one time.  This
      *      should almost always be set to 1 (the default).
      */
-    connect: function (
-      domain: any,
-      callback: any,
-      wait: any,
-      hold: any,
-      route: any,
-    ) {
+    connect: function (domain: any, callback: any, wait: any, hold: any, route: any) {
       const conn = this._connection;
       this.domain = Strophe.getDomainFromJid(domain);
       this.instructions = "";
@@ -186,10 +180,7 @@ function setRegister(strophe: any) {
       }
 
       if (conn.xmlInput !== Strophe.Connection.prototype.xmlInput) {
-        if (
-          bodyWrap.nodeName === conn._proto.strip &&
-          bodyWrap.childNodes.length
-        ) {
+        if (bodyWrap.nodeName === conn._proto.strip && bodyWrap.childNodes.length) {
           conn.xmlInput(bodyWrap.childNodes[0]);
         } else {
           conn.xmlInput(bodyWrap);
@@ -222,13 +213,7 @@ function setRegister(strophe: any) {
       }
 
       // send a get request for registration, to get all required data fields
-      conn._addSysHandler(
-        this._get_register_cb.bind(this),
-        null,
-        "iq",
-        null,
-        null,
-      );
+      conn._addSysHandler(this._get_register_cb.bind(this), null, "iq", null, null);
       conn.send(
         $iq({ type: "get" })
           .c("query", {
@@ -274,8 +259,7 @@ function setRegister(strophe: any) {
           // ignore x for now
           continue;
         }
-        conn.register.fields[field.tagName.toLowerCase()] =
-          Strophe.getText(field);
+        conn.register.fields[field.tagName.toLowerCase()] = Strophe.getText(field);
       }
       conn._changeConnectStatus(Strophe.Status.REGISTER, null);
       return false;

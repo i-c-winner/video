@@ -16,8 +16,6 @@ declare module "@mui/material/Typography" {
     h3: false;
   }
 }
-// extendedTypography.d.ts
-import { TypographyProps } from "@material-ui/core/Typography";
 
 declare module "@material-ui/core/Typography" {
   interface TypographyProps {

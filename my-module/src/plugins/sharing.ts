@@ -1,4 +1,4 @@
-import { IMyTrack, IMySender } from "../components/types";
+import { IMySender } from "../components/types";
 
 interface ISharing {
   start: () => void;

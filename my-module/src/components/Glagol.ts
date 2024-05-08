@@ -15,9 +15,9 @@ class Glagol {
   private webRtc: RTCPeerConnection;
   private readonly userNode: string;
   private candidates: RTCIceCandidate[];
-  private roomName: string;
-  private displayName: string;
-  private handlers: IHandlers;
+  private readonly roomName: string;
+  private readonly displayName: string;
+  private readonly handlers: IHandlers;
 
   private glagolManager: GlagolManager | null;
 
@@ -43,16 +43,11 @@ class Glagol {
     this.xmpp.addHandler(this.xmppHandlerMessage, null, "message");
     this.xmpp.addHandler(this.xmppHandlerPresence, null, "presence");
     this.xmpp.addHandler(this.xmppHandlerIqTypeResult, null, "iq", "result");
-    this.xmpp.addHandler(
-      this.xmppHandlerMessageGroupChat,
-      null,
-      "message",
-      "groupchat",
-    );
+    this.xmpp.addHandler(this.xmppHandlerMessageGroupChat, null, "message", "groupchat");
   }
 
   register() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const callback = (status: number): void => {
         // @ts-ignore
         if (status === Strophe.Status.REGISTER) {
@@ -265,12 +260,9 @@ class Glagol {
       if (fromAttribute !== null) {
         const from = fromAttribute.split("/")[1];
         if (from !== this.userNode) {
-          const bodyText = Strophe.getText(
-            stanza.getElementsByTagName("body")[0],
-          );
+          const bodyText = Strophe.getText(stanza.getElementsByTagName("body")[0]);
           const jingle = stanza.getElementsByTagName("jingle")[0];
-          const jimble = stanza.getElementsByTagName("jimble")[0];
-          const jimbleText = Strophe.getText(jimble);
+
           this.emit("setMessageChat", {
             text: bodyText,
             author: jingle.getAttribute("author"),
@@ -285,13 +277,10 @@ class Glagol {
   };
 
   xmppHandlerPresence = (stanza: Element) => {
-    const jingle = stanza.getElementsByTagName("jingle");
     try {
       const x = stanza.getElementsByTagName("x");
       try {
-        const statuses: Element[] = Array.from(
-          x[1].getElementsByTagName("status"),
-        );
+        const statuses: Element[] = Array.from(x[1].getElementsByTagName("status"));
         if (statuses[0] !== null) {
           if (Number(statuses[0].getAttribute("code")) === 201) {
             this.validateRoom();
@@ -311,7 +300,6 @@ class Glagol {
 
   xmppHandlerIqTypeResult = (stanza: Element) => {
     try {
-      const from = stanza.getAttribute("from") || [];
       if (stanza !== null) {
         const attribute = stanza.getAttribute("from");
         if (attribute) {
@@ -333,9 +321,7 @@ class Glagol {
     this.webRtc
       .setRemoteDescription(JSON.parse(atob(description)))
       .then(() => {
-        this.getCandidates().forEach((candidate) =>
-          this.webRtc.addIceCandidate(candidate),
-        );
+        this.getCandidates().forEach((candidate) => this.webRtc.addIceCandidate(candidate));
         this.resetCandidates();
         return this.webRtc.createAnswer({
           iceRestart: true,
@@ -450,11 +436,6 @@ class Glagol {
         ready: "true",
       })
       .t(files[0].text);
-    const params = {
-      file_name: JSON.parse(atob(files[0].text)).file_name,
-      file_size: JSON.parse(atob(files[0].text)).file_size,
-      timestamp: JSON.parse(atob(files[0].text)).timestamp,
-    };
     this.sendMessage(message);
     // channel.createFileDescription(params)
     this.emit("removeFile", fileForRemove);

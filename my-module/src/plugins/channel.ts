@@ -50,9 +50,7 @@ class Channel {
   }
 
   readBuffer() {
-    this._fileReader.readAsArrayBuffer(
-      this._file.slice(this._offset, (this._offset += Channel.chunkSize)),
-    );
+    this._fileReader.readAsArrayBuffer(this._file.slice(this._offset, (this._offset += Channel.chunkSize)));
   }
 
   putChunks(message: MessageEvent) {
@@ -60,10 +58,7 @@ class Channel {
     const itIsParams = () => {
       return this._chunks.length > 1;
     };
-    if (
-      itIsParams() &&
-      (message.data.size ?? message.data.byteLength) < Channel.chunkSize
-    ) {
+    if (itIsParams() && (message.data.size ?? message.data.byteLength) < Channel.chunkSize) {
       try {
         const blob = new Blob(this._chunks.slice(1), {
           type: "application/octet-stream",

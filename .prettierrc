@@ -4,7 +4,7 @@
   "jsxBracketSameLine": true,
   "overrides": [
     {
-      "files": "src/**/*.{ts}",
+      "files": ["src/**/*.ts", "my-module/**/*.ts"],
       "options": {
         "parser": "typescript",
         "printWidth": 120

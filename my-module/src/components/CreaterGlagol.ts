@@ -20,10 +20,7 @@ class CreaterGlagol {
   private readonly roomName: string;
   private readonly userNode: string;
   private readonly emit: (name: string, ...args: any[]) => void;
-  static setHandler = function (
-    name: string,
-    handler: (...args: any[]) => void,
-  ) {
+  static setHandler = function (name: string, handler: (...args: any[]) => void) {
     if (!CreaterGlagol.handlers[name]) CreaterGlagol.handlers[name] = [];
     CreaterGlagol.handlers[name].push(handler);
   };
@@ -47,12 +44,9 @@ class CreaterGlagol {
     this.roomName = props.roomName;
     this.userNode = getRandomText(5);
     this.displayName = props.displayName;
-    this.webRtc.ondatachannel = (event: RTCDataChannelEvent) =>
-      this.glagol.pcHandlerDataChannel(event);
-    this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) =>
-      this.glagol.pcHandlerIceCandidate(event);
-    this.webRtc.ontrack = (event: RTCTrackEvent) =>
-      this.glagol.pcHandlerOnTrack(event);
+    this.webRtc.ondatachannel = (event: RTCDataChannelEvent) => this.glagol.pcHandlerDataChannel(event);
+    this.webRtc.onicecandidate = (event: RTCPeerConnectionIceEvent) => this.glagol.pcHandlerIceCandidate(event);
+    this.webRtc.ontrack = (event: RTCTrackEvent) => this.glagol.pcHandlerOnTrack(event);
   }
 
   createGlagol() {
