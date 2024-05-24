@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import {
   Box,
   Button,
@@ -46,13 +46,8 @@ const File = React.forwardRef(() => {
     dispatch(openModal(false));
   }
 
-  function sendFile(event: any) {
-    const params = {
-      file_name: event.target.files[0].name,
-      file_size: event.target.files[0].size,
-      timestamp: new Date().toString(),
-    };
-    glagolVC.sendFile({ event, params });
+  function sendFile(event: ChangeEvent<HTMLInputElement>) {
+    glagolVC.sendFile(event.target.files?.[0]);
     dispatch(openModal(false));
   }
 

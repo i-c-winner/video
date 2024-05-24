@@ -123,7 +123,7 @@ class Glagol {
 
   pcHandlerDataChannel(event: RTCDataChannelEvent) {
     event.channel.onmessage = (message) => {
-      channel.putChunks(message);
+      // channel.putChunks(message);
     };
     channel.init(event.channel);
   }
@@ -409,16 +409,8 @@ class Glagol {
     sharing.stop.apply(this);
   }
 
-  sendFile(props: {
-    event: any;
-    params: {
-      file_name: string;
-      file_size: number;
-      timestamp: string;
-    };
-  }) {
-    channel.sendData(JSON.stringify(props.params));
-    channel.sendBodyFile(props.event.target.files[0]);
+  sendFile(file: File) {
+    channel.sendFile(file);
   }
 
   saveFile(files: any, fileForRemove: string) {
