@@ -5,19 +5,19 @@ interface ISentFile {
 class SentFile implements ISentFile {
   private static chunkSize = 12000;
   private currentChunk: number;
-  private preparedData: string;
   private _offset: number;
   private props: { file: File };
   private fileId: number;
   private timestamp: number;
+  private sizeData: number;
 
-  constructor(props: { file: File }) {
-    this.fileId = Math.floor(Math.random() * 1000000 + 1);
+  constructor(props: { file: File, fileId: number }) {
+    this.fileId = props.fileId;
     this.props = props;
-    this.preparedData = "";
     this._offset = 0;
     this.currentChunk = 0;
     this.timestamp = Date.now();
+    this.sizeData = 0;
   }
 
   getSlice() {
@@ -25,14 +25,17 @@ class SentFile implements ISentFile {
   }
 
   createDataForSend = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
+      if (this._offset > this.props.file.size) {
+        reject(new Error(`File size ${this.props.file.size} is too large`));
+      }
       const reader = new FileReader();
       reader.onload = (event) => {
         const chunkData = event.target?.result as ArrayBuffer;
         const typedArray = new Uint8Array(chunkData);
         const arrayU8 = [...typedArray];
         const data = {
-          fileId: this.fileId,
+          file_id: this.fileId,
           chunk_number: this.currentChunk,
           chunk: arrayU8,
           file_name: this.props.file.name,
@@ -40,12 +43,13 @@ class SentFile implements ISentFile {
           timestamp: this.timestamp,
           lifetime: 60 * 60 * 24 * 1000
         };
-        resolve(window.btoa(JSON.stringify(data)))
-        reject(new Error(`Error while creating chunk "${chunkData}"`));
+        this.currentChunk += 1;
+        resolve(window.btoa(JSON.stringify(data)));
       };
-      reader.readAsDataURL(this.getSlice());
-      this._offset += this.props.file.size;
-      this.currentChunk += 1;
+      reader.onerror = (error) => {
+        reject(new Error(`Error while creating chunk \"${error}\"`));
+      };
+      reader.readAsArrayBuffer(this.getSlice());
     });
   };
 }
