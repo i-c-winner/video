@@ -17,12 +17,17 @@ class Channel {
         const message = JSON.parse(atob(result));
         const file = this.files.filter((file) => {
           return file.fileId === message.file_id;
-        })[0];
-        file.instanceFile.createDataForSend().then((data) => {
+        });
+        if (file.length>0) {
+          file[0].instanceFile.createDataForSend().then((data) => {
             this._instance?.send(data);
-        }).catch((err) => {console.log(err)});
+          }).catch((err) => {
+            this.files=this.files.filter((file) => {
+              return file.fileId!==err.id
+            })
+            console.info(err.error)});
+        }
       });
-
     };
   }
 
@@ -50,6 +55,17 @@ class Channel {
     }).catch((error) => {
       new Error(error);
     });
+  }
+  saveFile(blobFile: string) {
+    console.log(blobFile)
+    const blob= new Blob([blobFile]);
+    console.log(blob)
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'file.txt';
+    link.click();
+
   }
 }
 

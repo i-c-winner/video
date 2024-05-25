@@ -429,7 +429,7 @@ class Glagol {
       })
       .t(files[0].text);
     this.sendMessage(message);
-    // channel.createFileDescription(params)
+    channel.saveFile(files[0].text)
     this.emit("removeFile", fileForRemove);
   }
 

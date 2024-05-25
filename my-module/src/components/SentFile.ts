@@ -27,7 +27,11 @@ class SentFile implements ISentFile {
   createDataForSend = () => {
     return new Promise<string>((resolve, reject) => {
       if (this._offset > this.props.file.size) {
-        reject(new Error(`File size ${this.props.file.size} is too large`));
+
+        reject({
+          id: this.fileId,
+          error: `File ${this.props.file.name} received`
+        });
       }
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -47,7 +51,10 @@ class SentFile implements ISentFile {
         resolve(window.btoa(JSON.stringify(data)));
       };
       reader.onerror = (error) => {
-        reject(new Error(`Error while creating chunk \"${error}\"`));
+        reject({
+          id: this.fileId,
+          error: new Error(`Error while creating chunk \"${error}\"`)
+        });
       };
       reader.readAsArrayBuffer(this.getSlice());
     });
