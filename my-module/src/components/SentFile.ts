@@ -53,7 +53,7 @@ class SentFile implements ISentFile {
       reader.onerror = (error) => {
         reject({
           id: this.fileId,
-          error: new Error(`Error while creating chunk \"${error}\"`)
+          error: new Error(`Error while creating chunk "${error}"`)
         });
       };
       reader.readAsArrayBuffer(this.getSlice());

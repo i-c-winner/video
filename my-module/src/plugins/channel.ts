@@ -3,16 +3,16 @@ import { SentFile } from "../components/SentFile";
 class Channel {
   private _instance: RTCDataChannel | null;
   private files: { fileId: number, instanceFile: SentFile, file: File }[];
-  private receivedFileBuffer: any[];
+  private receivedFileBuffer: Uint8Array[];
   private receivedSizes: number;
   private startingDownload: boolean;
 
   constructor() {
     this._instance = null;
     this.files = [];
-    this.receivedFileBuffer=[]
-    this.receivedSizes=0
-    this.startingDownload=true
+    this.receivedFileBuffer = [];
+    this.receivedSizes = 0;
+    this.startingDownload = true;
   }
 
   init(chanel: RTCDataChannel) {
@@ -42,29 +42,25 @@ class Channel {
               console.info(err.error);
             });
           }
-          console.log('Message sent', message);
+          console.info("Message sent", message);
         } else {
-          if (this.startingDownload) {
-            this.startingDownload=false
-          } else {
-            this.receivedFileBuffer.push(message.chunk);
-          }
 
-          console.log(message, 'Message received');
-          this.receivedSizes+=message.chunk.length
-          console.log('получено данных',this.receivedSizes, 'всего данных ',message.file_size)
-          if(this.receivedSizes>=message.file_size) {
+          this.receivedSizes += message.chunk.length;
+          const uint8array = new Uint8Array(message.chunk);
+          this.receivedFileBuffer.push(uint8array);
+          console.info("received bit: ", this.receivedSizes, "all bit: ", message.file_size);
+          if (this.receivedSizes >= message.file_size) {
             const receivedBlob = new Blob(this.receivedFileBuffer);
             const url = URL.createObjectURL(receivedBlob);
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = url;
             link.download = message.file_name; // use the filename from the message
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            console.log(this.receivedFileBuffer)
             this.receivedFileBuffer = [];
-            this.startingDownload=true
+            this.startingDownload = true;
+            this.receivedSizes = 0;
           }
         }
       });
