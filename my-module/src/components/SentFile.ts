@@ -22,19 +22,12 @@ class SentFile {
     this.chunks = Math.ceil(this.file.size / chunkSize);
     this.id = Math.floor(Math.random() * 1000000 + 1);
     this.timestamp = Date.now();
-    this.channel.onmessage = (ev) => {
-      const message = new Response(ev.data).text();
-      message.then((result) => {
-        const message = JSON.parse(atob(result));
-        if (message.file_name) {
-        } else {
-          if (this.currentChunk <= this.chunks) {
-            this.readFileInChunks();
-          } else {
-            console.info(`file: ${this.file.name} received`);
-          }
-        }
-      });
+    this.channel.onmessage = () => {
+      if (this.currentChunk <= this.chunks) {
+        this.readFileInChunks();
+      } else {
+        console.info(`file: ${this.file.name} received`);
+      }
     };
   }
 
