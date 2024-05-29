@@ -1,63 +1,80 @@
-interface ISentFile {
+import { Channel } from "../plugins/channel";
 
+const channel = new Channel();
+
+interface IProps {
+  file: File;
 }
 
-class SentFile implements ISentFile {
-  private static chunkSize = 12000;
+class SentFile {
+  private file: File;
+  private channel: RTCDataChannel;
   private currentChunk: number;
-  private _offset: number;
-  private props: { file: File };
-  private fileId: number;
+  private chunks: number;
+  private id: number;
   private timestamp: number;
-  private sizeData: number;
 
-  constructor(props: { file: File, fileId: number }) {
-    this.fileId = props.fileId;
-    this.props = props;
-    this._offset = 0;
+  constructor(props: IProps) {
+    this.channel = channel.getChnannel() as RTCDataChannel;
+    this.file = props.file;
     this.currentChunk = 0;
+    const chunkSize = 12000;
+    this.chunks = Math.ceil(this.file.size / chunkSize);
+    this.id = Math.floor(Math.random() * 1000000 + 1);
     this.timestamp = Date.now();
-    this.sizeData = 0;
+    this.channel.onmessage = (ev) => {
+      const message = new Response(ev.data).text();
+      message.then((result) => {
+        const message = JSON.parse(atob(result));
+        if (message.file_name) {
+        } else {
+          if (this.currentChunk <= this.chunks) {
+            this.readFileInChunks();
+          } else {
+            console.info(`file: ${this.file.name} received`);
+          }
+        }
+      });
+    };
   }
 
-  getSlice() {
-    return this.props.file.slice(this._offset, (this._offset += SentFile.chunkSize));
-  }
+  readFileInChunks = () => {
+    const chunkSize = 12000;
+    const reader = new FileReader();
 
-  createDataForSend = () => {
-    return new Promise<string>((resolve, reject) => {
-      if (this._offset > this.props.file.size) {
-
-        reject({
-          id: this.fileId,
-          error: `File ${this.props.file.name} received`
-        });
-      }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const chunkData = event.target?.result as ArrayBuffer;
-        const typedArray = new Uint8Array(chunkData);
-        const arrayU8 = [...typedArray];
-        const data = {
-          file_id: this.fileId,
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        const chunk = reader.result as ArrayBuffer;
+        const message = {
           chunk_number: this.currentChunk,
-          chunk: arrayU8,
-          file_name: this.props.file.name,
-          file_size: this.props.file.size,
-          timestamp: this.timestamp,
-          lifetime: 60 * 60 * 24 * 1000
+          chunk: Array.from(new Uint8Array(chunk)),
+          file_id: this.id,
+          file_size: this.file.size,
+          file_name: this.file.name,
+          lifetime: 60 * 60 * 24,
+          timestamp: this.timestamp
         };
-        this.currentChunk += 1;
-        resolve(window.btoa(JSON.stringify(data)));
-      };
-      reader.onerror = (error) => {
-        reject({
-          id: this.fileId,
-          error: new Error(`Error while creating chunk "${error}"`)
-        });
-      };
-      reader.readAsArrayBuffer(this.getSlice());
-    });
+        const encodedMessage = btoa(JSON.stringify(message));
+        this.channel.send(encodedMessage);
+        this.currentChunk++;
+        if (this.channel.bufferedAmount < this.channel.bufferedAmountLowThreshold) {
+          this.readFileInChunks();
+        }
+        if (this.currentChunk === 1) {
+          this.readFileInChunks();
+        }
+      }
+    };
+    reader.onerror = function(err) {
+      new Error(`error with send file ${err}`);
+    };
+    this.loadNext(reader, chunkSize);
+  };
+  loadNext = (reader: FileReader, chunkSize: number) => {
+    const start = this.currentChunk * chunkSize;
+    const blobSlice = new Blob([this.file]);
+    const chunk = blobSlice.slice(start, start + chunkSize);
+    reader.readAsArrayBuffer(chunk);
   };
 }
 

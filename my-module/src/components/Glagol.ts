@@ -3,6 +3,7 @@ import { sharing } from "../plugins/sharing";
 import { IMyTrack } from "./types";
 import { Channel } from "../plugins/channel";
 import { GlagolManager } from "./GlagolManager";
+import { SentFile } from "./SentFile";
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[];
@@ -37,6 +38,7 @@ class Glagol {
     this.handlers = props.handlers;
     this.candidates = [];
     this.glagolManager = null;
+
   }
 
   addHandlers() {
@@ -100,7 +102,7 @@ class Glagol {
       const candidate = btoa(JSON.stringify({ candidate: event.candidate }));
       const message = new Strophe.Builder("message", {
         to: `${this.roomName}@conference.prosolen.net/focus`,
-        type: "chat",
+        type: "chat"
       })
         .c("body")
         .t(candidate);
@@ -122,7 +124,7 @@ class Glagol {
   }
 
   pcHandlerDataChannel(event: RTCDataChannelEvent) {
-    channel.init(event.channel);
+    channel.init({ channel: event.channel });
   }
 
   xmppHandlerMessage = (stanza: Element) => {
@@ -140,9 +142,9 @@ class Glagol {
             video: {
               width: 320,
               height: 240,
-              frameRate: 30,
+              frameRate: 30
             },
-            audio: true,
+            audio: true
           })
           .then((stream) => {
             stream.getTracks().forEach((track) => {
@@ -174,9 +176,9 @@ class Glagol {
           .getDisplayMedia({
             video: {
               width: 1200,
-              height: 800,
+              height: 800
             },
-            audio: false,
+            audio: false
           })
           .then((stream) => {
             stream.getTracks().forEach((track: IMyTrack) => {
@@ -187,22 +189,22 @@ class Glagol {
             });
             this.emit("sendSharing", stream);
             return this.webRtc.createOffer({
-              iceRestart: false,
+              iceRestart: false
             });
           })
           .then((offer: RTCLocalSessionDescriptionInit) => {
             this.webRtc.setLocalDescription(offer);
             const offer64 = btoa(
               JSON.stringify({
-                offer,
-              }),
+                offer
+              })
             );
             const message = $msg({
               to: `${this.roomName}@conference.prosolen.net/focus`,
-              type: "chat",
+              type: "chat"
             })
               .c("x", {
-                xmlns: "http://jabber.org/protocol/muc#user",
+                xmlns: "http://jabber.org/protocol/muc#user"
               })
               .up()
               .c("body")
@@ -210,7 +212,7 @@ class Glagol {
               .up()
               .c("jimble", {
                 xmlns: "urn:xmpp:jimble",
-                ready: "true",
+                ready: "true"
               })
               .t(offer64);
             this.sendMessage(message);
@@ -262,7 +264,7 @@ class Glagol {
 
           this.emit("setMessageChat", {
             text: bodyText,
-            author: jingle.getAttribute("author"),
+            author: jingle.getAttribute("author")
           });
           console.log(stanza, "this is Chat Message");
         }
@@ -321,7 +323,7 @@ class Glagol {
         this.getCandidates().forEach((candidate) => this.webRtc.addIceCandidate(candidate));
         this.resetCandidates();
         return this.webRtc.createAnswer({
-          iceRestart: true,
+          iceRestart: true
         });
       })
       .then((answer) => {
@@ -331,7 +333,7 @@ class Glagol {
           .then(() => {
             const message: Strophe.Builder = new Strophe.Builder("message", {
               to: `${this.roomName}@conference.prosolen.net/focus`,
-              type: "chat",
+              type: "chat"
             })
               .c("body")
               .t(answer64);
@@ -345,9 +347,9 @@ class Glagol {
 
   createRoom() {
     const message = new Strophe.Builder("presence", {
-      to: `${this.roomName}@conference.prosolen.net/${this.userNode}`,
+      to: `${this.roomName}@conference.prosolen.net/${this.userNode}`
     }).c("x", {
-      xmlns: "http://jabber.org/protocol/muc",
+      xmlns: "http://jabber.org/protocol/muc"
     });
     this.sendMessage(message);
   }
@@ -357,14 +359,14 @@ class Glagol {
       // from: `${this.roomName}@prosolen.net/${this.userNode}`,
       id: this.userNode,
       to: `${this.roomName}@conference.prosolen.net`,
-      type: "set",
+      type: "set"
     })
       .c("query", {
-        xmlns: "http://jabber.org/protocol/muc#owner",
+        xmlns: "http://jabber.org/protocol/muc#owner"
       })
       .c("x", {
         xmlns: "jabber:x:data",
-        type: "submit",
+        type: "submit"
       });
     this.sendMessage(message);
   }
@@ -374,22 +376,22 @@ class Glagol {
       action: "INVITATION",
       tracks: {
         audio: true,
-        video: true,
-      },
+        video: true
+      }
     };
     const inviteMessageB64 = btoa(JSON.stringify(invitation));
     const message = new Strophe.Builder("message", {
       to: "focus@prosolen.net/focus",
       type: "chat",
-      xmlns: "jabber:client",
+      xmlns: "jabber:client"
     })
       .c("x", {
         xmlns: "jabber:x:conference",
-        jid: `${this.roomName}@conference.prosolen.net`,
+        jid: `${this.roomName}@conference.prosolen.net`
       })
       .up()
       .c("nick", {
-        xmlns: "http://jabber.org/protocol/nick",
+        xmlns: "http://jabber.org/protocol/nick"
       })
       .t(this.displayName)
       .up()
@@ -407,22 +409,23 @@ class Glagol {
   }
 
   sendFile(file: File) {
-    channel.sendFile(file);
+    const sentFile = new SentFile({ file });
+    sentFile.readFileInChunks();
   }
 
   saveFile(files: any, fileForRemove: string) {
     const message = new Strophe.Builder("message", {
       to: `${this.roomName}@conference.prosolen.net/focus`,
-      type: "chat",
+      type: "chat"
     })
       .c("x", {
-        xmlns: "http://jabber.org/protocol/muc#user",
+        xmlns: "http://jabber.org/protocol/muc#user"
       })
       .up()
       .c("body", {}, "start_download")
       .c("jimble", {
         xmlns: "urn:xmpp:jimble",
-        ready: "true",
+        ready: "true"
       })
       .t(files[0].text);
     this.sendMessage(message);
@@ -434,14 +437,14 @@ class Glagol {
       from: `${this.userNode}@prosolen.net/${this.userNode}`,
       id: this.userNode,
       to: `${this.roomName}@conference.prosolen.net`,
-      type: "groupchat",
+      type: "groupchat"
     })
       .c("body")
       .t(text)
       .up()
       .c("jingle", {
         id: this.userNode,
-        author: this.displayName,
+        author: this.displayName
       });
     this.sendMessage(message);
   }
