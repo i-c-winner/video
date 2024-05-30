@@ -38,7 +38,7 @@ class Glagol {
     this.handlers = props.handlers;
     this.candidates = [];
     this.glagolManager = null;
-
+    channel.addHandler(this.changeLoadsIndicator)
   }
 
   addHandlers() {
@@ -109,6 +109,9 @@ class Glagol {
       this.sendMessage(message);
     }
     return true;
+  }
+  changeLoadsIndicator(...args: any[]) {
+    this.emit('loadsIndicatorChanged', args )
   }
 
   pcHandlerOnTrack(event: RTCTrackEvent) {

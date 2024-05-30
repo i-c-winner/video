@@ -46,6 +46,9 @@ function LocalStream() {
     setStream(mediaStream[0]);
     setOn(true);
   }
+  function loadsIndicatorChanged(...args: any[]) {
+    console.log(args)
+  }
 
   useEffect(() => {
     glagolVC.setHandler("sendSharing", sendSharing);
@@ -53,6 +56,7 @@ function LocalStream() {
     glagolVC.setHandler("roomOn", roomOn);
     glagolVC.setHandler("removeTrack", removeTrack);
     glagolVC.setHandler("changeBigScreen", changeBigScreen);
+    glagolVC.setHandler('loadsIndicatorChanged', loadsIndicatorChanged)
   }, []);
   return (
     <Box sx={styles.localeStyleLayer}>

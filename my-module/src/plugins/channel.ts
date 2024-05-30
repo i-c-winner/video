@@ -3,6 +3,7 @@ class Channel {
   private channel: RTCDataChannel | undefined;
   private receivedSizes: number;
   private receivedFileBuffer: Uint8Array [];
+  private changeIndicators: ((...args: any[]) => void | undefined) | undefined;
 
   constructor() {
     if (!Channel.instance) {
@@ -13,16 +14,30 @@ class Channel {
     return Channel.instance;
   }
 
+  addHandler(changeIndicators: (...args: any[]) => void) {
+    this.changeIndicators=changeIndicators
+  }
+
+
   init(props: { channel: RTCDataChannel }) {
     this.channel = props.channel;
     this.channel.onmessage = (ev) => {
       const message = new Response(ev.data).text();
       message.then((result) => {
+
         const message = JSON.parse(atob(result));
         this.receivedSizes += message.chunk.length;
         const uint8array = new Uint8Array(message.chunk);
         this.receivedFileBuffer.push(uint8array);
         console.info("received bit: ", this.receivedSizes, "all bit: ", message.file_size);
+        if (this.changeIndicators) {
+          this.changeIndicators({
+            status: "progress",
+            fileName: message.file_name,
+            fileSize: message.file_size,
+            receivedSize: this.receivedSizes,
+          })
+        }
         if (this.receivedSizes >= message.file_size) {
           const receivedBlob = new Blob(this.receivedFileBuffer);
           const url = URL.createObjectURL(receivedBlob);
