@@ -38,13 +38,16 @@
 .icon-submenu_toolbox {
   position: absolute;
 }
+
 .my-modal {
   display: flex;
 }
+
 .list {
   .list-more {
     &__listitem {
       padding: 0 15px;
+
       .button_zero {
         padding: 0;
       }
@@ -58,8 +61,20 @@
   .margin_zero {
   }
 }
+
 .button_more {
   span {
     margin: 0;
+  }
+}
+
+.indicator {
+  width: 5px;
+  height: 20px;
+  border: 1px solid green;
+  margin: 1px;
+
+  &_loaded {
+    background-color: green;
   }
 }
