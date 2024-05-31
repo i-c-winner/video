@@ -14,11 +14,14 @@ function LocalStream() {
   const refVideo = useRef<HTMLVideoElement>(null);
   const glagolVC = app.glagolVC;
 
+  console.log("starting");
+
   function addTrack(...args: any[]) {
     setRemoteStreams((prevRemotestream) => {
       return prevRemotestream.concat(args[0]);
     });
   }
+
   function removeTrack(mediaStreams: [MediaStream]) {
     setRemoteStreams((prevRemoteStream) => {
       return prevRemoteStream.filter((element) => {
@@ -26,6 +29,7 @@ function LocalStream() {
       });
     });
   }
+
   function roomOn(mediaStream: [MediaStream]) {
     setStream(mediaStream[0]);
     setOn(true);
@@ -37,18 +41,18 @@ function LocalStream() {
       app.glagolVC.glagolManager.switchOffCamera();
     }
   }
+
   function sendSharing(mediaStream: [MediaStream]) {
     if (refVideo.current) refVideo.current.srcObject = mediaStream[0];
     setStream(mediaStream[0]);
     setOn(true);
   }
+
   function changeBigScreen(mediaStream: [MediaStream]) {
     setStream(mediaStream[0]);
     setOn(true);
   }
-  function loadsIndicatorChanged(...args: any[]) {
-    console.log(args)
-  }
+
 
   useEffect(() => {
     glagolVC.setHandler("sendSharing", sendSharing);
@@ -56,7 +60,7 @@ function LocalStream() {
     glagolVC.setHandler("roomOn", roomOn);
     glagolVC.setHandler("removeTrack", removeTrack);
     glagolVC.setHandler("changeBigScreen", changeBigScreen);
-    glagolVC.setHandler('loadsIndicatorChanged', loadsIndicatorChanged)
+
   }, []);
   return (
     <Box sx={styles.localeStyleLayer}>
@@ -67,16 +71,16 @@ function LocalStream() {
             sx={{
               position: "absolute",
               width: "100%",
-              paddingTop: "10vh",
+              paddingTop: "10vh"
             }}
           >
             <BadgeAvatars
               styles={{
-                color: "green",
+                color: "green"
               }}
               sizes={{
                 width: 200,
-                height: 200,
+                height: 200
               }}
             />
           </Box>
@@ -90,14 +94,14 @@ function LocalStream() {
               display: "flex",
               width: "100%",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           ></Box>
         }
         <BigScreen classes="video video_local" stream={stream} />
       </Box>
-      ;
     </Box>
   );
 }
+
 export { LocalStream };

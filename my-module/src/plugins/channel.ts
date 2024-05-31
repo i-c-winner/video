@@ -3,7 +3,7 @@ class Channel {
   private channel: RTCDataChannel | undefined;
   private receivedSizes: number;
   private receivedFileBuffer: Uint8Array [];
-  private changeIndicators: ((...args: any[]) => void | undefined) | undefined;
+  public static changeIndicators: ((...args: any[]) => void | undefined) | undefined;
 
   constructor() {
     if (!Channel.instance) {
@@ -15,12 +15,13 @@ class Channel {
   }
 
   addHandler(changeIndicators: (...args: any[]) => void) {
-    this.changeIndicators=changeIndicators
+    Channel.changeIndicators=changeIndicators
   }
 
 
   init(props: { channel: RTCDataChannel }) {
     this.channel = props.channel;
+    let startDownload=true
     this.channel.onmessage = (ev) => {
       const message = new Response(ev.data).text();
       message.then((result) => {
@@ -30,13 +31,15 @@ class Channel {
         const uint8array = new Uint8Array(message.chunk);
         this.receivedFileBuffer.push(uint8array);
         console.info("received bit: ", this.receivedSizes, "all bit: ", message.file_size);
-        if (this.changeIndicators) {
-          this.changeIndicators({
-            status: "progress",
-            fileName: message.file_name,
-            fileSize: message.file_size,
-            receivedSize: this.receivedSizes,
-          })
+        if (Channel.changeIndicators) {
+          if (startDownload) {
+            startDownload = false;
+            Channel.changeIndicators({
+              fileName: message.file_name,
+              status: "start"
+            })
+          }
+
         }
         if (this.receivedSizes >= message.file_size) {
           const receivedBlob = new Blob(this.receivedFileBuffer);
@@ -48,6 +51,13 @@ class Channel {
           link.click();
           document.body.removeChild(link);
           this.receivedFileBuffer = [];
+          if (Channel.changeIndicators) {
+            startDownload=true
+            Channel.changeIndicators({
+              fileName: message.file_name,
+              status: "finish"
+            })
+          }
         }
       });
     };

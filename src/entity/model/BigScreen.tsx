@@ -3,6 +3,8 @@ import { getRandomText } from "../../features/plugins/getRandomText";
 
 function BigScreen(props: { stream: MediaStream; classes: string }) {
   const refVideo = useRef<HTMLVideoElement>(null);
+  
+  
   useEffect(() => {
     if (refVideo.current !== null) refVideo.current.srcObject = props.stream;
   });
@@ -14,6 +16,7 @@ function BigScreen(props: { stream: MediaStream; classes: string }) {
         autoPlay={true}
         ref={refVideo}
       />
+
     </React.Fragment>
   );
 }

@@ -10,6 +10,7 @@ interface IProps {
   children: ReactJSXElement;
   text?: string;
   toggled?: boolean;
+  disabled?: boolean;
 }
 
 const buttonsWithoutToggle = ["file", "record", "share"];
@@ -19,10 +20,10 @@ function ButtonWrapper(props: IProps) {
   const [classes, setClasses] = useState<string>(baseClass);
   const [toggled, setToggled] = useState<boolean>(false);
   const { isRecording, chatsBoxVisible } = useSelector(
-    (state: IStore) => state.interface,
+    (state: IStore) => state.interface
   );
   const { video, audio } = useSelector(
-    (state: IStore) => state.interface.conference.quality,
+    (state: IStore) => state.interface.conference.quality
   );
   const { t } = useTranslation();
 
@@ -36,12 +37,22 @@ function ButtonWrapper(props: IProps) {
         }
       }
     }
-    setToggled(!toggled);
-    props.action();
+    if (!props.disabled) {
+      setToggled(!toggled);
+      props.action();
+    }
+
   }
 
   useEffect(() => {
     switch (props.text) {
+      case "file":
+        if (props.disabled) {
+          setClasses(baseClass + " my-button__toolbox_toggled_red");
+        } else {
+          setClasses(baseClass);
+        }
+        break
       case "record":
         if (isRecording) {
           setClasses(baseClass + " my-button__toolbox_toggled_red");
@@ -80,7 +91,7 @@ function ButtonWrapper(props: IProps) {
       default:
         break;
     }
-  }, [isRecording, props.toggled, audio, video, chatsBoxVisible]);
+  }, [isRecording, props.toggled, audio, props.disabled, video, chatsBoxVisible]);
 
   return (
     <div className="button-box">
@@ -90,6 +101,7 @@ function ButtonWrapper(props: IProps) {
             height: "24px",
             width: "24px",
             margin: "0 auto",
+            color: "green"
           }}
         >
           {props.children}

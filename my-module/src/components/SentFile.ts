@@ -6,6 +6,12 @@ interface IProps {
   file: File;
 }
 
+/**
+ * becose first metod channel.send have`not
+ * event onmessage
+ */
+const firstChunkforOnMessageListener = 2;
+
 class SentFile {
   private file: File;
   private channel: RTCDataChannel;
@@ -13,6 +19,7 @@ class SentFile {
   private chunks: number;
   private id: number;
   private timestamp: number;
+  private changeIndicators: any;
 
   constructor(props: IProps) {
     this.channel = channel.getChnannel() as RTCDataChannel;
@@ -24,10 +31,25 @@ class SentFile {
     this.timestamp = Date.now();
     this.channel.onmessage = () => {
       if (this.currentChunk <= this.chunks) {
+        if (Channel.changeIndicators) {
+          if (this.currentChunk === firstChunkforOnMessageListener) {
+            Channel.changeIndicators({
+              fileName: this.file.name,
+              status: "start"
+            });
+          }
+        }
         this.readFileInChunks();
       } else {
         console.info(`file: ${this.file.name} received`);
+        if (Channel.changeIndicators) {
+          Channel.changeIndicators({
+            fileName: this.file.name,
+            status: "finish"
+          });
+        }
       }
+
     };
   }
 

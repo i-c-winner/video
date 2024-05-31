@@ -7,14 +7,14 @@ import {
   MicrophoneIcon,
   ShareIcon,
   StopCircleIcon,
-  VideoCameraIcon,
+  VideoCameraIcon
 } from "@heroicons/react/16/solid";
 import { ButtonWrapper } from "../../entity/model/UI/button/ButtonWrapper";
 import {
   changeChatsBox,
   changeIsRecording,
   changeTypeModal,
-  openModal,
+  openModal
 } from "../../app/store/interfaceSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { IInterface, IStore } from "../../app/types";
@@ -25,6 +25,7 @@ import { VideoCameraSlashIcon } from "@heroicons/react/24/solid";
 import { app } from "../../app/model/constants/app";
 import { addFile } from "../../app/store/filesSlice";
 import { addChat } from "../../app/store/chatsSlice";
+import { LoadIndicator } from "../LoadIndicator";
 
 let recording: Recording | null = null;
 
@@ -32,13 +33,24 @@ function Toolbox() {
   const glagolVC = app.glagolVC;
   const [iSharing, setISharing] = useState<boolean>(false);
   const { chatsBoxVisible, isRecording, modalIsOpen } = useSelector(
-    (state: IStore) => state.interface,
+    (state: IStore) => state.interface
   );
   const [cameraIsWorking, setCameraIsWorking] = useState<boolean>(true);
   const [microphoneIsWorking, setMicrophoneIsWorking] = useState<boolean>(true);
   const dispatch = useDispatch();
   const [colorText, setColorText] = useState<"grey" | "black">("grey");
   const theme = useTheme();
+  const [file, setFile] = useState<string>("");
+  const [indicatorsIsVisible, setIndicatorsIsVisible] = useState<boolean>(false);
+
+  function loadsIndicatorChanged(...args: [[{ status: string, fileName: string }]]) {
+    const data = args[0][0];
+    if (data.status === "start") {
+      setFile(data.fileName);
+    } else {
+      setFile("");
+    }
+  }
 
   function openChat() {
     dispatch(changeChatsBox(!chatsBoxVisible));
@@ -85,8 +97,8 @@ function Toolbox() {
     dispatch(
       addFile({
         text: args[0],
-        idRemote: args[1],
-      }),
+        idRemote: args[1]
+      })
     );
   }
 
@@ -95,7 +107,7 @@ function Toolbox() {
   }
 
   function setMessageChat(
-    chat: [{ text: string; author: string; id?: string }],
+    chat: [{ text: string; author: string; id?: string }]
   ) {
     dispatch(addChat(chat[0]));
   }
@@ -128,11 +140,17 @@ function Toolbox() {
     glagolVC.glagolManager.setHandler("cameraSwitchOn", cameraSwitchOn);
     glagolVC.glagolManager.setHandler(
       "microphoneSwitchOff",
-      microphoneSwitchOff,
+      microphoneSwitchOff
     );
     glagolVC.glagolManager.setHandler("microphoneSwitchOn", microphoneSwitchOn);
   }
 
+  useEffect(() => {
+    file !== "" ? setIndicatorsIsVisible(true) : setIndicatorsIsVisible(false);
+  }, [file]);
+  useEffect(() => {
+    app.glagolVC.setHandler("loadsIndicatorChanged", loadsIndicatorChanged);
+  }, []);
   useEffect(() => {
     glagolVC.setHandler("abortingSharing", abortingSharing);
     glagolVC.setHandler("fileDownload", fileDownload);
@@ -177,16 +195,17 @@ function Toolbox() {
       <Box
         sx={{
           ...styles.toolboxLayer.toolbox,
-          color: colorText,
+          color: colorText
         }}
       >
         <ButtonWrapper text="chat" action={openChat}>
           <ChatBubbleOvalLeftEllipsisIcon color={colorText} />
         </ButtonWrapper>
         <ButtonWrapper
+          disabled={indicatorsIsVisible}
           text="file"
           action={openingModal.bind({
-            type: "file",
+            type: "file"
           })}
         >
           <FolderPlusIcon color={colorText} />
@@ -222,6 +241,7 @@ function Toolbox() {
           )}
         </ButtonWrapper>
       </Box>
+      {indicatorsIsVisible && <LoadIndicator file={file} />}
     </Box>
   );
 }

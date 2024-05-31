@@ -110,8 +110,8 @@ class Glagol {
     }
     return true;
   }
-  changeLoadsIndicator(...args: any[]) {
-    this.emit('loadsIndicatorChanged', args )
+  changeLoadsIndicator=(...args: any[]) =>{
+    this.emit('loadsIndicatorChanged', args[0] )
   }
 
   pcHandlerOnTrack(event: RTCTrackEvent) {
