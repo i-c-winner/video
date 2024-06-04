@@ -10,6 +10,17 @@
   left: -4px;
 }
 
+@keyframes color-change {
+  0% {
+    background-color: grey;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: grey;
+  }
+}
 .chats {
   display: flex;
   flex-flow: column;
@@ -117,7 +128,9 @@
     &:hover {
       background-color: grey;
     }
-
+    &_flicker {
+      animation: color-change 1s linear infinite;
+    }
     &_toggled {
       background-color: #6c00d3;
       position: relative;
@@ -130,6 +143,7 @@
           @include after;
           border: 2px solid red;
         }
+
       }
 
       &::after {

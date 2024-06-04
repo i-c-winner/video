@@ -1,4 +1,5 @@
 import { Channel } from "../plugins/channel";
+import { LoadedIndicator } from "../plugins/LoadedIndicator";
 
 const channel = new Channel();
 
@@ -20,10 +21,12 @@ class SentFile {
   private id: number;
   private timestamp: number;
   private changeIndicators: any;
+  private indicators: { fileName: string, indicator: LoadedIndicator }[];
 
   constructor(props: IProps) {
     this.channel = channel.getChnannel() as RTCDataChannel;
     this.file = props.file;
+    this.indicators = [];
     this.currentChunk = 0;
     const chunkSize = 12000;
     this.chunks = Math.ceil(this.file.size / chunkSize);
@@ -33,9 +36,14 @@ class SentFile {
       if (this.currentChunk <= this.chunks) {
         if (Channel.changeIndicators) {
           if (this.currentChunk === firstChunkforOnMessageListener) {
-            Channel.changeIndicators({
-              fileName: this.file.name,
-              status: "start"
+            const indicator = { fileName: this.file.name, indicator: new LoadedIndicator() };
+            this.indicators.push(indicator);
+            indicator.indicator.init(this.file.name, this.file.size);
+          } else {
+            this.indicators.forEach((indicator) => {
+              if (indicator.fileName === this.file.name) {
+                indicator.indicator.progress(this.currentChunk * chunkSize);
+              }
             });
           }
         }
@@ -43,9 +51,13 @@ class SentFile {
       } else {
         console.info(`file: ${this.file.name} received`);
         if (Channel.changeIndicators) {
-          Channel.changeIndicators({
-            fileName: this.file.name,
-            status: "finish"
+          this.indicators.forEach((indicator) => {
+            if (indicator.fileName === this.file.name) {
+              indicator.indicator.finish();
+            }
+            this.indicators = this.indicators.filter((indicator) => {
+              return indicator.fileName !== this.file.name;
+            });
           });
         }
       }
@@ -67,7 +79,7 @@ class SentFile {
           file_size: this.file.size,
           file_name: this.file.name,
           lifetime: 60 * 60 * 24,
-          timestamp: this.timestamp
+          timestamp: this.timestamp,
         };
         const encodedMessage = btoa(JSON.stringify(message));
         this.channel.send(encodedMessage);

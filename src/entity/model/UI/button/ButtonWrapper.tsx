@@ -48,7 +48,7 @@ function ButtonWrapper(props: IProps) {
     switch (props.text) {
       case "file":
         if (props.disabled) {
-          setClasses(baseClass + " my-button__toolbox_toggled_red");
+          setClasses(baseClass + " my-button__toolbox_flicker");
         } else {
           setClasses(baseClass);
         }

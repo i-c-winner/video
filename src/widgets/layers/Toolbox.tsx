@@ -42,12 +42,19 @@ function Toolbox() {
   const theme = useTheme();
   const [file, setFile] = useState<string>("");
   const [indicatorsIsVisible, setIndicatorsIsVisible] = useState<boolean>(false);
+  const [progress, setProgress] = useState(0);
 
-  function loadsIndicatorChanged(...args: [[{ status: string, fileName: string }]]) {
+  function loadsIndicatorChanged(...args: [[{ status: string, fileName?: string, progress?: number }]]) {
     const data = args[0][0];
+    console.log(data);
     if (data.status === "start") {
-      setFile(data.fileName);
+      setFile(data.fileName!);
+      setIndicatorsIsVisible(true);
+    } else if (data.status === "progress") {
+      setProgress(data.progress!);
     } else {
+      setIndicatorsIsVisible(false);
+      setProgress(0);
       setFile("");
     }
   }
@@ -146,9 +153,6 @@ function Toolbox() {
   }
 
   useEffect(() => {
-    file !== "" ? setIndicatorsIsVisible(true) : setIndicatorsIsVisible(false);
-  }, [file]);
-  useEffect(() => {
     app.glagolVC.setHandler("loadsIndicatorChanged", loadsIndicatorChanged);
   }, []);
   useEffect(() => {
@@ -241,7 +245,7 @@ function Toolbox() {
           )}
         </ButtonWrapper>
       </Box>
-      {indicatorsIsVisible && <LoadIndicator file={file} />}
+      {indicatorsIsVisible && <LoadIndicator file={file} progress={progress} />}
     </Box>
   );
 }
