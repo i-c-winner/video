@@ -32,35 +32,44 @@ class SentFile {
     this.chunks = Math.ceil(this.file.size / chunkSize);
     this.id = Math.floor(Math.random() * 1000000 + 1);
     this.timestamp = Date.now();
-    this.channel.onmessage = () => {
-      if (this.currentChunk <= this.chunks) {
-        if (Channel.changeIndicators) {
-          if (this.currentChunk === firstChunkforOnMessageListener) {
-            const indicator = { fileName: this.file.name, indicator: new LoadedIndicator() };
-            this.indicators.push(indicator);
-            indicator.indicator.init(this.file.name, this.file.size);
-          } else {
-            this.indicators.forEach((indicator) => {
-              if (indicator.fileName === this.file.name) {
-                indicator.indicator.progress(this.currentChunk * chunkSize);
+    this.channel.onmessage = (ev) => {
+      const message = new Response(ev.data).text();
+      message.then((result) => {
+        const message = JSON.parse(atob(result));
+        if (!message.file_name) {
+          if (this.currentChunk <= this.chunks) {
+            if (Channel.changeIndicators) {
+              if (this.currentChunk === firstChunkforOnMessageListener) {
+                const indicator = { fileName: this.file.name, indicator: new LoadedIndicator() };
+                this.indicators.push(indicator);
+                indicator.indicator.init(this.file.name, this.file.size);
+              } else {
+                this.indicators.forEach((indicator) => {
+                  if (indicator.fileName === this.file.name) {
+                    indicator.indicator.progress(this.currentChunk * chunkSize);
+                  }
+                });
               }
-            });
-          }
-        }
-        this.readFileInChunks();
-      } else {
-        console.info(`file: ${this.file.name} received`);
-        if (Channel.changeIndicators) {
-          this.indicators.forEach((indicator) => {
-            if (indicator.fileName === this.file.name) {
-              indicator.indicator.finish();
             }
-            this.indicators = this.indicators.filter((indicator) => {
-              return indicator.fileName !== this.file.name;
-            });
-          });
+            this.readFileInChunks();
+          } else {
+            console.info(`file: ${this.file.name} received`);
+            if (Channel.changeIndicators) {
+              this.indicators.forEach((indicator) => {
+                if (indicator.fileName === this.file.name) {
+                  indicator.indicator.finish();
+                }
+                this.indicators = this.indicators.filter((indicator) => {
+                  return indicator.fileName !== this.file.name;
+                });
+              });
+            }
+          }
+        } else {
+          channel.receive(result)
         }
-      }
+      })
+
 
     };
   }
