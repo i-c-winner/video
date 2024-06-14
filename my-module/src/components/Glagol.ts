@@ -3,7 +3,7 @@ import { sharing } from "../plugins/sharing";
 import { IMyTrack } from "./types";
 import { Channel } from "../plugins/channel";
 import { GlagolManager } from "./GlagolManager";
-import { SentFile } from "./SentFile";
+// import { SentFile } from "./SentFile";
 
 interface IHandlers {
   [key: string]: ((...args: any[]) => void)[];
@@ -412,8 +412,10 @@ class Glagol {
   }
 
   sendFile(file: File) {
-    const sentFile = new SentFile({ file });
-    sentFile.readFileInChunks();
+    channel.setFile(file)
+    channel.sendingFile()
+    // const sentFile = new SentFile({ file });
+    // sentFile.readFileInChunks();
   }
 
   saveFile(files: any, fileForRemove: string) {

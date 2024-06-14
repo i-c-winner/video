@@ -24,7 +24,7 @@ class SentFile {
   private indicators: { fileName: string, indicator: LoadedIndicator }[];
 
   constructor(props: IProps) {
-    this.channel = channel.getChnannel() as RTCDataChannel;
+    this.channel = channel.getChannel() as RTCDataChannel;
     this.file = props.file;
     this.indicators = [];
     this.currentChunk = 0;
@@ -32,46 +32,41 @@ class SentFile {
     this.chunks = Math.ceil(this.file.size / chunkSize);
     this.id = Math.floor(Math.random() * 1000000 + 1);
     this.timestamp = Date.now();
-    this.channel.onmessage = (ev) => {
-      const message = new Response(ev.data).text();
-      message.then((result) => {
-        const message = JSON.parse(atob(result));
-        if (!message.file_name) {
-          if (this.currentChunk <= this.chunks) {
-            if (Channel.changeIndicators) {
-              if (this.currentChunk === firstChunkforOnMessageListener) {
-                const indicator = { fileName: this.file.name, indicator: new LoadedIndicator() };
-                this.indicators.push(indicator);
-                indicator.indicator.init(this.file.name, this.file.size);
-              } else {
-                this.indicators.forEach((indicator) => {
-                  if (indicator.fileName === this.file.name) {
-                    indicator.indicator.progress(this.currentChunk * chunkSize);
-                  }
-                });
-              }
-            }
-            this.readFileInChunks();
+    const messageListener= () =>{
+      console.log('%c SentFile', 'color: red')
+      if (this.currentChunk <= this.chunks) {
+        if (Channel.changeIndicators) {
+          if (this.currentChunk === firstChunkforOnMessageListener) {
+            const indicator = { fileName: this.file.name, indicator: new LoadedIndicator() };
+            this.indicators.push(indicator);
+            indicator.indicator.init(this.file.name, this.file.size);
           } else {
-            console.info(`file: ${this.file.name} received`);
-            if (Channel.changeIndicators) {
-              this.indicators.forEach((indicator) => {
-                if (indicator.fileName === this.file.name) {
-                  indicator.indicator.finish();
-                }
-                this.indicators = this.indicators.filter((indicator) => {
-                  return indicator.fileName !== this.file.name;
-                });
-              });
-            }
+            this.indicators.forEach((indicator) => {
+              if (indicator.fileName === this.file.name) {
+                indicator.indicator.progress(this.currentChunk * chunkSize);
+              }
+            });
           }
-        } else {
-          channel.receive(result)
         }
-      })
+        this.readFileInChunks();
+      } else {
 
+        console.info(`file: ${this.file.name} received`);
+        if (Channel.changeIndicators) {
+          this.indicators.forEach((indicator) => {
+            if (indicator.fileName === this.file.name) {
+              indicator.indicator.finish();
+              this.channel.removeEventListener('message',messageListener)
+            }
+            this.indicators = this.indicators.filter((indicator) => {
+              return indicator.fileName !== this.file.name;
+            });
+          });
 
-    };
+        }
+      }
+    }
+    this.channel.addEventListener('message', messageListener )
   }
 
   readFileInChunks = () => {
@@ -88,12 +83,12 @@ class SentFile {
           file_size: this.file.size,
           file_name: this.file.name,
           lifetime: 60 * 60 * 24,
-          timestamp: this.timestamp,
+          timestamp: this.timestamp
         };
         const encodedMessage = btoa(JSON.stringify(message));
         this.channel.send(encodedMessage);
         this.currentChunk++;
-        if (this.channel.bufferedAmount < this.channel.bufferedAmountLowThreshold) {
+        if (this.channel.bufferedAmount <= this.channel.bufferedAmountLowThreshold) {
           this.readFileInChunks();
         }
         if (this.currentChunk === 1) {
